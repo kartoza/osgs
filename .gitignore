@@ -1,0 +1,4 @@
+.env
+certbot/certbot
+postgis_data/
+mergin_sync_data/

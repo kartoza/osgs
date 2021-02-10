@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>WMS example - Leaflet</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		#map {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+
+	
+</head>
+<body>
+
+<div id='map'></div>
+
+<script type="text/javascript">
+
+	var map = L.map('map', {
+		center: [-7.38531083,39.41239033],
+		zoom: 3
+	});
+
+        // get the layer via mapproxy in front of QGIS Server
+        var portugal_mapproxy = L.tileLayer.wms('https://castelo.kartoza.com/mapproxy/service?', {
+          layers: 'portugal',
+          format: 'image/png',
+          uppercase: true,
+          transparent: true,
+          continuousWorld: true,
+          opacity: 1.0
+         }).addTo(map);
+       
+        // get the layer straight from QGIS Server
+	var wmsLayer = L.tileLayer.wms('https://castelo.kartoza.com/map/?', {
+		layers: 'portugal'
+        }).addTo(map);
+
+</script>
+
+
+
+</body>
+</html>
+
