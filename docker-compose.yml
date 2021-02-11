@@ -104,6 +104,17 @@ services:
       QGIS_SERVER_WMS_MAX_WIDTH: 5000
       # Verbose logging
       QGIS_SERVER_LOG_LEVEL: 0
+      # // Initialize the authentication system
+      # // creates or uses qgis-auth.db in ~/.qgis3/ or directory defined by QGIS_AUTH_DB_DIR_PATH env variable
+      # // set the master password as first line of file defined by QGIS_AUTH_PASSWORD_FILE env variable
+      # // (QGIS_AUTH_PASSWORD_FILE variable removed from environment after accessing)
+      # See also volume mounts below
+      QGIS_AUTH_DB_DIR_PATH: /tmp/
+      QGIS_AUTH_PASSWORD_FILE: /tmp/qgis-auth-pwd.txt
+      # For OGC API
+      # # Landing page plugin projects directory
+      #QGIS_SERVER_LANDING_PAGE_PROJECTS_DIRECTORIES ${QGIS_SERVER_LANDING_PAGE_PROJECTS_DIRECTORIES}
+      #QGIS_SERVER_LANDING_PAGE_PROJECTS_PG_CONNECTIONS postgresql://${POSTGRES_USER}:${POSTGRES_PASS}@postgis:5432?sslmode=disable&dbname=${POSTGRES_DBNAME}&schema=public`
     ports:
       - "9993:9993"
     networks:
@@ -129,10 +140,6 @@ services:
      # Custom fonts are loaded into /usr/share/fonts. fc-cache is run when container is started.
      - ./fonts:/usr/share/fonts
      - ./svg:/var/lib/qgis/.local/share/QGIS/QGIS3/profiles/default/svg
-     # I wanted to share the qgis auth db like this and set 
-     # QGIS_AUTH_PASSWORD_FILE in nginx
-     # but it is not working so I am trying the explicit mounts below instead
-     #- ./qgis_conf:/qgis_config
      - ./qgis_conf/qgis-auth.db:/tmp/qgis-auth.db
      - ./qgis_conf/qgis-auth-pwd.txt:/tmp/qgis-auth-pwd.txt
      # Working path for the pg_service file if using openquake/qgis-server:stable
