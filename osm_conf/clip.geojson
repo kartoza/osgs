@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "clip",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": null }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ -61.416938845215867, 13.456913231885817 ], [ -61.416938845215867, 14.328502101439705 ], [ -60.524185566026013, 14.328502101439705 ], [ -60.524185566026013, 13.456913231885817 ], [ -61.416938845215867, 13.456913231885817 ] ] ] ] } }
+]
+}

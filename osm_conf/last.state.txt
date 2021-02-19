@@ -1,0 +1,3 @@
+timestamp=2021-02-16T21\:42\:03Z
+sequenceNumber=4418802
+replicationUrl=https://planet.openstreetmap.org/replication/minute/

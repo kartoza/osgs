@@ -1,0 +1,763 @@
+areas:
+  area_tags: [buildings]
+  area_tags: [power]
+tables:
+  power_areas:
+    columns:
+    - {name: osm_id, type: id}
+    - {name: the_geom, type: geometry}
+    - {key: use, name: use, type: string}
+    - {key: name, name: name, type: string}
+    - {key: power, name: power, type: string}
+    - {key: substation, name: substation, type: string}
+    # The different voltages of the substation, ordered from highest to 
+    # lowest (ex: 400000;225000;63000). It is recommended to tag at least 
+    # the highest voltage of the substation.
+    - {key: voltage, name: voltage, type: string}
+    - {key: cables, name: cables, type: integer}
+    - {key: poles, name: poles, type: integer}
+    - {key: rating, name: rating, type: integer}
+    - {key: operator, name: operator, type: integer}
+    type: polygon
+  power_lines:
+    columns:
+    - {name: osm_id, type: id}
+    - {name: the_geom, type: geometry}
+    - {key: use, name: use, type: string}
+    - {key: name, name: name, type: string}
+    - {key: power, name: power, type: string}
+    - {key: substation, name: substation, type: string}
+    # The different voltages of the substation, ordered from highest to 
+    # lowest (ex: 400000;225000;63000). It is recommended to tag at least 
+    # the highest voltage of the substation.
+    - {key: voltage, name: voltage, type: string}
+    - {key: cables, name: cables, type: integer}
+    - {key: poles, name: poles, type: integer}
+    - {key: rating, name: rating, type: integer}
+    - {key: operator, name: operator, type: integer}
+    type: linestring
+  transmission_lines:
+    columns:
+    - {name: osm_id, type: id}
+    - {name: the_geom, type: geometry}
+    - {name: type,type: mapping_value}
+    - {key: substation, name: substation, type: string}
+      # The different voltages of the substation, ordered from highest to
+      # lowest (ex: 400000;225000;63000). It is recommended to tag at least
+      # the highest voltage of the substation.
+    - {key: voltage, name: voltage, type: string}
+    - {key: gas_insulated, name: gas_insulated, type: string}
+    - {key: ref, name: ref, type: string}
+    - {key: operator, name: operator, type: string}
+    - {key: location, name: location, type: string}
+    mapping:
+      type: [way]
+      power: [line, cable, minor_line]
+    type: linestring
+  substation_areas:
+    columns:
+      - {name: osm_id, type: id}
+      - {name: the_geom, type: geometry}
+      - {key: name, name: name, type: string}
+      - {key: power, name: power, type: mapping_value}
+      - {key: substation, name: substation, type: string}
+      # The different voltages of the substation, ordered from highest to
+      # lowest (ex: 400000;225000;63000). It is recommended to tag at least
+      # the highest voltage of the substation.
+      - {key: voltage, name: voltage, type: string}
+      - {key: gas_insulated, name: gas_insulated, type: string}
+      - {key: ref, name: ref, type: string}
+      - {key: operator, name: operator, type: string}
+      - {key: location, name: location, type: string}
+    mapping:
+      power: [substation]
+    type: polygon
+  substation_point:
+    columns:
+      - {name: osm_id, type: id}
+      - {name: the_geom, type: geometry}
+      - {key: name, name: name, type: string}
+      - {key: power, name: power, type: mapping_value}
+      - {key: substation, name: substation, type: string}
+      # The different voltages of the substation, ordered from highest to
+      # lowest (ex: 400000;225000;63000). It is recommended to tag at least
+      # the highest voltage of the substation.
+      - {key: voltage, name: voltage, type: string}
+      - {key: gas_insulated, name: gas_insulated, type: string}
+      - {key: ref, name: ref, type: string}
+      - {key: operator, name: operator, type: string}
+      - {key: location, name: location, type: string}
+    mapping:
+      power: [substation]
+    type: point
+  switchgear:
+    columns:
+      - {name: osm_id, type: id}
+      - {name: the_geom, type: geometry}
+      - {key: power, name: power, type: mapping_value}
+      # The different voltages of the substation, ordered from highest to
+      # lowest (ex: 400000;225000;63000). It is recommended to tag at least
+      # the highest voltage of the substation.
+      - {key: voltage, name: voltage, type: string}
+      - {key: gas_insulated, name: gas_insulated, type: string}
+      - {key: location, name: location, type: string}
+    mapping:
+      power: [switchgear]
+    type: linestring
+  busbar:
+    columns:
+      - {name: osm_id, type: id}
+      - {name: the_geom, type: geometry}
+      - {key: power, name: power, type: mapping_value}
+      # The different voltages of the substation, ordered from highest to
+      # lowest (ex: 400000;225000;63000). It is recommended to tag at least
+      # the highest voltage of the substation.
+      - {key: voltage, name: voltage, type: string}
+      - {key: cables, name: cables, type: integer}
+      - {key: line, name: line, type: string}
+    mapping:
+      power: [line]
+    type: linestring
+  bay:
+    columns:
+      - {name: osm_id, type: id}
+      - {name: the_geom, type: geometry}
+      - {key: power, name: power, type: mapping_value}
+      # The different voltages of the substation, ordered from highest to
+      # lowest (ex: 400000;225000;63000). It is recommended to tag at least
+      # the highest voltage of the substation.
+      - {key: voltage, name: voltage, type: string}
+      - {key: cables, name: cables, type: integer}
+      - {key: line, name: line, type: string}
+    mapping:
+      power: [line]
+    type: linestring
+  switch:
+    columns:
+      - {name: osm_id, type: id}
+      - {name: the_geom, type: geometry}
+      - {key: power, name: power, type: mapping_value}
+      # The different voltages of the substation, ordered from highest to
+      # lowest (ex: 400000;225000;63000). It is recommended to tag at least
+      # the highest voltage of the substation.
+      - {key: voltage, name: voltage, type: string}
+      - {key: cables, name: cables, type: integer}
+      - {key: gas_insulated, name: gas_insulated, type: string}
+      - {key: location, name: location, type: string}
+      - {key: switch, name: switch, type: string}
+      - {key: operator, name: operator, type: string}
+      - {key: ref, name: ref, type: string}
+    mapping:
+      power: [switch]
+    type: point
+  converter_point:
+    columns:
+      - {name: osm_id, type: id}
+      - {name: the_geom, type: geometry}
+      - {key: power, name: power, type: mapping_value}
+      # The different voltages of the substation, ordered from highest to
+      # lowest (ex: 400000;225000;63000). It is recommended to tag at least
+      # the highest voltage of the substation.
+      - {key: voltage, name: voltage, type: string}
+      - {key: converter, name: converter, type: string}
+      - {key: poles, name: poles, type: integer}
+      - {key: rating, name: rating, type: string}
+      - {key: location, name: location, type: string}
+      - {key: operator, name: operator, type: string}
+      - {key: phases, name: phases, type: string}
+      - {key: frequency, name: frequency, type: string}
+      - {key: name, name: name, type: string}
+      - {key: ref, name: ref, type: string}
+    mapping:
+      power: [converter]
+    type: point
+  converter_areas:
+    columns:
+      - {name: osm_id, type: id}
+      - {name: the_geom, type: geometry}
+      - {key: power, name: power, type: mapping_value}
+      # The different voltages of the substation, ordered from highest to
+      # lowest (ex: 400000;225000;63000). It is recommended to tag at least
+      # the highest voltage of the substation.
+      - {key: voltage, name: voltage, type: string}
+      - {key: converter, name: converter, type: string}
+      - {key: poles, name: poles, type: integer}
+      - {key: rating, name: rating, type: string}
+      - {key: location, name: location, type: string}
+      - {key: operator, name: operator, type: string}
+      - {key: phases, name: phases, type: string}
+      - {key: frequency, name: frequency, type: string}
+      - {key: name, name: name, type: string}
+      - {key: ref, name: ref, type: string}
+    mapping:
+      power: [converter]
+    type: polygon
+  compensator_point:
+    columns:
+      - {name: osm_id, type: id}
+      - {name: the_geom, type: geometry}
+      - {key: power, name: power, type: mapping_value}
+      # The different voltages of the substation, ordered from highest to
+      # lowest (ex: 400000;225000;63000). It is recommended to tag at least
+      # the highest voltage of the substation.
+      - {key: voltage, name: voltage, type: string}
+      - {key: compensator, name: compensator, type: string}
+      - {key: rating, name: rating, type: string}
+    mapping:
+      power: [compensator]
+    type: point
+  compensator_areas:
+    columns:
+      - {name: osm_id, type: id}
+      - {name: the_geom, type: geometry}
+      - {key: power, name: power, type: mapping_value}
+      # The different voltages of the substation, ordered from highest to
+      # lowest (ex: 400000;225000;63000). It is recommended to tag at least
+      # the highest voltage of the substation.
+      - {key: voltage, name: voltage, type: string}
+      - {key: compensator, name: compensator, type: string}
+      - {key: rating, name: rating, type: string}
+    mapping:
+      power: [compensator]
+    type: polygon
+  transformer:
+    columns:
+      - {name: osm_id, type: id}
+      - {name: the_geom, type: geometry}
+      - {key: power, name: power, type: mapping_value}
+      # The different voltages of the substation, ordered from highest to
+      # lowest (ex: 400000;225000;63000). It is recommended to tag at least
+      # the highest voltage of the substation.
+      - {key: "voltage:primary", name: "voltage:primary", type: string}
+      - {key: "voltage:secondary", name: "voltage:secondary", type: string}
+      - {key: "phases:primary", name: "phases:primary", type: string}
+      - {key: "phases:secondary", name: "phases:secondary", type: string}
+      - {key: "rating:primary", name: "rating:primary", type: string}
+      - {key: "rating:secondary", name: "rating:secondary", type: string}
+      - {key: "windings:primary", name: "windings:primary", type: string}
+      - {key: "windings:secondary", name: "windings:secondary", type: string}
+      - {key: transformer, name: transformer, type: string}
+      - {key: location, name: location, type: string}
+      - {key: frequency, name: frequency, type: string}
+    mapping:
+      power: [transformer]
+    type: point
+  buildings:
+    columns:
+    - name: osm_id
+      type: id
+    - name: geometry
+      type: geometry
+    - key: name
+      name: name
+      type: string
+    - key: leisure
+      name: leisure
+      type: string
+    - key: use
+      name: use
+      type: string
+    - key: religion
+      name: religon
+      type: string
+    - name: type
+      type: mapping_value
+    - name: amenity
+      type: mapping_value
+    - name: landuse
+      type: mapping_value
+    mapping:
+      building:
+      - __any__
+      amenity:
+        - school
+        - university
+        - government
+        - clinic
+        - hospital
+        - fire
+        - police
+        - public building
+        - worship
+        - mall
+        - doctor
+        - kindergarten
+        - college
+        - market
+      landuse:
+        - residential
+        - recreation_ground
+      religion:
+        - islam
+        - muslim
+        - budd
+        - unitarian
+      use:
+        - government
+        - residential
+        - education
+        - medical
+        - place_of_worship
+        - school
+        - hospital
+        - commercial
+        - industrial
+        - utility
+    type: polygon
+  admin:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - name: type
+        type: mapping_value
+      - key: admin_level
+        name: admin_level
+        type: integer
+    mapping:
+      boundary:
+        - administrative
+    type: polygon
+  landuse:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - key: landuse
+        name: landuse
+        type: string
+      - key: barrier
+        name: barrier
+        type: string
+      - key: landcover
+        name: landcover
+        type: string
+      - name: type
+        type: mapping_value
+    mapping:
+      landuse:
+        - __any__
+    type: polygon
+  roads:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - name: type
+        type: mapping_value
+      - key: name
+        name: name
+        type: string
+      - key: oneway
+        name: oneway
+        type: direction
+      - key: layer
+        name: z_order
+        type: wayzorder
+      - key: service
+        name: service
+        type: string
+      - key: ref
+        name: ref
+        type: string
+      - key: tunnel
+        name: tunnel
+        type: string
+      - name: class
+        type: mapping_key
+    filters:
+      reject:
+        area: ["yes"]
+    mappings:
+
+      roads:
+        mapping:
+          highway:
+            - motorway
+            - motorway_link
+            - trunk
+            - trunk_link
+            - primary
+            - primary_link
+            - secondary
+            - secondary_link
+            - tertiary
+            - tertiary_link
+            - road
+            - path
+            - track
+            - service
+            - footway
+            - bridleway
+            - cycleway
+            - steps
+            - pedestrian
+            - living_street
+            - unclassified
+            - residential
+            - raceway
+          man_made:
+            - pier
+            - groyne
+    type: linestring
+
+  places:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - key: landuse
+        name: landuse
+        type: string
+      - key: population
+        name: population
+        type: integer
+      - name: place
+        type: mapping_value
+    mapping:
+      place:
+        - sea
+        - ocean
+        - island
+        - archipelago
+        - village
+        - town
+        - hamlet
+        - neighbourhood
+        - quarter
+        - suburb
+        - borough
+        - city
+        - municpality
+        - district
+        - province
+        - region
+        - state
+        - country
+    type: point
+  waterways:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - name: waterway
+        type: mapping_value
+    mapping:
+      waterway:
+        - river
+        - stream
+        - riverbank
+        - canal
+        - drain
+        - ditch
+    type: linestring
+  national_parks:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - key: leisure
+        name: leisure
+        type: string
+      - key: landuse
+        name: landuse
+        type: string
+      - name: boundary
+        type: mapping_value
+    mapping:
+      boundary:
+        - national_park
+    type: polygon
+
+  parks:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - name: leisure
+        type: mapping_value
+    mapping:
+      leisure:
+        - park
+    type: polygon
+
+  lakes:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - name: water
+        type: mapping_value
+      - name: natural
+        type: mapping_value
+    mapping:
+      natural:
+        - water
+      water:
+        - lake
+    type: polygon
+  healthcare_facilities_node:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+
+      # mandatory
+      - key: amenity
+        name: amenity
+        type: string
+      - key: healthcare
+        name: healthcare
+        type: string
+      - key: name
+        name: name
+        type: string
+      - key: operator
+        name: operator
+        type: string
+      - key: source
+        name: source
+        type: string
+
+      # others
+      - key: healthcare:speciality
+        name: speciality
+        type: string
+      - key: operator:type
+        name: operator_type
+        type: string
+
+      - key: contact:phone
+        name: contact_number
+        type: string
+      - key: operational_status
+        name: operational_status
+        type: string
+      - key: opening_hours
+        name: opening_hours
+        type: string
+      - key: beds
+        name: beds
+        type: string
+      - key: staff_count:doctors
+        name: staff_doctors
+        type: string
+      - key: staff_count:nurses
+        name: staff_nurses
+        type: string
+      - key: health_amenity:type
+        name: health_amenity_type
+        type: string
+      - key: dispensing
+        name: dispensing
+        type: string
+      - key: wheelchair
+        name: wheelchair
+        type: string
+      - key: emergency
+        name: emergency
+        type: string
+      - key: insurance:health
+        name: insurance
+        type: string
+      - key: water_source
+        name: water_source
+        type: string
+      - key: electricity
+        name: electricity
+        type: string
+      - key: is_in:health_area
+        name: is_in_health_area
+        type: string
+      - key: is_in:health_zone
+        name: is_in_health_zone
+        type: string
+      - key: url
+        name: url
+        type: string
+
+        # Address
+      - key: addr:housenumber
+        name: addr_housenumber
+        type: string
+      - key: addr:street
+        name: addr_street
+        type: string
+      - key: addr:postcode
+        name: addr_postcode
+        type: string
+      - key: addr:city
+        name: addr_city
+        type: string
+      - key: addr:country
+        name: addr_country
+        type: string
+    mapping:
+      amenity:
+        - clinic
+        - doctors
+        - hospital
+        - dentist
+        - pharmacy
+      healthcare:
+        - doctor
+        - pharmacy
+        - hospital
+        - clinic
+        - dentist
+        - physiotherapist
+        - alternative
+        - laboratory
+        - optometrist
+        - rehabilitation
+        - blood_donation
+        - birthing_center
+    type: point
+
+  healthcare_facilities_way:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+
+      # mandatory
+      - key: amenity
+        name: amenity
+        type: string
+      - key: healthcare
+        name: healthcare
+        type: string
+      - key: name
+        name: name
+        type: string
+      - key: operator
+        name: operator
+        type: string
+      - key: source
+        name: source
+        type: string
+
+      # others
+      - key: healthcare:speciality
+        name: speciality
+        type: string
+      - key: operator:type
+        name: operator_type
+        type: string
+      - key: contact:phone
+        name: contact_number
+        type: string
+      - key: operational_status
+        name: operational_status
+        type: string
+      - key: opening_hours
+        name: opening_hours
+        type: string
+      - key: beds
+        name: beds
+        type: string
+      - key: staff_count:doctors
+        name: staff_doctors
+        type: string
+      - key: staff_count:nurses
+        name: staff_nurses
+        type: string
+      - key: health_amenity:type
+        name: health_amenity_type
+        type: string
+      - key: dispensing
+        name: dispensing
+        type: string
+      - key: wheelchair
+        name: wheelchair
+        type: string
+      - key: emergency
+        name: emergency
+        type: string
+      - key: insurance:health
+        name: insurance
+        type: string
+      - key: water_source
+        name: water_source
+        type: string
+      - key: electricity
+        name: electricity
+        type: string
+      - key: is_in:health_area
+        name: is_in_health_area
+        type: string
+      - key: is_in:health_zone
+        name: is_in_health_zone
+        type: string
+      - key: url
+        name: url
+        type: string
+
+      # Address
+      - key: addr:housenumber
+        name: addr_housenumber
+        type: string
+      - key: addr:street
+        name: addr_street
+        type: string
+      - key: addr:postcode
+        name: addr_postcode
+        type: string
+      - key: addr:city
+        name: addr_city
+        type: string
+      - key: addr:country
+        name: addr_country
+        type: string
+    mapping:
+      amenity:
+        - clinic
+        - doctors
+        - hospital
+        - dentist
+        - pharmacy
+      healthcare:
+        - doctor
+        - pharmacy
+        - hospital
+        - clinic
+        - dentist
+        - physiotherapist
+        - alternative
+        - laboratory
+        - optometrist
+        - rehabilitation
+        - blood_donation
+        - birthing_center
+    type: polygon    

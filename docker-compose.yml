@@ -17,8 +17,16 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-version: '2'
+version: '3'
+
+volumes:
+  import_done:
+  import_queue:
+  cache:
+  geoserver_data:
+
 services:
+
   db:
     image: kartoza/postgis:13.0
     volumes:
@@ -31,8 +39,137 @@ services:
     networks:
      - qgis-server-net
     ports:
-      - 5432:5432 
+      - 15432:5432 
     restart: unless-stopped
+    healthcheck:
+        test: "exit 0"
+
+  imposm:
+    image: kartoza/docker-osm:imposm-latest
+    volumes:
+      # These are sharable to other containers
+      - ./osm_conf:/home/settings
+      - import_done:/home/import_done
+      - import_queue:/home/import_queue
+      - cache:/home/cache
+    depends_on:
+      - db
+    networks:
+     - qgis-server-net
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASS=docker
+      - POSTGRES_DBNAME=gis
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=db
+      # seconds between 2 executions of the script
+      # if 0, then no update will be done, only the first initial import from the PBF
+      - TIME=120
+      # folder for settings (with *.json and *.sql)
+      - SETTINGS=settings
+      # folder for caching
+      - CACHE=cache
+      # folder for diff which has been imported
+      - IMPORT_DONE=import_done
+      # folder for diff which hasn't been imported yet
+      - IMPORT_QUEUE=import_queue
+      # it can be 3857
+      - SRID=4326
+      # see http://imposm.org/docs/imposm3/latest/tutorial.html#optimize
+      - OPTIMIZE=false
+      # see http://imposm.org/docs/imposm3/latest/tutorial.html#deploy-production-tables
+      - DBSCHEMA_PRODUCTION=public
+      # http://imposm.org/docs/imposm3/latest/tutorial.html#deploy-production-tables
+      - DBSCHEMA_IMPORT=import
+      # http://imposm.org/docs/imposm3/latest/tutorial.html#deploy-production-tables
+      - DBSCHEMA_BACKUP=backup
+      # Install some styles if you are using the default mapping. It can be 'yes' or 'no'
+      - QGIS_STYLE=yes
+      # Use clip in the database
+      - CLIP=yes
+
+  osmupdate:
+    image: kartoza/docker-osm:osmupdate-latest
+    volumes:
+      # These are sharable to other containers
+      - ./osm_conf:/home/settings
+      - import_done:/home/import_done
+      - import_queue:/home/import_queue
+      - cache:/home/cache
+    depends_on:
+      - db
+    networks:
+     - qgis-server-net
+    environment:
+      # These are all currently the defaults but listed here for your
+      # convenience if you want to change them
+      # the maximum time range to assemble a cumulated changefile.
+      - MAX_DAYS=100
+      # osmupdate uses a combination of minutely, hourly and daily changefiles. This value can be minute, hour, day or sporadic.
+      - DIFF=sporadic
+      # argument to determine the maximum number of parallely processed changefiles.
+      - MAX_MERGE=7
+      # define level for gzip compression. values between 1 (low compression but fast) and 9 (high compression but slow)
+      - COMPRESSION_LEVEL=1
+      # change the URL to use a custom URL to fetch regional file updates.
+      - BASE_URL=http://planet.openstreetmap.org/replication/
+      # folder for diff which hasn't been imported yet
+      - IMPORT_QUEUE=import_queue
+      # folder for diff which has been imported
+      - IMPORT_DONE=import_done
+      # seconds between 2 executions of the script
+      # if 0, then no update will be done, only the first initial import from the PBF
+      - TIME=120
+
+  osmenrich:
+    image: kartoza/docker-osm:osmenrich-latest
+    volumes:
+      # These are sharable to other containers
+      - ./osm_conf:/home/settings
+      - import_done:/home/import_done
+      - import_queue:/home/import_queue
+      - cache:/home/cache
+    depends_on:
+      - db
+    networks:
+     - qgis-server-net
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASS=docker
+      - POSTGRES_DBNAME=gis
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=db
+      # These are all currently the defaults but listed here for your
+      #      # convenience if you want to change them
+      #      # folder for diff which hasn't been imported yet
+      #      - IMPORT_QUEUE=import_queue
+      #      # folder for diff which has been imported
+      #      - IMPORT_DONE=import_done
+      #      # seconds between 2 executions of the script
+      #      # if 0, then no update will be done, only the first initial import from the PBF
+      #    command: bash -c "while [ ! -f /home/settings/importer.lock ] ; do sleep 1; done && python3 -u /home/enrich.py"
+      #      - TIME=120
+
+  geoserver:
+    image: kartoza/geoserver:2.18.0
+    volumes:
+      - geoserver_data:/opt/geoserver/data_dir
+        #- ./geoserver_data:/opt/geoserver/data_dir
+    restart: on-failure
+    environment:
+      - GEOSERVER_ADMIN_PASSWORD=myawesomegeoserver
+      - GEOSERVER_ADMIN_USER=admin
+      - INITIAL_MEMORY=2G
+      - MAXIMUM_MEMORY=4G
+    networks:
+     - qgis-server-net
+    depends_on:
+      - db
+    healthcheck:
+      test: curl --fail -s http://localhost:8080/ || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
 
   mergin-sync:
     image: "mergin_db_sync"
@@ -80,6 +217,7 @@ services:
     depends_on:
       - qgis-server
       - mapproxy
+      - geoserver
 
   certbot:
     image: certbot/certbot
@@ -116,7 +254,7 @@ services:
       #QGIS_SERVER_LANDING_PAGE_PROJECTS_DIRECTORIES ${QGIS_SERVER_LANDING_PAGE_PROJECTS_DIRECTORIES}
       #QGIS_SERVER_LANDING_PAGE_PROJECTS_PG_CONNECTIONS postgresql://${POSTGRES_USER}:${POSTGRES_PASS}@postgis:5432?sslmode=disable&dbname=${POSTGRES_DBNAME}&schema=public`
     ports:
-      - "9993:9993"
+      - "9993"
     networks:
      - qgis-server-net
     volumes:
@@ -170,6 +308,8 @@ services:
       - qgis-server
     networks:
      - qgis-server-net
+
+       
 
 networks:
   qgis-server-net:
