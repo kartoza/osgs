@@ -3,3 +3,5 @@ certbot/certbot
 postgis_data/
 mergin_sync_data/
 *.pbf
+osm_conf/last.state.txt
+osm_conf/importer.lock
