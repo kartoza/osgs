@@ -179,14 +179,17 @@ services:
       - ./mergin_sync_data:/tmp
     environment:
       - DB_CONN_INFO=host=db dbname=gis user=docker password=docker
-      - DB_SCHEMA_MODIFIED=sync_main 
-      - DB_SCHEMA_BASE=sync_base 
+      - DB_SCHEMA_MODIFIED=smallholding
+      - DB_SCHEMA_BASE=mergin_sync_base_do_not_touch
       - MERGIN_USERNAME=${MERGIN_USER}
       - MERGIN_PASSWORD=${MERGIN_PASSWORD}
       - MERGIN_PROJECT_NAME=tim1/Maceira
       - MERGIN_SYNC_FILE=smallholding.gpkg 
+    # Ultimately we want to swap to having the db as the master copy 
+    # If you are using the geopackage as the master copy
     entrypoint: "python3 dbsync_daemon.py --init-from-gpkg"
-    #entrypoint: "python3 dbsync_daemon.py"
+    # If you are using the database as the master copy
+    #entrypoint: "python3 dbsync_daemon.py --init-from-db"
     networks:
      - qgis-server-net
     restart: unless-stopped
@@ -310,6 +313,9 @@ services:
      - qgis-server-net
 
   postgrest:
+    #
+    # Used for pushing readings from IoT devices to our database
+    #
     image: postgrest/postgrest
     environment:
       PGRST_DB_URI: postgres://docker:docker@db:5432/gis
@@ -329,10 +335,12 @@ services:
 
   swagger:
     image: swaggerapi/swagger-ui
-    #image: swaggerapi/swagger-editor
     ports:
-      - "8080"
+      - "3001:8080"
+    volumes:
+      - ./swagger_conf/swagger.json:/swagger.json
     environment:
+      SWAGGER_JSON: /swagger.json
       API_URL: ${POSTGREST_SERVER_PROXY_URI}/       
     depends_on:
       - db
