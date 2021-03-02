@@ -37,30 +37,16 @@
 		zoom: 3
 	});
 
-        // get the layer straight from QGIS Server
-	var smallholdingLayer = L.tileLayer.wms('https://castelo.kartoza.com/map/?', {
-		layers: 'Smallholding',
-                transparent: 'true',
-                format: 'image/png'
-        }).addTo(map);
-	var osmLayer = L.tileLayer.wms('https://castelo.kartoza.com/map/?', {
-		layers: 'OSM'
-        }).addTo(map);
-	var boundariesLayer = L.tileLayer.wms('https://castelo.kartoza.com/map/?', {
-		layers: 'Boundaries'
-        }).addTo(map);
+        // get the layer via mapproxy in front of QGIS Server
+        var portugal_mapproxy = L.tileLayer.wms('https://castelo.kartoza.com/mapproxy/service?', {
+          layers: 'portugal',
+          format: 'image/png',
+          uppercase: true,
+          transparent: true,
+          continuousWorld: true,
+          opacity: 1.0
+         }).addTo(map);
 
-        var baseMaps = {
-	    "Boundaries": boundariesLayer,
-            "OSM": osmLayer
-        };
-        
-        var overlayMaps = {
-            "Smallholding": smallholdingLayer
-        };
-        
-        L.control.layers(baseMaps, overlayMaps).addTo(map);
-        map.fitBounds(smallholdingLayer.getBounds());
 </script>
 
 
