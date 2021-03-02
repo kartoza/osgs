@@ -1,21 +1,4 @@
-# -*- coding: utf-8 -*-
-# vim: tabstop=4 shiftwidth=4 softtabstop=4
 #
-# oq-qgis-server
-# Copyright (C) 2018-2019 GEM Foundation
-#
-# oq-qgis-server is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# oq-qgis-server is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 version: '3'
 
@@ -33,8 +16,8 @@ services:
       - ./postgis_data:/var/lib/postgresql
     environment:
       - POSTGRES_DB=gis
-      - POSTGRES_USER=docker
-      - POSTGRES_PASS=docker
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - ALLOW_IP_RANGE=0.0.0.0/0
     networks:
      - qgis-server-net
@@ -57,8 +40,8 @@ services:
     networks:
      - qgis-server-net
     environment:
-      - POSTGRES_USER=docker
-      - POSTGRES_PASS=docker
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - POSTGRES_DBNAME=gis
       - POSTGRES_PORT=5432
       - POSTGRES_HOST=db
@@ -134,8 +117,8 @@ services:
     networks:
      - qgis-server-net
     environment:
-      - POSTGRES_USER=docker
-      - POSTGRES_PASS=docker
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - POSTGRES_DBNAME=gis
       - POSTGRES_PORT=5432
       - POSTGRES_HOST=db
@@ -157,10 +140,10 @@ services:
         #- ./geoserver_data:/opt/geoserver/data_dir
     restart: on-failure
     environment:
-      - GEOSERVER_ADMIN_PASSWORD=myawesomegeoserver
-      - GEOSERVER_ADMIN_USER=admin
-      - INITIAL_MEMORY=2G
-      - MAXIMUM_MEMORY=4G
+      - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
+      - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
+      - INITIAL_MEMORY=${INITIAL_MEMORY}
+      - MAXIMUM_MEMORY=${MAXIMUM_MEMORY}
     networks:
      - qgis-server-net
     depends_on:
@@ -178,13 +161,13 @@ services:
       # from merging, flush the working dir when needed etc
       - ./mergin_sync_data:/tmp
     environment:
-      - DB_CONN_INFO=host=db dbname=gis user=docker password=docker
-      - DB_SCHEMA_MODIFIED=smallholding
-      - DB_SCHEMA_BASE=mergin_sync_base_do_not_touch
+      - DB_CONN_INFO=host=db dbname=gis user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}
+      - DB_SCHEMA_MODIFIED=${DB_SCHEMA_MODIFIED}
+      - DB_SCHEMA_BASE=${DB_SCHEMA_BASE}
       - MERGIN_USERNAME=${MERGIN_USER}
       - MERGIN_PASSWORD=${MERGIN_PASSWORD}
-      - MERGIN_PROJECT_NAME=tim1/Maceira
-      - MERGIN_SYNC_FILE=smallholding.gpkg 
+      - MERGIN_PROJECT_NAME=${MERGIN_PROJECT_NAME}
+      - MERGIN_SYNC_FILE=${MERGIN_SYNC_FILE}
     # Ultimately we want to swap to having the db as the master copy 
     # If you are using the geopackage as the master copy
     entrypoint: "python3 dbsync_daemon.py --init-from-gpkg"
@@ -221,6 +204,8 @@ services:
       - qgis-server
       - mapproxy
       - geoserver
+      - postgrest
+      - swagger
 
   certbot:
     image: certbot/certbot
@@ -318,11 +303,11 @@ services:
     #
     image: postgrest/postgrest
     environment:
-      PGRST_DB_URI: postgres://docker:docker@db:5432/gis
-      PGRST_DB_SCHEMA: api
+      PGRST_DB_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/gis
+      PGRST_DB_SCHEMA: ${PGRST_DB_SCHEMA}
       # In production this role should not be the same as the one used for the connection
       # depends_on
-      PGRST_DB_ANON_ROLE: anon
+      PGRST_DB_ANON_ROLE: ${PGRST_DB_ANON_ROLE}
       PGRST_SERVER_PROXY_URI: ${POSTGREST_SERVER_PROXY_URI}
     links:
       - db:db

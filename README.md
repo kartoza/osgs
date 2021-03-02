@@ -19,13 +19,115 @@ This project provides a platform for creating, sharing and publishing data and m
 https://github.com/gem/oq-qgis-server
 
 
-# Overview Diagram
+## Overview Diagram
 
 ![Overview Diagram](diagrams/QGIS-Server-PG-Project-Design.png)
 
-# Generalised Workflow
+## Generalised Workflow
 
 ![Workflow Diagram](diagrams/QGIS-Server-PG-Project-Workflow.png)
+
+# Getting started
+
+## Define your domain name
+
+This repo contains a worked example of running the stack as described above. 
+There are numerous references to the testing domain 'castelo.kartoza.com' in 
+various configuration files that should be replaced with your own
+preferred domain name before running any of these images. One simple way to
+do so is to install the 'rpl' command line tool and then replace all instances 
+of the aforementioned domain named e.g.: 
+
+sudo apt install rpl
+rpl castelo.kartoza.com your.domain.com *
+
+After doing that make sure you have a valid DNS entry pointing to your host - 
+you will need this for the Certbot/Letsencrypt bot to work.
+
+Similarly there is a reference to my email in the letsencrypt init script
+which you need to change to your own email address in ``init-letsencrypt.sh``.
+
+## Initialise Certbot
+
+Make sure the steps above have been carried out then run the init script.
+
+```
+./init-letsencrypt.sh
+```
+
+After successfully running it will terminate wiith a message like this:
+
+```
+### Requesting Let's Encrypt certificate for castelo.kartoza.com ...
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Plugins selected: Authenticator webroot, Installer None
+Requesting a certificate for castelo.kartoza.com
+Performing the following challenges:
+http-01 challenge for castelo.kartoza.com
+Using the webroot path /var/www/certbot for all unmatched domains.
+Waiting for verification...
+Cleaning up challenges
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/castelo.kartoza.com/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/castelo.kartoza.com/privkey.pem
+   Your certificate will expire on 2021-05-30. To obtain a new or
+   tweaked version of this certificate in the future, simply run
+   certbot again. To non-interactively renew *all* of your
+   certificates, run "certbot renew"
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+
+
+### Reloading nginx ...
+2021/03/01 22:50:52 [notice] 33#33: signal process started
+```
+
+If you have any issues checking out the certificate etc. then 
+check the nginx logs:
+
+```
+docker-compose logs -f nginx
+```
+
+## Check Services
+
+After the above steps, a subset of the services will be running. 
+
+```
+docker-compose ps
+```
+
+Which should show something like this:
+
+
+```
+             Name                           Command                  State                   Ports             
+---------------------------------------------------------------------------------------------------------------
+maceiramergindbsync_db_1         /bin/sh -c /scripts/docker ...   Up (healthy)   0.0.0.0:15432->5432/tcp       
+maceiramergindbsync_geoserver_   /bin/sh /scripts/entrypoint.sh   Up (healthy)   8080/tcp, 8443/tcp            
+1                                                                                                              
+maceiramergindbsync_mapproxy_1   /start.sh mapproxy-util se ...   Up             8080/tcp                      
+maceiramergindbsync_nginx_1      /docker-entrypoint.sh /bin ...   Up             0.0.0.0:443->443/tcp,         
+                                                                                 0.0.0.0:80->80/tcp            
+maceiramergindbsync_postgrest_   /bin/sh -c exec postgrest  ...   Up             0.0.0.0:32779->3000/tcp       
+1                                                                                                              
+maceiramergindbsync_qgis-        /bin/sh -c /usr/local/bin/ ...   Up             80/tcp,                       
+server_1                                                                         0.0.0.0:32780->9993/tcp       
+maceiramergindbsync_swagger_1    /docker-entrypoint.sh sh / ...   Up             80/tcp, 0.0.0.0:3001->8080/tcp
+```
+
+Before we bring up the OSM mirror and the Mergin Sync serviice we need to do some additional 
+configuration. In the next subsection we will set up the OSM mirror clip region:
+
+
+## Set Your Clip Region
+
+
 
 
 # Essential Reading
@@ -37,6 +139,9 @@ You should read the [QGIS Server documentation](https://docs.qgis.org/3.16/en/do
 # Authentication Management
 
 
-[Some discussion](http://osgeo-org.1560.x6.nabble.com/QGIS-Server-qgis-auth-db-td5408912.html) suggest to set authdb configuration parameters in Apache/Nginx but I found it would only work if I set these in the environment of the QGIS Server docker container.
+[Some discussion](http://osgeo-org.1560.x6.nabble.com/QGIS-Server-qgis-auth-db-td5408912.html)
+suggest to set authdb configuration parameters in Apache/Nginx but I found it
+would only work if I set these in the environment of the QGIS Server docker
+container.
 
 
