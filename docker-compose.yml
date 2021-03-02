@@ -308,7 +308,9 @@ services:
       # In production this role should not be the same as the one used for the connection
       # depends_on
       PGRST_DB_ANON_ROLE: ${PGRST_DB_ANON_ROLE}
-      PGRST_SERVER_PROXY_URI: ${POSTGREST_SERVER_PROXY_URI}
+      PGRST_SERVER_PROXY_URI: ${PGRST_SERVER_PROXY_URI}
+      PGRST_OPENAPI_SERVER_PROXY_URI: ${PGRST_OPENAPI_SERVER_PROXY_URI}
+      PGRST_SERVER_PORT: ${PGRST_SERVER_PORT}
     links:
       - db:db
     ports:
@@ -326,7 +328,7 @@ services:
       - ./swagger_conf/swagger.json:/swagger.json
     environment:
       SWAGGER_JSON: /swagger.json
-      API_URL: ${POSTGREST_SERVER_PROXY_URI}/       
+      API_URL: ${API_URL}       
     depends_on:
       - db
       - postgrest

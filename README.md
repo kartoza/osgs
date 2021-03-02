@@ -132,9 +132,20 @@ configuration. In the next subsection we will set up the OSM mirror clip region:
 
 # Essential Reading
 
+## QGIS Server
+
 You should read the [QGIS Server documentation](https://docs.qgis.org/3.16/en/docs/server_manual/getting_started.html#) on QGIS.org. It is well written and covers a lot of background explanation which is not provided here. Also you should familiarise yourself with the [Environment Variables](https://docs.qgis.org/3.16/en/docs/server_manual/config.html#environment-variables).
 
+## PostgREST
 
+Take special note of the fact that the passing of environment variables to the docker container is 
+desribed [here](chttps://postgrest.org/en/v7.0.0/install.html#docker). Especially this line:
+
+> These variables match the options shown in our Configuration section, except they are capitalized, have a PGRST_ prefix, and use underscores. 
+
+So for example ``openapi-server-proxy-ur`` would become ``PGRST_OPENAPI_SERVER_PROXY_URI``.
+
+This latter environment variable is important by the way to present a public url for the api running inside the docker container.
 
 # Authentication Management
 
