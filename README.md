@@ -147,6 +147,8 @@ So for example ``openapi-server-proxy-ur`` would become ``PGRST_OPENAPI_SERVER_P
 
 This latter environment variable is important by the way to present a public url for the api running inside the docker container.
 
+I based some of my Nginx configuration on the excellent example [by Johnny Lambada](https://github.com/johnnylambada/docker-postgrest-swagger-sample).
+
 # Authentication Management
 
 
