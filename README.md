@@ -149,6 +149,19 @@ This latter environment variable is important by the way to present a public url
 
 I based some of my Nginx configuration on the excellent example [by Johnny Lambada](https://github.com/johnnylambada/docker-postgrest-swagger-sample).
 
+# Loading Raster Layers
+
+Here is how I loaded raster data into the database:
+```
+echo "create schema raster;" | psql -h localhost -p 15432 -U docker gis
+cd /home/timlinux/gisdata/Maceira/orthophoto
+raster2pgsql -t 256x256 -P -F -I odm_orthophoto.tif raster.orthophoto | psql -h localhost -p 15432 -U docker gis
+cd /home/timlinux/gisdata/Maceira/elevation
+raster2pgsql -t 256x256 -P -F -I dtm.tif raster.dtm | psql -h localhost -p 15432 -U docker gis
+raster2pgsql -t 256x256 -P -F -I dsm.tif raster.dsm | psql -h localhost -p 15432 -U docker gis
+cd -
+```
+
 # Authentication Management
 
 

@@ -49,10 +49,18 @@
 	var boundariesLayer = L.tileLayer.wms('https://castelo.kartoza.com/map/?', {
 		layers: 'Boundaries'
         }).addTo(map);
+	var orthophotoLayer = L.tileLayer.wms('https://castelo.kartoza.com/map/?', {
+		layers: 'Raster.Orthophoto'
+        }).addTo(map);
+	var dtmLayer = L.tileLayer.wms('https://castelo.kartoza.com/map/?', {
+		layers: 'Raster.DTM'
+        }).addTo(map);
 
         var baseMaps = {
 	    "Boundaries": boundariesLayer,
-            "OSM": osmLayer
+            "OSM": osmLayer,
+            "Orthophoto": orthophotoLayer,
+            "DTM": dtmLayer 
         };
         
         var overlayMaps = {
