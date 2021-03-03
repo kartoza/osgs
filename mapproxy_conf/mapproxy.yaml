@@ -33,7 +33,7 @@ services:
 
     md:
       # metadata used in capabilities documents
-      title: Mapproxy demo map
+      title: Mapproxy Smallholding Map
       abstract: The map showing how QGIS Server interacts with Mapproxy.
       online_resource: https://castelo.kartoza.com/
       contact:

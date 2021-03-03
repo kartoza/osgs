@@ -6,7 +6,6 @@ volumes:
   import_done:
   import_queue:
   cache:
-  geoserver_data:
 
 services:
 
@@ -136,8 +135,8 @@ services:
   geoserver:
     image: kartoza/geoserver:2.18.0
     volumes:
-      - geoserver_data:/opt/geoserver/data_dir
-        #- ./geoserver_data:/opt/geoserver/data_dir
+      # Must create this dir yourself so that it is owned by you
+      - ./geoserver_data:/opt/geoserver/data_dir
     restart: on-failure
     environment:
       - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
