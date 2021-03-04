@@ -26,6 +26,13 @@ services:
     healthcheck:
         test: "exit 0"
 
+  # This is a storage container for the country pbf
+  pbf:
+    image: pbf:stable
+    build:
+      context: ./pbf_fetcher
+      dockerfile: Dockerfile
+
   imposm:
     image: kartoza/docker-osm:imposm-latest
     volumes:

@@ -152,13 +152,32 @@ I based some of my Nginx configuration on the excellent example [by Johnny Lamba
 # Loading Raster Layers
 
 Here is how I loaded raster data into the database:
+
+Flags used:
+
+-d Drop table, create new one and populate it with raster(s) 
+-t TILE_SIZE Cut raster into tiles to be inserted one per table row. TILE_SIZE
+   is expressed as WIDTHxHEIGHT or set to the value "auto" to allow the loader to
+   compute an appropriate tile size using the first raster and applied to all
+   rasters. 
+-F Add a column with the name of the file
+-I Create a GiST index on the raster column. 
+-s <SRID> Assign output raster with specified SRID. If not provided or is zero,
+   raster's metadata will be checked to determine an appropriate SRID. 
+-l OVERVIEW_FACTOR Create overview of the raster. For more than one factor,
+   separate with comma(,). Overview table name follows the pattern o_overview
+   factor_table, where overview factor is a placeholder for numerical overview
+   factor and table is replaced with the base table name. Created overview is
+   stored in the database and is not affected by -R. Note that your generated sql
+   file will contain both the main table and overview tables.
+
 ```
 echo "create schema raster;" | psql -h localhost -p 15432 -U docker gis
 cd /home/timlinux/gisdata/Maceira/orthophoto
-raster2pgsql -t 256x256 -P -F -I odm_orthophoto.tif raster.orthophoto | psql -h localhost -p 15432 -U docker gis
+raster2pgsql -s 32629 -t 256x256 -l 2,4 -P -F -I odm_orthophoto.tif raster.orthophoto | psql -h localhost -p 15432 -U docker gis
 cd /home/timlinux/gisdata/Maceira/elevation
-raster2pgsql -t 256x256 -P -F -I dtm.tif raster.dtm | psql -h localhost -p 15432 -U docker gis
-raster2pgsql -t 256x256 -P -F -I dsm.tif raster.dsm | psql -h localhost -p 15432 -U docker gis
+raster2pgsql -s 32629 -t 256x256 -l 2,4 -d -P -F -I dtm.tif raster.dtm | psql -h localhost -p 15432 -U docker gis
+raster2pgsql -s 32629 -t 256x256 -l 2,4 -d -P -F -I dsm.tif raster.dsm | psql -h localhost -p 15432 -U docker gis
 cd -
 ```
 

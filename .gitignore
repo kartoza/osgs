@@ -5,3 +5,6 @@ mergin_sync_data/
 *.pbf
 osm_conf/last.state.txt
 osm_conf/importer.lock
+geoserver_data/
+mapproxy_conf/cache_data
+
