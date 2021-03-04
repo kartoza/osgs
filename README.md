@@ -155,6 +155,7 @@ Here is how I loaded raster data into the database:
 
 Flags used:
 
+```
 -d Drop table, create new one and populate it with raster(s) 
 -t TILE_SIZE Cut raster into tiles to be inserted one per table row. TILE_SIZE
    is expressed as WIDTHxHEIGHT or set to the value "auto" to allow the loader to
@@ -170,6 +171,10 @@ Flags used:
    factor and table is replaced with the base table name. Created overview is
    stored in the database and is not affected by -R. Note that your generated sql
    file will contain both the main table and overview tables.
+```
+(Above copied directly from raster2pgsql help docs)
+
+
 
 ```
 echo "create schema raster;" | psql -h localhost -p 15432 -U docker gis
