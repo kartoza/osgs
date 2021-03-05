@@ -38,6 +38,18 @@ db-shell:
 	@echo "------------------------------------------------------------------"
 	@docker-compose exec -u postgres db psql gis
 
+reinitialise-mapproxy:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting Mapproxy and clearing its cache"
+	@echo "------------------------------------------------------------------"
+	@docker-compose kill mapproxy
+	@docker-compose rm mapproxy
+	@rm -rf mapproxy_conf/cache_data/*
+	@docker-compose up -d mapproxy
+	@docker-compose logs -f mapproxy
+
+
 reinitialise-qgis-server:
 	@echo
 	@echo "------------------------------------------------------------------"

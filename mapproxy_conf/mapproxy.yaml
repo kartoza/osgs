@@ -1,14 +1,3 @@
-# #####################################################################
-#                 MapProxy example configuration
-# #####################################################################
-#
-# This is _not_ a runnable configuration, but it contains most
-# available options in meaningful combinations.
-#
-# Use this file in addition to the documentation to see where and how
-# things can be configured.
-
-
 services:
   demo:
   wms:
@@ -53,6 +42,10 @@ services:
     use_grid_names: true
 
 layers:
+  - name: Boundaries
+    title: Boundaries
+    sources: [boundaries_cache]
+
   - name: OSM
     title: OSM
     sources: [osm_cache]
@@ -73,6 +66,16 @@ layers:
 
 caches:
   
+  boundaries_cache:
+    sources: [boundaries_wms]
+    grids: [osm_grid]
+    meta_size: [16,16]
+    meta_buffer: 200
+    concurrent_tile_creators: 2
+    cache:
+      type: mbtiles
+      filename: boundaries.mbtiles
+
   osm_cache:
     sources: [osm_wms]
     grids: [osm_grid]
@@ -130,9 +133,27 @@ caches:
 
 sources:
 
+  boundaries_wms:
+    coverage:
+      bbox: [-9.575006, 36.948017, -6.172035, 42.154321]
+      bbox_srs: EPSG:4326
+    type: wms
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 20
+    wms_opts:
+      version: 1.3.0
+      featureinfo: True
+    req:
+      url: https://castelo.kartoza.com/map/
+      layers: Boundaries
+      transparent: false
+    supported_formats: [png]
+    supported_srs: ['EPSG:3857', 'CRS:84']
+
   osm_wms:
     coverage:
-      bbox: [-12.272, 35.905, -2.909, 43.631]
+      bbox: [-7.740494, 39.175289, -7.145482, 39.634818]
       bbox_srs: EPSG:4326
     type: wms
     image:
@@ -150,7 +171,7 @@ sources:
 
   orthophoto_wms:
     coverage:
-      bbox: [-12.272, 35.905, -2.909, 43.631]
+      bbox: [-7.388269, 39.411014, -7.382041, 39.414181]
       bbox_srs: EPSG:4326
     type: wms
     image:
@@ -168,7 +189,7 @@ sources:
 
   dsm_wms:
     coverage:
-      bbox: [-12.272, 35.905, -2.909, 43.631]
+      bbox: [-7.388269, 39.411014, -7.382041, 39.414181]
       bbox_srs: EPSG:4326
     type: wms
     image:
@@ -186,7 +207,7 @@ sources:
 
   smallholding_wms:
     coverage:
-      bbox: [-12.272, 35.905, -2.909, 43.631]
+      bbox: [-7.388269, 39.411014, -7.382041, 39.414181]
       bbox_srs: EPSG:4326
     type: wms
     image:
