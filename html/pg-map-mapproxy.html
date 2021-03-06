@@ -1,123 +1,138 @@
 <!DOCTYPE html>
 <html>
-<head>
-	
-	<title>WMS example - Leaflet</title>
+  <head>
+    <title>WMS example - Leaflet</title>
 
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="docs/images/favicon.ico"
+    />
 
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      crossorigin=""
+    ></script>
 
-	<style>
-		html, body {
-			height: 100%;
-			margin: 0;
-		}
-		#map {
-			width: 100%;
-			height: 100%;
-		}
-	</style>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      #map {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
 
-	
-</head>
-<body>
+    <script type="text/javascript">
+      var map = L.map("map", {
+        center: [-7.3850817, 39.412649],
+        zoom: 3
+      });
 
-<div id='map'></div>
-
-<script type="text/javascript">
-
-	var map = L.map('map', {
-		center: [-7.3850817,39.4126490],
-		zoom: 25,
-	        maxBounds: [[-7.740494, 39.175289], [-7.145482, 39.634818]], 
-        }).setView([-7.3850817,39.4126490], 20);
-
-        // get the boundaries layer via mapproxy in front of QGIS Server
-        var boundaries_mapproxy = L.tileLayer.wms('https://castelo.kartoza.com/mapproxy/service?', {
-          layers: 'Boundaries',
-          format: 'image/png',
+      // get the boundaries layer via mapproxy in front of QGIS Server
+      var boundaries_mapproxy = L.tileLayer
+        .wms("https://castelo.kartoza.com/mapproxy/service?", {
+          layers: "Boundaries",
+          format: "image/png",
           uppercase: true,
           transparent: true,
           continuousWorld: true,
-	  maxZoom: 28,
-          opacity: 1.0
-         }).addTo(map);
+          maxZoom: 28,
+          opacity: 1.0,
+        })
+        .addTo(map);
 
-        // get the layer via mapproxy in front of QGIS Server
-        var osm_mapproxy = L.tileLayer.wms('https://castelo.kartoza.com/mapproxy/service?', {
-          layers: 'OSM',
-          format: 'image/png',
+      // get the layer via mapproxy in front of QGIS Server
+      var osm_mapproxy = L.tileLayer
+        .wms("https://castelo.kartoza.com/mapproxy/service?", {
+          layers: "OSM",
+          format: "image/png",
           uppercase: true,
           transparent: true,
           continuousWorld: true,
-	  maxZoom: 28,
-          opacity: 1.0
-         }).addTo(map);
+          maxZoom: 28,
+          opacity: 1.0,
+        })
+        .addTo(map);
 
-        var orthophoto_mapproxy = L.tileLayer.wms('https://castelo.kartoza.com/mapproxy/service?', {
-          layers: 'Orthophoto',
-          format: 'image/png',
+      var orthophoto_mapproxy = L.tileLayer
+        .wms("https://castelo.kartoza.com/mapproxy/service?", {
+          layers: "Orthophoto",
+          format: "image/png",
           uppercase: true,
           transparent: true,
           continuousWorld: true,
-	  maxZoom: 28,
-          opacity: 1.0
-         }).addTo(map);
+          maxZoom: 28,
+          opacity: 1.0,
+        })
+        .addTo(map);
 
-        var dtm_mapproxy = L.tileLayer.wms('https://castelo.kartoza.com/mapproxy/service?', {
-          layers: 'DTM',
-          format: 'image/png',
+      var dtm_mapproxy = L.tileLayer
+        .wms("https://castelo.kartoza.com/mapproxy/service?", {
+          layers: "DTM",
+          format: "image/png",
           uppercase: true,
           transparent: true,
           continuousWorld: true,
-	  maxZoom: 28,
-          opacity: 1.0
-         }).addTo(map);
+          maxZoom: 28,
+          opacity: 1.0,
+        })
+        .addTo(map);
 
-        var baseMaps = {
-            "OSM": osm_mapproxy,
-            "Orthophoto": orthophoto_mapproxy,
-            "DTM": dtm_mapproxy,
-	    "Boundaries": boundaries_mapproxy
-        };
+      var baseMaps = {
+        OSM: osm_mapproxy,
+        Orthophoto: orthophoto_mapproxy,
+        DTM: dtm_mapproxy,
+        Boundaries: boundaries_mapproxy,
+      };
 
-        // Smallholding from mapproxy
-        var smallholdingMapproxyLayer = L.tileLayer.wms('https://castelo.kartoza.com/mapproxy/service?', {
-          layers: 'Smallholding',
-          format: 'image/png',
+      // Smallholding from mapproxy
+      var smallholdingMapproxyLayer = L.tileLayer
+        .wms("https://castelo.kartoza.com/mapproxy/service?", {
+          layers: "Smallholding",
+          format: "image/png",
           uppercase: true,
           transparent: true,
           continuousWorld: true,
-	  maxZoom: 28,
-          opacity: 1.0
-         }).addTo(map);
+          maxZoom: 28,
+          opacity: 1.0,
+        })
+        .addTo(map);
 
-        // get the layer straight from QGIS Server - useful for showing live updates
-        // but will be vulnerable to label clipping etc.
-	var smallholdingLayer = L.tileLayer.wms('https://castelo.kartoza.com/map/?', {
-		layers: 'Smallholding',
-                transparent: 'true',
-                format: 'image/png',
-	        maxZoom: 28
-        }).addTo(map);
-        
-        var overlayMaps = {
-            "Smallholding - No Proxy": smallholdingLayer,
-            "Smallholding - Mapproxy": smallholdingMapproxyLayer
-        };
-        
-        L.control.layers(baseMaps, overlayMaps).addTo(map);
+      // get the layer straight from QGIS Server - useful for showing live updates
+      // but will be vulnerable to label clipping etc.
+      var smallholdingLayer = L.tileLayer
+        .wms("https://castelo.kartoza.com/map/?", {
+          layers: "Smallholding",
+          transparent: "true",
+          format: "image/png",
+          maxZoom: 28,
+        })
+        .addTo(map);
 
-</script>
+      var overlayMaps = {
+        "Smallholding - No Proxy": smallholdingLayer,
+        "Smallholding - Mapproxy": smallholdingMapproxyLayer,
+      };
 
-
-
-</body>
+      L.control.layers(baseMaps, overlayMaps).addTo(map);
+      map.fitBounds(smallholdingLayer.getBounds());
+    </script>
+  </body>
 </html>
-

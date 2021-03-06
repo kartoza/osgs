@@ -9,3 +9,4 @@ osm_conf/timestamp.txt
 geoserver_data/
 mapproxy_conf/cache_data
 
+.DS_Store
