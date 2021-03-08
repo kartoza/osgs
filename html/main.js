@@ -1,5 +1,6 @@
 var layers = [
   new ol.layer.Tile({
+    title: "Boundaries",
     extent: [-13884991, 2870341, -7455066, 6338219],
     source: new ol.source.TileWMS({
       url: "https://castelo.kartoza.com/mapproxy/service?",
@@ -8,6 +9,7 @@ var layers = [
     }),
   }),
   new ol.layer.Tile({
+    title: "OSM",
     extent: [-13884991, 2870341, -7455066, 6338219],
     source: new ol.source.TileWMS({
       url: "https://castelo.kartoza.com/mapproxy/service?",
@@ -16,6 +18,7 @@ var layers = [
     }),
   }),
   new ol.layer.Tile({
+    title: "Orthophoto",
     extent: [-13884991, 2870341, -7455066, 6338219],
     source: new ol.source.TileWMS({
       url: "https://castelo.kartoza.com/mapproxy/service?",
@@ -24,6 +27,7 @@ var layers = [
     }),
   }),
   new ol.layer.Tile({
+    title: "DTM",
     extent: [-13884991, 2870341, -7455066, 6338219],
     source: new ol.source.TileWMS({
       url: "https://castelo.kartoza.com/mapproxy/service?",
@@ -32,6 +36,7 @@ var layers = [
     }),
   }),
   new ol.layer.Tile({
+    title: "Smallholding - Mapproxy",
     extent: [-13884991, 2870341, -7455066, 6338219],
     source: new ol.source.TileWMS({
       url: "https://castelo.kartoza.com/mapproxy/service?",
@@ -40,6 +45,7 @@ var layers = [
     }),
   }),
   new ol.layer.Tile({
+    title: "Smallholding - No Mapproxy",
     extent: [-13884991, 2870341, -7455066, 6338219],
     source: new ol.source.TileWMS({
       url: "https://castelo.kartoza.com/map/?",
