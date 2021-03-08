@@ -1,7 +1,530 @@
-<h1>Maps here</h1>
-<p>QGIS Project Stored in PostGIS: <a href="pg-map-mapproxy.html">PG Map</a></p>
-<p>QGIS Project Store in File System (no mapproxy): <a href="file-based-map.html">File Based Map</a></p>
-<p>API End Point: <a href="/api/">Postgrest API</a></p>
-<p>API Explorer: <a href="/swagger/">Swagger</a></p>
-<p>GeoServer: <a href="/geoserver/">GeoServer</a></p>
-<p>Mapproxy: <a href="/mapproxy/demo/">Mapproxy</a></p>
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <!-- META -->
+    <meta charset="utf-8" />
+    <meta name="robots" content="noodp" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+
+    <!-- PAGE TITLE -->
+    <title>Smallholding with Open Source GIS</title>
+
+    <!-- FAVICON -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- FONTS -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Abril+Fatface%7CArapey&amp;subset=latin-ext"
+      rel="stylesheet"
+    />
+
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/plugins.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css" />
+    <link rel="stylesheet" href="ol.css" type="text/css">
+    <!-- ol-ext -->
+    <link rel="stylesheet" href="./ol-ext.css" />
+    <link rel="stylesheet" href="./layer-switcher.css" />
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="/favicon.ico"
+    />
+  <style>
+    .hideOpacity .layerswitcher-opacity {
+      display:none;
+    }
+    .hideOpacity .ol-layerswitcher .layerup {
+      height: 1.5em;
+    }
+    .showPercent .layerSwitcher .ol-layerswitcher .layerswitcher-opacity-label {
+      display: block;
+    }
+
+    .ol-header > div {
+      width:100%; 
+    }
+    .toggleVisibility {
+      padding-left: 1.6em;
+      cursor: pointer;
+      border-bottom: 2px solid #369;
+      margin-bottom: 0.5em; 
+    }
+    .toggleVisibility:before {
+      background-color: #fff;
+      border: 2px solid #369;
+      box-sizing: border-box;
+      content: "";
+      display: block;
+      height: 1.2em;
+      left: 0.1em;
+      margin: 0;
+      position: absolute;
+      width: 1.2em;
+    }
+    .toggleVisibility.show:before {
+      background: #369;
+    }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      #map {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- PRELOADER -->
+    <div class="preloader">
+      <div class="spinner"></div>
+    </div>
+    <!-- /PRELOADER -->
+
+    <!-- IMAGE CONTAINER -->
+    <div class="image-container">
+      <div id="map"></div>
+    </div>
+    <!-- /IMAGE CONTAINER -->
+
+    <!-- CONTENT AREA -->
+    <div class="content-area">
+      <!-- CONTENT AREA INNER -->
+      <div class="content-area-inner">
+        <!-- INTRO -->
+        <section id="intro">
+          <!-- CONTAINER MID -->
+          <div class="container-mid">
+            <!-- ANIMATION CONTAINER -->
+            <div
+              class="animation-container animation-fade-down"
+              data-animation-delay="0"
+            >
+              <h1>Smallholding with Open Source GIS</h1>
+            </div>
+            <!-- /ANIMATION CONTAINER -->
+
+            <!-- ANIMATION CONTAINER -->
+            <div
+              class="animation-container animation-fade-left"
+              data-animation-delay="300"
+            >
+              <p class="subline">
+                Welcome to the smallholding with FOSS platform. You can explore
+                the map on the left, clicking on features to discover more about
+                them. Below you will find a list of reports that will be
+                dynamically generated from the data associated with the map.
+              </p>
+            </div>
+            <!-- /ANIMATION CONTAINER -->
+
+            <!-- ANIMATION CONTAINER -->
+            <div
+              class="animation-container animation-fade-up"
+              data-animation-delay="600"
+            >
+              <a href="#about" class="smooth-scroll"
+                >Learn More<i class="fa fa-angle-down" aria-hidden="true"></i
+              ></a>
+            </div>
+            <!-- /ANIMATION CONTAINER -->
+          </div>
+          <!-- /CONTAINER MID -->
+        </section>
+        <!-- /INTRO -->
+
+        <!-- ABOUT -->
+        <section id="about">
+          <h3 class="headline scroll-animated-from-right">
+            About this platform.
+          </h3>
+
+          <p class="scroll-animated-from-right">
+            This platform is a composition of Open Source GIS components which
+            have been integrated to provide a platform useful for owners or
+            managers of small farms.
+          </p>
+
+          <p class="scroll-animated-from-right">
+            You can find all of the source code, installation notes and detailed
+            descriptions of the platform can be found on the
+            <a href="https://github.com/kartoza/MarceiraMerginSyncProject">
+              GitHub page</a
+            >
+            for this platform.
+          </p>
+        </section>
+        <!-- /ABOUT -->
+
+        <!-- SERVICE -->
+        <section id="service">
+          <h3 class="headline scroll-animated-from-right">Deployed Services.</h3>
+
+          <!-- SERVICE LIST -->
+          <ul class="services-list">
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                <a href="pg-map-mapproxy.html">QGIS map in PostGIS</a>
+            </li>
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+                <a href="/api/">Postgrest API</a>
+            </li>
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-database" aria-hidden="true"></i>
+                <a href="/swagger/">Swagger API Browser</a>
+            </li>
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-television" aria-hidden="true"></i>
+              <a href="file-based-map.html">File Based Project File</a>
+            </li>
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-square-o" aria-hidden="true"></i>
+                <a href="/geoserver/">GeoServer</a>
+          </li>
+                <li class="scroll-animated-from-right">
+                  <i class="fa fa-square-o" aria-hidden="true"></i>
+                    <a href="/mapproxy/demo/">Mapproxy</a>
+          </li>
+          </li>
+                <li class="scroll-animated-from-right">
+                  <i class="fa fa-square-o" aria-hidden="true"></i>
+                    <a href="http://castelo.kartoza.com:8000">Open Drone Map</a>
+          </li>          
+          </ul>
+          <!-- /SERVICE LIST -->
+        </section>
+        <!-- /SERVICE -->
+
+        <!-- SERVICE -->
+        <section id="service">
+          <h3 class="headline scroll-animated-from-right">Standard Reports.</h3>
+
+          <!-- SERVICE LIST -->
+          <ul class="services-list">
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>Camps
+            </li>
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-eye" aria-hidden="true"></i>Structures
+            </li>
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-database" aria-hidden="true"></i>Plants
+            </li>
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-television" aria-hidden="true"></i>Farm Map
+            </li>
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-square-o" aria-hidden="true"></i>3D View
+            </li>
+          </ul>
+          <!-- /SERVICE LIST -->
+        </section>
+        <!-- /SERVICE -->
+
+        <!-- WORK -->
+        <section id="work">
+          <h3 class="headline scroll-animated-from-right">Farm Pictures</h3>
+
+          <!-- SHOWCASE -->
+          <div class="showcase">
+            <!-- ITEM -->
+            <div class="item scroll-animated-from-right">
+              <!-- LIGHTBOX LINK -->
+              <a href="#" data-featherlight="#item-1-lightbox">
+                <!-- INFO -->
+                <div class="info">
+                  <!-- CONTAINER MID -->
+                  <div class="container-mid">
+                    <h5>Fashion Inc.</h5>
+                    <p>Web Design</p>
+                  </div>
+                  <!-- /CONTAINER MID -->
+                </div>
+                <!-- /INFO -->
+
+                <div
+                  class="background-image"
+                  style="background-image: url(assets/img/work/item-1.jpg)"
+                ></div>
+              </a>
+              <!-- /LIGHTBOX LINK -->
+
+              <!-- LIGHTBOX -->
+              <div id="item-1-lightbox" class="work-lightbox">
+                <img
+                  class="img-responsive"
+                  src="assets/img/work/item-1.jpg"
+                  alt="image"
+                />
+
+                <h3>Fashion Inc.</h3>
+                <p class="subline">Web Design</p>
+
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+                  semper faucibus eros, quis imperdiet sapien. Nam sodales nec
+                  risus nec interdum. Proin lobortis, ex condimentum ultricies
+                  eleifend, nisl nunc sollicitudin odio, eget egestas est turpis
+                  et metus. In non ligula quis mauris rutrum porta.
+                </p>
+              </div>
+              <!-- /LIGHTBOX -->
+            </div>
+            <!-- /ITEM -->
+
+            <!-- ITEM -->
+            <div class="item scroll-animated-from-right">
+              <!-- LIGHTBOX LINK -->
+              <a href="#" data-featherlight="#item-2-lightbox">
+                <!-- INFO -->
+                <div class="info">
+                  <!-- CONTAINER MID -->
+                  <div class="container-mid">
+                    <h5>Asimov 71</h5>
+                    <p>Product Design</p>
+                  </div>
+                  <!-- /CONTAINER MID -->
+                </div>
+                <!-- /INFO -->
+
+                <div
+                  class="background-image"
+                  style="background-image: url(assets/img/work/item-2.jpg)"
+                ></div>
+              </a>
+              <!-- /LIGHTBOX LINK -->
+
+              <!-- LIGHTBOX -->
+              <div id="item-2-lightbox" class="work-lightbox">
+                <img
+                  class="img-responsive"
+                  src="assets/img/work/item-2.jpg"
+                  alt="image"
+                />
+
+                <h3>Asimov 71</h3>
+                <p class="subline">Product Design</p>
+
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+                  semper faucibus eros, quis imperdiet sapien. Nam sodales nec
+                  risus nec interdum. Proin lobortis, ex condimentum ultricies
+                  eleifend, nisl nunc sollicitudin odio, eget egestas est turpis
+                  et metus. In non ligula quis mauris rutrum porta.
+                </p>
+              </div>
+              <!-- /LIGHTBOX -->
+            </div>
+            <!-- /ITEM -->
+
+            <!-- ITEM -->
+            <div class="item scroll-animated-from-right">
+              <!-- LIGHTBOX LINK -->
+              <a href="#" data-featherlight="#item-3-lightbox">
+                <!-- INFO -->
+                <div class="info">
+                  <!-- CONTAINER MID -->
+                  <div class="container-mid">
+                    <h5>Hardley &amp; Sons</h5>
+                    <p>Design Direction</p>
+                  </div>
+                  <!-- /CONTAINER MID -->
+                </div>
+                <!-- /INFO -->
+
+                <div
+                  class="background-image"
+                  style="background-image: url(assets/img/work/item-3.jpg)"
+                ></div>
+              </a>
+              <!-- /LIGHTBOX LINK -->
+
+              <!-- LIGHTBOX -->
+              <div id="item-3-lightbox" class="work-lightbox">
+                <img
+                  class="img-responsive"
+                  src="assets/img/work/item-3.jpg"
+                  alt="image"
+                />
+
+                <h3>Hardley &amp; Sons</h3>
+                <p class="subline">Design Direction</p>
+
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+                  semper faucibus eros, quis imperdiet sapien. Nam sodales nec
+                  risus nec interdum. Proin lobortis, ex condimentum ultricies
+                  eleifend, nisl nunc sollicitudin odio, eget egestas est turpis
+                  et metus. In non ligula quis mauris rutrum porta.
+                </p>
+              </div>
+              <!-- /LIGHTBOX -->
+            </div>
+            <!-- /ITEM -->
+
+            <!-- ITEM -->
+            <div class="item scroll-animated-from-right">
+              <!-- LIGHTBOX LINK -->
+              <a href="#" data-featherlight="#item-4-lightbox">
+                <!-- INFO -->
+                <div class="info">
+                  <!-- CONTAINER MID -->
+                  <div class="container-mid">
+                    <h5>Starnation</h5>
+                    <p>UI/UX DESIGN</p>
+                  </div>
+                  <!-- /CONTAINER MID -->
+                </div>
+                <!-- /INFO -->
+
+                <div
+                  class="background-image"
+                  style="background-image: url(assets/img/work/item-4.jpg)"
+                ></div>
+              </a>
+              <!-- /LIGHTBOX LINK -->
+
+              <!-- LIGHTBOX -->
+              <div id="item-4-lightbox" class="work-lightbox">
+                <img
+                  class="img-responsive"
+                  src="assets/img/work/item-4.jpg"
+                  alt="image"
+                />
+
+                <h3>Starnation</h3>
+                <p class="subline">UI/UX DESIGN</p>
+
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+                  semper faucibus eros, quis imperdiet sapien. Nam sodales nec
+                  risus nec interdum. Proin lobortis, ex condimentum ultricies
+                  eleifend, nisl nunc sollicitudin odio, eget egestas est turpis
+                  et metus. In non ligula quis mauris rutrum porta.
+                </p>
+              </div>
+              <!-- /LIGHTBOX -->
+            </div>
+            <!-- /ITEM -->
+          </div>
+          <!-- /SHOWCASE -->
+        </section>
+        <!-- /WORK -->
+
+        <!-- CONTACT -->
+        <section id="contact">
+          <h3 class="headline scroll-animated-from-right">Contact Me.</h3>
+
+          <!-- CONTACT LIST -->
+          <ul class="contact-list">
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-mobile" aria-hidden="true"></i>@timlinux
+            </li>
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-envelope-o" aria-hidden="true"></i>tim@kartoza.com
+            </li>
+          </ul>
+          <!-- /CONTACT LIST -->
+
+          <!-- CONTACT FORM -->
+          <form id="contact-form" action="assets/php/contact.php" method="post">
+            <input
+              id="contact-form-name"
+              type="text"
+              name="name"
+              class="form-control scroll-animated-from-right"
+              placeholder="* Your Name"
+            />
+
+            <input
+              id="contact-form-email"
+              type="text"
+              name="email"
+              class="form-control scroll-animated-from-right"
+              placeholder="* Your Email"
+            />
+
+            <!-- PHANTOM ELEMENT ( HONEYPOT CAPTCHA FOR SECURITY ) -->
+            <div class="fhp-input">
+              <input
+                id="contact-form-company"
+                type="text"
+                name="company"
+                class="form-control"
+              />
+            </div>
+            <!-- /PHANTOM ELEMENT ( HONEYPOT CAPTCHA FOR SECURITY ) -->
+
+            <textarea
+              id="contact-form-message"
+              name="message"
+              class="form-control scroll-animated-from-right"
+              placeholder="* Your Message"
+            ></textarea>
+
+            <button
+              type="submit"
+              class="form-control scroll-animated-from-right"
+            >
+              Send Mail
+            </button>
+
+            <div class="success-message">
+              * The Email was Sent Successfully!
+            </div>
+          </form>
+          <!-- /CONTACT FORM -->
+        </section>
+        <!-- /CONTACT -->
+
+        <!-- FOOTER -->
+        <section id="footer">
+          <!-- SOCIAL ICONS -->
+          <ul class="social-icons scroll-animated-from-right">
+            <li>
+              <a href="https://twitter.com/timlinux"
+                ><i class="fa fa-twitter" aria-hidden="true"></i
+              ></a>
+            </li>
+          </ul>
+          <!-- /SOCIAL ICONS -->
+
+          <p class="scroll-animated-from-right">
+            © 2017 Your Brand | Design by
+            <a href="https://templatefoundation.com">Template Foundation</a>
+          </p>
+        </section>
+        <!-- /FOOTER -->
+      </div>
+      <!-- /CONTENT AREA INNER -->
+    </div>
+    <!-- /CONTENT AREA -->
+
+    <!-- JAVASCRIPTS -->
+    <script type="text/javascript" src="assets/js/plugins.js"></script>
+    <script type="text/javascript" src="assets/js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="./ol.js"></script>
+    <script type="text/javascript" src="./ol-ext.js"></script>
+    <script type="text/javascript" src="./main.js"></script>
+  </body>
+</html>
