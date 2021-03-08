@@ -1,6 +1,31 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
   <head>
+    <!-- META -->
+    <meta charset="utf-8" />
+    <meta name="robots" content="noodp" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+
+    <!-- PAGE TITLE -->
+    <title>Miller - Identity</title>
+
+    <!-- FAVICON -->
+    <link rel="shortcut icon" href="assets/img/favicon.png" />
+
+    <!-- FONTS -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Abril+Fatface%7CArapey&amp;subset=latin-ext"
+      rel="stylesheet"
+    />
+
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/plugins.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css" />
+
     <title>WMS example - Leaflet</title>
 
     <meta charset="utf-8" />
@@ -23,7 +48,7 @@
       integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
       crossorigin=""
     ></script>
-
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <style>
       html,
       body {
@@ -37,102 +62,395 @@
     </style>
   </head>
   <body>
-    <div id="map"></div>
+    <!-- PRELOADER -->
+    <div class="preloader">
+      <div class="spinner"></div>
+    </div>
+    <!-- /PRELOADER -->
 
-    <script type="text/javascript">
-      var map = L.map("map", {
-        center: [-7.3850817, 39.412649],
-        zoom: 3
-      });
+    <!-- IMAGE CONTAINER -->
+    <div class="image-container">
+      <div id="map"></div>
+    </div>
+    <!-- /IMAGE CONTAINER -->
 
-      // get the boundaries layer via mapproxy in front of QGIS Server
-      var boundaries_mapproxy = L.tileLayer
-        .wms("https://castelo.kartoza.com/mapproxy/service?", {
-          layers: "Boundaries",
-          format: "image/png",
-          uppercase: true,
-          transparent: true,
-          continuousWorld: true,
-          maxZoom: 28,
-          opacity: 1.0,
-        })
-        .addTo(map);
+    <!-- CONTENT AREA -->
+    <div class="content-area">
+      <!-- CONTENT AREA INNER -->
+      <div class="content-area-inner">
+        <!-- INTRO -->
+        <section id="intro">
+          <!-- CONTAINER MID -->
+          <div class="container-mid">
+            <!-- ANIMATION CONTAINER -->
+            <div
+              class="animation-container animation-fade-down"
+              data-animation-delay="0"
+            >
+              <h1>Smallholding with FOSSGIS</h1>
+            </div>
+            <!-- /ANIMATION CONTAINER -->
 
-      // get the layer via mapproxy in front of QGIS Server
-      var osm_mapproxy = L.tileLayer
-        .wms("https://castelo.kartoza.com/mapproxy/service?", {
-          layers: "OSM",
-          format: "image/png",
-          uppercase: true,
-          transparent: true,
-          continuousWorld: true,
-          maxZoom: 28,
-          opacity: 1.0,
-        })
-        .addTo(map);
+            <!-- ANIMATION CONTAINER -->
+            <div
+              class="animation-container animation-fade-left"
+              data-animation-delay="300"
+            >
+              <p class="subline">
+                Welcome to the smallholding with FOSS platform. You can explore
+                the map on the left, clicking on features to discover more about
+                them. Below you will find a list of reports that will be
+                dynamically generated from the data associated with the map.
+              </p>
+            </div>
+            <!-- /ANIMATION CONTAINER -->
 
-      var orthophoto_mapproxy = L.tileLayer
-        .wms("https://castelo.kartoza.com/mapproxy/service?", {
-          layers: "Orthophoto",
-          format: "image/png",
-          uppercase: true,
-          transparent: true,
-          continuousWorld: true,
-          maxZoom: 28,
-          opacity: 1.0,
-        })
-        .addTo(map);
+            <!-- ANIMATION CONTAINER -->
+            <div
+              class="animation-container animation-fade-up"
+              data-animation-delay="600"
+            >
+              <a href="#about" class="smooth-scroll"
+                >Learn More<i class="fa fa-angle-down" aria-hidden="true"></i
+              ></a>
+            </div>
+            <!-- /ANIMATION CONTAINER -->
+          </div>
+          <!-- /CONTAINER MID -->
+        </section>
+        <!-- /INTRO -->
 
-      var dtm_mapproxy = L.tileLayer
-        .wms("https://castelo.kartoza.com/mapproxy/service?", {
-          layers: "DTM",
-          format: "image/png",
-          uppercase: true,
-          transparent: true,
-          continuousWorld: true,
-          maxZoom: 28,
-          opacity: 1.0,
-        })
-        .addTo(map);
+        <!-- ABOUT -->
+        <section id="about">
+          <h3 class="headline scroll-animated-from-right">
+            About this platform.
+          </h3>
 
-      var baseMaps = {
-        OSM: osm_mapproxy,
-        Orthophoto: orthophoto_mapproxy,
-        DTM: dtm_mapproxy,
-        Boundaries: boundaries_mapproxy,
-      };
+          <p class="scroll-animated-from-right">
+            This platform is a composition of Open Source GIS components which
+            have been integrated to provide a platform useful for owners or
+            managers of small farms.
+          </p>
 
-      // Smallholding from mapproxy
-      var smallholdingMapproxyLayer = L.tileLayer
-        .wms("https://castelo.kartoza.com/mapproxy/service?", {
-          layers: "Smallholding",
-          format: "image/png",
-          uppercase: true,
-          transparent: true,
-          continuousWorld: true,
-          maxZoom: 28,
-          opacity: 1.0,
-        })
-        .addTo(map);
+          <p class="scroll-animated-from-right">
+            You can find all of the source code, installation notes and detailed
+            descriptions of the platform can be found on the
+            <a href="https://github.com/kartoza/MarceiraMerginSyncProject">
+              GitHub page</a
+            >
+            for this platform.
+          </p>
+        </section>
+        <!-- /ABOUT -->
 
-      // get the layer straight from QGIS Server - useful for showing live updates
-      // but will be vulnerable to label clipping etc.
-      var smallholdingLayer = L.tileLayer
-        .wms("https://castelo.kartoza.com/map/?", {
-          layers: "Smallholding",
-          transparent: "true",
-          format: "image/png",
-          maxZoom: 28,
-        })
-        .addTo(map);
+        <!-- SERVICE -->
+        <section id="service">
+          <h3 class="headline scroll-animated-from-right">Standard Reports.</h3>
 
-      var overlayMaps = {
-        "Smallholding - No Proxy": smallholdingLayer,
-        "Smallholding - Mapproxy": smallholdingMapproxyLayer,
-      };
+          <!-- SERVICE LIST -->
+          <ul class="services-list">
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>Camps
+            </li>
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-eye" aria-hidden="true"></i>Structures
+            </li>
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-database" aria-hidden="true"></i>Plants
+            </li>
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-television" aria-hidden="true"></i>Farm Map
+            </li>
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-square-o" aria-hidden="true"></i>3D View
+            </li>
+          </ul>
+          <!-- /SERVICE LIST -->
+        </section>
+        <!-- /SERVICE -->
 
-      L.control.layers(baseMaps, overlayMaps).addTo(map);
-      map.fitBounds(smallholdingLayer.getBounds());
-    </script>
+        <!-- WORK -->
+        <section id="work">
+          <h3 class="headline scroll-animated-from-right">Farm Pictures</h3>
+
+          <!-- SHOWCASE -->
+          <div class="showcase">
+            <!-- ITEM -->
+            <div class="item scroll-animated-from-right">
+              <!-- LIGHTBOX LINK -->
+              <a href="#" data-featherlight="#item-1-lightbox">
+                <!-- INFO -->
+                <div class="info">
+                  <!-- CONTAINER MID -->
+                  <div class="container-mid">
+                    <h5>Fashion Inc.</h5>
+                    <p>Web Design</p>
+                  </div>
+                  <!-- /CONTAINER MID -->
+                </div>
+                <!-- /INFO -->
+
+                <div
+                  class="background-image"
+                  style="background-image: url(assets/img/work/item-1.jpg)"
+                ></div>
+              </a>
+              <!-- /LIGHTBOX LINK -->
+
+              <!-- LIGHTBOX -->
+              <div id="item-1-lightbox" class="work-lightbox">
+                <img
+                  class="img-responsive"
+                  src="assets/img/work/item-1.jpg"
+                  alt="image"
+                />
+
+                <h3>Fashion Inc.</h3>
+                <p class="subline">Web Design</p>
+
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+                  semper faucibus eros, quis imperdiet sapien. Nam sodales nec
+                  risus nec interdum. Proin lobortis, ex condimentum ultricies
+                  eleifend, nisl nunc sollicitudin odio, eget egestas est turpis
+                  et metus. In non ligula quis mauris rutrum porta.
+                </p>
+              </div>
+              <!-- /LIGHTBOX -->
+            </div>
+            <!-- /ITEM -->
+
+            <!-- ITEM -->
+            <div class="item scroll-animated-from-right">
+              <!-- LIGHTBOX LINK -->
+              <a href="#" data-featherlight="#item-2-lightbox">
+                <!-- INFO -->
+                <div class="info">
+                  <!-- CONTAINER MID -->
+                  <div class="container-mid">
+                    <h5>Asimov 71</h5>
+                    <p>Product Design</p>
+                  </div>
+                  <!-- /CONTAINER MID -->
+                </div>
+                <!-- /INFO -->
+
+                <div
+                  class="background-image"
+                  style="background-image: url(assets/img/work/item-2.jpg)"
+                ></div>
+              </a>
+              <!-- /LIGHTBOX LINK -->
+
+              <!-- LIGHTBOX -->
+              <div id="item-2-lightbox" class="work-lightbox">
+                <img
+                  class="img-responsive"
+                  src="assets/img/work/item-2.jpg"
+                  alt="image"
+                />
+
+                <h3>Asimov 71</h3>
+                <p class="subline">Product Design</p>
+
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+                  semper faucibus eros, quis imperdiet sapien. Nam sodales nec
+                  risus nec interdum. Proin lobortis, ex condimentum ultricies
+                  eleifend, nisl nunc sollicitudin odio, eget egestas est turpis
+                  et metus. In non ligula quis mauris rutrum porta.
+                </p>
+              </div>
+              <!-- /LIGHTBOX -->
+            </div>
+            <!-- /ITEM -->
+
+            <!-- ITEM -->
+            <div class="item scroll-animated-from-right">
+              <!-- LIGHTBOX LINK -->
+              <a href="#" data-featherlight="#item-3-lightbox">
+                <!-- INFO -->
+                <div class="info">
+                  <!-- CONTAINER MID -->
+                  <div class="container-mid">
+                    <h5>Hardley &amp; Sons</h5>
+                    <p>Design Direction</p>
+                  </div>
+                  <!-- /CONTAINER MID -->
+                </div>
+                <!-- /INFO -->
+
+                <div
+                  class="background-image"
+                  style="background-image: url(assets/img/work/item-3.jpg)"
+                ></div>
+              </a>
+              <!-- /LIGHTBOX LINK -->
+
+              <!-- LIGHTBOX -->
+              <div id="item-3-lightbox" class="work-lightbox">
+                <img
+                  class="img-responsive"
+                  src="assets/img/work/item-3.jpg"
+                  alt="image"
+                />
+
+                <h3>Hardley &amp; Sons</h3>
+                <p class="subline">Design Direction</p>
+
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+                  semper faucibus eros, quis imperdiet sapien. Nam sodales nec
+                  risus nec interdum. Proin lobortis, ex condimentum ultricies
+                  eleifend, nisl nunc sollicitudin odio, eget egestas est turpis
+                  et metus. In non ligula quis mauris rutrum porta.
+                </p>
+              </div>
+              <!-- /LIGHTBOX -->
+            </div>
+            <!-- /ITEM -->
+
+            <!-- ITEM -->
+            <div class="item scroll-animated-from-right">
+              <!-- LIGHTBOX LINK -->
+              <a href="#" data-featherlight="#item-4-lightbox">
+                <!-- INFO -->
+                <div class="info">
+                  <!-- CONTAINER MID -->
+                  <div class="container-mid">
+                    <h5>Starnation</h5>
+                    <p>UI/UX DESIGN</p>
+                  </div>
+                  <!-- /CONTAINER MID -->
+                </div>
+                <!-- /INFO -->
+
+                <div
+                  class="background-image"
+                  style="background-image: url(assets/img/work/item-4.jpg)"
+                ></div>
+              </a>
+              <!-- /LIGHTBOX LINK -->
+
+              <!-- LIGHTBOX -->
+              <div id="item-4-lightbox" class="work-lightbox">
+                <img
+                  class="img-responsive"
+                  src="assets/img/work/item-4.jpg"
+                  alt="image"
+                />
+
+                <h3>Starnation</h3>
+                <p class="subline">UI/UX DESIGN</p>
+
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+                  semper faucibus eros, quis imperdiet sapien. Nam sodales nec
+                  risus nec interdum. Proin lobortis, ex condimentum ultricies
+                  eleifend, nisl nunc sollicitudin odio, eget egestas est turpis
+                  et metus. In non ligula quis mauris rutrum porta.
+                </p>
+              </div>
+              <!-- /LIGHTBOX -->
+            </div>
+            <!-- /ITEM -->
+          </div>
+          <!-- /SHOWCASE -->
+        </section>
+        <!-- /WORK -->
+
+        <!-- CONTACT -->
+        <section id="contact">
+          <h3 class="headline scroll-animated-from-right">Contact Me.</h3>
+
+          <!-- CONTACT LIST -->
+          <ul class="contact-list">
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-mobile" aria-hidden="true"></i>@timlinux
+            </li>
+            <li class="scroll-animated-from-right">
+              <i class="fa fa-envelope-o" aria-hidden="true"></i>tim@kartoza.com
+            </li>
+          </ul>
+          <!-- /CONTACT LIST -->
+
+          <!-- CONTACT FORM -->
+          <form id="contact-form" action="assets/php/contact.php" method="post">
+            <input
+              id="contact-form-name"
+              type="text"
+              name="name"
+              class="form-control scroll-animated-from-right"
+              placeholder="* Your Name"
+            />
+
+            <input
+              id="contact-form-email"
+              type="text"
+              name="email"
+              class="form-control scroll-animated-from-right"
+              placeholder="* Your Email"
+            />
+
+            <!-- PHANTOM ELEMENT ( HONEYPOT CAPTCHA FOR SECURITY ) -->
+            <div class="fhp-input">
+              <input
+                id="contact-form-company"
+                type="text"
+                name="company"
+                class="form-control"
+              />
+            </div>
+            <!-- /PHANTOM ELEMENT ( HONEYPOT CAPTCHA FOR SECURITY ) -->
+
+            <textarea
+              id="contact-form-message"
+              name="message"
+              class="form-control scroll-animated-from-right"
+              placeholder="* Your Message"
+            ></textarea>
+
+            <button
+              type="submit"
+              class="form-control scroll-animated-from-right"
+            >
+              Send Mail
+            </button>
+
+            <div class="success-message">
+              * The Email was Sent Successfully!
+            </div>
+          </form>
+          <!-- /CONTACT FORM -->
+        </section>
+        <!-- /CONTACT -->
+
+        <!-- FOOTER -->
+        <section id="footer">
+          <!-- SOCIAL ICONS -->
+          <ul class="social-icons scroll-animated-from-right">
+            <li>
+              <a href="https://twitter.com/timlinux"
+                ><i class="fa fa-twitter" aria-hidden="true"></i
+              ></a>
+            </li>
+          </ul>
+          <!-- /SOCIAL ICONS -->
+
+          <p class="scroll-animated-from-right">
+            © 2017 Your Brand | Design by
+            <a href="https://templatefoundation.com">Template Foundation</a>
+          </p>
+        </section>
+        <!-- /FOOTER -->
+      </div>
+      <!-- /CONTENT AREA INNER -->
+    </div>
+    <!-- /CONTENT AREA -->
+
+    <!-- JAVASCRIPTS -->
+    <script type="text/javascript" src="assets/js/plugins.js"></script>
+    <script type="text/javascript" src="assets/js/main.js"></script>
+    <script type="text/javascript" src="main.js"></script>
   </body>
 </html>

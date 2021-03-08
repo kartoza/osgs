@@ -1,0 +1,1075 @@
+/******************************************************************
+
+
+	------------------------
+	-- TABLE OF CONTENTS --
+	------------------------
+	
+	--  01. Basic
+	--  02. Preloader
+    --  03. Image Container
+    --  04. Content Area
+    --  05. Content Area --> Intro
+    --  06. Content Area --> About
+    --  07. Content Area --> Service
+    --  08. Content Area --> Work
+    --  09. Content Area --> Contact
+    --  10. Content Area --> Footer
+ 
+ 
+ ******************************************************************/
+
+
+
+
+/** 1. Basic
+*******************************************************************/
+
+html
+{
+    font-size: 10px;
+}
+
+body
+{
+    font-family: 'Arapey', serif;
+    font-weight: 300;
+    font-style: normal;
+
+    color: #000;
+    background: #fff;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6
+{
+    font-family: 'Abril Fatface', cursive;
+    font-weight: normal;
+
+    letter-spacing: .05em;
+
+    color: #000;;
+}
+
+h1
+{
+    font-size: 4.4rem;
+}
+
+h2
+{
+    font-size: 3.9rem;
+}
+
+h3
+{
+    font-size: 3.4rem;
+}
+
+h4
+{
+    font-size: 2.9rem;
+}
+
+h5
+{
+    font-size: 2.4rem;
+}
+
+h6
+{
+    font-size: 1.9rem;
+}
+
+p
+{
+    font-size: 1.8rem;
+}
+
+a,
+a:hover,
+a:focus
+{
+    cursor: pointer;
+    -webkit-transition: all 300ms ease;
+         -o-transition: all 300ms ease;
+            transition: all 300ms ease;
+    text-decoration: none;
+}
+
+a:hover
+{
+    color: #111;
+}
+
+@media (max-width:600px)
+{
+    html
+    {
+        font-size: 8px;
+    }
+}
+
+@media (max-width:500px)
+{
+    html
+    {
+        font-size: 7px;
+    }
+}
+
+
+
+/** 2. Preloader
+*******************************************************************/
+
+.preloader
+{
+    position: fixed;
+    z-index: 100000;
+    bottom: 0;
+    left: 0;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    background: #fff;
+}
+
+.preloader.hide-preloader
+{
+    height: 0;
+    
+    -webkit-transition: .7s ease .3s;
+         -o-transition: .7s ease .3s;
+            transition: .7s ease .3s;
+}
+
+.preloader .spinner
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    display: block;
+
+    width: 50px;
+    height: 50px;
+    margin-top: -25px;
+    margin-left: -25px;
+
+    -webkit-animation: spinner-pulse .6s infinite ease-in-out;
+            animation: spinner-pulse .6s infinite ease-in-out;
+    text-align: center;
+
+    opacity: 1;
+    border-radius: 100%;
+    background-color: #111;
+}
+
+.preloader.hide-preloader .spinner
+{
+    opacity: 0;
+    
+    -webkit-transition: .3s ease;
+         -o-transition: .3s ease;
+            transition: .3s ease;
+}
+
+@-webkit-keyframes spinner-pulse
+{
+    0%
+    {
+        -webkit-transform: scale(0);
+    }
+    100%
+    {
+        -webkit-transform: scale(1.0);
+
+        opacity: 0;
+    }
+}
+
+@keyframes spinner-pulse
+{
+    0%
+    {
+        -webkit-transform: scale(0);
+                transform: scale(0);
+    }
+    100%
+    {
+        -webkit-transform: scale(1.0);
+                transform: scale(1.0);
+
+        opacity: 0;
+    }
+}
+
+
+
+/** 3. Image Container
+*******************************************************************/
+
+.image-container
+{
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+
+    width: 50%;
+    height: 100%;
+}
+
+.image-container .background-img
+{
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    -webkit-transition: opacity 1s ease;
+         -o-transition: opacity 1s ease;
+            transition: opacity 1s ease;
+
+    background: url(../img/background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@media (max-width:1200px)
+{
+    .image-container
+    {
+        position: relative;
+        z-index: 10;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100vh;
+    }
+}
+
+
+
+/** 4. Content Area
+*******************************************************************/
+
+.content-area
+{
+    position: relative;
+    left: 0;
+
+    width: 100%;
+}
+
+.content-area .content-area-inner
+{
+    position: relative;
+    left: 50%;
+    
+    width: 50%;
+    padding: 0 20px;
+    overflow-x: hidden;
+}
+
+.content-area .content-area-inner section
+{
+    max-width: 520px;
+    margin: 0 auto 18vh auto;
+}
+
+.content-area .content-area-inner section:last-child
+{
+    margin-bottom: 10vh;
+}
+
+.content-area .content-area-inner section h3.headline
+{
+    margin-bottom: 1.2em;
+}
+
+@media (max-width:1200px)
+{
+    .content-area .content-area-inner
+    {
+        left: 0;
+
+        width: 100%;
+        padding: 0 20px;
+    }
+}
+
+
+
+/** 5. Content Area --> Intro
+*******************************************************************/
+
+
+#intro
+{
+    position: relative;
+
+    height: 100vh;
+    margin-bottom: 0;
+}
+
+#intro .container-mid
+{
+    position: absolute;
+    top: 50%;
+
+    width: 100%;
+
+    -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+}
+
+#intro .container-mid p.subline
+{
+    font-size: 2.2rem;
+    line-height: 1.6em;
+
+    margin-top: 2em;
+    margin-bottom: 2.2em;
+}
+
+#intro .container-mid a
+{
+    font-size: 2.4rem;
+    line-height: 2.92em;
+
+    position: relative;
+
+    display: inline-block;
+    overflow: hidden;
+
+    padding: 0 2.6em;
+
+    -webkit-transition: .2s ease;
+         -o-transition: .2s ease;
+            transition: .2s ease;
+
+    color: #fff;
+    border-radius: 100px;
+    background: none;
+}
+
+#intro .container-mid a:before
+{
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    content: '';
+
+    border-radius: 100px;
+    background: #111;
+}
+
+#intro .container-mid a:after
+{
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+
+    width: 0;
+    height: 100%;
+
+    content: '';
+    -webkit-transition: .2s ease;
+         -o-transition: .2s ease;
+            transition: .2s ease;
+
+    background: #008aff;
+}
+
+#intro .container-mid a:hover:after
+{
+    width: 100%;
+}
+
+#intro .container-mid a i
+{
+    font-size: .85em;
+
+    margin-left: .7em;
+}
+
+#intro .animation-container
+{
+    -webkit-transition: .5s ease;
+         -o-transition: .5s ease;
+            transition: .5s ease;
+}
+
+#intro .animation-container.animation-fade
+{
+    opacity: 0;
+}
+
+#intro .animation-container.animation-fade.run-animation
+{
+    opacity: 1;
+}
+
+#intro .animation-container.animation-fade-up
+{
+    -webkit-transform: translateY(10vh);
+        -ms-transform: translateY(10vh);
+            transform: translateY(10vh);
+
+    opacity: 0;
+}
+
+#intro .animation-container.animation-fade-up.run-animation
+{
+    -webkit-transform: translateY(0);
+        -ms-transform: translateY(0);
+            transform: translateY(0);
+
+    opacity: 1;
+}
+
+#intro .animation-container.animation-fade-down
+{
+    -webkit-transform: translateY(-10vh);
+        -ms-transform: translateY(-10vh);
+            transform: translateY(-10vh);
+
+    opacity: 0;
+}
+
+#intro .animation-container.animation-fade-down.run-animation
+{
+    -webkit-transform: translateY(0);
+        -ms-transform: translateY(0);
+            transform: translateY(0);
+
+    opacity: 1;
+}
+
+#intro .animation-container.animation-fade-left
+{
+    -webkit-transform: translateX(10vh);
+        -ms-transform: translateX(10vh);
+            transform: translateX(10vh);
+
+    opacity: 0;
+}
+
+#intro .animation-container.animation-fade-left.run-animation
+{
+    -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+            transform: translateX(0);
+
+    opacity: 1;
+}
+
+#intro .animation-container.animation-fade-right
+{
+    -webkit-transform: translateX(-10vh);
+        -ms-transform: translateX(-10vh);
+            transform: translateX(-10vh);
+
+    opacity: 0;
+}
+
+#intro .animation-container.animation-fade-right.run-animation
+{
+    -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+            transform: translateX(0);
+
+    opacity: 1;
+}
+
+@media (max-width:1200px)
+{
+    #intro
+    {
+        height: auto;
+    }
+
+    #intro .container-mid
+    {
+        position: relative;
+        top: 0;
+
+        margin: 15vh 0;
+
+        -webkit-transform: translate(0);
+            -ms-transform: translate(0);
+                transform: translate(0);
+    }
+}
+
+
+
+/** 6. Content Area --> About
+*******************************************************************/
+
+#about p
+{
+    line-height: 1.5em;
+
+    margin-bottom: 2em;
+}
+
+#about p:last-child
+{
+    margin-bottom: 0;
+}
+
+
+
+/** 7. Content Area --> Service
+*******************************************************************/
+
+#service .services-list
+{
+    margin-bottom: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+#service .services-list li
+{
+    font-size: 2.4rem;
+    line-height: 3.4em;
+}
+
+#service .services-list li i
+{
+    font-size: 2rem;
+    line-height: 3em;
+
+    width: 3em;
+    height: 3em;
+    margin-right: 1.5em;
+
+    text-align: center;
+
+    color: #fff;
+    border-radius: 100px;
+    background: #111;
+}
+
+
+
+/** 8. Content Area --> Work
+*******************************************************************/
+
+#work .showcase .item
+{
+    position: relative;
+
+    overflow: hidden;
+
+    width: 100%;
+    height: 24rem;
+    margin: 0;
+    margin-bottom: 6vh;
+
+    cursor: pointer;
+
+    border-radius: 3rem;
+    background: #111;
+}
+
+#work .showcase .item:last-child
+{
+    margin-bottom: 0;
+}
+
+#work .showcase .item .info
+{
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    left: 0;
+
+    width: 0;
+    height: 100%;
+
+    -webkit-transition: .25s ease;
+         -o-transition: .25s ease;
+            transition: .25s ease;
+
+    color: #fff;
+    background: #008aff;
+}
+
+#work .showcase .item:hover .info
+{
+    width: 100%;
+}
+
+#work .showcase .item .info .container-mid
+{
+    position: absolute;
+    top: 50%;
+    left: 0;
+
+    width: 100%;
+    padding: 0 6rem;
+
+    -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+}
+
+#work .showcase .item .info .container-mid h5
+{
+    -webkit-transform: translateX(4vh);
+        -ms-transform: translateX(4vh);
+            transform: translateX(4vh);
+
+    opacity: 0;
+    color: #fff;
+}
+
+#work .showcase .item:hover .info .container-mid h5
+{
+    -webkit-transition: .2s ease .2s;
+         -o-transition: .2s ease .2s;
+            transition: .2s ease .2s;
+    -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+            transform: translateX(0);
+
+    opacity: 1;
+}
+
+#work .showcase .item .info .container-mid p
+{
+    position: relative;
+
+    padding-left: 2.7rem;
+
+    -webkit-transform: translateX(4vh);
+        -ms-transform: translateX(4vh);
+            transform: translateX(4vh);
+    letter-spacing: .025em;
+
+    opacity: 0;
+}
+
+#work .showcase .item:hover .info .container-mid p
+{
+    -webkit-transition: .2s ease .3s;
+         -o-transition: .2s ease .3s;
+            transition: .2s ease .3s;
+    -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+            transform: translateX(0);
+
+    opacity: 1;
+}
+
+#work .showcase .item .info .container-mid p:before
+{
+    position: absolute;
+    top: 50%;
+    left: 0;
+
+    width: 1.1em;
+    height: 1px;
+
+    content: '';
+    -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+
+    background: #fff;
+}
+
+#work .showcase .item .background-image
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.featherlight .featherlight-content
+{
+    max-height: 95%;
+    padding: 0;
+
+    border-bottom: 0;
+}
+
+.featherlight .featherlight-content  .featherlight-close-icon
+{
+    font-size: 2.4rem;
+    line-height: 1em;
+
+    top: .5em;
+    right: .5em;
+
+    width: 1em;
+
+    outline: none !important;
+}
+
+.featherlight .featherlight-content .work-lightbox
+{
+    max-width: 1000px;
+    padding: 6vh;
+
+    text-align: center;
+}
+
+.featherlight .featherlight-content .work-lightbox img
+{
+    margin: 0 auto 4vh auto;
+}
+
+.featherlight .featherlight-content .work-lightbox p.subline
+{
+    margin-bottom: 1em;
+
+    letter-spacing: .025em;
+}
+
+.featherlight .featherlight-content .work-lightbox p
+{
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+
+
+/** 9. Content Area --> Contact
+*******************************************************************/
+
+#contact .contact-list
+{
+    margin-bottom: 3.4em;
+    padding: 0;
+
+    list-style: none;
+}
+
+#contact .contact-list li
+{
+    font-size: 2.4rem;
+    line-height: 2.4em;
+}
+
+#contact .contact-list li i
+{
+    line-height: 1.2em;
+
+    width: 1.2em;
+    height: 1.2em;
+    margin-right: 1em;
+
+    text-align: center;
+
+    border-radius: 100px;
+}
+
+#contact #contact-form
+{
+    position: relative;
+}
+
+#contact #contact-form .fhp-input
+{
+    display: none;
+
+    pointer-events: none;
+
+    opacity: 0;
+}
+
+#contact #contact-form input,
+#contact #contact-form textarea,
+#contact #contact-form button
+{
+    font-size: 2rem;
+
+    margin-bottom: 3.4vh;
+
+    -webkit-transition: .4s ease;
+         -o-transition: .4s ease;
+            transition: .4s ease;
+
+    color: #fff;
+    border: none !important;
+    border-radius: 34px;
+    outline: none !important;
+    background: #111;
+    -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+}
+
+#contact #contact-form.success input,
+#contact #contact-form.success textarea,
+#contact #contact-form.success button
+{
+    line-height: 0;
+
+    height: 0;
+    margin: 0;
+    padding: 0;
+
+    opacity: 0;
+}
+
+#contact #contact-form input::-webkit-input-placeholder,
+#contact #contact-form textarea::-webkit-input-placeholder
+{
+    color: #fff;
+}
+
+#contact #contact-form input:-ms-input-placeholder,
+#contact #contact-form textarea:-ms-input-placeholder
+{
+    color: #fff;
+}
+
+#contact #contact-form input::placeholder,
+#contact #contact-form textarea::placeholder
+{
+    color: #fff;
+}
+
+#contact #contact-form input.error,
+#contact #contact-form textarea.error
+{
+    background: red;
+}
+
+#contact #contact-form input
+{
+    line-height: 3.2em;
+
+    height: 3.2em;
+    padding-right: 1.6em;
+    padding-left: 1.6em;
+}
+
+#contact #contact-form textarea
+{
+    line-height: 1.7em;
+
+    height: 8em;
+    padding-top: .7em;
+    padding-right: 1.6em;
+    padding-left: 1.6em;
+}
+
+#contact #contact-form button
+{
+    line-height: 3.2em;
+
+    position: relative;
+
+    display: inline-block;
+    overflow: hidden;
+
+    width: auto;
+    height: 3.2em;
+    margin-bottom: 0;
+    padding: 0 3.6em;
+
+    background: none !important;
+}
+
+#contact #contact-form button:before
+{
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    content: '';
+
+    border-radius: 100px;
+    background: #111;
+}
+
+#contact #contact-form button:after
+{
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+
+    width: 0;
+    height: 100%;
+
+    content: '';
+    -webkit-transition: .2s ease;
+         -o-transition: .2s ease;
+            transition: .2s ease;
+
+    background: #008aff;
+}
+
+#contact #contact-form button:hover:after
+{
+    width: 100%;
+}
+
+#contact #contact-form .success-message
+{
+    font-size: 2rem;
+    line-height: 0;
+
+    position: relative;
+    bottom: 0;
+    left: 0;
+
+    height: 0;
+    margin-top: -1.6em;
+    padding: 0 2em;
+
+    -webkit-transition: .2s ease;
+         -o-transition: .2s ease;
+            transition: .2s ease;
+    pointer-events: none;
+
+    opacity: 0;
+    color: #fff;
+    border-radius: 3em;
+    background: limegreen;
+}
+
+#contact #contact-form.success .success-message
+{
+    line-height: 6em;
+
+    height: 6em;
+
+    pointer-events: all;
+
+    opacity: 1;
+}
+
+
+
+/** 10. Content Area --> Footer
+*******************************************************************/
+
+#footer .social-icons
+{
+    padding: 0;
+
+    list-style: none;
+}
+
+#footer .social-icons li
+{
+    font-size: 2rem;
+    line-height: 3em;
+
+    position: relative;
+
+    display: inline-block;
+    overflow: hidden;
+
+    width: 3em;
+    height: 3em;
+    margin: 0;
+    margin-right: 1em;
+
+    text-align: center;
+
+    color: #fff;
+    border-radius: 100%;
+    background: none;
+}
+
+#footer .social-icons li:before
+{
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    content: '';
+
+    border-radius: 100px;
+    background: #111;
+}
+
+#footer .social-icons li:after
+{
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+
+    width: 0;
+    height: 100%;
+
+    content: '';
+    -webkit-transition: .2s ease;
+         -o-transition: .2s ease;
+            transition: .2s ease;
+
+    background: #008aff;
+}
+
+#footer .social-icons li:hover:after
+{
+    width: 100%;
+}
+
+#footer .social-icons li a
+{
+    font-size: inherit;
+
+    display: block;
+
+    color: #fff;
+    border: none;
+}
+
+#footer p
+{
+    margin-top: 1.6em;
+}
+
+#footer p a
+{
+    color: #000;
+    border-bottom: 1px solid #111;
+}
