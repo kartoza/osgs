@@ -1,4 +1,4 @@
-window.onload = init()
+window.onload = init();
 
 function init() {
     var map = new ol.Map({
@@ -12,6 +12,6 @@ function init() {
                 source: new ol.source.OSM(),
             })
         ],
-        target: 'map',
+        target: 'ol-map',
     });
 };
