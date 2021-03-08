@@ -13,11 +13,7 @@ This project provides a platform for creating, sharing and publishing data and m
    6. [PostgreSQL](https://postgresql.org) and [PostGIS](https://postgis.net/) running in Docker and providing a database backend for our stack.
    7. [NGINX](https://www.nginx.com/) a lightweight web server acting as a proxy in front of QGIS server and as a server for the static HTML content.
    8. [QGIS Server](https://docs.qgis.org/3.16/en/docs/) to serve QGIS projects from the database and from the file system.
-   
-
-
-https://github.com/gem/oq-qgis-server
-
+   9. [QGIS Server Docker Image](https://github.com/gem/oq-qgis-server) from OpenQuake.
 
 ## Overview Diagram
 
@@ -27,7 +23,7 @@ https://github.com/gem/oq-qgis-server
 
 ![Workflow Diagram](diagrams/QGIS-Server-PG-Project-Workflow.png)
 
-# Getting started
+## Getting started
 
 ## Define your domain name
 
@@ -51,9 +47,9 @@ which you need to change to your own email address in ``init-letsencrypt.sh``.
 
 Make sure the steps above have been carried out then run the init script.
 
-```
+``
 ./init-letsencrypt.sh
-```
+``
 
 After successfully running it will terminate wiith a message like this:
 
@@ -90,17 +86,17 @@ IMPORTANT NOTES:
 If you have any issues checking out the certificate etc. then 
 check the nginx logs:
 
-```
+``
 docker-compose logs -f nginx
-```
+``
 
 ## Check Services
 
 After the above steps, a subset of the services will be running. 
 
-```
+``
 docker-compose ps
-```
+``
 
 Which should show something like this:
 
@@ -130,13 +126,13 @@ configuration. In the next subsection we will set up the OSM mirror clip region:
 
 
 
-# Essential Reading
+## Essential Reading
 
-## QGIS Server
+### QGIS Server
 
 You should read the [QGIS Server documentation](https://docs.qgis.org/3.16/en/docs/server_manual/getting_started.html#) on QGIS.org. It is well written and covers a lot of background explanation which is not provided here. Also you should familiarise yourself with the [Environment Variables](https://docs.qgis.org/3.16/en/docs/server_manual/config.html#environment-variables).
 
-## PostgREST
+### PostgREST
 
 Take special note of the fact that the passing of environment variables to the docker container is 
 desribed [here](chttps://postgrest.org/en/v7.0.0/install.html#docker). Especially this line:
@@ -149,7 +145,7 @@ This latter environment variable is important by the way to present a public url
 
 I based some of my Nginx configuration on the excellent example [by Johnny Lambada](https://github.com/johnnylambada/docker-postgrest-swagger-sample).
 
-# Loading Raster Layers
+## Loading Raster Layers
 
 Here is how I loaded raster data into the database:
 
@@ -186,12 +182,9 @@ raster2pgsql -s 32629 -t 256x256 -l 2,4 -d -P -F -I dsm.tif raster.dsm | psql -h
 cd -
 ```
 
-# Authentication Management
-
+## Authentication Management
 
 [Some discussion](http://osgeo-org.1560.x6.nabble.com/QGIS-Server-qgis-auth-db-td5408912.html)
 suggest to set authdb configuration parameters in Apache/Nginx but I found it
 would only work if I set these in the environment of the QGIS Server docker
 container.
-
-
