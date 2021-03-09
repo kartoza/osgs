@@ -8,5 +8,6 @@ osm_conf/importer.lock
 osm_conf/timestamp.txt
 geoserver_data/
 mapproxy_conf/cache_data
+*.swp
 
 .DS_Store

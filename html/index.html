@@ -2,106 +2,126 @@
 
 <html lang="en">
 
-  <head>
+<head>
     <!-- META -->
     <meta charset="utf-8" />
     <meta name="robots" content="noodp" />
 
+    <!-- Beauter CSS framework -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
+    <link rel="stylesheet" type="text/css" href="https://rawgit.com/outboxcraft/beauter/master/beauter.min.css" />
     <!-- PAGE TITLE -->
-    <title>Smallholding with Open Source GIS</title>
+    <title>Smallholding with Open Source GIS fjfjdhjfhd</title>
 
     <!-- FAVICON -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/favicon/site.webmanifest">
-    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
 
     <!-- openlayers css-->
-    <link rel="stylesheet" href="/styles/ol.css" type="text/css">
+    <link rel="stylesheet" href="/styles/ol.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/layerswitcher.css" type="text/css" />
 
     <style>
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-      }
-
-      #ol-map {
-        width: 1000px;
-        height: 1000px;
-      }
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+        
+        #ol-map {
+            width: 50%;
+            height: 100%;
+            position: fixed;
+        }
     </style>
-  </head>
+</head>
 
-  <body>
-    <div>
-      <div id="ol-map" class="map"></div>
+<body>
+    <ul class="topnav -fixed" id="menu">
+        <li><a href="#beauter" class="brand">Smallholding</a></li>
+        <li><a href="#" class="active">Map</a></li>
+        <li class="dropdown">
+            <a href="#">Links</a>
+            <div class="dropdown-content">
+                <a href="pg-map-mapproxy.html">QGIS map in PostGIS</a>
+                <a href="/api/">Postgrest API</a>
+                <a href="/swagger/">Swagger API Browser</a>
+                <a href="file-based-map.html">File Based Project File</a>
+                <a href="/geoserver/">GeoServer</a>
+                <a href="/mapproxy/demo/">Mapproxy</a>
+                <a href="http://castelo.kartoza.com:8000">Open Drone Map</a>
+            </div>
+        </li>
+        <li style="float: right"><a href="#">About</a></li>
+        <li class="-icon">
+            <a href="javascript:void(0);" onclick="topnav('myTopnav2')">☰</a>
+        </li>
+    </ul>
+
+    <div class="row" style="padding-top: 3em;">
+        <div class="col m6">
+            <div>
+                <div id="ol-map" class="map"></div>
+            </div>
+        </div>
+        <div class="col m1"></div>
+        <div class="col m4">
+            <div>
+                <section id="intro">
+                    <h1>Smallholding with Open Source GIS</h1>
+                    <p class="subline">
+                        Welcome to the smallholding with FOSS platform. You can explore the map on the left, clicking on features to discover more about them. Below you will find a list of reports that will be dynamically generated from the data associated with the map.
+                    </p>
+                </section>
+                <section id="layers">
+                    <div>
+                        Current mouse location: <span id="mouse-position"></span>
+                    </div>
+                </section>
+                <section id="about">
+                    <h3>About this platform.</h3>
+
+                    <p>
+                        This platform is a composition of Open Source GIS components which have been integrated to provide a platform useful for owners or managers of small farms.
+                    </p>
+
+                    <p>
+                        You can find all of the source code, installation notes and detailed descriptions of the platform can be found on the
+                        <a href="https://github.com/kartoza/MarceiraMerginSyncProject">
+                GitHub page</a
+              >
+              for this platform.
+            </p>
+          </section>
+          <section id="reports">
+            <h3>Standard Reports.</h3>
+            <ul>
+              <li>Camps</li>
+              <li>Structures</li>
+              <li>Plants</li>
+              <li>Farm Map</li>
+              <li>3D View</li>
+            </ul>
+          </section>
+          <section id="contact">
+            <h3>Contact Me.</h3>
+            <ul class="contact-list">
+              <li>@timlinux</li>
+              <li>tim@kartoza.com</li>
+            </ul>
+          </section>
+        </div>
+      </div>
     </div>
-    <div>
-      <section id="intro">
-        <h1>Smallholding with Open Source GIS</h1>
-        <p class="subline">
-          Welcome to the smallholding with FOSS platform. You can explore
-          the map on the left, clicking on features to discover more about
-          them. Below you will find a list of reports that will be
-          dynamically generated from the data associated with the map.
-        </p>
-      </section>
-      <section id="about">
-        <h3>
-          About this platform.
-        </h3>
-
-        <p>
-          This platform is a composition of Open Source GIS components which
-          have been integrated to provide a platform useful for owners or
-          managers of small farms.
-        </p>
-
-        <p>
-          You can find all of the source code, installation notes and detailed
-          descriptions of the platform can be found on the
-          <a href="https://github.com/kartoza/MarceiraMerginSyncProject">
-            GitHub page</a>
-          for this platform.
-        </p>
-      </section>
-      <section id="services">
-        <h3>Deployed Services.</h3>
-        <ul>
-          <li><a href="pg-map-mapproxy.html">QGIS map in PostGIS</a></li>
-          <li><a href="/api/">Postgrest API</a></li>
-          <li><a href="/swagger/">Swagger API Browser</a></li>
-          <li><a href="file-based-map.html">File Based Project File</a></li>
-          <li><a href="/geoserver/">GeoServer</a></li>
-          <li><a href="/mapproxy/demo/">Mapproxy</a></li>
-          <li><a href="http://castelo.kartoza.com:8000">Open Drone Map</a></li>
-        </ul>
-      </section>
-      <section id="reports">
-        <h3>Standard Reports.</h3>
-        <ul>
-          <li>Camps</li>
-          <li>Structures</li>
-          <li>Plants</li>
-          <li>Farm Map</li>
-          <li>3D View</li>
-        </ul>
-      </section>
-      <section id="contact">
-        <h3>Contact Me.</h3>
-        <ul class="contact-list">
-          <li>@timlinux</li>
-          <li>tim@kartoza.com</li>
-        </ul>
-      </section>
-    </div>
+    <script src="https://rawgit.com/outboxcraft/beauter/master/beauter.min.js"></script>
     <script src="/libs/ol.js"></script>
+    <script src="/libs/layerswitcher.js"></script>
     <script type="text/javascript" src="./main.js"></script>
   </body>
 </html>

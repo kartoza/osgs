@@ -175,10 +175,10 @@ Flags used:
 ```
 echo "create schema raster;" | psql -h localhost -p 15432 -U docker gis
 cd /home/timlinux/gisdata/Maceira/orthophoto
-raster2pgsql -s 32629 -t 256x256 -l 2,4 -P -F -I odm_orthophoto.tif raster.orthophoto | psql -h localhost -p 15432 -U docker gis
+raster2pgsql -s 32629 -t 256x256 -C -l 4,8,16,32,64,128,256,512 -P -F -I odm_orthophoto.tif raster.orthophoto | psql -h localhost -p 15432 -U docker gis
 cd /home/timlinux/gisdata/Maceira/elevation
-raster2pgsql -s 32629 -t 256x256 -l 2,4 -d -P -F -I dtm.tif raster.dtm | psql -h localhost -p 15432 -U docker gis
-raster2pgsql -s 32629 -t 256x256 -l 2,4 -d -P -F -I dsm.tif raster.dsm | psql -h localhost -p 15432 -U docker gis
+raster2pgsql -s 32629 -t 256x256 -C -l 4,8,16,32,64,128,256,512 -d -P -F -I dtm.tif raster.dtm | psql -h localhost -p 15432 -U docker gis
+raster2pgsql -s 32629 -t 256x256 -C -l 4,8,16,32,64,128,256,512 -d -P -F -I dsm.tif raster.dsm | psql -h localhost -p 15432 -U docker gis
 cd -
 ```
 
