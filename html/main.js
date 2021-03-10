@@ -1,13 +1,5 @@
 window.onload = init();
 
-function display(id, value) {
-    document.getElementById(id).value = value.toFixed(2);
-}
-
-function wrapLon(value) {
-    var worlds = Math.floor((value + 180) / 360); return value - worlds * 360;
-}
-
 function onMoveEnd(evt) {
     var map = evt.map;
     var extent = map.getView().calculateExtent(map.getSize());
@@ -32,14 +24,15 @@ function init() {
         controls: ol.control.defaults().extend([
             mousePositionControl,
             new ol.control.ZoomToExtent({
-                extent: [ -822268.483000652, 4780883.439473242, -821994.440735224, 4781022.184142217 ],
+                extent: [  -822351,4780704,-821943,4781120  ],
             })
         ]),
-        extent: [ -822268.483000652, 4780883.439473242, -821994.440735224, 4781022.184142217 ],
+        extent: [  -822351,4780704,-821943,4781120  ],
         constrainOnlyCenter: true,
         view: new ol.View({
-            center: [-822268.483000652, 4780883.439473242],
-            zoom: 15,
+            center: [ -822123,4780956 ],
+            zoom: 19,
+            maxZoom: 25,
         }),
         layers: [
             new ol.layer.Tile({
@@ -138,5 +131,6 @@ function init() {
         tipLabel: 'Legend', // Optional label for button
         groupSelectStyle: 'children' // Can be 'children' [default], 'group' or 'none'
     });
+    map.addControl(layerSwitcher);
     map.on('moveend', onMoveEnd);
 };

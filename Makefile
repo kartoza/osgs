@@ -38,6 +38,38 @@ db-shell:
 	@echo "------------------------------------------------------------------"
 	@docker-compose exec -u postgres db psql gis
 
+db-qgis-project-backup:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Backing up QGIS project stored in db"
+	@echo "------------------------------------------------------------------"
+	@docker-compose exec -u postgres db pg_dump -f /tmp/QGISProject.sql -t qgis_projects gis
+	@docker cp maceiramergindbsync_db_1:/tmp/QGISProject.sql .
+	@docker-compose exec -u postgres db rm /tmp/QGISProject.sql
+	@ls -lah QGISProject.sql
+
+db-qgis-project-restore:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restoring QGIS project to db"
+	@echo "------------------------------------------------------------------"
+	@docker cp QGISProject.sql maceiramergindbsync_db_1:/tmp/ 
+	# - at start of next line means error will be ignored (in case QGIS project table isnt already there)
+	-@docker-compose exec -u postgres db psql -c "drop table qgis_projects;" gis 
+	@docker-compose exec -u postgres db psql -f /tmp/QGISProject.sql -d gis
+	@docker-compose exec db rm /tmp/QGISProject.sql
+	@docker-compose exec -u postgres db psql -c "select name from qgis_projects;" gis 
+
+db-backup:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Backing up entire postgres db"
+	@echo "------------------------------------------------------------------"
+	@docker-compose exec -u postgres db pg_dump -Fc -f /tmp/smallholding-database.dmp gis
+	@docker cp maceiramergindbsync_db_1:/tmp/smallholding-database.dmp .
+	@docker-compose exec -u postgres db rm /tmp/smallholding-database.dmp
+	@ls -lah smallholding-database.dmp
+
 reinitialise-mapproxy:
 	@echo
 	@echo "------------------------------------------------------------------"
