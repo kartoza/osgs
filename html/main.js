@@ -90,6 +90,20 @@ function init() {
                 })
 
             }),
+            new ol.layer.Tile({
+                title: "Smallholding - no caching",
+                visible: false,
+                extent: [-822553.0, 4780579.4, -821704.8, 4781316.7],
+                source: new ol.source.TileWMS({
+                    url: "https://castelo.kartoza.com/map/",
+                    transition: 1,
+                    params: {
+                        'LAYERS': "Smallholding",
+                        'TILED': true
+                    },
+                })
+
+            }),
 
         ],
         target: 'ol-map',

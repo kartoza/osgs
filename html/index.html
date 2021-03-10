@@ -43,27 +43,6 @@
 </head>
 
 <body>
-    <ul class="topnav -fixed" id="menu">
-        <li><a href="#beauter" class="brand">Smallholding</a></li>
-        <li><a href="#" class="active">Map</a></li>
-        <li class="dropdown">
-            <a href="#">Links</a>
-            <div class="dropdown-content">
-                <a href="pg-map-mapproxy.html">QGIS map in PostGIS</a>
-                <a href="/api/">Postgrest API</a>
-                <a href="/swagger/">Swagger API Browser</a>
-                <a href="file-based-map.html">File Based Project File</a>
-                <a href="/geoserver/">GeoServer</a>
-                <a href="/mapproxy/demo/">Mapproxy</a>
-                <a href="http://castelo.kartoza.com:8000">Open Drone Map</a>
-            </div>
-        </li>
-        <li style="float: right"><a href="#">About</a></li>
-        <li class="-icon">
-            <a href="javascript:void(0);" onclick="topnav('myTopnav2')">☰</a>
-        </li>
-    </ul>
-
     <div class="row" style="padding-top: 3em;">
         <div class="col m6">
             <div>
@@ -72,28 +51,34 @@
         </div>
         <div class="col m1"></div>
         <div class="col m4">
-            <div>
-                <section id="intro">
-                    <h1>Smallholding with Open Source GIS</h1>
-                    <p class="subline">
-                        Welcome to the smallholding with FOSS platform. You can explore the map on the left, clicking on features to discover more about them. Below you will find a list of reports that will be dynamically generated from the data associated with the map.
-                    </p>
-                </section>
-                <section id="layers">
-                    <div>
-                        Current mouse location: <span id="mouse-position"></span>
-                    </div>
-                </section>
-                <section id="about">
-                    <h3>About this platform.</h3>
-
-                    <p>
-                        This platform is a composition of Open Source GIS components which have been integrated to provide a platform useful for owners or managers of small farms.
-                    </p>
-
-                    <p>
-                        You can find all of the source code, installation notes and detailed descriptions of the platform can be found on the
-                        <a href="https://github.com/kartoza/MarceiraMerginSyncProject">
+            <section id="intro">
+                <h1>Smallholding with Open Source GIS</h1>
+                <p class="subline">
+                    Welcome to the smallholding with FOSS platform. You can explore the map on the left, clicking on features to discover more about them. Below you will find a list of reports that will be dynamically generated from the data associated with the map.
+                </p>
+            </section>
+            <section id="layers">
+                <div>
+                    Current mouse location: <span id="mouse-position"></span>
+                </div>
+            </section>
+            <section id="about">
+                <h3>About this platform.</h3>
+                <p>
+                    This platform is a composition of Open Source GIS components which have been integrated to provide a platform useful for owners or managers of small farms. Here is a list of services deployed on this platform.
+                </p>
+                <ul>
+                    <li><a href="pg-map-mapproxy.html">QGIS map in PostGIS</a></li>
+                    <li><a href="/api/">Postgrest API</a></li>
+                    <li><a href="/swagger/">Swagger API Browser</a></li>
+                    <li><a href="file-based-map.html">File Based Project File</a></li>
+                    <li><a href="/geoserver/">GeoServer</a></li>
+                    <li><a href="/mapproxy/demo/">Mapproxy</a></li>
+                    <li><a href="http://castelo.kartoza.com:8000">Open Drone Map</a></li>
+                </ul>
+                <p>
+                    You can find all of the source code, installation notes and detailed descriptions of the platform can be found on the
+                    <a href="https://github.com/kartoza/MarceiraMerginSyncProject">
                 GitHub page</a
               >
               for this platform.
