@@ -188,3 +188,14 @@ cd -
 suggest to set authdb configuration parameters in Apache/Nginx but I found it
 would only work if I set these in the environment of the QGIS Server docker
 container.
+
+
+## Other Notes
+
+### Fonts
+
+Fonts used in this project are from Google Fonts, checked out using:
+
+```
+git clone git@github.com:google/fonts.git
+```

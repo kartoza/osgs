@@ -1,0 +1,24 @@
+[general]
+name=GetFeatureInfoTidy
+qgisMinimumVersion=3
+description=This is a plugin to tidy up the results of getFeatureInfo requests
+version=version 1.0
+author=Tim Sutton (Kartoza)
+email=tim@kartoza.com
+; if True it's a server plugin
+server=True
+
+changelog=
+
+
+tags=gfi, getFeatureInfo
+
+tracker=https://github.com/kartoza/MarceiraMerginSyncProject/
+homepage=https://github.com/kartoza/MarceiraMerginSyncProject/
+repository=https://github.com/kartoza/MarceiraMerginSyncProject/
+
+category=server
+
+experimental=True
+
+about=A plugin to clean up GetFeatureInfo requests.

@@ -265,9 +265,9 @@ services:
      # qgis_plugins
      # |
      # |-- <plugin_name>
-     # |-- <plugin_code>.py
-     # |-- metadata.txt
-     # |-- __init__.py
+     #   |-- <plugin_code>.py
+     #   |-- metadata.txt
+     #   |-- __init__.py
      - ./qgis_plugins:/io/plugins
      # Custom fonts are loaded into /usr/share/fonts. fc-cache is run when container is started.
      - ./fonts:/usr/share/fonts
