@@ -91,7 +91,7 @@ reinitialise-qgis-server:
 	@docker-compose rm qgis-server
 	@docker-compose up -d qgis-server
 	@docker-compose restart nginx
-	@docker-compose logs -f qgis-server nginx
+	@docker-compose logs -f qgis-server 
 
 
 reinitialise-osm:

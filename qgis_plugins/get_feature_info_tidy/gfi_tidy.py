@@ -4,6 +4,7 @@ __copyright__ = '(C) 2021, Tim Sutton, Kartoza'
 
 import sys
 import os
+import re
 
 from qgis.server import *
 from qgis.core import *
@@ -17,6 +18,8 @@ class GetFeatureInfoTidy:
     - remove tables for layers with no data
     - use the beauter (https://beauter.io/docs/) CSS framework to lay out the data in a grid
     
+    Note that you may find it more efficient to parse / use the application/json gfi response data
+    from QGIS Server and simply parse the result in javascript.
     """
     QgsMessageLog.logMessage("GetFeatureInfoTidy plugin loaded yay!", 'plugin', Qgis.Info) 
     def __init__(self, serverIface):
@@ -42,6 +45,46 @@ class GetFeatureInfoFilter(QgsServerFilter):
                 and params.get('INFO_FORMAT', '').upper() == 'TEXT/HTML' \
                 and not handler.exceptionRaised() ):
             body = handler.body()
-            body.replace(b'<BODY>', b"""<BODY><STYLE type="text/css">* {font-family: arial, sans-serif; color: #09095e;} table { border-collapse:collapse; } td, tr { border: solid 1px grey; }</STYLE>""")
+            body.replace(b"""<HEAD>""", b"""""")
+            body.replace(b"""<TITLE> GetFeatureInfo results </TITLE>""", b"""""")
+            body.replace(b"""<META http-equiv="Content-Type" content="text/html;charset=utf-8"/>""", b"""""")
+            body.replace(b"""</HEAD>""", b"""""")
+            body.replace(b"""<BODY>""", b"""""")
+            body.replace(b'</BR>', b"""""")
+            body.replace(b'<BR>', b"""""")
+            body.replace(b'<TR><TH>', b"""<div class="col m6">""")
+            body.replace(b'</TD></TR>', b"""</div>""")
+            body.replace(b'<TABLE border=1 width=100%>', b"""""")
+            body.replace(b'</TABLE>', b"""""")
+            body.replace(b'<TR><TH width=25%>', b"""<div class="col m6">""")
+            body.replace(b'</TH>', b"""</div>""")
+            body.replace(b'<TD>', b"""<div class="col m6">""")
+            body.replace(b'</TD></TR>', b"""</div>""")
+            body.replace(b"""</BODY>""", b"""""")
+            body.replace(b'\n\n', b'\n')
+            # Once more to remove double blank lines
+            body.replace(b'\n\n', b'\n')
+            # Strip away empty tables too. After the above replacements,
+            # they will typically have a single line with the first cell containing the word 'Layer' e.g.
+            # <div class="col m6 _nightblue">Layer</div><div class="col m6">Roofs</div>
+            layers = []
+            content = str(body, 'utf-8')
+            # Uncomment for debugging only
+            #QgsMessageLog.logMessage("Body as string:", 'plugin', Qgis.Info) 
+            #QgsMessageLog.logMessage(content, 'plugin', Qgis.Info) 
+            cleaned_content = ""
+            last_line_is_layer = False
+            last_line = ""
+            for line in content.splitlines():
+                if "Layer</div>" in line and "Layer</div>" in last_line:
+                    #forget the last line, it is an empty table
+                    pass
+                else:
+                    cleaned_content += last_line + '\n'
+                last_line = line
+            # Uncomment for debugging only
+            #QgsMessageLog.logMessage("Cleaned content as string:", 'plugin', Qgis.Info) 
+            #QgsMessageLog.logMessage(cleaned_content, 'plugin', Qgis.Info) 
+
             handler.clearBody()
-            handler.appendBody(body)
+            handler.appendBody(cleaned_content.encode('utf-8'))
