@@ -52,18 +52,22 @@ class GetFeatureInfoFilter(QgsServerFilter):
             body.replace(b"""<BODY>""", b"""""")
             body.replace(b'</BR>', b"""""")
             body.replace(b'<BR>', b"""""")
-            body.replace(b'<TR><TH>', b"""<div class="col m6">""")
-            body.replace(b'</TD></TR>', b"""</div>""")
+            body.replace(b'<TR><TH>', b"""<tr><th>""")
+            body.replace(b'</TD></TR>', b"""</td></tr>""")
             body.replace(b'<TABLE border=1 width=100%>', b"""""")
             body.replace(b'</TABLE>', b"""""")
-            body.replace(b'<TR><TH width=25%>', b"""<div class="col m6">""")
-            body.replace(b'</TH>', b"""</div>""")
-            body.replace(b'<TD>', b"""<div class="col m6">""")
-            body.replace(b'</TD></TR>', b"""</div>""")
+            body.replace(b'<TR><TH width=25%>', b"""<tr><th>""")
+            body.replace(b'</TH>', b"""</th>""")
+            body.replace(b'<TD>', b"""<td>""")
+            #body.replace(b'</TD></TR>', b"""</td></tr>""")
             body.replace(b"""</BODY>""", b"""""")
+            # replace NULL with hyphen for cosmetic appeal
+            body.replace(b'NULL', b'-')
+            # Get rid of blank lines
             body.replace(b'\n\n', b'\n')
             # Once more to remove double blank lines
             body.replace(b'\n\n', b'\n')
+
             # Strip away empty tables too. After the above replacements,
             # they will typically have a single line with the first cell containing the word 'Layer' e.g.
             # <div class="col m6 _nightblue">Layer</div><div class="col m6">Roofs</div>
@@ -72,16 +76,22 @@ class GetFeatureInfoFilter(QgsServerFilter):
             # Uncomment for debugging only
             #QgsMessageLog.logMessage("Body as string:", 'plugin', Qgis.Info) 
             #QgsMessageLog.logMessage(content, 'plugin', Qgis.Info) 
-            cleaned_content = ""
+            cleaned_content = """<div class="card _alignCenter">
+            <h5>Query Results</h5>
+            <div class="-content">
+            <table class="_width100">"""
             last_line_is_layer = False
             last_line = ""
             for line in content.splitlines():
-                if "Layer</div>" in line and "Layer</div>" in last_line:
+                if "Layer</th>" in line and "Layer</th>" in last_line:
                     #forget the last line, it is an empty table
                     pass
                 else:
                     cleaned_content += last_line + '\n'
                 last_line = line
+            cleaned_content += '</table>'
+            cleaned_content += '</div>'
+            cleaned_content += '</div>'
             # Uncomment for debugging only
             #QgsMessageLog.logMessage("Cleaned content as string:", 'plugin', Qgis.Info) 
             #QgsMessageLog.logMessage(cleaned_content, 'plugin', Qgis.Info) 

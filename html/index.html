@@ -52,7 +52,7 @@
     <div class="col m1"></div>
     <div class="col m4">
       <section id="intro">
-        <h1>Smallholding with Open Source GIS</h1>
+        <h2>Smallholding with FOSSGIS</h2>
         <p class="subline">
           Welcome to the smallholding with FOSS platform. You can explore the map on the left, clicking on features to
           discover more about them. Below you will find a list of reports that will be dynamically generated from the
@@ -61,101 +61,141 @@
       </section>
       <section id="layers">
         <div class="col m6">
-          Current mouse location:
+          <div class="card _alignCenter">
+            <h5>Mouse location</h5>
+            <div class="-content">
+              <span id="mouse-position"></span>
+            </div>
+          </div>
         </div>
         <div class="col m6">
-          Current map extent:
+          <div class="card _alignCenter">
+            <h5>Map extents</h5>
+            <div class="-content">
+              <span id="minx"></span>,<span id="miny"></span>,<span id="maxx"></span>,<span id="maxy"></span>
+            </div>
+          </div>
         </div>
-        <div class="col m6">
-          <span id="mouse-position"></span>
+        <div class="col m12 _alignCenter">
+          Press <img src="img/e-button.png" alt="E Button"> on the map to return to the original map extent. Click anywhere on the map to query the smallholding related features.
         </div>
-        <div class="col m6">
-          <span id="minx"></span>,<span id="miny"></span>,<span id="maxx"></span>,<span id="maxy"></span>
-        </div>    
-        <div>Press <img src="img/e-button.png" alt="E Button"> on the map to return to the original map extent.</div>    
-	<!-- for getFeatureInfo responses -->
-	<div id="info">&nbsp;</div>
-      </section>
-      <section>
-        <h3>Map Legend.</h3>
-        <p>The smallholding layer is the heart of this platform. We use it to map farm infrastructure such as buildings,
-          paths, sheds, shelters and fencelines. We also map the vegetation, especially trees of agricultural interest.
-          The POI layer is used to map maintenance issues and points of interest around the farm.</p>
-        <div>
-          <img src="/map/?SERVICE=WMS&REQUEST=GetPrint&TEMPLATE=Legend%20-%20Smallholding&CRS=EPSG:3857"
-            alt="Smallholding Legend">
+        <div class="col m12 _alignCenter">
+          <section id="gfi-response">
+            <!-- for getFeatureInfo responses -->
+            <div id="info">&nbsp;</div>
+          </section>
         </div>
-        <p> <a href="https://osm.org">OpenStreetMap</a> is a wonderful resource of community collected and contributed
-          data. We use it to provide local context on the map. Our platform contains an always up to date of whatever
-          data is in OpenStreetMap to the selected thematic elements we mirror from the OpenStreetMap project. This is
-          achieved thanks to the Kartoza <a href="https://github.com/kartoza/docker-osm" Docker OSM>project</a>.</p>
-        <div>
-          <img src="/map/?SERVICE=WMS&REQUEST=GetPrint&TEMPLATE=Legend%20-%20OSM&CRS=EPSG:3857" alt="OSM Legend">
-        </div>
-        <p>Boundaries show the social and political context of your smallholding. These boundaries are from the <a
-            href="https://dados.gov.pt/en/datasets/distritos/">Portuguese Public Administration's Open Data Portal.</a>
-        </p>
-        <div>
-          <img src="/map/?SERVICE=WMS&REQUEST=GetPrint&TEMPLATE=Legend%20-%20Boundaries&CRS=EPSG:3857"
-            alt="Boundaries Legend">
-        </div>
-      </section>
-      <section id="about">
-        <h3>About this platform.</h3>
-        <p>
-          This platform is a composition of Open Source GIS components which have been integrated to provide a platform
-          useful for owners or managers of small farms. Here is a list of services deployed on this platform.
-        </p>
-        <ul>
-          <li><a href="pg-map-mapproxy.html">QGIS map in PostGIS</a></li>
-          <li><a href="/api/">Postgrest API</a></li>
-          <li><a href="/swagger/">Swagger API Browser</a></li>
-          <li><a href="file-based-map.html">File Based Project File</a></li>
-          <li><a href="/geoserver/">GeoServer</a></li>
-          <li><a href="/mapproxy/demo/">Mapproxy</a></li>
-          <li><a href="http://castelo.kartoza.com:8000">Open Drone Map</a></li>
-          <li><a href="/map/?SERVICE=WMS&REQUEST=GetCapabilities">QGIS Server Capabilities Document</a></li>
-          <li><a href="/mapproxy/service?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities">Map Proxy Capabilities
-              Document</a></li>
-        </ul>
-        <p>
-          You can find all of the source code, installation notes and detailed descriptions of the platform can be found
-          on the
-          <a href="https://github.com/kartoza/MarceiraMerginSyncProject">
-            GitHub page</a>
-          for this platform.
-        </p>
-        <p>The data for the smallholding is managed in the <a href="https://public.cloudmergin.com/#">Mergin</a> cloud
-          syncing platform. The Mergin project can be edited both on <a href="https://qgis.org">QGIS</a> desktop, and
-          using the <a href="https://inputapp.io/en/">Input</a> mobile data collection tool. With the <a
-            href="https://github.com/lutraconsulting/mergin-db-sync">mergin-db-sync</a> tool, this data is also
-          seamlessly synchronised to our <a href="https://postgis.org">PostGIS</a> database, from where it is published
-          via QGIS Server here on this web site. Furthermore, any edits made in the database, on QGIS Desktop or in the
-          field using Input, can be synchronised to all other instances of the project, providing incredible opportunity
-          to build robust workflows for your enterprise.</p>
+        <section>
+          <h3>Map Legend</h3>
+          <p>The smallholding layer is the heart of this platform. We use it to map farm infrastructure such as
+            buildings,
+            paths, sheds, shelters and fencelines. We also map the vegetation, especially trees of agricultural
+            interest.
+            The POI layer is used to map maintenance issues and points of interest around the farm.</p>
+          <div>
+            <img class="modalimg" id="img-smallholding-legend-small"
+              src="/map/?SERVICE=WMS&REQUEST=GetPrint&TEMPLATE=Legend%20-%20Smallholding&CRS=EPSG:3857"
+              alt="Smallholding Legend"
+              onclick="openimg('img-smallholding-legend-small','img-smallholding-legend-large')">
+
+            <div id="img-smallholding-legend-large" class="modal">
+              <span class="-close">✖</span>
+              <img class="modal-content">
+              <div class="caption"></div>
+            </div>
+          </div>
+          <p> <a href="https://osm.org">OpenStreetMap</a> is a wonderful resource of community collected and contributed
+            data. We use it to provide local context on the map. Our platform contains an always up to date of whatever
+            data is in OpenStreetMap to the selected thematic elements we mirror from the OpenStreetMap project. This is
+            achieved thanks to the Kartoza <a href="https://github.com/kartoza/docker-osm" Docker OSM>project</a>.</p>
+          <div>
+            <img class="modalimg" id="img-osm-legend-small"
+              src="/map/?SERVICE=WMS&REQUEST=GetPrint&TEMPLATE=Legend%20-%20OSM&CRS=EPSG:3857" alt="OSM Legend"
+              onclick="openimg('img-osm-legend-small','img-osm-legend-large')">
+
+            <div id="img-osm-legend-large" class="modal">
+              <span class="-close">✖</span>
+              <img class="modal-content">
+              <div class="caption"></div>
+            </div>
+          </div>
+          <p>Boundaries show the social and political context of your smallholding. These boundaries are from the <a
+              href="https://dados.gov.pt/en/datasets/distritos/">Portuguese Public Administration's Open Data
+              Portal.</a>
+          </p>
+          <div>
+            <img class="modalimg" id="img-boundaries-legend-small"
+              src="/map/?SERVICE=WMS&REQUEST=GetPrint&TEMPLATE=Legend%20-%20Boundaries&CRS=EPSG:3857"
+              alt="Boundaries Legend" onclick="openimg('img-boundaries-legend-small','img-boundaries-legend-large')">
+
+            <div id="img-boundaries-legend-large" class="modal">
+              <span class="-close">✖</span>
+              <img class="modal-content">
+              <div class="caption"></div>
+            </div>
+          </div>
+        </section>
+        <section id="about">
+          <h3>About this platform.</h3>
+          <p>
+            This platform is a composition of Open Source GIS components which have been integrated to provide a
+            platform
+            useful for owners or managers of small farms. Here is a list of services deployed on this platform.
+          </p>
+          <ul>
+            <li><a href="pg-map-mapproxy.html">QGIS map in PostGIS</a></li>
+            <li><a href="/api/">Postgrest API</a></li>
+            <li><a href="/swagger/">Swagger API Browser</a></li>
+            <li><a href="file-based-map.html">File Based Project File</a></li>
+            <li><a href="/geoserver/">GeoServer</a></li>
+            <li><a href="/mapproxy/demo/">Mapproxy</a></li>
+            <li><a href="http://castelo.kartoza.com:8000">Open Drone Map</a></li>
+            <li><a href="/map/?SERVICE=WMS&REQUEST=GetCapabilities">QGIS Server Capabilities Document</a></li>
+            <li><a href="/mapproxy/service?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities">Map Proxy Capabilities
+                Document</a></li>
+          </ul>
+          <p>
+            You can find all of the source code, installation notes and detailed descriptions of the platform can be
+            found
+            on the
+            <a href="https://github.com/kartoza/MarceiraMerginSyncProject">
+              GitHub page</a>
+            for this platform.
+          </p>
+          <p>The data for the smallholding is managed in the <a href="https://public.cloudmergin.com/#">Mergin</a> cloud
+            syncing platform. The Mergin project can be edited both on <a href="https://qgis.org">QGIS</a> desktop, and
+            using the <a href="https://inputapp.io/en/">Input</a> mobile data collection tool. With the <a
+              href="https://github.com/lutraconsulting/mergin-db-sync">mergin-db-sync</a> tool, this data is also
+            seamlessly synchronised to our <a href="https://postgis.org">PostGIS</a> database, from where it is
+            published
+            via QGIS Server here on this web site. Furthermore, any edits made in the database, on QGIS Desktop or in
+            the
+            field using Input, can be synchronised to all other instances of the project, providing incredible
+            opportunity
+            to build robust workflows for your enterprise.</p>
           <p>For more thoughts on our design approach, see our <a href="/mantras.html">Design Mantras</a>.</p>
 
-        <p>This platform includes data provided from <a href="https://osm.org">OpenStreetMap</a> and copyright
-          OpenStreetMap Contributors.</p>
-      </section>
-      <section id="reports">
-        <h3>Standard Reports.</h3>
-        <p>These are coming soon!</p>
-        <ul>
-          <li>Camps</li>
-          <li>Structures</li>
-          <li>Plants</li>
-          <li>Farm Map</li>
-          <li>3D View</li>
-        </ul>
-      </section>
-      <section id="contact">
-        <h3>Contact Me.</h3>
-        <ul class="contact-list">
-          <li>@timlinux</li>
-          <li>tim@kartoza.com</li>
-        </ul>
-      </section>
+          <p>This platform includes data provided from <a href="https://osm.org">OpenStreetMap</a> and copyright
+            OpenStreetMap Contributors.</p>
+        </section>
+        <section id="reports">
+          <h3>Standard Reports.</h3>
+          <p>These are coming soon!</p>
+          <ul>
+            <li>Camps</li>
+            <li>Structures</li>
+            <li>Plants</li>
+            <li>Farm Map</li>
+            <li>3D View</li>
+          </ul>
+        </section>
+        <section id="contact">
+          <h3>Contact Me.</h3>
+          <ul class="contact-list">
+            <li>@timlinux</li>
+            <li>tim@kartoza.com</li>
+          </ul>
+        </section>
     </div>
   </div>
   </div>
