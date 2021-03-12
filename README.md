@@ -125,6 +125,36 @@ configuration. In the next subsection we will set up the OSM mirror clip region:
 
 
 
+## Building mergin-db-sync
+
+Mergin db sync is not currently in docker hub, so you need to build the docker image yourself. 
+First check out the [mergin-db-source](https://github.com/lutraconsulting/mergin-db-sync).
+
+
+```
+cd mergin-db-sync/
+docker build -t "mergin_db_sync" .
+```
+
+
+If upgrading you first need to stop and kill the mergin db service, then rebuild as above.
+
+```
+docker-compose kill mergin-sync
+docker-compose rm mergin-sync
+docker rmi mergin_db_sync
+```
+
+After rebuilding the image, restart the mergin db sync service:
+
+```
+docker-compose up -d mergin-db-sync
+```
+
+
+
+
+
 
 ## Essential Reading
 

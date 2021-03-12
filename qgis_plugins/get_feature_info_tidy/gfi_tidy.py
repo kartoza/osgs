@@ -83,6 +83,10 @@ class GetFeatureInfoFilter(QgsServerFilter):
             last_line_is_layer = False
             last_line = ""
             for line in content.splitlines():
+                if '.jpg</td>' in line:
+                    # Shameless hack to inject the img tag etc in for the image
+                    line = line.replace("""</th><td>""", """</th><td><img class="-thumb" src="/mergin-data/photos/""")
+                    line = line.replace("""</td></tr>""", """"></td></tr>""")
                 if "Layer</th>" in line and "Layer</th>" in last_line:
                     #forget the last line, it is an empty table
                     pass
