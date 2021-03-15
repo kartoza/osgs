@@ -107,7 +107,7 @@
           <p> <a href="https://osm.org">OpenStreetMap</a> is a wonderful resource of community collected and contributed
             data. We use it to provide local context on the map. Our platform contains an always up to date of whatever
             data is in OpenStreetMap to the selected thematic elements we mirror from the OpenStreetMap project. This is
-            achieved thanks to the Kartoza <a href="https://github.com/kartoza/docker-osm" Docker OSM>project</a>.</p>
+            achieved thanks to the Kartoza <a href="https://github.com/kartoza/docker-osm">Docker OSM project</a>.</p>
           <div>
             <img class="modalimg" id="img-osm-legend-small"
               src="/map/?SERVICE=WMS&REQUEST=GetPrint&TEMPLATE=Legend%20-%20OSM&CRS=EPSG:3857" alt="OSM Legend"
@@ -134,6 +134,27 @@
               <div class="caption"></div>
             </div>
           </div>
+
+          <h3>Monitoring From Space</h3>
+          <p>With the development of space platforms such as Landsat and, more recently, Sentinel, new opportunities are available for monitoring growth productivity from afar. In this plot with show the Normalised Density of Vegetation Index (NDVI) for the smallholding as measured by Sentinel-2.</p>
+          <div>
+            <!-- Needs dataplotly support in QGIS Server to work
+            <img class="modalimg" id="img-ndvi-small"
+              src="/map/?SERVICE=WMS&REQUEST=GetPrint&TEMPLATE=Sentinel%202%20-%20NDVI&CRS=EPSG:3857"
+              alt="NDVI Plot"
+              onclick="openimg('img-ndvi-small','img-ndvi-large')"> -->
+            <img class="modalimg" id="img-ndvi-small"
+              src="/img/ndvi.png"
+              alt="NDVI Plot"
+              onclick="openimg('img-ndvi-small','img-ndvi-large')">
+            <div id="img-ndvi-large" class="modal">
+              <span class="-close">✖</span>
+              <img class="modal-content">
+              <div class="caption"></div>
+            </div>
+          </div>
+
+
         </section>
         <section id="about">
           <h3>About this platform.</h3>
