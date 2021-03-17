@@ -289,6 +289,11 @@ services:
      # As per the oq QGIS Server docs at https://github.com/gem/oq-qgis-server/blob/master/README.md#postgresql-connection-service-file-optional but wrong! 
      #This works instead for the openquake/qgis-server:3 image
      #- ./pg_conf/pg_service.conf:/etc/pg_service.conf:ro
+
+     # Mount the mergin db sync data into nginx so we can access images etc.
+     # Ideally we should only be mounting the image subfolders to avoid leaking our geopackage etc.
+     # To do that the mergin project needs to be set up accordingly - TODO for the future
+     - ./mergin_sync_data/dbsync:/mergin-data     
     depends_on:
       - db
     restart: unless-stopped

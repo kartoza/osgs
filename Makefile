@@ -114,6 +114,19 @@ reinitialise-osm:
 	@docker-compose up -d imposm osmupdate osmenrich 
 	@docker-compose logs -f imposm osmupdate osmenrich
 
+redeploy-mergin:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping merging container, rebuilding the image, then restarting mergin db sync"
+	@echo "------------------------------------------------------------------"
+	#@docker-compose kill mergin-sync
+	#@docker-compose rm mergin-sync
+	#@docker rmi mergin_db_sync
+	@git clone git@github.com:lutraconsulting/mergin-db-sync.git --depth=1
+	@cd mergin-db-sync; docker build -t mergin_db_sync .; cd ..
+	@rm -rf mergin-db-sync
+	@docker-compose up -d mergin-sync
+	@docker-compose logs -f mergin-sync
 
 reinitialise-mergin:
 	@echo
