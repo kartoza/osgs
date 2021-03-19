@@ -70,6 +70,16 @@ db-backup:
 	@docker-compose exec -u postgres db rm /tmp/smallholding-database.dmp
 	@ls -lah smallholding-database.dmp
 
+db-backup-mergin-base-schema:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Backing up mergin base schema from  postgres db"
+	@echo "------------------------------------------------------------------"
+	@docker-compose exec -u postgres db pg_dump -Fc -f /tmp/mergin-base-schema.dmp -n mergin_sync_base_do_not_touch gis
+	@docker cp maceiramergindbsync_db_1:/tmp/mergin-base-schema.dmp .
+	@docker-compose exec -u postgres db rm /tmp/mergin-base-schema.dmp
+	@ls -lah mergin-base-schema.dmp
+
 reinitialise-mapproxy:
 	@echo
 	@echo "------------------------------------------------------------------"
