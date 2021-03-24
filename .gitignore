@@ -10,5 +10,6 @@ geoserver_data/
 mapproxy_conf/cache_data
 *.swp
 smallholding-database.dmp
-
+odm_datasets/*
+odm_cutline/cutline.*
 .DS_Store

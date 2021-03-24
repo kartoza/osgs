@@ -349,6 +349,79 @@ services:
       - postgrest
     networks:
       - qgis-server-net
+  odm:
+    # A run once container that will process a batch of images and generate an 
+    # orthophoto, DSM and DEM
+    # see https://github.com/OpenDroneMap/ODM#quickstart
+    # docker run -ti --rm -v /home/youruser/datasets:/datasets opendronemap/odm --project-path /datasets project
+    # Treat this as a run-once job and run it using either
+    # docker-compose run odm
+    # or 
+    # make odm
+    image: opendronemap/odm
+    volumes:
+      # odm datasets should be arranged with project folders each containing an images folder e.g.
+      # datasets/smallholding/images
+      - ./odm_datasets:/datasets
+    restart: never
+    entrypoint: "python3 /code/run.py --project-path /datasets --dsm --dtm --orthophoto-resolution 2 smallholding"
+
+  odm-ortho-clip:
+    
+    # A run once container that will clip processed dsm, dtm, orthophoto images created using the odm service above
+    # see https://github.com/geo-data/gdal-docker
+    # example usage : docker run -v $(pwd):/data geodata/gdal gdalinfo test.tif
+    #
+    # Treat this as a run-once job and run it using either
+    # docker-compose run odm-ortho-clip
+    # or 
+    # make odm
+    image: geodata/gdal
+    volumes:
+      # odm datasets should be arranged with project folders each containing an images folder e.g.
+      # datasets/projectfoo/images
+      - ./odm_datasets:/datasets
+      - ./odm_cutline:/cutline
+    restart: never
+    entrypoint: "gdalwarp -overwrite -cutline /cutline/cutline.shp -crop_to_cutline -dstalpha /datasets/smallholding/odm_orthophoto/odm_orthophoto.tif /datasets/orthophoto.tif"
+
+  odm-dsm-clip:
+    
+    # A run once container that will clip processed dsm, dtm, orthophoto images created using the odm service above
+    # see https://github.com/geo-data/gdal-docker
+    # example usage : docker run -v $(pwd):/data geodata/gdal gdalinfo test.tif
+    #
+    # Treat this as a run-once job and run it using either
+    # docker-compose run odm-dsm-clip
+    # or 
+    # make odm
+    image: geodata/gdal
+    volumes:
+      # odm datasets should be arranged with project folders each containing an images folder e.g.
+      # datasets/projectfoo/images
+      - ./odm_datasets:/datasets
+      - ./odm_cutline:/cutline
+    restart: never
+    entrypoint: "gdalwarp -overwrite -cutline /cutline/cutline.shp -crop_to_cutline -dstalpha /datasets/smallholding/odm_dem/dsm.tif /datasets/dsm.tif"
+
+  odm-dtm-clip:
+    
+    # A run once container that will clip processed dsm, dtm, orthophoto images created using the odm service above
+    # see https://github.com/geo-data/gdal-docker
+    # example usage : docker run -v $(pwd):/data geodata/gdal gdalinfo test.tif
+    #
+    # Treat this as a run-once job and run it using either
+    # docker-compose run odm-dem-clip
+    # or 
+    # make odm
+    image: geodata/gdal
+    volumes:
+      # odm datasets should be arranged with project folders each containing an images folder e.g.
+      # datasets/projectfoo/images
+      - ./odm_datasets:/datasets
+      - ./odm_cutline:/cutline
+    restart: never
+    entrypoint: "gdalwarp -overwrite -cutline /cutline/cutline.shp -crop_to_cutline -dstalpha /datasets/smallholding/odm_dem/dtm.tif /datasets/dtm.tif"
 
 networks:
   qgis-server-net:

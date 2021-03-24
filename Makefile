@@ -169,6 +169,54 @@ qgis-logs:
 	@docker-compose logs -f qgis-server
 
 
+odm-clean:
+	@echo "------------------------------------------------------------------"
+	@echo "Note that the odm_datasets directory should be considered mutable as this script "
+	@echo "cleans out all other files"
+	@echo "------------------------------------------------------------------"
+	@sudo rm -rf odm_datasets/smallholding/odm*
+	@sudo rm -rf odm_datasets/smallholding/cameras.json
+	@sudo rm -rf odm_datasets/smallholding/img_list.txt
+	@sudo rm -rf odm_datasets/smallholding/cameras.json
+	@sudo rm -rf odm_datasets/smallholding/opensfm
+	@sudo rm -rf odm_datasets/smallholding/images.json
+
+odm-run: odm-clean
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Generating ODM Ortho, DEM, DSM then clipping it and loading it into postgis"
+	@echo "Before running please remove any old images from odm_datasets/smallholding/images"
+	@echo "and copy the images that need to be mosaicked into it."
+	@echo "Note that the odm_datasets directory should be considered mutable as this script "
+	@echo "cleans out all other files"
+	@echo "------------------------------------------------------------------"
+	@docker-compose run odm
+
+odm-clip:
+	@echo "------------------------------------------------------------------"
+	@echo "Clippint Ortho, DEM, DSM"
+	@echo "------------------------------------------------------------------"
+	@docker-compose run odm-ortho-clip
+	@docker-compose run odm-dsm-clip
+	@docker-compose run odm-dtm-clip
+
+odm-pgraster: export PGPASSWORD = docker
+odm-pgraster:
+	@echo "------------------------------------------------------------------"
+	@echo "Loading ODM products into postgis"
+	@echo "------------------------------------------------------------------"
+	# Todo - run in docker rather than localhost, currently requires pgraster installed locally
+	-@echo "drop schema raster cascade;" | psql -h localhost -p 15432 -U docker gis
+	@echo "create schema raster;" | psql -h localhost -p 15432 -U docker gis
+	@raster2pgsql -s 32629 -t 256x256 -C -l 4,8,16,32,64,128,256,512 -P -F -I ./odm_datasets/orthophoto.tif raster.orthophoto | psql -h localhost -p 15432 -U docker gis
+	@raster2pgsql -s 32629 -t 256x256 -C -l 4,8,16,32,64,128,256,512 -d -P -F -I ./odm_datasets/dtm.tif raster.dtm | psql -h localhost -p 15432 -U docker gis
+	@raster2pgsql -s 32629 -t 256x256 -C -l 4,8,16,32,64,128,256,512 -d -P -F -I ./odm_datasets/dsm.tif raster.dsm | psql -h localhost -p 15432 -U docker gis
+
+# Runs above 3 tasks all in one go
+odm: odm-run odm-clip odm-pgraster
+
+
+
 kill:
 	@echo
 	@echo "------------------------------------------------------------------"
