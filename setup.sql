@@ -48,3 +48,12 @@ grant select on api.monitoring to authenticator;
 ALTER DATABASE gis SET postgis.gdal_enabled_drivers TO 'ENABLE_ALL';
 -- And support out of DB rasters
 ALTER DATABASE gis SET postgis.enable_outdb_rasters = true;
+
+
+-- a view which unions all camps and then gets the outer boundary
+-- useful for clipping images etc.
+-- needs the camp geometry to be perfect
+
+CREATE VIEW public.outer_boundary as (
+SELECT St_SetSrid( ST_MakePolygon (St_ExteriorRing( St_union( ST_MakeValid(smallholding.camps.geom)))),20790) AS geom
+from smallholding.camps);
