@@ -13,3 +13,4 @@ smallholding-database.dmp
 odm_datasets/*
 odm_cutline/cutline.*
 .DS_Store
+orthophoto.tif.points

@@ -1,6 +1,509 @@
+# Imposm Mapping file
+# This file is a mix of original work and content from https://github.com/openmaptiles/openmaptiles/
+# Please also read https://imposm.org/docs/imposm3/latest/mapping.html to understand this file format
+
+name_field: &name
+  name: name
+  key: name
+  type: string
+name_en_field: &name_en
+  name: name_en
+  key: name:en
+  type: string
+name_de_field: &name_de
+  name: name_de
+  key: name:de
+  type: string
+short_name_field: &short_name
+  key: short_name
+  name: short_name
+  type: string
+tunnel_field: &tunnel
+  key: tunnel
+  name: is_tunnel
+  type: bool
+bridge_field: &bridge
+  key: bridge
+  name: is_bridge
+  type: bool
+ramp_field: &ramp
+  key: ramp
+  name: is_ramp
+  type: bool
+ford_field: &ford
+  key: ford
+  name: is_ford
+  type: bool
+oneway_field: &oneway
+  key: oneway
+  name: is_oneway
+  type: direction
+area_field: &area
+  name: is_area
+  key: area
+  type: bool
+service_field: &service
+  key: service
+  name: service
+  type: string
+usage_field: &usage
+  key: usage
+  name: usage
+  type: string
+public_transport_field: &public_transport
+  key: public_transport
+  name: public_transport
+  type: string
+ref_field: &ref
+  key: ref
+  name: ref
+  type: string
+network_field: &network
+  key: network
+  name: network
+  type: string
+layer_field: &layer
+  key: layer
+  name: layer
+  type: integer
+level_field: &level
+  key: level
+  name: level
+  type: integer
+indoor_field: &indoor
+  key: indoor
+  name: indoor
+  type: bool
+man_made_field: &man_made
+  key: man_made
+  name: man_made
+  type: string
+z_order_field: &z_order
+  name: z_order
+  type: wayzorder
+bicycle_field: &bicycle
+  key: bicycle
+  name: bicycle
+  type: string
+foot_field: &foot
+  key: foot
+  name: foot
+  type: string
+horse_field: &horse
+  key: horse
+  name: horse
+  type: string
+mtb_scale_field: &mtb_scale
+  key: mtb:scale
+  name: mtb_scale
+  type: string
+surface_field: &surface
+  key: surface
+  name: surface
+  type: string
+
+
+
+
+# aerialway values , see http://taginfo.openstreetmap.org/keys/aerialway#values
+def_poi_mapping_aerialway: &poi_mapping_aerialway
+  - station
+
+# amenity values , see http://taginfo.openstreetmap.org/keys/amenity#values
+def_poi_mapping_amenity: &poi_mapping_amenity
+  - arts_centre
+  - bank
+  - bar
+  - bbq
+  - bicycle_parking
+  - bicycle_rental
+  - biergarten
+  - bus_station
+  - cafe
+  - cinema
+  - clinic
+  - college
+  - community_centre
+  - courthouse
+  - dentist
+  - doctors
+  - drinking_water
+  - embassy
+  - fast_food
+  - ferry_terminal
+  - fire_station
+  - food_court
+  - fuel
+  - grave_yard
+  - hospital
+  - ice_cream
+  - kindergarten
+  - library
+  - marketplace
+  - motorcycle_parking
+  - nightclub
+  - nursing_home
+  - parking
+  - pharmacy
+  - place_of_worship
+  - police
+  - post_box
+  - post_office
+  - prison
+  - pub
+  - public_building
+  - recycling
+  - restaurant
+  - school
+  - shelter
+  - swimming_pool
+  - taxi
+  - telephone
+  - theatre
+  - toilets
+  - townhall
+  - university
+  - veterinary
+  - waste_basket
+
+# barrier values , see http://taginfo.openstreetmap.org/keys/barrier#values
+def_poi_mapping_barrier: &poi_mapping_barrier
+  - bollard
+  - border_control
+  - cycle_barrier
+  - gate
+  - lift_gate
+  - sally_port
+  - stile
+  - toll_booth
+
+# building values , see http://taginfo.openstreetmap.org/keys/building#values
+def_poi_mapping_building: &poi_mapping_building
+  - dormitory
+
+# highway values , see http://taginfo.openstreetmap.org/keys/highway#values
+def_poi_mapping_highway: &poi_mapping_highway
+  - bus_stop
+
+# historic values , see http://taginfo.openstreetmap.org/keys/historic#values
+def_poi_mapping_historic: &poi_mapping_historic
+  - monument
+  - castle
+  - ruins
+
+# landuse values , see http://taginfo.openstreetmap.org/keys/landuse#values
+def_poi_mapping_landuse: &poi_mapping_landuse
+  - basin
+  - brownfield
+  - cemetery
+  - reservoir
+  - winter_sports
+
+# leisure values , see http://taginfo.openstreetmap.org/keys/leisure#values
+def_poi_mapping_leisure: &poi_mapping_leisure
+  - dog_park
+  - escape_game
+  - garden
+  - golf_course
+  - ice_rink
+  - hackerspace
+  - marina
+  - miniature_golf
+  - park
+  - pitch
+  - playground
+  - sports_centre
+  - stadium
+  - swimming_area
+  - swimming_pool
+  - water_park
+
+# railway values , see http://taginfo.openstreetmap.org/keys/railway#values
+def_poi_mapping_railway: &poi_mapping_railway
+  - halt
+  - station
+  - subway_entrance
+  - train_station_entrance
+  - tram_stop
+
+# shop values , see http://taginfo.openstreetmap.org/keys/shop#values
+def_poi_mapping_shop: &poi_mapping_shop
+  - accessories
+  - alcohol
+  - antiques
+  - art
+  - bag
+  - bakery
+  - beauty
+  - bed
+  - beverages
+  - bicycle
+  - books
+  - boutique
+  - butcher
+  - camera
+  - car
+  - car_repair
+  - car_parts
+  - carpet
+  - charity
+  - chemist
+  - chocolate
+  - clothes
+  - coffee
+  - computer
+  - confectionery
+  - convenience
+  - copyshop
+  - cosmetics
+  - deli
+  - delicatessen
+  - department_store
+  - doityourself
+  - dry_cleaning
+  - electronics
+  - erotic
+  - fabric
+  - florist
+  - frozen_food
+  - furniture
+  - garden_centre
+  - general
+  - gift
+  - greengrocer
+  - hairdresser
+  - hardware
+  - hearing_aids
+  - hifi
+  - ice_cream
+  - interior_decoration
+  - jewelry
+  - kiosk
+  - lamps
+  - laundry
+  - mall
+  - massage
+  - mobile_phone
+  - motorcycle
+  - music
+  - musical_instrument
+  - newsagent
+  - optician
+  - outdoor
+  - perfume
+  - perfumery
+  - pet
+  - photo
+  - second_hand
+  - shoes
+  - sports
+  - stationery
+  - supermarket
+  - tailor
+  - tattoo
+  - ticket
+  - tobacco
+  - toys
+  - travel_agency
+  - video
+  - video_games
+  - watches
+  - weapons
+  - wholesale
+  - wine
+
+def_aeroway_polygon_mapping: &aeroway_polygon_mapping
+  - aerodrome
+  - heliport
+  - runway
+  - helipad
+  - taxiway
+  - apron
+
+# sport values , see http://taginfo.openstreetmap.org/keys/sport#values
+def_poi_mapping_sport: &poi_mapping_sport
+  - american_football
+  - archery
+  - athletics
+  - australian_football
+  - badminton
+  - baseball
+  - basketball
+  - beachvolleyball
+  - billiards
+  - bmx
+  - boules
+  - bowls
+  - boxing
+  - canadian_football
+  - canoe
+  - chess
+  - climbing
+  - climbing_adventure
+  - cricket
+  - cricket_nets
+  - croquet
+  - curling
+  - cycling
+  - disc_golf
+  - diving
+  - dog_racing
+  - equestrian
+  - fatsal
+  - field_hockey
+  - free_flying
+  - gaelic_games
+  - golf
+  - gymnastics
+  - handball
+  - hockey
+  - horse_racing
+  - horseshoes
+  - ice_hockey
+  - ice_stock
+  - judo
+  - karting
+  - korfball
+  - long_jump
+  - model_aerodrome
+  - motocross
+  - motor
+  - multi
+  - netball
+  - orienteering
+  - paddle_tennis
+  - paintball
+  - paragliding
+  - pelota
+  - racquet
+  - rc_car
+  - rowing
+  - rugby
+  - rugby_league
+  - rugby_union
+  - running
+  - sailing
+  - scuba_diving
+  - shooting
+  - shooting_range
+  - skateboard
+  - skating
+  - skiing
+  - soccer
+  - surfing
+  - swimming
+  - table_soccer
+  - table_tennis
+  - team_handball
+  - tennis
+  - toboggan
+  - volleyball
+  - water_ski
+  - yoga
+
+# tourism values , see http://taginfo.openstreetmap.org/keys/tourism#values
+def_poi_mapping_tourism: &poi_mapping_tourism
+  - alpine_hut
+  - aquarium
+  - artwork
+  - attraction
+  - bed_and_breakfast
+  - camp_site
+  - caravan_site
+  - chalet
+  - gallery
+  - guest_house
+  - hostel
+  - hotel
+  - information
+  - motel
+  - museum
+  - picnic_site
+  - theme_park
+  - viewpoint
+  - zoo
+
+# waterway values , see http://taginfo.openstreetmap.org/keys/waterway#values
+def_poi_mapping_waterway: &poi_mapping_waterway
+  - dock
+
+def_poi_fields: &poi_fields
+  - name: osm_id
+    type: id
+  - name: geometry
+    type: geometry
+  - name: name
+    key: name
+    type: string
+  - name: name_en
+    key: name:en
+    type: string
+  - name: name_de
+    key: name:de
+    type: string
+  - name: tags
+    type: hstore_tags
+  - name: subclass
+    type: mapping_value
+  - name: mapping_key
+    type: mapping_key
+  - name: station
+    key: station
+    type: string
+  - name: funicular
+    key: funicular
+    type: string
+  - name: information
+    key: information
+    type: string
+  - name: uic_ref
+    key: uic_ref
+    type: string
+  - name: religion
+    key: religion
+    type: string
+  - name: level
+    key: level
+    type: integer
+  - name: indoor
+    key: indoor
+    type: bool
+  - name: layer
+    key: layer
+    type: integer
+  - name: sport
+    key: sport
+    type: string
+
+def_poi_mapping: &poi_mapping
+  aerialway: *poi_mapping_aerialway
+  amenity: *poi_mapping_amenity
+  barrier: *poi_mapping_barrier
+  building: *poi_mapping_building
+  highway: *poi_mapping_highway
+  historic: *poi_mapping_historic
+  landuse: *poi_mapping_landuse
+  leisure: *poi_mapping_leisure
+  railway: *poi_mapping_railway
+  shop: *poi_mapping_shop
+  sport: *poi_mapping_sport
+  tourism: *poi_mapping_tourism
+  waterway: *poi_mapping_waterway
+
+   
+
+#
+# Kartoza work
+#
+
+
 areas:
   area_tags: [buildings]
   area_tags: [power]
+
+
+
+
 tables:
   power_areas:
     columns:
@@ -761,3 +1264,517 @@ tables:
         - blood_donation
         - birthing_center
     type: polygon    
+
+  #
+  # Next set of configs lifted from https://github.com/openmaptiles/openmaptiles/blob/master/layers/
+  #
+
+  # etldoc: imposm3 -> osm_aerodrome_label_point
+  aerodrome_label_point:  
+    type: geometry
+    columns:
+    - name: osm_id
+      type: id
+    - name: geometry
+      type: geometry
+    - name: name
+      key: name
+      type: string
+    - name: name_en
+      key: name:en
+      type: string
+    - name: name_de
+      key: name:de
+      type: string
+    - name: tags
+      type: hstore_tags
+    - name: aerodrome_type
+      key: aerodrome:type
+      type: string
+    - name: aerodrome
+      key: aerodrome
+      type: string
+    - name: military
+      key: military
+      type: string
+    - name: iata
+      key: iata
+      type: string
+    - name: icao
+      key: icao
+      type: string
+    - name: ele
+      key: ele
+      type: string
+    type_mappings:
+      points:
+        aeroway:
+        - aerodrome
+      polygons:
+        aeroway:
+        - aerodrome
+  # etldoc: imposm3 -> osm_aeroway_polygon
+  aeroway_polygon:
+    type: polygon
+    columns:
+    - *ref
+    - name: osm_id
+      type: id
+    - name: geometry
+      type: geometry
+    - name: aeroway
+      type: mapping_value
+    - name: area
+      type: area
+    mapping:
+      aeroway: *aeroway_polygon_mapping
+      "area:aeroway": *aeroway_polygon_mapping
+
+  # etldoc: imposm3 -> osm_aeroway_linestring
+  aeroway_linestring:
+    type: linestring
+    columns:
+    - *ref
+    - name: osm_id
+      type: id
+    - name: geometry
+      type: geometry
+    - name: aeroway
+      key: aeroway
+      type: string
+    mapping:
+      aeroway:
+      - runway
+      - taxiway
+      
+  # etldoc: imposm3 -> osm_aeroway_point
+  aeroway_point:
+    type: point
+    columns:
+    - *ref
+    - name: osm_id
+      type: id
+    - name: geometry
+      type: geometry
+    - name: aeroway
+      key: aeroway
+      type: string
+    mapping:
+      aeroway:
+      - gate
+      
+ # etldoc: imposm3 -> osm_border_disp_relation
+  border_disp_relation:
+    type: relation_member
+    columns:
+    - name: relation_id
+      type: id
+    - name: osm_id
+      type: id
+      from_member: true
+    - name: geometry
+      type: geometry
+    - key: name
+      name: name
+      type: string
+    - key: boundary
+      name: boundary
+      type: string
+    - key: admin_level
+      name: admin_level
+      type: integer
+    - key: claimed_by
+      name: claimed_by
+      type: string
+    - key: disputed_by
+      name: disputed_by
+      type: string
+    - key: maritime
+      name: maritime
+      type: bool
+      from_member: true
+    mapping:
+      type: [boundary]
+    filters:
+      require:
+        #admin_level: ['2']
+        admin_level: [__any__]
+        claimed_by: [__any__]    
+
+  # etldoc: imposm3 -> osm_building_polygon
+  building_polygon:
+    columns:
+    - name: osm_id
+      type: id
+    - name: geometry
+      type: validated_geometry
+    - name: area
+      type: area
+    - name: material
+      key: building:material
+      type: string
+    - name: colour
+      key: building:colour
+      type: string
+    - name: building
+      key: building
+      type: string
+    - name: buildingpart
+      key: building:part
+      type: string
+    - name: buildingheight
+      key: building:height
+      type: string
+    - name: buildingmin_height
+      key: building:min_height
+      type: string
+    - name: buildinglevels
+      key: building:levels
+      type: string
+    - name: buildingmin_level
+      key: building:min_level
+      type: string
+    - name: height
+      key: height
+      type: string
+    - name: min_height
+      key: min_height
+      type: string
+    - name: levels
+      key: levels
+      type: string
+    - name: min_level
+      key: min_level
+      type: string
+    mapping:
+      building:part:
+      - __any__
+      building:
+      - __any__
+      # these aeroway polygons all imply building=yes
+      aeroway:
+      - terminal
+      - hangar
+    filters:
+      reject:
+        building: ["no","none","No"]
+        building:part: ["no","none","No"]
+        man_made: ["bridge"]
+    type: polygon
+
+  # etldoc: imposm3 -> osm_building_relation
+  building_relation:
+    columns:
+    - name: osm_id
+      type: id
+    - name: geometry
+      type: validated_geometry
+    - name: area
+      type: area
+    - name: building
+      key: building
+      type: string
+      from_member: true
+    - name: material
+      key: building:material
+      type: string
+    - name: colour
+      key: building:colour
+      type: string
+    - name: buildingpart
+      key: building:part
+      type: string
+      from_member: true
+    - name: buildingheight
+      key: building:height
+      type: string
+      from_member: true
+    - name: height
+      key: height
+      type: string
+      from_member: true
+    - name: buildingmin_height
+      key: building:min_height
+      type: string
+      from_member: true
+    - name: min_height
+      key: min_height
+      type: string
+      from_member: true
+    - name: buildinglevels
+      key: building:levels
+      type: string
+      from_member: true
+    - name: levels
+      key: levels
+      type: string
+      from_member: true
+    - name: buildingmin_level
+      key: building:min_level
+      type: string
+      from_member: true
+    - name: min_level
+      key: min_level
+      type: string
+      from_member: true
+    - name: relbuildingheight
+      key: building:height
+      type: string
+    - name: relheight
+      key: height
+      type: string
+    - name: relbuildingmin_height
+      key: building:min_height
+      type: string
+    - name: relmin_height
+      key: min_height
+      type: string
+    - name: relbuildinglevels
+      key: building:levels
+      type: string
+    - name: rellevels
+      key: levels
+      type: string
+    - name: relbuildingmin_level
+      key: building:min_level
+      type: string
+    - name: relmin_level
+      key: min_level
+      type: string
+    - name: member
+      type: member_id
+    - name: index
+      type: member_index
+    - name: role
+      type: member_role
+      from_member: true
+    - name: type
+      type: member_type
+    mapping:
+      type: [building]
+    type: relation_member
+
+  # etldoc: imposm3 -> osm_housenumber_point
+  housenumber_point:
+    type: geometry
+    columns:
+    - name: osm_id
+      type: id
+    - name: geometry
+      type: geometry
+    - name: housenumber
+      key: addr:housenumber
+      type: string
+    type_mappings:
+      points:
+        addr:housenumber:
+        - __any__
+      polygons:
+        addr:housenumber:
+        - __any__
+  # etldoc: imposm3 -> osm_landcover_polygon
+  landcover_polygon:
+    columns:
+    - name: osm_id
+      type: id
+    - name: geometry
+      type: validated_geometry
+    - name: area
+      type: area
+    - name: subclass
+      type: mapping_value
+    - name: mapping_key
+      type: mapping_key
+    mapping:
+      landuse:
+      - allotments
+      - farm
+      - farmland
+      - orchard
+      - plant_nursery
+      - vineyard
+      - grass
+      - grassland
+      - meadow
+      - forest
+      - village_green
+      - recreation_ground
+      # There are 600 parks tagged with landuse=park instead of leisure=park
+      - park
+      natural:
+      - wood
+      - wetland
+      - fell
+      - grassland
+      - heath
+      - scrub
+      - tundra
+      - glacier
+      - bare_rock
+      - scree
+      - beach
+      - sand
+      - dune
+      leisure:
+      - park
+      - garden
+      - golf_course
+      wetland:
+      - bog
+      - swamp
+      - wet_meadow
+      - marsh
+      - reedbed
+      - saltern
+      - tidalflat
+      - saltmarsh
+      - mangrove
+    type: polygon
+
+  # etldoc: imposm3 -> osm_landuse_polygon
+  landuse_polygon:
+    type: polygon
+    columns:
+    - name: osm_id
+      type: id
+    - name: geometry
+      type: validated_geometry
+    - name: landuse
+      key: landuse
+      type: string
+    - name: amenity
+      key: amenity
+      type: string
+    - name: leisure
+      key: leisure
+      type: string
+    - name: tourism
+      key: tourism
+      type: string
+    - name: place
+      key: place
+      type: string
+    - name: waterway
+      key: waterway
+      type: string
+    - name: area
+      type: area
+    mapping:
+      landuse:
+      - railway
+      - cemetery
+      - military
+      # zoning
+      - residential
+      - commercial
+      - industrial
+      - garages
+      - retail
+      amenity:
+      - bus_station
+      - school
+      - university
+      - kindergarten
+      - college
+      - library
+      - hospital
+      leisure:
+      - stadium
+      - pitch
+      - playground
+      - track
+      tourism:
+      - theme_park
+      - zoo
+      place:
+      - suburb
+      - quarter
+      - neighbourhood
+      waterway:
+      - dam
+  # etldoc: imposm3 -> osm_peak_point
+  peak_point:
+    type: point
+    columns:
+    - name: osm_id
+      type: id
+    - name: geometry
+      type: geometry
+    - name: name
+      key: name
+      type: string
+    - name: name_en
+      key: name:en
+      type: string
+    - name: name_de
+      key: name:de
+      type: string
+    - name: tags
+      type: hstore_tags
+    - name: ele
+      key: ele
+      type: string
+    - name: wikipedia
+      key: wikipedia
+      type: string
+    mapping:
+      natural:
+      - peak
+      - volcano
+
+  # etldoc: imposm3 -> osm_park_polygon
+  park_polygon:
+    type: polygon
+    _resolve_wikidata: false
+    columns:
+    - name: osm_id
+      type: id
+    - name: geometry
+      type: validated_geometry
+    - name: name
+      key: name
+      type: string
+    - name: name_en
+      key: name:en
+      type: string
+    - name: name_de
+      key: name:de
+      type: string
+    - name: tags
+      type: hstore_tags
+    - name: landuse
+      key: landuse
+      type: string
+    - name: leisure
+      key: leisure
+      type: string
+    - name: boundary
+      key: boundary
+      type: string
+    - name: protection_title
+      key: protection_title
+      type: string
+    - name: area
+      type: area
+    mapping:
+      leisure:
+      - nature_reserve
+      boundary:
+      - national_park
+      - protected_area
+
+  # etldoc: imposm3 -> osm_poi_point
+  poi_point:
+    type: point
+    columns: *poi_fields
+    mapping: *poi_mapping
+
+  # etldoc: imposm3 -> osm_poi_polygon
+  poi_polygon:
+    type: polygon
+    columns: *poi_fields
+    mapping: *poi_mapping
+
+
+
+  

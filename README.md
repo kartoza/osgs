@@ -168,6 +168,10 @@ Alesandro Passoti has made a number of great resources available for QGIS Server
 
 See the [project documentation](https://github.com/3liz/qgis-atlasprint/blob/master/atlasprint/README.md#api) for supported request parameters for QGIS Atlas prints.
 
+### Docker OSM
+
+See how the imposm3 mapping syntax works here: https://imposm.org/docs/imposm3/latest/mapping.html
+
 ### PostgREST
 
 Take special note of the fact that the passing of environment variables to the docker container is 
@@ -217,6 +221,10 @@ raster2pgsql -s 32629 -t 256x256 -C -l 4,8,16,32,64,128,256,512 -d -P -F -I dtm.
 raster2pgsql -s 32629 -t 256x256 -C -l 4,8,16,32,64,128,256,512 -d -P -F -I dsm.tif raster.dsm | psql -h localhost -p 15432 -U docker gis
 cd -
 ```
+
+*Note* this project includes automation for creating ODM mosaics and 
+loading them into Postgresql - see the Makefile odm related tasks.
+
 
 ## Authentication Management
 

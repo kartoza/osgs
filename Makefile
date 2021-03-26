@@ -104,10 +104,10 @@ reinitialise-qgis-server:
 	@docker-compose logs -f qgis-server 
 
 
-reinitialise-osm:
+kill-osm:
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Deleting all imported OSM data and reloading"
+	@echo "Deleting all imported OSM data and killing containers"
 	@echo "------------------------------------------------------------------"
 	@docker-compose kill imposm
 	@docker-compose kill osmupdate
@@ -115,12 +115,20 @@ reinitialise-osm:
 	@docker-compose rm imposm
 	@docker-compose rm osmupdate
 	@docker-compose rm osmenrich
-	@sudo rm osm_conf/timestamp.txt
-	@sudo rm osm_conf/last.state.txt
-	@sudo rm osm_conf/importer.lock
-	@docker-compose exec -u postgres db psql -c "drop schema osm cascade;" gis 
-	@docker-compose exec -u postgres db psql -c "drop schema osm_backup cascade;" gis 
-	@docker-compose exec -u postgres db psql -c "drop schema osm_import cascade;" gis 
+	# Next commands have - in front as they as non compulsory to succeed
+	-@sudo rm osm_conf/timestamp.txt
+	-@sudo rm osm_conf/last.state.txt
+	-@sudo rm osm_conf/importer.lock
+	-@docker-compose exec -u postgres db psql -c "drop schema osm cascade;" gis 
+	-@docker-compose exec -u postgres db psql -c "drop schema osm_backup cascade;" gis 
+	-@docker-compose exec -u postgres db psql -c "drop schema osm_import cascade;" gis 
+
+
+reinitialise-osm: kill-osm
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Deleting all imported OSM data and reloading"
+	@echo "------------------------------------------------------------------"
 	@docker-compose up -d imposm osmupdate osmenrich 
 	@docker-compose logs -f imposm osmupdate osmenrich
 
@@ -129,11 +137,11 @@ redeploy-mergin:
 	@echo "------------------------------------------------------------------"
 	@echo "Stopping merging container, rebuilding the image, then restarting mergin db sync"
 	@echo "------------------------------------------------------------------"
-	#@docker-compose kill mergin-sync
-	#@docker-compose rm mergin-sync
-	#@docker rmi mergin_db_sync
+	-@docker-compose kill mergin-sync
+	-@docker-compose rm mergin-sync
+	-@docker rmi mergin_db_sync
 	@git clone git@github.com:lutraconsulting/mergin-db-sync.git --depth=1
-	@cd mergin-db-sync; docker build -t mergin_db_sync .; cd ..
+	@cd mergin-db-sync; docker build --no-cache -t mergin_db_sync .; cd ..
 	@rm -rf mergin-db-sync
 	@docker-compose up -d mergin-sync
 	@docker-compose logs -f mergin-sync
