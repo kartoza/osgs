@@ -376,6 +376,8 @@ services:
     # docker-compose run odm-ortho-clip
     # or 
     # make odm
+    #
+    # I think we can use image: kartoza/postgis:13.0 rather and then we get pg support too
     image: geodata/gdal
     volumes:
       # odm datasets should be arranged with project folders each containing an images folder e.g.
@@ -395,6 +397,8 @@ services:
     # docker-compose run odm-dsm-clip
     # or 
     # make odm
+    #
+    # I think we can use image: kartoza/postgis:13.0 rather and then we get pg support too    
     image: geodata/gdal
     volumes:
       # odm datasets should be arranged with project folders each containing an images folder e.g.
@@ -414,6 +418,8 @@ services:
     # docker-compose run odm-dem-clip
     # or 
     # make odm
+    #
+    # I think we can use image: kartoza/postgis:13.0 rather and then we get pg support too    
     image: geodata/gdal
     volumes:
       # odm datasets should be arranged with project folders each containing an images folder e.g.
@@ -422,6 +428,27 @@ services:
       - ./odm_cutline:/cutline
     restart: never
     entrypoint: "gdalwarp -overwrite -cutline /cutline/cutline.shp -crop_to_cutline -dstalpha /datasets/smallholding/odm_dem/dtm.tif /datasets/dtm.tif"
+
+  osm-to-mbtiles:
+    # A run once container that export the docker-osm schema to an mbtiles store
+    # Treat this as a run-once job and run it using either
+    # docker-compose run osm-to-mbtiles
+    # or 
+    # make osm-to-mbtiles
+    #
+    # Broken for now, see Makefile osm-to-mbtiles target for details
+    image: kartoza/postgis:13.0
+    networks:
+      - qgis-server-net
+    volumes:
+      # This is a bit naughty as the mergindb sync checkout should be treated read only, 
+      # but trying anyway to see if it works because if it does it could be a nice way 
+      # to provision an updated tileset whenever you run this
+      - ./mergin_sync_data:/data
+    restart: never
+    entrypoint: "ogr2ogr -f MBTILES /data/osm.mbtiles PG:\"dbname='gis' host='db' port='5432' user='docker' password='docker' SCHEMAS=osm\" -dsco \"MAXZOOM=10\" -dsco \"BOUNDS=-7.389126,39.410085,-7.381439,39.415144\""
+
+
 
 networks:
   qgis-server-net:

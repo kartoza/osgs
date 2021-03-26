@@ -132,6 +132,15 @@ reinitialise-osm: kill-osm
 	@docker-compose up -d imposm osmupdate osmenrich 
 	@docker-compose logs -f imposm osmupdate osmenrich
 
+osm-to-mbtiles:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating a vector tiles store from the docker osm schema"
+	@echo "------------------------------------------------------------------"
+    #@docker-compose run osm-to-mbtiles
+	@echo "we use below for now because the container aproach doesnt have a new enough gdal (2.x vs >=3.1 needed)"
+	@ogr2ogr -f MBTILES osm.mbtiles PG:"dbname='gis' host='localhost' port='15432' user='docker' password='docker' SCHEMAS=osm" -dsco "MAXZOOM=10 BOUNDS=-7.389126,39.410085,-7.381439,39.415144"
+	
 redeploy-mergin:
 	@echo
 	@echo "------------------------------------------------------------------"
