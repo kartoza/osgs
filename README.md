@@ -172,6 +172,11 @@ See the [project documentation](https://github.com/3liz/qgis-atlasprint/blob/mas
 
 See how the imposm3 mapping syntax works here: https://imposm.org/docs/imposm3/latest/mapping.html
 
+## Vector tiles
+
+A great primer on vector tiles, particularly with relevance to QGIS. https://wanderingcartographer.wordpress.com/2021/01/09/qgis-3-and-vector-map-tiles/
+
+
 ### PostgREST
 
 Take special note of the fact that the passing of environment variables to the docker container is 
