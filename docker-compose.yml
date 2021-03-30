@@ -1,6 +1,28 @@
-#
+version: "3.7"
+# Image def
 
-version: '3'
+x-superset-image: &superset-image apache/superset:latest-dev
+x-postgres-image: &postgres-image kartoza/postgis:13.0
+x-imposm-image: &imposm-image kartoza/docker-osm:imposm-latest
+x-osm-update-image: &osm-update-image kartoza/docker-osm:osmupdate-latest
+
+# Dependency defs
+x-superset-depends-on: &superset-depends-on
+  - db
+  - redis
+
+# Volume defs
+x-superset-volumes: &superset-volumes
+  # /app/pythonpath_docker will be appended to the PYTHONPATH in the final container
+  # see https://github.com/apache/superset/tree/master/docker
+  - ./superset/docker:/app/docker
+  - ./superset/superset:/app/superset
+  - ./superset/superset-frontend:/app/superset-frontend
+  - ./superset/superset-home:/app/superset_home
+  - ./superset_conf/superset_config.py:/etc/superset/superset_config.py
+
+# Volumes - currently I am preferring host mounted volumes
+# and only use docker volumes where persistence is not critical
 
 volumes:
   import_done:
@@ -10,11 +32,13 @@ volumes:
 services:
 
   db:
-    image: kartoza/postgis:13.0
+    image: *postgres-image
     volumes:
       - ./postgis_data:/var/lib/postgresql
+    env_file: .env
     environment:
-      - POSTGRES_DB=gis
+      # We define two databases on startup - one for gis work and one for superset
+      - POSTGRES_DB=gis,superset
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - ALLOW_IP_RANGE=0.0.0.0/0
@@ -34,7 +58,7 @@ services:
       dockerfile: Dockerfile
 
   imposm:
-    image: kartoza/docker-osm:imposm-latest
+    image: *imposm-image
     volumes:
       # These are sharable to other containers
       - ./osm_conf:/home/settings
@@ -45,6 +69,7 @@ services:
       - db
     networks:
      - qgis-server-net
+    env_file: .env
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
@@ -78,7 +103,8 @@ services:
       - CLIP=yes
 
   osmupdate:
-    image: kartoza/docker-osm:osmupdate-latest
+    image: *osm-update-image
+  
     volumes:
       # These are sharable to other containers
       - ./osm_conf:/home/settings
@@ -122,6 +148,7 @@ services:
       - db
     networks:
      - qgis-server-net
+    env_file: .env
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
@@ -145,6 +172,7 @@ services:
       # Must create this dir yourself so that it is owned by you
       - ./geoserver_data:/opt/geoserver/data_dir
     restart: on-failure
+    env_file: .env
     environment:
       - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
       - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
@@ -166,6 +194,7 @@ services:
       # We do this so we can easily inspect what is being pulled down 
       # from merging, flush the working dir when needed etc
       - ./mergin_sync_data:/tmp
+    env_file: .env
     environment:
       - DB_CONN_INFO=host=db dbname=gis user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}
       - DB_SCHEMA_MODIFIED=${DB_SCHEMA_MODIFIED}
@@ -229,6 +258,7 @@ services:
   qgis-server:
     image: "openquake/qgis-server:stable"
     #image: "openquake/qgis-server:3"
+    env_file: .env
     environment:
       # Do not run the embedded copy of nginx
       SKIP_NGINX: "true"
@@ -300,6 +330,7 @@ services:
 
   mapproxy:
     image: kartoza/mapproxy
+    env_file: .env
     environment:
       - PRODUCTION=false
       - PROCESSES=4
@@ -317,6 +348,7 @@ services:
     # Used for pushing readings from IoT devices to our database
     #
     image: postgrest/postgrest
+    env_file: .env
     environment:
       PGRST_DB_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/gis
       PGRST_DB_SCHEMA: ${PGRST_DB_SCHEMA}
@@ -341,6 +373,7 @@ services:
       - "3001:8080"
     volumes:
       - ./swagger_conf/swagger.json:/swagger.json
+    env_file: .env
     environment:
       SWAGGER_JSON: /swagger.json
       API_URL: ${API_URL}       
@@ -448,6 +481,85 @@ services:
     restart: never
     entrypoint: "ogr2ogr -f MBTILES /data/osm.mbtiles PG:\"dbname='gis' host='db' port='5432' user='docker' password='docker' SCHEMAS=osm\" -dsco \"MAXZOOM=10\" -dsco \"BOUNDS=-7.389126,39.410085,-7.381439,39.415144\""
 
+
+
+  #
+  # Superset UI for dashboard visualisations
+  # 
+
+  redis:
+    image: redis:latest
+    container_name: superset_cache
+    restart: unless-stopped
+    ports:
+      - "6379"
+    volumes:
+      - ./redis:/data
+
+
+  superset:
+    env_file: .env
+    image: *superset-image
+    #container_name: superset_app
+    command: ["/app/docker/docker-bootstrap.sh", "app"]
+    #command: ["ls", "/app/docker"]
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:8088:8088
+    user: "root"
+    depends_on: *superset-depends-on
+    volumes: *superset-volumes
+    environment:
+      CYPRESS_CONFIG: "${CYPRESS_CONFIG}"
+    networks:
+     - qgis-server-net      
+
+  superset-init:
+    image: *superset-image
+    #container_name: superset_init
+    command: ["/app/docker/docker-init.sh"]
+    env_file: .env
+    depends_on: *superset-depends-on
+    user: "root"
+    volumes: *superset-volumes
+    environment:
+      CYPRESS_CONFIG: "${CYPRESS_CONFIG}"
+    networks:
+     - qgis-server-net      
+
+  superset-node:
+    image: node:14
+    #container_name: superset_node
+    command: ["/app/docker/docker-frontend.sh"]
+    env_file: .env
+    depends_on: *superset-depends-on
+    volumes: *superset-volumes
+    networks:
+     - qgis-server-net    
+
+  superset-worker:
+    image: *superset-image
+    #container_name: superset_worker
+    command: ["/app/docker/docker-bootstrap.sh", "worker"]
+    env_file: .env
+    restart: unless-stopped
+    depends_on: *superset-depends-on
+    user: "root"
+    volumes: *superset-volumes
+    networks:
+     - qgis-server-net    
+
+  superset-worker-beat:
+    image: *superset-image
+    #container_name: superset_worker_beat
+    command: ["/app/docker/docker-bootstrap.sh", "beat"]
+    env_file: .env
+    restart: unless-stopped
+    depends_on: *superset-depends-on
+    user: "root"
+    volumes: *superset-volumes
+    networks:
+     - qgis-server-net    
 
 
 networks:

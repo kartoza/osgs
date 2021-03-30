@@ -14,6 +14,7 @@ This project provides a platform for creating, sharing and publishing data and m
    7. [NGINX](https://www.nginx.com/) a lightweight web server acting as a proxy in front of QGIS server and as a server for the static HTML content.
    8. [QGIS Server](https://docs.qgis.org/3.16/en/docs/) to serve QGIS projects from the database and from the file system.
    9. [QGIS Server Docker Image](https://github.com/gem/oq-qgis-server) from OpenQuake.
+   10. [Apache Superset](https://superset.apache.org/) to provide dashboard visualisations
 
 ## Overview Diagram
 
@@ -24,6 +25,12 @@ This project provides a platform for creating, sharing and publishing data and m
 ![Workflow Diagram](diagrams/QGIS-Server-PG-Project-Workflow.png)
 
 ## Getting started
+
+## Checkout submodules
+
+```
+git submodule update --init --recursive
+```
 
 ## Define your domain name
 
@@ -121,6 +128,7 @@ Before we bring up the OSM mirror and the Mergin Sync serviice we need to do som
 configuration. In the next subsection we will set up the OSM mirror clip region:
 
 
+
 ## Set Your Clip Region
 
 
@@ -132,29 +140,29 @@ First check out the [mergin-db-source](https://github.com/lutraconsulting/mergin
 
 
 ```
-cd mergin-db-sync/
-docker build -t "mergin_db_sync" .
+make redeploy-mergin
 ```
 
+Note: They do now have an image available - need to swap to using that in docker-compose
 
-If upgrading you first need to stop and kill the mergin db service, then rebuild as above.
+## Initialise the superset database
 
-```
-docker-compose kill mergin-sync
-docker-compose rm mergin-sync
-docker rmi mergin_db_sync
-```
-
-After rebuilding the image, restart the mergin db sync service:
+The first time you run, you need to configure superset by using the init container:
 
 ```
-docker-compose up -d mergin-db-sync
+docker-compose up superset-init
 ```
 
+Doing that will create a user with credentials admin/admin
+
+## Bring up remaining services
 
 
+```
+docker-compose up -d
+```
 
-
+Note that some services are intended to be run once only so you may see errors e.g. for odm which you can ignore.
 
 ## Essential Reading
 
@@ -171,6 +179,18 @@ See the [project documentation](https://github.com/3liz/qgis-atlasprint/blob/mas
 ### Docker OSM
 
 See how the imposm3 mapping syntax works here: https://imposm.org/docs/imposm3/latest/mapping.html
+
+## Generating Vector Tiles
+
+See https://gis.stackexchange.com/a/292358 on how to export your postgresql data base layers to vector mbtiles and https://gdal.org/drivers/raster/mbtiles.html for the config file format. See also the PG provider docs here: https://gdal.org/drivers/vector/pg.html
+
+For example here we convert our OSM mirror to an mbtiles vector tile store:
+
+ogr2ogr -f MBTILES target.mbtiles PG:"dbname='gis' host='localhost' port='15432' user='docker' password='docker'" -dsco MAXZOOM=10
+
+### RTK GPS in Input
+
+Check out https://twitter.com/complementterre?s=20 Julien Ancelin's work for making a low budget RTK GPS receiver for use with INPUT
 
 ### PostgREST
 

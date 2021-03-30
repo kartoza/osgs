@@ -232,7 +232,11 @@ odm-pgraster:
 # Runs above 3 tasks all in one go
 odm: odm-run odm-clip odm-pgraster
 
-
+vrt-styles:
+	@echo "------------------------------------------------------------------"
+	@echo "Checking out Vector Tiles QMLs to qgis-vector-tiles folder"
+	@echo "------------------------------------------------------------------"
+	@git clone git@github.com:lutraconsulting/qgis-vectortiles-styles.git
 
 kill:
 	@echo
