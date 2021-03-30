@@ -180,6 +180,7 @@ See the [project documentation](https://github.com/3liz/qgis-atlasprint/blob/mas
 
 See how the imposm3 mapping syntax works here: https://imposm.org/docs/imposm3/latest/mapping.html
 
+<<<<<<< HEAD
 ## Generating Vector Tiles
 
 See https://gis.stackexchange.com/a/292358 on how to export your postgresql data base layers to vector mbtiles and https://gdal.org/drivers/raster/mbtiles.html for the config file format. See also the PG provider docs here: https://gdal.org/drivers/vector/pg.html
@@ -191,6 +192,12 @@ ogr2ogr -f MBTILES target.mbtiles PG:"dbname='gis' host='localhost' port='15432'
 ### RTK GPS in Input
 
 Check out https://twitter.com/complementterre?s=20 Julien Ancelin's work for making a low budget RTK GPS receiver for use with INPUT
+=======
+## Vector tiles
+
+A great primer on vector tiles, particularly with relevance to QGIS. https://wanderingcartographer.wordpress.com/2021/01/09/qgis-3-and-vector-map-tiles/
+
+>>>>>>> 40760fd9aff5dd3890249977f8837d9899794ca4
 
 ### PostgREST
 
