@@ -238,6 +238,36 @@ vrt-styles:
 	@echo "------------------------------------------------------------------"
 	@git clone git@github.com:lutraconsulting/qgis-vectortiles-styles.git
 
+
+hugo-initialise:
+	@echo "------------------------------------------------------------------"
+	@echo "Setting up Hugo content management system"
+	@echo "You should only do this once per site deployment"
+	@echo "------------------------------------------------------------------"
+	# Try create the dir, continue anyway if it fails (-)
+	-@mkdir hugo_data
+	@docker run --rm -it -v hugo_data:/src -u hugo jguyomard/hugo-builder hugo new site mysite
+	@git submodule add https://github.com/budparr/gohugo-theme-ananke.git hugo_data/themes/ananke;
+	@echo 'theme = "ananke"' >> hugo_data/config.toml
+
+hugo-create-page:
+	# The entire command must be in one line for the scope of the varable to be shared between read
+	@echo "------------------------------------------------------------------"
+	@echo "Creating a new page for the static site"
+	@echo "------------------------------------------------------------------"
+	# and docker command
+	@echo "Enter a file name for your post e.g. mypost.md: ";
+	@read -p "Filename (.md):" FILENAME; \
+		docker run --rm -it -v hugo_data:/src -u hugo jguyomard/hugo-builder hugo new posts/$$FILENAME ; \
+		echo "Now edit $$FILENAME then run make hugo-build"
+
+hugo-build:
+	@echo "------------------------------------------------------------------"
+	@echo "Building the site, compiling html from any new pages."
+	@echo "------------------------------------------------------------------"
+	@docker run --rm -it -v hugo_data:/src -u hugo jguyomard/hugo-builder hugo
+
+
 kill:
 	@echo
 	@echo "------------------------------------------------------------------"

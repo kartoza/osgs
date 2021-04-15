@@ -482,6 +482,24 @@ services:
     entrypoint: "ogr2ogr -f MBTILES /data/osm.mbtiles PG:\"dbname='gis' host='db' port='5432' user='docker' password='docker' SCHEMAS=osm\" -dsco \"MAXZOOM=10\" -dsco \"BOUNDS=-7.389126,39.410085,-7.381439,39.415144\""
 
 
+  #
+  # Web dav for uploading static html
+  # Connect in gnome like this: davs://alice:secret1234@castelo.kartoza.com/webdav/
+  #
+  webdav:
+    image: bytemark/webdav
+    restart: always
+    ports:
+      - "80"
+    environment:
+      AUTH_TYPE: Digest
+      USERNAME: alice
+      PASSWORD: secret1234
+    volumes:
+     - ./html:/var/lib/dav
+    networks:
+     - qgis-server-net      
+
 
   #
   # Superset UI for dashboard visualisations
@@ -495,6 +513,8 @@ services:
       - "6379"
     volumes:
       - ./redis:/data
+    networks:
+     - qgis-server-net      
 
 
   superset:
@@ -505,7 +525,7 @@ services:
     #command: ["ls", "/app/docker"]
     restart: unless-stopped
     ports:
-      - 127.0.0.1:8088:8088
+      - 0.0.0.0:8088:8088
     user: "root"
     depends_on: *superset-depends-on
     volumes: *superset-volumes
@@ -560,6 +580,7 @@ services:
     volumes: *superset-volumes
     networks:
      - qgis-server-net    
+
 
 
 networks:

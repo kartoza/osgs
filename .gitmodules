@@ -1,3 +1,6 @@
 [submodule "superset"]
 	path = superset
 	url = https://github.com/apache/superset.git
+[submodule "hugo_data/themes/ananke"]
+	path = hugo_data/themes/ananke
+	url = https://github.com/budparr/gohugo-theme-ananke.git

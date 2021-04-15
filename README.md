@@ -155,6 +155,39 @@ docker-compose up superset-init
 
 Doing that will create a user with credentials admin/admin
 
+There is also a config file in ``superset_conf/superset_config.py`` which manages permissions for 
+public users. 
+
+
+
+
+You need to also assign the following permissions to the Public role:
+
+![Role Permissions](./docs/img/superset-permissions-role.png)
+
+
+```
+[can csrf token on Superset, can explore json on Superset, can explore on Superset, can dashboard on Superset, datasource access on [smallholding].[vw_vegetation_points](id:4)]
+```
+
+I also made a Public user which is linked to the Gamma role:
+
+![User Permissions](./docs/img/superset-permissions-users.png)
+
+That public user needs to be given access to each chart that you want to publicly share in your dashboards:
+
+![User Permissions](./docs/img/superset-permissions-chart.png)
+
+Lastly, that public user also needs to be given access to each dashboard that you want to publicly share:
+
+![User Permissions](./docs/img/superset-permissions-dashboard.png)
+
+Once you have that in place, you should be able to share dashboards that do not need users to log in.
+
+
+See also https://github.com/apache/superset/issues/7763 and https://superset.apache.org/docs/security .
+
+
 ## Bring up remaining services
 
 
