@@ -53,7 +53,27 @@ ALTER DATABASE gis SET postgis.enable_outdb_rasters = true;
 -- a view which unions all camps and then gets the outer boundary
 -- useful for clipping images etc.
 -- needs the camp geometry to be perfect
+-- currently does not work
 
 CREATE VIEW public.outer_boundary as (
 SELECT St_SetSrid( ST_MakePolygon (St_ExteriorRing( St_union( ST_MakeValid(smallholding.camps.geom)))),20790) AS geom
 from smallholding.camps);
+
+
+-- Views for Apache Superset charting
+
+CREATE VIEW 
+  vw_vegetation_points
+AS SELECT 
+  p.id, 
+  st_x(st_transform(p.geom, 4326))as x, 
+  st_y(st_transform(p.geom, 4326)) as y, 
+  t.common_name, 
+  p.est_height_m, 
+  p.crown_radius_m 
+FROM 
+  smallholding.vegetation_points p, 
+  smallholding.plant_type t 
+WHERE 
+  p.plant_type_uuid=t.uuid
+  AND p.geom is NOT NULL;
