@@ -246,7 +246,7 @@ hugo-initialise:
 	@echo "------------------------------------------------------------------"
 	# Try create the dir, continue anyway if it fails (-)
 	-@mkdir hugo_data
-	@docker run --rm -it -v $(PWD)/hugo_data:/src -u hugo jguyomard/hugo-builder hugo new site mysite
+	@docker run --rm -it -v $(PWD)/hugo_data:/src klakegg/hugo:0.82.0 new site mysite
 	@git submodule add https://github.com/budparr/gohugo-theme-ananke.git hugo_data/themes/ananke;
 	@echo 'theme = "ananke"' >> hugo_data/config.toml
 
@@ -256,16 +256,24 @@ hugo-create-page:
 	@echo "Creating a new page for the static site"
 	@echo "------------------------------------------------------------------"
 	# and docker command
-	@echo "Enter a file name for your post e.g. mypost.md: ";
-	@read -p "Filename (.md):" FILENAME; \
-		docker run --rm -it -v $(PWD)/hugo_data:/src -u hugo jguyomard/hugo-builder hugo new posts/$$FILENAME ; \
+	@echo "Enter a section name e.g. posts and a file name for your post e.g. mypost.md: ";
+	@read -p "Section name (e.g. posts):" SECTION; \
+	    read -p "Filename (.md):" FILENAME; \
+		docker run --rm -it -v $(PWD)/hugo_data:/src klakegg/hugo:0.82.0 new $$SECTION/$$FILENAME ; \
 		echo "Now edit $$FILENAME then run make hugo-build"
 
 hugo-build:
 	@echo "------------------------------------------------------------------"
 	@echo "Building the site, compiling html from any new pages."
 	@echo "------------------------------------------------------------------"
-	@docker run --rm -it -v $(PWD/hugo_data:/src -u hugo jguyomard/hugo-builder hugo
+	@docker run --rm -it -v $(PWD)/hugo_data:/src klakegg/hugo:0.82.0
+
+hugo-serve:
+	@echo "------------------------------------------------------------------"
+	@echo "Serving the site locally - intended for local testing only."
+	@echo "------------------------------------------------------------------"
+	@docker run --rm -it -v $(PWD)/hugo_data:/src -p 1313:1313 klakegg/hugo:0.82.0 server
+
 
 
 kill:
