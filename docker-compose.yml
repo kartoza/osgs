@@ -192,7 +192,7 @@ services:
       retries: 3
 
   mergin-sync:
-    image: "mergin_db_sync"
+    image: lutraconsulting/mergin-db-sync
     volumes:
       # We do this so we can easily inspect what is being pulled down 
       # from merging, flush the working dir when needed etc
