@@ -394,7 +394,7 @@ services:
       # One file per user, each file containing list
       # of keys allowed to upload to the data dir
       # Files should be given same name as user
-      - scp_config/dir/on/host:/conf
+      - ./scp_conf:/conf
       # This is a docker volume for the uploaded data
       - dropbox:/data \
     networks:
