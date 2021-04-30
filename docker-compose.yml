@@ -28,6 +28,8 @@ volumes:
   import_done:
   import_queue:
   cache:
+  # For uploading stuff via scp
+  dropbox:
 
 services:
 
@@ -383,6 +385,21 @@ services:
       - postgrest
     networks:
       - qgis-server-net
+  scp:
+    image: quay.io/lkiesow/docker-scp
+    ports:
+      - "2222:22"
+    volumes:
+      # Host mounted volume
+      # One file per user, each file containing list
+      # of keys allowed to upload to the data dir
+      # Files should be given same name as user
+      - scp_config/dir/on/host:/conf
+      # This is a docker volume for the uploaded data
+      - dropbox:/data \
+    networks:
+      - qgis-server-net  
+    
   odm:
     # A run once container that will process a batch of images and generate an 
     # orthophoto, DSM and DEM
