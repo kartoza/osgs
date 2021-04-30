@@ -275,7 +275,6 @@ hugo-serve:
 	@docker run --rm -it -v $(PWD)/hugo_data:/src -p 1313:1313 klakegg/hugo:0.82.0 server
 
 
-
 kill:
 	@echo
 	@echo "------------------------------------------------------------------"
