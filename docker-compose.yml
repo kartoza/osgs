@@ -28,13 +28,23 @@ volumes:
   import_done:
   import_queue:
   cache:
+  #
   # For uploading stuff via scp
-  dropbox:
+  #
+  # Mounted in SCP and to geoserver for a file store
+  scp_geoserver_data:
+  # Mounted in SCP and to QGIS Server for serving QGIS projects
+  scp_qgis_data:
+  # Mounted in SCP and to Hugo for rendering static pages
+  scp_hugo_data:
+  # Mounted in SCP only for data sharing
+  scp_general_data:
 
 services:
 
   db:
     image: *postgres-image
+    profiles: ["osm","geoserver","qgis-server"]
     volumes:
       - ./postgis_data:/var/lib/postgresql
     env_file: .env
@@ -55,12 +65,14 @@ services:
   # This is a storage container for the country pbf
   pbf:
     image: pbf:stable
+    profiles: ["osm"]
     build:
       context: ./pbf_fetcher
       dockerfile: Dockerfile
 
   imposm:
     image: *imposm-image
+    profiles: ["osm"]
     volumes:
       # These are sharable to other containers
       - ./osm_conf:/home/settings
@@ -106,6 +118,7 @@ services:
 
   osmupdate:
     image: *osm-update-image
+    profiles: ["osm"]
   
     volumes:
       # These are sharable to other containers
@@ -140,6 +153,7 @@ services:
 
   osmenrich:
     image: kartoza/docker-osm:osmenrich-latest
+    profiles: ["osm"]
     volumes:
       # These are sharable to other containers
       - ./osm_conf:/home/settings
@@ -170,9 +184,12 @@ services:
 
   geoserver:
     image: kartoza/geoserver:2.18.0
+    profiles: ["geoserver"]
     volumes:
       # Must create this dir yourself so that it is owned by you
       - ./geoserver_data:/opt/geoserver/data_dir
+      # Mounted in SCP and to geoserver for serving geoserver data store
+      - scp_geoserver_data:/data/scp_geoserver_data
     restart: on-failure
     env_file: .env
     environment:
@@ -193,6 +210,7 @@ services:
 
   mergin-sync:
     image: lutraconsulting/mergin-db-sync
+    profiles: ["mergin"]
     volumes:
       # We do this so we can easily inspect what is being pulled down 
       # from merging, flush the working dir when needed etc
@@ -217,6 +235,34 @@ services:
     depends_on:
       - db 
 
+  # Nginx without ssl meant for local testing only      
+  nginx-testing:
+    image: "nginx"
+    volumes:
+     - ./html:/var/www/html
+     # Mount the mergin db sync data into nginx so we can access images etc.
+     # Ideally we should only be mounting the image subfolders to avoid leaking our geopackage etc.
+     # To do that the mergin project needs to be set up accordingly - TODO for the future
+     - ./mergin_sync_data/dbsync:/mergin-data
+    ports:
+     - "80:80"
+     - "443:443"
+    networks:
+     - qgis-server-net
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
+    depends_on:
+      - qgis-server
+      - mapproxy
+      - geoserver
+      - postgrest
+      - swagger
+
+  # Nginx with ssl      
   nginx:
     image: "nginx"
     volumes:
@@ -395,8 +441,14 @@ services:
       # of keys allowed to upload to the data dir
       # Files should be given same name as user
       - ./scp_conf:/conf
-      # This is a docker volume for the uploaded data
-      - dropbox:/data \
+      # Mounted in SCP and to geoserver for serving geoserver data store
+      - scp_geoserver_data:/data/geoserver_data
+      # Mounted in SCP and to QGIS Server for serving QGIS projects
+      - scp_qgis_data:/data/qgis_data
+      # Mounted in SCP and to Hugo for rendering static pages
+      - scp_hugo_data:/data/hugo_data
+      # Mounted in SCP only for data sharing
+      - scp_general_data:/data/general_data
     networks:
       - qgis-server-net  
     
@@ -406,10 +458,12 @@ services:
     # see https://github.com/OpenDroneMap/ODM#quickstart
     # docker run -ti --rm -v /home/youruser/datasets:/datasets opendronemap/odm --project-path /datasets project
     # Treat this as a run-once job and run it using either
-    # docker-compose run odm
+    # docker-compose --profile=odm run odm
     # or 
     # make odm
     image: opendronemap/odm
+    # Only runs when you do docker-compose --profile=odm imposm
+    profiles: ["odm"]
     volumes:
       # odm datasets should be arranged with project folders each containing an images folder e.g.
       # datasets/smallholding/images
@@ -424,12 +478,14 @@ services:
     # example usage : docker run -v $(pwd):/data geodata/gdal gdalinfo test.tif
     #
     # Treat this as a run-once job and run it using either
-    # docker-compose run odm-ortho-clip
+    # docker-compose --profile=odm run odm-ortho-clip
     # or 
     # make odm
     #
     # I think we can use image: kartoza/postgis:13.0 rather and then we get pg support too
     image: geodata/gdal
+    # Only runs when you do docker-compose --profile=odm .....
+    profiles: ["odm"]
     volumes:
       # odm datasets should be arranged with project folders each containing an images folder e.g.
       # datasets/projectfoo/images
@@ -445,12 +501,14 @@ services:
     # example usage : docker run -v $(pwd):/data geodata/gdal gdalinfo test.tif
     #
     # Treat this as a run-once job and run it using either
-    # docker-compose run odm-dsm-clip
+    # docker-compose --profile=odm run odm-dsm-clip
     # or 
     # make odm
     #
     # I think we can use image: kartoza/postgis:13.0 rather and then we get pg support too    
     image: geodata/gdal
+    # Only runs when you do docker-compose --profile=odm .....
+    profiles: ["odm"]
     volumes:
       # odm datasets should be arranged with project folders each containing an images folder e.g.
       # datasets/projectfoo/images
@@ -466,12 +524,14 @@ services:
     # example usage : docker run -v $(pwd):/data geodata/gdal gdalinfo test.tif
     #
     # Treat this as a run-once job and run it using either
-    # docker-compose run odm-dem-clip
+    # docker-compose --profile=odm run odm-dem-clip
     # or 
     # make odm
     #
     # I think we can use image: kartoza/postgis:13.0 rather and then we get pg support too    
     image: geodata/gdal
+    # Only runs when you do docker-compose --profile=odm .....
+    profiles: ["odm"]
     volumes:
       # odm datasets should be arranged with project folders each containing an images folder e.g.
       # datasets/projectfoo/images
@@ -483,12 +543,13 @@ services:
   osm-to-mbtiles:
     # A run once container that export the docker-osm schema to an mbtiles store
     # Treat this as a run-once job and run it using either
-    # docker-compose run osm-to-mbtiles
+    # docker-compose --profile osm run osm-to-mbtiles
     # or 
     # make osm-to-mbtiles
     #
     # Broken for now, see Makefile osm-to-mbtiles target for details
     image: kartoza/postgis:13.0
+    profiles: ["osm"]
     networks:
       - qgis-server-net
     volumes:
