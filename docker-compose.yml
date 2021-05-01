@@ -1,28 +1,56 @@
 version: "3.7"
-# Image def
 
-x-superset-image: &superset-image apache/superset:latest-dev
+# 
+# DOCKER IMAGES
+#
+
 x-postgres-image: &postgres-image kartoza/postgis:13.0
-x-imposm-image: &imposm-image kartoza/docker-osm:imposm-latest
 x-osm-update-image: &osm-update-image kartoza/docker-osm:osmupdate-latest
+x-imposm-image: &imposm-image kartoza/docker-osm:imposm-latest
+x-osmenrich-image: &osm-enrich-image kartoza/docker-osm:osmenrich-latest
+x-geoserver-image: &geoserver-image kartoza/geoserver:2.18.0
+x-mergin-db-sync-image: &mergin-db-sync-image lutraconsulting/mergin-db-sync
+x-nginx-image: &nginx-image nginx
+x-certbot-image: &certbot-image certbot/certbot
+x-qgis-server-image: &qgis-server-image openquake/qgis-server:stable
+x-mapproxy-image: &mapproxy-image kartoza/mapproxy
+x-postgrest-image: &postgrest-image postgrest/postgrest
+x-swagger-image: &swagger-image swaggerapi/swagger-ui
+x-scp-image: &scp-image quay.io/lkiesow/docker-scp
+x-odm-image: &odm-image opendronemap/odm
+x-gdal-image: &gdal-image geodata/gdal
+x-redis-image: &redis-image redis:latest
+x-superset-image: &superset-image apache/superset:latest-dev
+x-node-image: &node-image node:14
+
+#
+# DEPENDENCIES
+#
 
 # Dependency defs
 x-superset-depends-on: &superset-depends-on
   - db
   - redis
 
+# 
+# VOLUMES
+#
+
+# Generally we are using docker volumes for all volumes
+# except conf files which are host mounted volumes out
+# of our git repo.
+# 
+
 # Volume defs
 x-superset-volumes: &superset-volumes
-  # /app/pythonpath_docker will be appended to the PYTHONPATH in the final container
+  # /app/pythonpath_docker will be appended to the PYTHONPATH in
+  # the final container
   # see https://github.com/apache/superset/tree/master/docker
-  - ./superset/docker:/app/docker
-  - ./superset/superset:/app/superset
-  - ./superset/superset-frontend:/app/superset-frontend
-  - ./superset/superset-home:/app/superset_home
-  - ./superset_conf/superset_config.py:/etc/superset/superset_config.py
-
-# Volumes - currently I am preferring host mounted volumes
-# and only use docker volumes where persistence is not critical
+  - superset/docker:/app/docker
+  - superset/superset:/app/superset
+  - superset/superset-frontend:/app/superset-frontend
+  - superset/superset-home:/app/superset_home
+  - superset_conf/superset_config.py:/etc/superset/superset_config.py
 
 volumes:
   import_done:
@@ -34,55 +62,384 @@ volumes:
   # Mounted in SCP and to geoserver for a file store
   scp_geoserver_data:
   # Mounted in SCP and to QGIS Server for serving QGIS projects
-  scp_qgis_data:
+  scp_qgis_projects:
+  # Mounted in SCP and to QGIS Server for serving QGIS fonts
+  scp_qgis_fonts:
+  # Mounted in SCP and to QGIS Server for serving QGIS svgs
+  scp_qgis_svg:
   # Mounted in SCP and to Hugo for rendering static pages
   scp_hugo_data:
+  # Mounted in SCP and to ODM for processing uploaded images
+  scp_odm_data:
   # Mounted in SCP only for data sharing
   scp_general_data:
 
+
+#
+# SERVICES
+#
+
 services:
+ 
+  ############################################################
+  #
+  # First we define all the services in the PRODUCTION profile
+  # These are the database, QGIS Server, and all reverse proxied
+  # services in nginx such as Postgrest, Swagger, GeoServer etc.
+  #
+  ############################################################
 
   db:
     image: *postgres-image
-    profiles: ["osm","geoserver","qgis-server"]
+    profiles: ["all", "production","osm","geoserver","qgis-server", "mergin", "dev"]
     volumes:
-      - ./postgis_data:/var/lib/postgresql
+      - postgis_data:/var/lib/postgresql
     env_file: .env
     environment:
-      # We define two databases on startup - one for gis work and one for superset
+      # We define two databases on startup - one for gis work and
+      # one for superset
       - POSTGRES_DB=gis,superset
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - ALLOW_IP_RANGE=0.0.0.0/0
     networks:
-     - qgis-server-net
+     - os-gis-stack
     ports:
       - 15432:5432 
     restart: unless-stopped
     healthcheck:
         test: "exit 0"
 
+  geoserver:
+    image: *geoserver-image
+    profiles: ["all","production","geoserver", "dev"]
+    volumes:
+      # Must create this dir yourself so that it is owned by you
+      - geoserver_data:/opt/geoserver/data_dir
+      # Mounted in SCP and to geoserver for serving geoserver data
+      # store
+      - scp_geoserver_data:/data/scp_geoserver_data
+    restart: on-failure
+    env_file: .env
+    environment:
+      - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
+      - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
+      - INITIAL_MEMORY=${INITIAL_MEMORY}
+      - MAXIMUM_MEMORY=${MAXIMUM_MEMORY}
+      - STABLE_EXTENSIONS=importer-plugin
+    networks:
+     - os-gis-stack
+    depends_on:
+      - db
+    healthcheck:
+      test: curl --fail -s http://localhost:8080/ || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx with ssl      
+  nginx:
+    image: *nginx-image
+    profiles: ["all","production","nginx"]
+    volumes:
+     - ./html:/var/www/html
+     - ./nginx_conf/nginx.conf:/etc/nginx/nginx.conf
+     - certbot/certbot/conf:/etc/letsencrypt
+     - certbot/certbot/www:/var/www/certbot
+     # Mount the mergin db sync data into nginx so we can access
+     # images etc.
+     # Ideally we should only be mounting the image subfolders to
+     # avoid leaking our geopackage etc.
+     # To do that the mergin project needs to be set up accordingly
+     # - TODO for the future
+     - mergin_sync_data/dbsync:/mergin-data
+    # This makes nginx reload its configuration (and certificates)
+    # every six hours in the background and launches nginx in the
+    # foreground.
+    # See
+    # https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    ports:
+     - "80:80"
+     - "443:443"
+    networks:
+     - os-gis-stack
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
+    depends_on:
+      - qgis-server
+      - mapproxy
+      - geoserver
+      - postgrest
+      - swagger
+
+  certbot:
+    image: *certbot-image
+    profiles: ["all","production","nginx"]
+    # This checks every 12 hours if our cert is up for renewal and
+    # refreshes it if needed
+    # See https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    volumes:
+     - certbot/certbot/conf:/etc/letsencrypt
+     - certbot/certbot/www:/var/www/certbot
+
+  qgis-server:
+    image: *qgis-server-image
+    profiles: ["all","production","qgis-server","dev"]
+    #image: "openquake/qgis-server:3"
+    env_file: .env
+    environment:
+      # Do not run the embedded copy of nginx
+      SKIP_NGINX: "true"
+      # Improve rendering performance
+      QGIS_SERVER_PARALLEL_RENDERING: "true"
+      QGIS_SERVER_MAX_THREADS: 4
+      # Limit the maximum size returned by a GetMap
+      QGIS_SERVER_WMS_MAX_HEIGHT: 5000
+      QGIS_SERVER_WMS_MAX_WIDTH: 5000
+      # Verbose logging
+      QGIS_SERVER_LOG_LEVEL: 0
+      # Initialize the authentication system
+      # creates or uses qgis-auth.db in ~/.qgis3/ or directory
+      # defined by QGIS_AUTH_DB_DIR_PATH env variable
+      # set the master password as first line of file defined by
+      # QGIS_AUTH_PASSWORD_FILE env variable
+      # (QGIS_AUTH_PASSWORD_FILE variable removed from environment
+      # after accessing)
+      # See also volume mounts below
+      QGIS_AUTH_DB_DIR_PATH: /tmp/
+      QGIS_AUTH_PASSWORD_FILE: /tmp/qgis-auth-pwd.txt
+      # For OGC API
+      # # Landing page plugin projects directory
+      #QGIS_SERVER_LANDING_PAGE_PROJECTS_DIRECTORIES ${QGIS_SERVER_LANDING_PAGE_PROJECTS_DIRECTORIES}
+      #QGIS_SERVER_LANDING_PAGE_PROJECTS_PG_CONNECTIONS postgresql://${POSTGRES_USER}:${POSTGRES_PASS}@postgis:5432?sslmode=disable&dbname=${POSTGRES_DBNAME}&schema=public`
+    ports:
+      - "9993"
+    networks:
+     - os-gis-stack
+    volumes:
+     # Data should be mount RO when working
+     # with GeoPackages and more than one QGIS container
+     # Data dir structure
+     # $(pwd)/qgis_projects must have the following structure:
+     #
+     # data
+     # |
+     # |-- <project_name>
+     #   |-- <project_name>.qgs
+     # 
+     # The data dir is mounted in the SCP volume
+     # too so that you can upload your projects easily
+     # using SCP and then have them published
+     #
+     - scp_qgis_projects:/io/data:ro
+     # 
+     # qgis_plugins
+     # |
+     # |-- <plugin_name>
+     #   |-- <plugin_code>.py
+     #   |-- metadata.txt
+     #   |-- __init__.py
+     - ./qgis_plugins:/io/plugins
+     #  
+     # Custom fonts are loaded into /usr/share/fonts. fc-cache is
+     # run when container is started.
+     - scp_qgis_fonts:/usr/share/fonts
+     - scp_qgis_svg:/var/lib/qgis/.local/share/QGIS/QGIS3/profiles/default/svg
+     - ./qgis_conf/qgis-auth.db:/tmp/qgis-auth.db
+     - ./qgis_conf/qgis-auth-pwd.txt:/tmp/qgis-auth-pwd.txt
+     # Working path for the pg_service file if using
+     # openquake/qgis-server:stable
+     # See https://github.com/gem/oq-qgis-server/issues/54
+     # The service file contains two service definitions
+     # nginx - used for connecting to the database to load a QGIS
+     #         project stored in the database
+     #         In that case you cannot yet use qgis-auth.db
+     #         database for user/pass credentials
+     # smallholding - used for layer definitions. This service has
+     #         no user/pass data and 
+     #         instead we fetch those credentials from the qgis
+     #         authdb
+     - ./pg_conf/pg_service.conf:/etc/postgresql-common/pg_service.conf:ro
+     # As per the oq QGIS Server docs at
+     # https://github.com/gem/oq-qgis-server/blob/master/README.md#postgresql-connection-service-file-optional
+     # but wrong! 
+     #This works instead for the openquake/qgis-server:3 image
+     #- ./pg_conf/pg_service.conf:/etc/pg_service.conf:ro
+
+     # Mount the mergin db sync data into nginx so we can access
+     # images etc.
+     # Ideally we should only be mounting the image subfolders to
+     # avoid leaking our geopackage etc.
+     # To do that the mergin project needs to be set up accordingly
+     # - TODO for the future
+     - mergin_sync_data/dbsync:/mergin-data     
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  mapproxy:
+    image: *mapproxy-image
+    profiles: ["all","production","qgis-server","dev"]
+    env_file: .env
+    environment:
+      - PRODUCTION=false
+      - PROCESSES=4
+      - THREADS=10
+    user: "1000:10001"
+    volumes:
+      - ./mapproxy_conf:/mapproxy
+    depends_on:
+      - qgis-server
+    networks:
+     - os-gis-stack
+
+  postgrest:
+    #
+    # Used for pushing readings from IoT devices to our database
+    #
+    image: *postgrest-image
+    profiles: ["all","production","postgrest","dev"]
+    env_file: .env
+    environment:
+      PGRST_DB_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/gis
+      PGRST_DB_SCHEMA: ${PGRST_DB_SCHEMA}
+      # In production this role should not be the same as the one used for the connection
+      # depends_on
+      PGRST_DB_ANON_ROLE: ${PGRST_DB_ANON_ROLE}
+      PGRST_SERVER_PROXY_URI: ${PGRST_SERVER_PROXY_URI}
+      PGRST_OPENAPI_SERVER_PROXY_URI: ${PGRST_OPENAPI_SERVER_PROXY_URI}
+      PGRST_SERVER_PORT: ${PGRST_SERVER_PORT}
+    links:
+      - db:db
+    ports:
+      - "3000"
+    depends_on:
+      - db
+    networks:
+      - os-gis-stack
+
+  swagger:
+    image: *swagger-image
+    profiles: ["all","production","postgrest","dev"]
+    ports:
+      - "8080"
+    volumes:
+      - ./swagger_conf/swagger.json:/swagger.json
+    env_file: .env
+    environment:
+      SWAGGER_JSON: /swagger.json
+      API_URL: ${API_URL}       
+    depends_on:
+      - db
+      - postgrest
+    networks:
+      - os-gis-stack
+  scp:
+    image: *scp-image
+    profiles: ["all","production","scp","dev"]
+    ports:
+      # This is one of the few cases where we are 
+      # exposing a port to the host. Users should
+      # be able to use scp to upload qgis projects
+      # data files for geoserver etc.
+      - "2222:22"
+    volumes:
+      # Host mounted volume
+      # One file per user, each file containing list
+      # of ssh keys allowed to upload to the data dir
+      # Files should be given same name as user
+      - ./scp_conf:/conf
+      # Mounted in SCP and to geoserver for serving geoserver data
+      # store
+      - scp_geoserver_data:/data/geoserver_data
+      # Mounted in SCP and to QGIS Server for serving QGIS projects
+      - scp_qgis_projects:/data/qgis_projects
+      # Mounted in SCP and to QGIS Server for serving QGIS fonts
+      - scp_qgis_fonts:/data/qgis_fonts
+      # Mounted in SCP and to QGIS Server for serving QGIS svgs
+      - scp_qgis_svg:/data/qgis_svg
+      # Mounted in SCP and to Hugo for rendering static pages
+      - scp_hugo_data:/data/hugo_data
+      # Mounted in SCP and to ODM for processing uploaded images
+      - scp_odm_data:/data/odm_data
+      # Mounted in SCP only for data sharing
+      - scp_general_data:/data/general_data
+    networks:
+      - os-gis-stack  
+  ############################################################
+  #
+  # MERGIN Service - this is not run in production by
+  # default. It will sync your mergin projects to the db image.
+  # To run do:
+  #
+  # docker-compose --profile=mergin up -d
+  #
+  ############################################################
+
+  mergin-sync:
+    image: *mergin-db-sync-image
+    profiles: ["all","mergin","dev"]
+    volumes:
+      # We do this so we can easily inspect what is being pulled
+      # down from mergin, flush the working dir when needed etc
+      - mergin_sync_data:/tmp
+    env_file: .env
+    environment:
+      - DB_CONN_INFO=host=db dbname=gis user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}
+      - DB_SCHEMA_MODIFIED=${DB_SCHEMA_MODIFIED}
+      - DB_SCHEMA_BASE=${DB_SCHEMA_BASE}
+      - MERGIN_USERNAME=${MERGIN_USER}
+      - MERGIN_PASSWORD=${MERGIN_PASSWORD}
+      - MERGIN_PROJECT_NAME=${MERGIN_PROJECT_NAME}
+      - MERGIN_SYNC_FILE=${MERGIN_SYNC_FILE}
+    # Ultimately we want to swap to having the db as the master
+    # copy. If you are using the geopackage as the master copy:
+    entrypoint: "python3 dbsync_daemon.py --init-from-gpkg"
+    # If you are using the database as the master copy:
+    #entrypoint: "python3 dbsync_daemon.py --init-from-db"
+    networks:
+     - os-gis-stack
+    restart: unless-stopped
+    depends_on:
+      - db 
+
+  ############################################################
+  #
+  # OSM Sync Services - these are not run in production by
+  # default - to run them do:
+  #
+  # docker-compose --profile=osm up -d
+  #
+  ############################################################
+
+
   # This is a storage container for the country pbf
   pbf:
     image: pbf:stable
-    profiles: ["osm"]
+    profiles: ["all","osm","dev"]
     build:
-      context: ./pbf_fetcher
+      context: pbf_fetcher
       dockerfile: Dockerfile
 
   imposm:
     image: *imposm-image
-    profiles: ["osm"]
+    profiles: ["all", "osm","dev"]
     volumes:
       # These are sharable to other containers
       - ./osm_conf:/home/settings
-      - import_done:/home/import_done
-      - import_queue:/home/import_queue
-      - cache:/home/cache
+      - osm_import_done:/home/import_done
+      - osm_import_queue:/home/import_queue
+      - osm_cache:/home/cache
     depends_on:
       - db
     networks:
-     - qgis-server-net
+     - os-gis-stack
     env_file: .env
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
@@ -90,8 +447,9 @@ services:
       - POSTGRES_DBNAME=gis
       - POSTGRES_PORT=5432
       - POSTGRES_HOST=db
-      # seconds between 2 executions of the script
-      # if 0, then no update will be done, only the first initial import from the PBF
+      # seconds between 2 executions of the script if 0, then no
+      # update will be done, only the first initial import from the
+      # PBF
       - TIME=120
       # folder for settings (with *.json and *.sql)
       - SETTINGS=settings
@@ -111,59 +469,67 @@ services:
       - DBSCHEMA_IMPORT=osm_import
       # http://imposm.org/docs/imposm3/latest/tutorial.html#deploy-production-tables
       - DBSCHEMA_BACKUP=osm_backup
-      # Install some styles if you are using the default mapping. It can be 'yes' or 'no'
+      # Install some styles if you are using the default mapping.
+      # It can be 'yes' or 'no'
       - QGIS_STYLE=yes
       # Use clip in the database
       - CLIP=yes
 
   osmupdate:
     image: *osm-update-image
-    profiles: ["osm"]
+    profiles: ["all","osm","dev"]
   
     volumes:
       # These are sharable to other containers
       - ./osm_conf:/home/settings
-      - import_done:/home/import_done
-      - import_queue:/home/import_queue
-      - cache:/home/cache
+      - osm_import_done:/home/import_done
+      - osm_import_queue:/home/import_queue
+      - osm_cache:/home/cache
     depends_on:
       - db
     networks:
-     - qgis-server-net
+     - os-gis-stack
     environment:
-      # These are all currently the defaults but listed here for your
-      # convenience if you want to change them
-      # the maximum time range to assemble a cumulated changefile.
+      # These are all currently the defaults but listed here for
+      # your convenience if you want to change them.
+      
+      # The maximum time range to assemble a cumulated changefile.
       - MAX_DAYS=100
-      # osmupdate uses a combination of minutely, hourly and daily changefiles. This value can be minute, hour, day or sporadic.
+      # osmupdate uses a combination of minutely, hourly and daily
+      # changefiles. This value can be minute, hour, day or
+      # sporadic.
       - DIFF=sporadic
-      # argument to determine the maximum number of parallely processed changefiles.
+      # argument to determine the maximum number of parallely
+      # processed changefiles.
       - MAX_MERGE=7
-      # define level for gzip compression. values between 1 (low compression but fast) and 9 (high compression but slow)
+      # define level for gzip compression. values between 1 (low
+      # compression but fast) and 9 (high compression but slow)
       - COMPRESSION_LEVEL=1
-      # change the URL to use a custom URL to fetch regional file updates.
+      # change the URL to use a custom URL to fetch regional file
+      # updates.
       - BASE_URL=http://planet.openstreetmap.org/replication/
       # folder for diff which hasn't been imported yet
       - IMPORT_QUEUE=import_queue
       # folder for diff which has been imported
       - IMPORT_DONE=import_done
       # seconds between 2 executions of the script
-      # if 0, then no update will be done, only the first initial import from the PBF
+      # if 0, then no update will be done, only the first initial
+      # import from the PBF
       - TIME=120
 
   osmenrich:
-    image: kartoza/docker-osm:osmenrich-latest
-    profiles: ["osm"]
+    image: *osmenrich-image
+    profiles: ["all", "osm","dev"]
     volumes:
       # These are sharable to other containers
       - ./osm_conf:/home/settings
-      - import_done:/home/import_done
-      - import_queue:/home/import_queue
-      - cache:/home/cache
+      - osm_import_done:/home/import_done
+      - osm_import_queue:/home/import_queue
+      - osm_cache:/home/cache
     depends_on:
       - db
     networks:
-     - qgis-server-net
+     - os-gis-stack
     env_file: .env
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
@@ -171,84 +537,43 @@ services:
       - POSTGRES_DBNAME=gis
       - POSTGRES_PORT=5432
       - POSTGRES_HOST=db
-      # These are all currently the defaults but listed here for your
-      #      # convenience if you want to change them
-      #      # folder for diff which hasn't been imported yet
-      #      - IMPORT_QUEUE=import_queue
-      #      # folder for diff which has been imported
-      #      - IMPORT_DONE=import_done
-      #      # seconds between 2 executions of the script
-      #      # if 0, then no update will be done, only the first initial import from the PBF
-      #    command: bash -c "while [ ! -f /home/settings/importer.lock ] ; do sleep 1; done && python3 -u /home/enrich.py"
-      #      - TIME=120
+      # These are all currently the defaults but listed here for
+      # your convenience if you want to change them.
+      # folder for diff which hasn't been imported yet
+      # - IMPORT_QUEUE=import_queue
+      # folder for diff which has been imported
+      # - IMPORT_DONE=import_done
+      # seconds between 2 executions of the script
+      # if 0, then no update will be done, only the first initial import from the PBF
+      # - TIME=120
+      # command: bash -c "while [ ! -f /home/settings/importer.lock ] ; do sleep 1; done && python3 -u /home/enrich.py"
 
-  geoserver:
-    image: kartoza/geoserver:2.18.0
-    profiles: ["geoserver"]
-    volumes:
-      # Must create this dir yourself so that it is owned by you
-      - ./geoserver_data:/opt/geoserver/data_dir
-      # Mounted in SCP and to geoserver for serving geoserver data store
-      - scp_geoserver_data:/data/scp_geoserver_data
-    restart: on-failure
-    env_file: .env
-    environment:
-      - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
-      - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
-      - INITIAL_MEMORY=${INITIAL_MEMORY}
-      - MAXIMUM_MEMORY=${MAXIMUM_MEMORY}
-      - STABLE_EXTENSIONS=importer-plugin
-    networks:
-     - qgis-server-net
-    depends_on:
-      - db
-    healthcheck:
-      test: curl --fail -s http://localhost:8080/ || exit 1
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-
-  mergin-sync:
-    image: lutraconsulting/mergin-db-sync
-    profiles: ["mergin"]
-    volumes:
-      # We do this so we can easily inspect what is being pulled down 
-      # from merging, flush the working dir when needed etc
-      - ./mergin_sync_data:/tmp
-    env_file: .env
-    environment:
-      - DB_CONN_INFO=host=db dbname=gis user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}
-      - DB_SCHEMA_MODIFIED=${DB_SCHEMA_MODIFIED}
-      - DB_SCHEMA_BASE=${DB_SCHEMA_BASE}
-      - MERGIN_USERNAME=${MERGIN_USER}
-      - MERGIN_PASSWORD=${MERGIN_PASSWORD}
-      - MERGIN_PROJECT_NAME=${MERGIN_PROJECT_NAME}
-      - MERGIN_SYNC_FILE=${MERGIN_SYNC_FILE}
-    # Ultimately we want to swap to having the db as the master copy 
-    # If you are using the geopackage as the master copy
-    entrypoint: "python3 dbsync_daemon.py --init-from-gpkg"
-    # If you are using the database as the master copy
-    #entrypoint: "python3 dbsync_daemon.py --init-from-db"
-    networks:
-     - qgis-server-net
-    restart: unless-stopped
-    depends_on:
-      - db 
+  ############################################################
+  #
+  #
+  # DEV profile. Mainly runs nginx without cert for local testing
+  #
+  #
+  ############################################################
 
   # Nginx without ssl meant for local testing only      
   nginx-testing:
-    image: "nginx"
+    image: *nginx-image
+    profiles: ["dev"]
     volumes:
      - ./html:/var/www/html
-     # Mount the mergin db sync data into nginx so we can access images etc.
-     # Ideally we should only be mounting the image subfolders to avoid leaking our geopackage etc.
-     # To do that the mergin project needs to be set up accordingly - TODO for the future
-     - ./mergin_sync_data/dbsync:/mergin-data
+     - ./nginx_dev_conf/nginx.conf:/etc/nginx/nginx.conf
+     # Mount the mergin db sync data into nginx so we can access
+     # images etc.
+     # Ideally we should only be mounting the image subfolders to
+     # avoid leaking our geopackage etc.
+     # To do that the mergin project needs to be set up accordingly
+     # - TODO for the future
+     - mergin_sync_data/dbsync:/mergin-data
     ports:
      - "80:80"
-     - "443:443"
     networks:
-     - qgis-server-net
+     - os-gis-stack
     restart: unless-stopped
     logging:
       driver: json-file
@@ -262,322 +587,145 @@ services:
       - postgrest
       - swagger
 
-  # Nginx with ssl      
-  nginx:
-    image: "nginx"
-    volumes:
-     - ./html:/var/www/html
-     - ./nginx_conf/nginx.conf:/etc/nginx/nginx.conf
-     - ./certbot/certbot/conf:/etc/letsencrypt
-     - ./certbot/certbot/www:/var/www/certbot
-     # Mount the mergin db sync data into nginx so we can access images etc.
-     # Ideally we should only be mounting the image subfolders to avoid leaking our geopackage etc.
-     # To do that the mergin project needs to be set up accordingly - TODO for the future
-     - ./mergin_sync_data/dbsync:/mergin-data
-    # This makes nginx reload its configuration (and certificates) every six hours in the background and launches nginx in the foreground.
-    # See https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
-    ports:
-     - "80:80"
-     - "443:443"
-    networks:
-     - qgis-server-net
-    restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-size: 200m
-        max-file: '10'
-    depends_on:
-      - qgis-server
-      - mapproxy
-      - geoserver
-      - postgrest
-      - swagger
-
-  certbot:
-    image: certbot/certbot
-    # This checks every 12 hours if our cert is up for renewal and refreshes it if needed
-    # See https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-    volumes:
-     - ./certbot/certbot/conf:/etc/letsencrypt
-     - ./certbot/certbot/www:/var/www/certbot
-
-  qgis-server:
-    image: "openquake/qgis-server:stable"
-    #image: "openquake/qgis-server:3"
-    env_file: .env
-    environment:
-      # Do not run the embedded copy of nginx
-      SKIP_NGINX: "true"
-      # Improve rendering performance
-      QGIS_SERVER_PARALLEL_RENDERING: "true"
-      QGIS_SERVER_MAX_THREADS: 4
-      # Limit the maximum size returned by a GetMap
-      QGIS_SERVER_WMS_MAX_HEIGHT: 5000
-      QGIS_SERVER_WMS_MAX_WIDTH: 5000
-      # Verbose logging
-      QGIS_SERVER_LOG_LEVEL: 0
-      # // Initialize the authentication system
-      # // creates or uses qgis-auth.db in ~/.qgis3/ or directory defined by QGIS_AUTH_DB_DIR_PATH env variable
-      # // set the master password as first line of file defined by QGIS_AUTH_PASSWORD_FILE env variable
-      # // (QGIS_AUTH_PASSWORD_FILE variable removed from environment after accessing)
-      # See also volume mounts below
-      QGIS_AUTH_DB_DIR_PATH: /tmp/
-      QGIS_AUTH_PASSWORD_FILE: /tmp/qgis-auth-pwd.txt
-      # For OGC API
-      # # Landing page plugin projects directory
-      #QGIS_SERVER_LANDING_PAGE_PROJECTS_DIRECTORIES ${QGIS_SERVER_LANDING_PAGE_PROJECTS_DIRECTORIES}
-      #QGIS_SERVER_LANDING_PAGE_PROJECTS_PG_CONNECTIONS postgresql://${POSTGRES_USER}:${POSTGRES_PASS}@postgis:5432?sslmode=disable&dbname=${POSTGRES_DBNAME}&schema=public`
-    ports:
-      - "9993"
-    networks:
-     - qgis-server-net
-    volumes:
-     # Data should be mount RO when working
-     # with GeoPackages and more than one QGIS container
-     # Data dir structure
-     # $(pwd)/qgis_projects must have the following structure:
-     # data
-     # |
-     # |-- <project_name>
-     #   |-- <project_name>.qgs
-     - ./qgis_projects:/io/data:ro
-     # 
-     # qgis_plugins
-     # |
-     # |-- <plugin_name>
-     #   |-- <plugin_code>.py
-     #   |-- metadata.txt
-     #   |-- __init__.py
-     - ./qgis_plugins:/io/plugins
-     # Custom fonts are loaded into /usr/share/fonts. fc-cache is run when container is started.
-     - ./fonts:/usr/share/fonts
-     - ./svg:/var/lib/qgis/.local/share/QGIS/QGIS3/profiles/default/svg
-     - ./qgis_conf/qgis-auth.db:/tmp/qgis-auth.db
-     - ./qgis_conf/qgis-auth-pwd.txt:/tmp/qgis-auth-pwd.txt
-     # Working path for the pg_service file if using openquake/qgis-server:stable
-     # See https://github.com/gem/oq-qgis-server/issues/54
-     # The service file contains two service definitions
-     # nginx - used for connecting to the database to load a QGIS project stored in the database
-     #         In that case you cannot yet use qgis-auth.db database for user/pass credentials
-     # smallholding - used for layer definitions. This service has no user/pass data and 
-     #         instead we fetch those credentials from the qgis authdb
-     - ./pg_conf/pg_service.conf:/etc/postgresql-common/pg_service.conf:ro
-     # As per the oq QGIS Server docs at https://github.com/gem/oq-qgis-server/blob/master/README.md#postgresql-connection-service-file-optional but wrong! 
-     #This works instead for the openquake/qgis-server:3 image
-     #- ./pg_conf/pg_service.conf:/etc/pg_service.conf:ro
-
-     # Mount the mergin db sync data into nginx so we can access images etc.
-     # Ideally we should only be mounting the image subfolders to avoid leaking our geopackage etc.
-     # To do that the mergin project needs to be set up accordingly - TODO for the future
-     - ./mergin_sync_data/dbsync:/mergin-data     
-    depends_on:
-      - db
-    restart: unless-stopped
-
-  mapproxy:
-    image: kartoza/mapproxy
-    env_file: .env
-    environment:
-      - PRODUCTION=false
-      - PROCESSES=4
-      - THREADS=10
-    user: "1000:10001"
-    volumes:
-      - ./mapproxy_conf:/mapproxy
-    depends_on:
-      - qgis-server
-    networks:
-     - qgis-server-net
-
-  postgrest:
-    #
-    # Used for pushing readings from IoT devices to our database
-    #
-    image: postgrest/postgrest
-    env_file: .env
-    environment:
-      PGRST_DB_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/gis
-      PGRST_DB_SCHEMA: ${PGRST_DB_SCHEMA}
-      # In production this role should not be the same as the one used for the connection
-      # depends_on
-      PGRST_DB_ANON_ROLE: ${PGRST_DB_ANON_ROLE}
-      PGRST_SERVER_PROXY_URI: ${PGRST_SERVER_PROXY_URI}
-      PGRST_OPENAPI_SERVER_PROXY_URI: ${PGRST_OPENAPI_SERVER_PROXY_URI}
-      PGRST_SERVER_PORT: ${PGRST_SERVER_PORT}
-    links:
-      - db:db
-    ports:
-      - "3000"
-    depends_on:
-      - db
-    networks:
-      - qgis-server-net
-
-  swagger:
-    image: swaggerapi/swagger-ui
-    ports:
-      - "3001:8080"
-    volumes:
-      - ./swagger_conf/swagger.json:/swagger.json
-    env_file: .env
-    environment:
-      SWAGGER_JSON: /swagger.json
-      API_URL: ${API_URL}       
-    depends_on:
-      - db
-      - postgrest
-    networks:
-      - qgis-server-net
-  scp:
-    image: quay.io/lkiesow/docker-scp
-    ports:
-      - "2222:22"
-    volumes:
-      # Host mounted volume
-      # One file per user, each file containing list
-      # of keys allowed to upload to the data dir
-      # Files should be given same name as user
-      - ./scp_conf:/conf
-      # Mounted in SCP and to geoserver for serving geoserver data store
-      - scp_geoserver_data:/data/geoserver_data
-      # Mounted in SCP and to QGIS Server for serving QGIS projects
-      - scp_qgis_data:/data/qgis_data
-      # Mounted in SCP and to Hugo for rendering static pages
-      - scp_hugo_data:/data/hugo_data
-      # Mounted in SCP only for data sharing
-      - scp_general_data:/data/general_data
-    networks:
-      - qgis-server-net  
+  ############################################################
+  #
+  #
+  # ODM Services. These are all run once containers.
+  #
+  #
+  ############################################################
     
   odm:
-    # A run once container that will process a batch of images and generate an 
-    # orthophoto, DSM and DEM
+    # A run once container that will process a batch of images and
+    # generate an orthophoto, DSM and DEM
     # see https://github.com/OpenDroneMap/ODM#quickstart
     # docker run -ti --rm -v /home/youruser/datasets:/datasets opendronemap/odm --project-path /datasets project
     # Treat this as a run-once job and run it using either
     # docker-compose --profile=odm run odm
     # or 
     # make odm
-    image: opendronemap/odm
+    image: *odm-image
     # Only runs when you do docker-compose --profile=odm imposm
     profiles: ["odm"]
     volumes:
-      # odm datasets should be arranged with project folders each containing an images folder e.g.
+      # odm datasets should be arranged with project folders each
+      # containing an images folder e.g.
       # datasets/smallholding/images
-      - ./odm_datasets:/datasets
+      - scp_odm_data:/datasets
     restart: never
     entrypoint: "python3 /code/run.py --project-path /datasets --dsm --dtm --orthophoto-resolution 2 smallholding"
 
   odm-ortho-clip:
     
-    # A run once container that will clip processed dsm, dtm, orthophoto images created using the odm service above
+    # A run once container that will clip processed dsm, dtm,
+    # orthophoto images created using the odm service above
     # see https://github.com/geo-data/gdal-docker
-    # example usage : docker run -v $(pwd):/data geodata/gdal gdalinfo test.tif
+    # example usage : 
+    # docker run -v $(pwd):/data geodata/gdal gdalinfo test.tif
     #
     # Treat this as a run-once job and run it using either
     # docker-compose --profile=odm run odm-ortho-clip
     # or 
     # make odm
     #
-    # I think we can use image: kartoza/postgis:13.0 rather and then we get pg support too
-    image: geodata/gdal
+    # I think we can use image: kartoza/postgis:13.0 rather and
+    # then we get pg support too
+    image: *gdal-image
     # Only runs when you do docker-compose --profile=odm .....
     profiles: ["odm"]
     volumes:
-      # odm datasets should be arranged with project folders each containing an images folder e.g.
+      # odm datasets should be arranged with project folders each
+      # containing an images folder e.g.
       # datasets/projectfoo/images
-      - ./odm_datasets:/datasets
-      - ./odm_cutline:/cutline
+      - scp_odm_data:/datasets
+      - odm_cutline:/cutline
     restart: never
     entrypoint: "gdalwarp -overwrite -cutline /cutline/cutline.shp -crop_to_cutline -dstalpha /datasets/smallholding/odm_orthophoto/odm_orthophoto.tif /datasets/orthophoto.tif"
 
   odm-dsm-clip:
     
-    # A run once container that will clip processed dsm, dtm, orthophoto images created using the odm service above
+    # A run once container that will clip processed dsm, dtm,
+    # orthophoto images created using the odm service above
     # see https://github.com/geo-data/gdal-docker
-    # example usage : docker run -v $(pwd):/data geodata/gdal gdalinfo test.tif
+    # example usage : 
+    # docker run -v $(pwd):/data geodata/gdal gdalinfo test.tif
     #
     # Treat this as a run-once job and run it using either
     # docker-compose --profile=odm run odm-dsm-clip
     # or 
     # make odm
     #
-    # I think we can use image: kartoza/postgis:13.0 rather and then we get pg support too    
-    image: geodata/gdal
+    # I think we can use image: kartoza/postgis:13.0 rather and
+    # then we get pg support too    
+    image: *gdal-image
     # Only runs when you do docker-compose --profile=odm .....
     profiles: ["odm"]
     volumes:
-      # odm datasets should be arranged with project folders each containing an images folder e.g.
+      # odm datasets should be arranged with project folders each
+      # containing an images folder e.g.
       # datasets/projectfoo/images
-      - ./odm_datasets:/datasets
-      - ./odm_cutline:/cutline
+      - odm_datasets:/datasets
+      - odm_cutline:/cutline
     restart: never
     entrypoint: "gdalwarp -overwrite -cutline /cutline/cutline.shp -crop_to_cutline -dstalpha /datasets/smallholding/odm_dem/dsm.tif /datasets/dsm.tif"
 
   odm-dtm-clip:
     
-    # A run once container that will clip processed dsm, dtm, orthophoto images created using the odm service above
+    # A run once container that will clip processed dsm, dtm,
+    # orthophoto images created using the odm service above
     # see https://github.com/geo-data/gdal-docker
-    # example usage : docker run -v $(pwd):/data geodata/gdal gdalinfo test.tif
+    # example usage : 
+    # docker run -v $(pwd):/data geodata/gdal gdalinfo test.tif
     #
     # Treat this as a run-once job and run it using either
     # docker-compose --profile=odm run odm-dem-clip
     # or 
     # make odm
     #
-    # I think we can use image: kartoza/postgis:13.0 rather and then we get pg support too    
-    image: geodata/gdal
+    # I think we can use image: kartoza/postgis:13.0 rather and
+    # then we get pg support too    
+    image: *gdal-image
     # Only runs when you do docker-compose --profile=odm .....
     profiles: ["odm"]
     volumes:
-      # odm datasets should be arranged with project folders each containing an images folder e.g.
+      # odm datasets should be arranged with project folders each
+      # containing an images folder e.g.
       # datasets/projectfoo/images
-      - ./odm_datasets:/datasets
-      - ./odm_cutline:/cutline
+      - odm_datasets:/datasets
+      - odm_cutline:/cutline
     restart: never
     entrypoint: "gdalwarp -overwrite -cutline /cutline/cutline.shp -crop_to_cutline -dstalpha /datasets/smallholding/odm_dem/dtm.tif /datasets/dtm.tif"
 
   osm-to-mbtiles:
-    # A run once container that export the docker-osm schema to an mbtiles store
+    # A run once container that export the docker-osm schema to an
+    # mbtiles store
     # Treat this as a run-once job and run it using either
     # docker-compose --profile osm run osm-to-mbtiles
     # or 
     # make osm-to-mbtiles
     #
-    # Broken for now, see Makefile osm-to-mbtiles target for details
-    image: kartoza/postgis:13.0
+    # Broken for now, see Makefile osm-to-mbtiles target for
+    # details
+    image: *postgres-image
     profiles: ["osm"]
     networks:
-      - qgis-server-net
+      - os-gis-stack
     volumes:
-      # This is a bit naughty as the mergindb sync checkout should be treated read only, 
-      # but trying anyway to see if it works because if it does it could be a nice way 
-      # to provision an updated tileset whenever you run this
-      - ./mergin_sync_data:/data
+      # This is a bit naughty as the mergindb sync checkout should
+      # be treated read only, but trying anyway to see if it works
+      # because if it does it could be a nice way to provision an 
+      # updated tileset whenever you run this
+      - mergin_sync_data:/data
     restart: never
     entrypoint: "ogr2ogr -f MBTILES /data/osm.mbtiles PG:\"dbname='gis' host='db' port='5432' user='docker' password='docker' SCHEMAS=osm\" -dsco \"MAXZOOM=10\" -dsco \"BOUNDS=-7.389126,39.410085,-7.381439,39.415144\""
 
-
+  ############################################################
   #
-  # Web dav for uploading static html
-  # Connect in gnome like this: davs://alice:secret1234@castelo.kartoza.com/webdav/
   #
-  webdav:
-    image: bytemark/webdav
-    restart: always
-    ports:
-      - "80"
-    environment:
-      AUTH_TYPE: Digest
-      USERNAME: alice
-      PASSWORD: secret1234
-    volumes:
-     - ./html:/var/lib/dav
-    networks:
-     - qgis-server-net      
+  # SUPERSET Services. 
+  #
+  #
+  ############################################################
 
 
   #
@@ -585,20 +733,22 @@ services:
   # 
 
   redis:
-    image: redis:latest
+    image: *redis-image
+    profiles: ["all","superset"]
     container_name: superset_cache
     restart: unless-stopped
     ports:
       - "6379"
     volumes:
-      - ./redis:/data
+      - redis:/data
     networks:
-     - qgis-server-net      
+     - os-gis-stack      
 
 
   superset:
     env_file: .env
     image: *superset-image
+    profiles: ["all","superset"]
     #container_name: superset_app
     command: ["/app/docker/docker-bootstrap.sh", "app"]
     #command: ["ls", "/app/docker"]
@@ -611,10 +761,11 @@ services:
     environment:
       CYPRESS_CONFIG: "${CYPRESS_CONFIG}"
     networks:
-     - qgis-server-net      
+     - os-gis-stack      
 
   superset-init:
     image: *superset-image
+    profiles: ["all","superset"]
     #container_name: superset_init
     command: ["/app/docker/docker-init.sh"]
     env_file: .env
@@ -624,20 +775,22 @@ services:
     environment:
       CYPRESS_CONFIG: "${CYPRESS_CONFIG}"
     networks:
-     - qgis-server-net      
+     - os-gis-stack      
 
   superset-node:
-    image: node:14
+    image: *node-image
+    profiles: ["all","superset"]
     #container_name: superset_node
     command: ["/app/docker/docker-frontend.sh"]
     env_file: .env
     depends_on: *superset-depends-on
     volumes: *superset-volumes
     networks:
-     - qgis-server-net    
+     - os-gis-stack    
 
   superset-worker:
     image: *superset-image
+    profiles: ["all","superset"]
     #container_name: superset_worker
     command: ["/app/docker/docker-bootstrap.sh", "worker"]
     env_file: .env
@@ -646,10 +799,11 @@ services:
     user: "root"
     volumes: *superset-volumes
     networks:
-     - qgis-server-net    
+     - os-gis-stack    
 
   superset-worker-beat:
     image: *superset-image
+    profiles: ["all","superset"]
     #container_name: superset_worker_beat
     command: ["/app/docker/docker-bootstrap.sh", "beat"]
     env_file: .env
@@ -658,9 +812,9 @@ services:
     user: "root"
     volumes: *superset-volumes
     networks:
-     - qgis-server-net    
+     - os-gis-stack    
 
 
 
 networks:
-  qgis-server-net:
+  os-gis-stack:
