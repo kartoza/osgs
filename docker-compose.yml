@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.9"
 
 # 
 # DOCKER IMAGES
@@ -19,18 +19,7 @@ x-swagger-image: &swagger-image swaggerapi/swagger-ui
 x-scp-image: &scp-image quay.io/lkiesow/docker-scp
 x-odm-image: &odm-image opendronemap/odm
 x-gdal-image: &gdal-image geodata/gdal
-x-redis-image: &redis-image redis:latest
-x-superset-image: &superset-image apache/superset:latest-dev
-x-node-image: &node-image node:14
 
-#
-# DEPENDENCIES
-#
-
-# Dependency defs
-x-superset-depends-on: &superset-depends-on
-  - db
-  - redis
 
 # 
 # VOLUMES
@@ -41,20 +30,18 @@ x-superset-depends-on: &superset-depends-on
 # of our git repo.
 # 
 
-# Volume defs
-x-superset-volumes: &superset-volumes
-  # /app/pythonpath_docker will be appended to the PYTHONPATH in
-  # the final container
-  # see https://github.com/apache/superset/tree/master/docker
-  - superset/docker:/app/docker
-  - superset/superset:/app/superset
-  - superset/superset-frontend:/app/superset-frontend
-  - superset/superset-home:/app/superset_home
-  - superset_conf/superset_config.py:/etc/superset/superset_config.py
-
 volumes:
   import_done:
   import_queue:
+  postgis_data:
+  geoserver_data:
+  mergin_sync_data:
+  osm_import_done:
+  osm_import_queue:
+  osm_cache:
+  odm_cutline:
+  odm_datasets:
+  redis:
   cache:
   #
   # For uploading stuff via scp
@@ -96,9 +83,9 @@ services:
       - postgis_data:/var/lib/postgresql
     env_file: .env
     environment:
-      # We define two databases on startup - one for gis work and
-      # one for superset
-      - POSTGRES_DB=gis,superset
+      # You can define multiple databases by providing a comma
+      # separated list here.
+      - POSTGRES_DB=gis
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - ALLOW_IP_RANGE=0.0.0.0/0
@@ -144,15 +131,15 @@ services:
     volumes:
      - ./html:/var/www/html
      - ./nginx_conf/nginx.conf:/etc/nginx/nginx.conf
-     - certbot/certbot/conf:/etc/letsencrypt
-     - certbot/certbot/www:/var/www/certbot
+     - ./certbot/certbot/conf:/etc/letsencrypt
+     - ./certbot/certbot/www:/var/www/certbot
      # Mount the mergin db sync data into nginx so we can access
      # images etc.
      # Ideally we should only be mounting the image subfolders to
      # avoid leaking our geopackage etc.
      # To do that the mergin project needs to be set up accordingly
      # - TODO for the future
-     - mergin_sync_data/dbsync:/mergin-data
+     - mergin_sync_data:/mergin-data
     # This makes nginx reload its configuration (and certificates)
     # every six hours in the background and launches nginx in the
     # foreground.
@@ -185,8 +172,8 @@ services:
     # See https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     volumes:
-     - certbot/certbot/conf:/etc/letsencrypt
-     - certbot/certbot/www:/var/www/certbot
+     - ./certbot/certbot/conf:/etc/letsencrypt
+     - ./certbot/certbot/www:/var/www/certbot
 
   qgis-server:
     image: *qgis-server-image
@@ -278,7 +265,7 @@ services:
      # avoid leaking our geopackage etc.
      # To do that the mergin project needs to be set up accordingly
      # - TODO for the future
-     - mergin_sync_data/dbsync:/mergin-data     
+     - mergin_sync_data:/mergin-data     
     depends_on:
       - db
     restart: unless-stopped
@@ -518,7 +505,7 @@ services:
       - TIME=120
 
   osmenrich:
-    image: *osmenrich-image
+    image: *osm-enrich-image
     profiles: ["all", "osm","dev"]
     volumes:
       # These are sharable to other containers
@@ -569,7 +556,7 @@ services:
      # avoid leaking our geopackage etc.
      # To do that the mergin project needs to be set up accordingly
      # - TODO for the future
-     - mergin_sync_data/dbsync:/mergin-data
+     - mergin_sync_data:/mergin-data
     ports:
      - "80:80"
     networks:
@@ -718,101 +705,6 @@ services:
       - mergin_sync_data:/data
     restart: never
     entrypoint: "ogr2ogr -f MBTILES /data/osm.mbtiles PG:\"dbname='gis' host='db' port='5432' user='docker' password='docker' SCHEMAS=osm\" -dsco \"MAXZOOM=10\" -dsco \"BOUNDS=-7.389126,39.410085,-7.381439,39.415144\""
-
-  ############################################################
-  #
-  #
-  # SUPERSET Services. 
-  #
-  #
-  ############################################################
-
-
-  #
-  # Superset UI for dashboard visualisations
-  # 
-
-  redis:
-    image: *redis-image
-    profiles: ["all","superset"]
-    container_name: superset_cache
-    restart: unless-stopped
-    ports:
-      - "6379"
-    volumes:
-      - redis:/data
-    networks:
-     - os-gis-stack      
-
-
-  superset:
-    env_file: .env
-    image: *superset-image
-    profiles: ["all","superset"]
-    #container_name: superset_app
-    command: ["/app/docker/docker-bootstrap.sh", "app"]
-    #command: ["ls", "/app/docker"]
-    restart: unless-stopped
-    ports:
-      - 0.0.0.0:8088:8088
-    user: "root"
-    depends_on: *superset-depends-on
-    volumes: *superset-volumes
-    environment:
-      CYPRESS_CONFIG: "${CYPRESS_CONFIG}"
-    networks:
-     - os-gis-stack      
-
-  superset-init:
-    image: *superset-image
-    profiles: ["all","superset"]
-    #container_name: superset_init
-    command: ["/app/docker/docker-init.sh"]
-    env_file: .env
-    depends_on: *superset-depends-on
-    user: "root"
-    volumes: *superset-volumes
-    environment:
-      CYPRESS_CONFIG: "${CYPRESS_CONFIG}"
-    networks:
-     - os-gis-stack      
-
-  superset-node:
-    image: *node-image
-    profiles: ["all","superset"]
-    #container_name: superset_node
-    command: ["/app/docker/docker-frontend.sh"]
-    env_file: .env
-    depends_on: *superset-depends-on
-    volumes: *superset-volumes
-    networks:
-     - os-gis-stack    
-
-  superset-worker:
-    image: *superset-image
-    profiles: ["all","superset"]
-    #container_name: superset_worker
-    command: ["/app/docker/docker-bootstrap.sh", "worker"]
-    env_file: .env
-    restart: unless-stopped
-    depends_on: *superset-depends-on
-    user: "root"
-    volumes: *superset-volumes
-    networks:
-     - os-gis-stack    
-
-  superset-worker-beat:
-    image: *superset-image
-    profiles: ["all","superset"]
-    #container_name: superset_worker_beat
-    command: ["/app/docker/docker-bootstrap.sh", "beat"]
-    env_file: .env
-    restart: unless-stopped
-    depends_on: *superset-depends-on
-    user: "root"
-    volumes: *superset-volumes
-    networks:
-     - os-gis-stack    
 
 
 

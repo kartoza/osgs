@@ -17,3 +17,4 @@ orthophoto.tif.points
 vector-tile-bright-style.json
 superset/
 redis/
+.vscode
