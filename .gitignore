@@ -25,4 +25,5 @@ scp_conf/odm_data
 scp_conf/qgis_fonts
 scp_conf/qgis_projects
 scp_conf/qgis_svg
+pg_conf/pg_service.conf
 

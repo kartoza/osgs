@@ -1,0 +1,29 @@
+# Needed for opening QGIS projects store in postgres with PG connection URI
+# because at the project URI you cannot use QGIS authdb
+# If you prefer to store your projects on the file system, you should
+# rather remove these lines (whole nginx section) since the authentication 
+# can be done more securely by QGIS authdb.
+[nginx]
+dbname=gis
+port=5432
+host=db
+user=docker
+password=docker
+
+# Used by your QGIS projects to connect to the database
+# On your local machine you should create your own service file
+# with the same service name but connection details that make sense 
+# when using the database from your local machine. When you upload your 
+# projects into the stack they will connect using the settings
+# below assuming you used the same service name.
+# 
+# As an alternative to storing user name and password in this file, 
+# You could instead use the QGIS authdb mechanism - refer to the authdb 
+# in qgis_conf/qgis-auth.db and the readme in that folder.
+[os-gis-stack]
+dbname=gis
+port=5432
+host=db
+user=docker
+password=docker
+

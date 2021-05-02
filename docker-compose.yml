@@ -1,5 +1,7 @@
 version: "3.9"
 
+# This docker compose uses profiles - see https://docs.docker.com/compose/profiles/
+
 # 
 # DOCKER IMAGES
 #
@@ -78,7 +80,7 @@ services:
 
   db:
     image: *postgres-image
-    profiles: ["all", "production","osm","geoserver","qgis-server", "mergin", "dev"]
+    profiles: ["all","production","postgres","osm","geoserver","qgis-server", "mergin", "dev"]
     volumes:
       - postgis_data:/var/lib/postgresql
     env_file: .env
@@ -92,7 +94,7 @@ services:
     networks:
      - os-gis-stack
     ports:
-      - 15432:5432 
+      - ${POSTGRES_PUBLIC_PORT}:5432 
     restart: unless-stopped
     healthcheck:
         test: "exit 0"
