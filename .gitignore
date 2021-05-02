@@ -18,3 +18,11 @@ vector-tile-bright-style.json
 superset/
 redis/
 .vscode
+scp_conf/general_data
+scp_conf/geoserver_data
+scp_conf/hugo_data
+scp_conf/odm_data
+scp_conf/qgis_fonts
+scp_conf/qgis_projects
+scp_conf/qgis_svg
+
