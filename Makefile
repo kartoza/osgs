@@ -274,6 +274,17 @@ hugo-serve:
 	@echo "------------------------------------------------------------------"
 	@docker run --rm -it -v $(PWD)/hugo_data:/src -p 1313:1313 klakegg/hugo:0.82.0 server
 
+setup-scp:
+	@echo "------------------------------------------------------------------"
+	@echo "Serving the site locally - intended for local testing only."
+	@echo "------------------------------------------------------------------"
+	@cat ~/.ssh/authorized_keys > scp_conf/geoserver_data
+	@cat ~/.ssh/authorized_keys > scp_conf/qgis_projects
+	@cat ~/.ssh/authorized_keys > scp_conf/qgis_fonts
+	@cat ~/.ssh/authorized_keys > scp_conf/qgis_svg
+	@cat ~/.ssh/authorized_keys > scp_conf/hugo_data
+	@cat ~/.ssh/authorized_keys > scp_conf/odm_data
+	@cat ~/.ssh/authorized_keys > scp_conf/general_data
 
 kill:
 	@echo
