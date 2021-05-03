@@ -35,14 +35,14 @@ git submodule update --init --recursive
 ## Define your domain name
 
 This repo contains a worked example of running the stack as described above. 
-There are numerous references to the testing domain 'castelo.kartoza.com' in 
+There are numerous references to the testing domain 'example.org' in 
 various configuration files that should be replaced with your own
 preferred domain name before running any of these images. One simple way to
 do so is to install the 'rpl' command line tool and then replace all instances 
 of the aforementioned domain named e.g.: 
 
 sudo apt install rpl
-rpl castelo.kartoza.com your.domain.com *
+rpl example.org your.domain.com *
 
 After doing that make sure you have a valid DNS entry pointing to your host - 
 you will need this for the Certbot/Letsencrypt bot to work.
@@ -61,21 +61,21 @@ Make sure the steps above have been carried out then run the init script.
 After successfully running it will terminate wiith a message like this:
 
 ```
-### Requesting Let's Encrypt certificate for castelo.kartoza.com ...
+### Requesting Let's Encrypt certificate for example.org ...
 Saving debug log to /var/log/letsencrypt/letsencrypt.log
 Plugins selected: Authenticator webroot, Installer None
-Requesting a certificate for castelo.kartoza.com
+Requesting a certificate for example.org
 Performing the following challenges:
-http-01 challenge for castelo.kartoza.com
+http-01 challenge for example.org
 Using the webroot path /var/www/certbot for all unmatched domains.
 Waiting for verification...
 Cleaning up challenges
 
 IMPORTANT NOTES:
  - Congratulations! Your certificate and chain have been saved at:
-   /etc/letsencrypt/live/castelo.kartoza.com/fullchain.pem
+   /etc/letsencrypt/live/example.org/fullchain.pem
    Your key file has been saved at:
-   /etc/letsencrypt/live/castelo.kartoza.com/privkey.pem
+   /etc/letsencrypt/live/example.org/privkey.pem
    Your certificate will expire on 2021-05-30. To obtain a new or
    tweaked version of this certificate in the future, simply run
    certbot again. To non-interactively renew *all* of your

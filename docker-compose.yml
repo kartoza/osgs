@@ -126,6 +126,20 @@ services:
       timeout: 10s
       retries: 3
 
+  # This is only intended to be used during the initial setup of
+  # certbot, thereafter use the nginx or nginx-dev services       
+  nginx-certbot-init:
+    image: *nginx-image
+    profiles: ["certbot-init"]
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+     - ./nginx_certbot_init_conf/nginx.conf:/etc/nginx/nginx.conf
+     - ./certbot/certbot/conf:/etc/letsencrypt
+     - ./certbot/certbot/www:/var/www/certbot
+
+ 
   # Nginx with ssl      
   nginx:
     image: *nginx-image
@@ -168,7 +182,7 @@ services:
 
   certbot:
     image: *certbot-image
-    profiles: ["all","production","nginx"]
+    profiles: ["all","production","nginx","certbot-init"]
     # This checks every 12 hours if our cert is up for renewal and
     # refreshes it if needed
     # See https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
