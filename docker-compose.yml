@@ -37,6 +37,7 @@ volumes:
   import_queue:
   postgis_data:
   geoserver_data:
+  mapproxy_data:
   mergin_sync_data:
   osm_import_done:
   osm_import_queue:
@@ -80,7 +81,7 @@ services:
 
   db:
     image: *postgres-image
-    profiles: ["all","production","postgres","osm","geoserver","qgis-server", "mergin", "dev"]
+    profiles: ["all","production","nginx","postgres","osm","geoserver","qgis-server", "mergin", "dev"]
     volumes:
       - postgis_data:/var/lib/postgresql
     env_file: .env
@@ -101,7 +102,7 @@ services:
 
   geoserver:
     image: *geoserver-image
-    profiles: ["all","production","geoserver", "dev"]
+    profiles: ["all","production","nginx","geoserver", "dev"]
     volumes:
       # Must create this dir yourself so that it is owned by you
       - geoserver_data:/opt/geoserver/data_dir
@@ -193,7 +194,7 @@ services:
 
   qgis-server:
     image: *qgis-server-image
-    profiles: ["all","production","qgis-server","dev"]
+    profiles: ["all","production","nginx","qgis-server","dev"]
     #image: "openquake/qgis-server:3"
     env_file: .env
     environment:
@@ -288,7 +289,7 @@ services:
 
   mapproxy:
     image: *mapproxy-image
-    profiles: ["all","production","qgis-server","dev"]
+    profiles: ["all","production","nginx","qgis-server","dev"]
     env_file: .env
     environment:
       - PRODUCTION=false
@@ -296,7 +297,10 @@ services:
       - THREADS=10
     user: "1000:10001"
     volumes:
-      - ./mapproxy_conf:/mapproxy
+      - mapproxy_data:/mapproxy/
+      - ./mapproxy_conf/app.py:/mapproxy/app.py
+      - ./mapproxy_conf/seed.yml:/mapproxy/seed.yml
+      - ./mapproxy_conf/mapproxy.yml:/mapproxy/mapproxy.yml
     depends_on:
       - qgis-server
     networks:
