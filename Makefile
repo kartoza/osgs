@@ -35,6 +35,9 @@ prepare-templates:
 	@cp init-letsencrypt.sh.example init-letsencrypt.sh
 	@cp mapproxy_conf/mapproxy.yaml.example mapproxy_conf/mapproxy.yaml 
 	@cp mapproxy_conf/seed.yml.example mapproxy_conf/seed.yml 
+	@export PASSWD=$$(pwgen 20 1); rpl POSTGRES_PASSWORD=docker POSTGRES_PASSWORD=$$PASSWD .env; echo "Postgres password set to $$PASSWD"
+	@export PASSWD=$$(pwgen 20 1); rpl GEOSERVER_ADMIN_PASSWORD=myawesomegeoserver GEOSERVER_ADMIN_PASSWORD=$$PASSWD .env; echo "GeoServer password set to $$PASSWD"
+	@export PASSWD=$$(pwgen 20 1); rpl PGRST_JWT_SECRET=foobarxxxyyyzzz PGRST_JWT_SECRET=$$PASSWD .env; echo "PostGREST JWT token set to $$PASSWD"
 	@echo "Please enter your valid domain name for the site and SSL cert"
 	@echo "e.g. example.org or subdomain.example.org:"
 	@read -p "Domain name: " DOMAIN; \
