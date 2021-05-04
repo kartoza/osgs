@@ -17,12 +17,46 @@ ps:
 	@echo "------------------------------------------------------------------"
 	@docker-compose ps
 
+configure: prepare-templates init-letsencrypt deploy
+
+
+
+prepare-templates:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Preparing templates"
+	@echo "This will replace any local configuration changes you have made"
+	@echo "in .env, mapproxy, nginx  config files and the init script for letsencrypt"
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@cp .env.example .env
+	@cp nginx_conf/nginx.conf.example nginx_conf/nginx.conf
+	@cp nginx_certbot_init_conf/nginx.conf.example nginx_certbot_init_conf/nginx.conf
+	@cp init-letsencrypt.sh.example init-letsencrypt.sh
+	@cp mapproxy_conf/mapproxy.yaml.example mapproxy_conf/mapproxy.yaml 
+	@cp mapproxy_conf/seed.yml.example mapproxy_conf/seed.yml 
+	@echo "Please enter your valid domain name for the site and SSL cert"
+	@echo "e.g. example.org or subdomain.example.org:"
+	@read -p "Domain name: " DOMAIN; \
+	   rpl example.org $$DOMAIN nginx_conf/nginx.conf nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh .env
+	@read -p "Email Address: " EMAIL; \
+	   rpl validemail@yourdomain.org $$EMAIL ini-letsencrypt.sh
+
+init-letsencrypt:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Getting an SSL cert from letsencypt"
+	@echo "------------------------------------------------------------------"
+	@./init-letsencrypt.sh
+	@docker-compose --profile=certbot-init kill
+	@docker-compose --profile=certbot-init rm
+
 deploy: build
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Starting all containers"
+	@echo "Starting all production containers"
 	@echo "------------------------------------------------------------------"
-	@docker-compose up -d
+	@docker-compose --profile=production up -d
 
 restart:
 	@echo
