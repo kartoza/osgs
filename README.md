@@ -1,15 +1,18 @@
 # Introduction
 
-This project provides a platform for creating, sharing and publishing data and maps for your smallholding. It has two primary objectives:
+This project provides a platform for creating, sharing and publishing data and maps using an Open Source GIS Stack. It has two primary objectives:
 
-1. Provide a demonstrator platform that integrates these technologies:
+1. Provide a platform that integrates these technologies:
    1. One or more [QGIS](https://qgis.org) Projects
       1. Projects stored in-database in PostgreSQL
       2. Projects stored in the file system
    2. QGIS Server
-   3. The [Mergin](https://public.cloudmergin.com/#) platform
-   4. The [INPUT](https://inputapp.io/en/) mobile data collection platform
-   5. The [Mergin-db-sync](https://github.com/lutraconsulting/mergin-db-sync) tool that will synchronise a Mergin cloud project into a PostgreSQL project.
+      1. Publishing projects stored on the files system
+      2. Publishing projects stored in the database
+   3. Field data collection and project synchronisation support:
+      1. The [Mergin](https://public.cloudmergin.com/#) platform for cloud storage of projects
+      2. The [INPUT](https://inputapp.io/en/) mobile data collection platform
+      3. The [Mergin-db-sync](https://github.com/lutraconsulting/mergin-db-sync) tool that will synchronise a Mergin cloud project into a PostgreSQL project.
    6. [PostgreSQL](https://postgresql.org) and [PostGIS](https://postgis.net/) running in Docker and providing a database backend for our stack.
    7. [NGINX](https://www.nginx.com/) a lightweight web server acting as a proxy in front of QGIS server and as a server for the static HTML content.
    8. [QGIS Server](https://docs.qgis.org/3.16/en/docs/) to serve QGIS projects from the database and from the file system.
@@ -19,6 +22,168 @@ This project provides a platform for creating, sharing and publishing data and m
 ## Overview Diagram
 
 ![Overview Diagram](diagrams/QGIS-Server-PG-Project-Design.png)
+
+
+
+# Preparing the server
+
+## Basic Security
+
+### Unattended upgrades
+
+This will automatically install only security fixes on a continual basis on your server.
+
+```
+sudo apt install unattended upgrades
+```
+
+### ssh
+
+Disable password authentication for SSH
+
+```
+sudo vim /etc/ssh/sshd_config
+```
+
+Set this:
+
+```
+PasswordAuthentication no
+Then do
+sudo systemctl restart sshd.service
+```
+
+### Crowdsec
+
+https://crowdsec.net/ 
+
+
+```
+wget -qO - https://s3-eu-west-1.amazonaws.com/crowdsec.debian.pragmatic/crowdsec.asc |sudo apt-key add - && echo "deb https://s3-eu-west-1.amazonaws.com/crowdsec.debian.pragmatic/$(lsb_release -cs) $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/crowdsec.list > /dev/null;
+sudo apt-get update
+sudo apt-get install crowdsec
+```
+
+### Fail2ban
+
+```
+sudo apt install fail2ban
+https://www.fail2ban.org/wiki/index.php/Main_Page 
+```
+
+
+### Firewall
+
+```
+sudo ufw allow ssh
+sudo ufw enable
+sudo ufw status
+```
+
+Should show something like this:
+
+```
+Status: active
+
+To             Action   From
+--             ------   ----
+22/tcp           ALLOW    Anywhere         
+22/tcp (v6)        ALLOW    Anywhere (v6)
+```
+
+We will open more ports as they are needed.
+
+### Status monitoring
+
+bpytop is a great console based dashboard for monitoring your server.
+
+```
+sudo snap install bpytop
+```
+
+## Additional Software
+
+### Docker
+
+```
+sudo apt install docker.io docker-compose
+```
+
+### Git, rpl, pwgen and Make
+
+Needed for checking out our docker project and running the various make commands we provide.
+
+```
+sudo apt install git make rpl pwgen
+```
+
+
+
+# Deploying the server
+
+Note for the unprivileged user throughout here, we use the user name 
+‘timlinux’  in various examples - you should substitute this with your own user.
+
+## User Group
+
+Add yourself to the user group of docker so you don't need to sudo docker commands.
+
+```
+sudo usermod -a -G docker timlinux
+```
+
+Then log out and in again to assume the upgraded permissions.
+
+## Project Checkout
+
+```
+cd /home
+sudo mkdir web
+sudo chown timlinux.timlinux web
+cd web
+git clone https://github.com/kartoza/OpenSource-GIS-Stack
+cd OpenSource-GIS-Stack
+```
+
+## Fetching Docker Images
+
+![Overview Diagram](img/docker-images.png)
+
+
+
+## Configuration
+
+Copy the .env boilerplate file and then adjust any settings in it as needed.
+
+```
+cp .env.example .env
+```
+
+Replace terms that should be unique for your installation:
+
+```
+rpl example.org geoservices.govt.lc .env
+rpl example.org geoservices.govt.lc nginx_conf/nginx.conf 
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------
+SCRAP
+--------------------------------------------
 
 ## Generalised Workflow
 
@@ -35,14 +200,14 @@ git submodule update --init --recursive
 ## Define your domain name
 
 This repo contains a worked example of running the stack as described above. 
-There are numerous references to the testing domain 'example.org' in 
+There are numerous references to the testing domain 'castelo.kartoza.com' in 
 various configuration files that should be replaced with your own
 preferred domain name before running any of these images. One simple way to
 do so is to install the 'rpl' command line tool and then replace all instances 
 of the aforementioned domain named e.g.: 
 
 sudo apt install rpl
-rpl example.org your.domain.com *
+rpl castelo.kartoza.com your.domain.com *
 
 After doing that make sure you have a valid DNS entry pointing to your host - 
 you will need this for the Certbot/Letsencrypt bot to work.
@@ -61,21 +226,21 @@ Make sure the steps above have been carried out then run the init script.
 After successfully running it will terminate wiith a message like this:
 
 ```
-### Requesting Let's Encrypt certificate for example.org ...
+### Requesting Let's Encrypt certificate for castelo.kartoza.com ...
 Saving debug log to /var/log/letsencrypt/letsencrypt.log
 Plugins selected: Authenticator webroot, Installer None
-Requesting a certificate for example.org
+Requesting a certificate for castelo.kartoza.com
 Performing the following challenges:
-http-01 challenge for example.org
+http-01 challenge for castelo.kartoza.com
 Using the webroot path /var/www/certbot for all unmatched domains.
 Waiting for verification...
 Cleaning up challenges
 
 IMPORTANT NOTES:
  - Congratulations! Your certificate and chain have been saved at:
-   /etc/letsencrypt/live/example.org/fullchain.pem
+   /etc/letsencrypt/live/castelo.kartoza.com/fullchain.pem
    Your key file has been saved at:
-   /etc/letsencrypt/live/example.org/privkey.pem
+   /etc/letsencrypt/live/castelo.kartoza.com/privkey.pem
    Your certificate will expire on 2021-05-30. To obtain a new or
    tweaked version of this certificate in the future, simply run
    certbot again. To non-interactively renew *all* of your
@@ -292,6 +457,12 @@ loading them into Postgresql - see the Makefile odm related tasks.
 suggest to set authdb configuration parameters in Apache/Nginx but I found it
 would only work if I set these in the environment of the QGIS Server docker
 container.
+
+## Hugo
+
+See this for notes on how to automate publishing from github.
+
+https://humanitec.com/blog/how-to-deploy-hugo-website
 
 
 ## Other Notes
