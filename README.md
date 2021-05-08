@@ -190,9 +190,9 @@ docker-compose profile=scp restart
 
 The following scp shares are made for the various purposes listed below. You need to follow the same pattern of creating a config file for each. These shares each have a dedicated volume associated with it which is also mounted into the associated server container.
 
-
-
 User Key File in scp_config	Named Volume	Mounted To	Notes
+
+---
 
 * **User:** geoserver_data
 * **Named Volume:** scp_geoserver_data
@@ -200,7 +200,7 @@ User Key File in scp_config	Named Volume	Mounted To	Notes
 * **Notes:** Copy vector and raster datasets here for publishing in GeoServer.
 * **Example Use:** ``sftp://geoserver_data@<hostname>:2222/home/geoserver_data``
   
-
+---
 
 * **User:** qgis_projects
 * **Named Volume:** scp_qgis_projects
@@ -208,7 +208,7 @@ User Key File in scp_config	Named Volume	Mounted To	Notes
 * **Notes:** Copy QGIS projects and data here for publishing with QGIS Server. See notes on directory layout below.
 * **Example Use:** ``sftp://qgis_projects@<hostname>:2222/home/qgis_projects``
   
-
+---
 
 * **User:** qgis_svgs
 * **Named Volume:** scp_qgis_svgs
@@ -216,6 +216,7 @@ User Key File in scp_config	Named Volume	Mounted To	Notes
 * **Notes:** Embed SVGs in styles by preference in QGIS. Use this drop if you have no way to use embeded SVGS.
 * **Example Use:** ``sftp://qgis_svgs@<hostname>:2222/home/qgis_svgs`
 
+---
 
 * **User:** qgis_fonts
 * **Named Volume:** scp_qgis_fonts
@@ -223,7 +224,7 @@ User Key File in scp_config	Named Volume	Mounted To	Notes
 * **Notes:** Copy fonts directly into the root folder.
 * **Example Use:** ``sftp://qgis_fonts@<hostname>:2222/home/qgis_fonts``
 
-
+---
 
 * **User:** hugo_data
 * **Named Volume:** scp_hugo_data
@@ -231,7 +232,7 @@ User Key File in scp_config	Named Volume	Mounted To	Notes
 * **Notes:** Upload markdown files for static site generation with Hugo.
 * **Example Use:** ``sftp://hugo_data@<hostname>:2222/home/hugo_data``
 
-
+---
 
 * **User:** odm_data
 * **Named Volume:** scp_odm_data
@@ -239,13 +240,15 @@ User Key File in scp_config	Named Volume	Mounted To	Notes
 * **Notes:** Upload imagery data for processing with ODM
 * **Example Use:** ``sftp://odm_data@<hostname>:2222/home/odm_data``
 
-
+---
 
 * **User:** general_data
 * **Named Volume:** scp_general_data
 * **Volume Mounted To:** scp
 * **Notes:** General sharing directory. Later we  will publish this under nginx for public downloads. Don’t put any sensitive data in here.
 * **Example Use:** ``sftp://general_data@<hostname>:2222/home/general_data``
+
+---
 
 **Note:** Any user connecting to any of these shares will be able to see all other files from all other users. They will only have write access to the folder they are connecting to, for all other shares their access will be read only. If you want to further partition the access to files you can create multiple scp services, each with one of the mount points listed above. In so doing users would not be able to see the other mount points listed above.
 
