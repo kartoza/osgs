@@ -168,13 +168,282 @@ rpl example.org geoservices.govt.lc nginx_conf/nginx.conf
 
 
 
+# SCP File Drop Service
+
+This is a container intended for users to upload files for publication on the server. It runs on port 2222 so we need to expose that through the firewall:
+
+```
+sudo ufw allow 2222
+```
+
+You can add your public keys from the host e.g.
+
+```
+cat ~/.ssh/authorized_keys > scp_conf/gis_projects
+```
+
+Or copy them in by other means. Each file you create in scp_conf will be a user name when the scp container runs, with it’s own directory in the storage volume, unless an explicit storage volume has been pre-defined (see list of these below). Each file should contain a list of public keys. If you add a key at some point, or a new user file, you may need to restart the container:
+
+```
+docker-compose profile=scp restart
+```
+
+The following scp shares are made for the various purposes listed below. You need to follow the same pattern of creating a config file for each. These shares each have a dedicated volume associated with it which is also mounted into the associated server container.
+
+
+
+User Key File in scp_config	Named Volume	Mounted To	Notes
+
+* **User:** geoserver_data
+* **Named Volume:** scp_geoserver_data
+* **Volume Mounted To:**	scp, geoserver	
+* **Notes:** Copy vector and raster datasets here for publishing in GeoServer.
+* **Example Use:** ``sftp://geoserver_data@<hostname>:2222/home/geoserver_data``
+  
+
+
+* **User:** qgis_projects
+* **Named Volume:** scp_qgis_projects
+* **Volume Mounted To:** scp, qgis-server
+* **Notes:** Copy QGIS projects and data here for publishing with QGIS Server. See notes on directory layout below.
+* **Example Use:** ``sftp://qgis_projects@<hostname>:2222/home/qgis_projects``
+  
+
+
+* **User:** qgis_svgs
+* **Named Volume:** scp_qgis_svgs
+* **Volume Mounted To:** scp, qgis-server
+* **Notes:** Embed SVGs in styles by preference in QGIS. Use this drop if you have no way to use embeded SVGS.
+* **Example Use:** ``sftp://qgis_svgs@<hostname>:2222/home/qgis_svgs`
+
+
+* **User:** qgis_fonts
+* **Named Volume:** scp_qgis_fonts
+* **Volume Mounted To:** scp, qgis-server
+* **Notes:** Copy fonts directly into the root folder.
+* **Example Use:** ``sftp://qgis_fonts@<hostname>:2222/home/qgis_fonts``
+
+
+
+* **User:** hugo_data
+* **Named Volume:** scp_hugo_data
+* **Volume Mounted To:** scp, hugo*
+* **Notes:** Upload markdown files for static site generation with Hugo.
+* **Example Use:** ``sftp://hugo_data@<hostname>:2222/home/hugo_data``
+
+
+
+* **User:** odm_data
+* **Named Volume:** scp_odm_data
+* **Volume Mounted To:** scp, odm *
+* **Notes:** Upload imagery data for processing with ODM
+* **Example Use:** ``sftp://odm_data@<hostname>:2222/home/odm_data``
+
+
+
+* **User:** general_data
+* **Named Volume:** scp_general_data
+* **Volume Mounted To:** scp
+* **Notes:** General sharing directory. Later we  will publish this under nginx for public downloads. Don’t put any sensitive data in here.
+* **Example Use:** ``sftp://general_data@<hostname>:2222/home/general_data``
+
+**Note:** Any user connecting to any of these shares will be able to see all other files from all other users. They will only have write access to the folder they are connecting to, for all other shares their access will be read only. If you want to further partition the access to files you can create multiple scp services, each with one of the mount points listed above. In so doing users would not be able to see the other mount points listed above.
+
+## Directory layout for the QGIS projects folder
+
+When adding projects to the qgis_projects folder, you need to follow this convention strictly for the projects to be recognised by QGIS Server:
+
+``qgis_projects/<project_name>/<project_name>.qgs``
+
+For example:
+
+``qgis_projects/terrain/terrain.qgs``
+
+There is a convenience Make target that will copy your .ssh/authorized_keys file contents into each of the scp_config user files listed in the table above.
+
+
+``make setup-scp``
+
+## Starting the container
+
+``docker-compose --profile=scp up -d scp``
+
+Example copying of data into the container from the command line:
+
+``scp -P 2222 sample-document.txt localhost:/data//gis_projects/gis_projects/gis_projects``
+
+In Nautilus (file manager in Linux Gnome Desktop) you can test by connecting 
+
+``sftp://<hostname>:2222/data/gis_projects``
+
+into the red highlighted box below:
+
+XXXXXXXXXXXXXXXXXXXX
+
+
+After that open a second window and you can drag and drop files too and from the folder.
+Windows users can use the free WinSCP application to copy files to the server.  
+
+## FAQ
+
+**Q:** When connecting I get “Host key validation failure” or similar
+**A:** Remove the entry for the server in your ~/.ssh/known_hosts
 
 
 
 
+# Postgres and PostGIS
+
+## Overview
+
+We use the Kartoza PostGIS docker image available here: https://hub.docker.com/r/kartoza/postgis/ 
+
+The project home page is here: https://github.com/kartoza/docker-postgis
+
+The project includes detailed documentation so this section only contains details relevant to the Open Source GIS Stack configuration.
+
+## Configuration
+
+### Database password:
+Generate a strong password:
+
+``pwgen 20  1``
+
+Replace the default docker password for the postgres user with the strong password:
+
+```
+rpl “POSTGRES_PASSWORD=docker” “POSTGRES_PASSWORD=<strong password>” .env
+```
+
+### Service file configuration:
+
+Service files entries serve two scenarios:
+
+1.	They are needed for opening QGIS projects stored in postgres with PG connection URI because at the project URI you cannot use QGIS authdb. If you prefer to store your projects on the file system, you should rather remove these lines (whole nginx section) since the authentication from pg_conf/pg_service.conf can be done more securely by QGIS authdb.
+2.	Used by your QGIS Server projects to connect to the database once the project is opened from either the file system of the database.  You can either specify your password and username in service file or for more advanced configuration you can store user / password credentials in a QGIS authdb file. Refer to the authdb section and in qgis_conf/qgis-auth.db and the readme in that folder.
+
+On your local machine you should create your own service file with the same service name but connection details that make sense when using the database from your local machine. When you upload your projects into the stack they will connect using the settings from the server hosted service file below assuming you used the same service name.
+
+To carry out the service file configuration, copy, rename then edit the pg_service file in pg_config as per the example below (note that we also substitute in the database password created in the steps above).
+
+```
+cp pg_conf/pg_service.conf.example \ pg_conf/pg_service.confpassword=docker 
+rpl password=<your password> pg_conf/pg_service.conf
+```
+
+### Deployment
+
+```
+docker-compose --profile=postgres up -d
+```
+
+Note that the default configuration opens the postgresql service to all hosts. This is a potential security hole. If you open the port on the firewall e.g.
+
+```
+ufw allow 5432 tcp
+```
+
+Then be sure to connect from pg clients like psql or QGIS with SSL enabled so that passwords and data are not transmitted in clear text.
+
+### Validation
+
+Create a local pg_service.conf file like the example below and save it in ``~/.pg_service.conf`` or similar as appropriate to your operating system (see https://www.postgresql.org/docs/12/libpq-pgservice.html for details on configuration options).
+
+```
+[os-gis-stack]
+dbname=gis
+port=5432
+host=<hostname of your server>
+user=<your password>
+password=docker
+```
+
+Now pass the server parameter to psql and list the databases as per the example below:
 
 
+```
+[timlinux@fedora ~]$ psql service=os-gis-stack -l
+List of databases
+```
 
+   Name    |  Owner   | Encoding | Collate |  Ctype  |   Access privileges   
+-----------|---------|----------|---------|---------|-----------------------
+ gis       | docker   | UTF8     | C.UTF-8 | C.UTF-8 | 
+ postgres  | postgres | UTF8     | C.UTF-8 | C.UTF-8 | 
+ template0 | postgres | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          |
+ template1 | postgres | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          |
+
+``(4 rows)``
+
+Test from QGIS is similar:
+
+XXXXXXXXXXXXXX
+
+
+Note that there was no need to supply any credentials other than the service file name.
+
+
+# Production Stack
+
+## Overview
+
+In this section we will bring up the full production stack, but to do that we first need to get an SSL certificate issued. To facilitate this, there is a special, simplified, version of Nginx which has no reverse proxies in place and not docker dependencies. Here is an overview of the process:
+
+1.	Replace the domain name in your letsencrypt init script
+2.	Replace the email address in your letsencrypt init script
+3.	Replace the domain name in the certbot init nginx config file
+4.	Open up ports 80 and 443 on your firewall
+5.	Run the init script, ensuring it completed successfully
+6.	Shut down the minimal nginx
+7.	Replace the domain name in the production nginx config file
+8.	Generate passwords for geoserver, postgres, postgrest and update .env
+9.	Copy over the mapproxy template files
+10.	Run the production profile in docker compose
+
+At the end of the process you should have a fully running production stack with these services:
+
+IMAGE | PORTS | NAMES
+------|-------|-------
+kartoza/mapproxy | 8080/tcp |                                   osgisstack_mapproxy_1
+nginx | 0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp |  osgisstack_nginx_1
+swaggerapi/swagger-ui |        80/tcp, 8080/tcp |                  osgisstack_swagger_1
+postgrest/postgrest |          3000/tcp  |   osgisstack_postgrest_1 
+kartoza/geoserver:2.18.0  |    8080/tcp, 8443/tcp  |  osgisstack_geoserver_1
+openquake/qgis-server:stable | 80/tcp, 9993/tcp | osgisstack_qgis-server_1
+kartoza/postgis:13.0 | 0.0.0.0:5432->5432/tcp  | osgisstack_db_1
+quay.io/lkiesow/docker-scp |   0.0.0.0:2222->22/tcp | osgisstack_scp_1
+certbot/certbot | 80/tcp, 443/tcp | osgisstack_certbot_1
+
+The following ports will be accessible on the host to the docker services. You can, on a case by case basis, allow these through your firewall using ufw (uncomplicated firewall) to make them publicly accessible:
+
+1.	80 - http:Only really needed during initial setup of your letsencrypt certificate
+2.	443 - https: All web based services run through this port so that they are encrypted
+3.	5432 - postgres: Only expose this publicly if you intend to allow remote clients to access the postgres database. 
+4.	2222 - scp: The is an scp/sftp upload mechanism to mobilise data and resources to the web site
+
+For those services that are not exposed to the host,  they are generally made available over 443/SSL via reverse proxy in the Nginx configuration.
+
+Some things should still be configured manually and deployed after the initial deployment:
+
+1.	Mapproxy configuration
+2.	setup.sql (especially needed if you are planning to use postgrest)
+3.	Hugo content management
+4.	Landing page static HTML
+
+And some services are not intended to be used as long running services. especially the ODM related services.
+Configuration
+
+We have written a make target that automates steps 1-10 described in the overview above. It will ask you for your domain name, legitimate email address and then go ahead and copy the templates over, replace placeholder domain names and email address, generate passwords for postgres etc. and then run the production stack. Remember you need to have ufw, rpl, make and pwgen installed before running this command:
+
+
+```
+make configure
+```
+
+
+# GeoServer Configuration
+
+Remind user to set the master password as per https://docs.geoserver.geo-solutions.it/edu/en/security/security_overview.html#the-master-password (which is different to the admin password).
 
 
 
@@ -183,7 +452,11 @@ rpl example.org geoservices.govt.lc nginx_conf/nginx.conf
 
 --------------------------------------------
 SCRAP
+
 --------------------------------------------
+
+These are legacy notes to be removed or carefully incorporated into the notes above as necessary.
+
 
 ## Generalised Workflow
 
