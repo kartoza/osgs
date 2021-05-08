@@ -21,6 +21,7 @@ x-swagger-image: &swagger-image swaggerapi/swagger-ui
 x-scp-image: &scp-image quay.io/lkiesow/docker-scp
 x-odm-image: &odm-image opendronemap/odm
 x-gdal-image: &gdal-image geodata/gdal
+x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 
 
 # 
@@ -415,6 +416,28 @@ services:
     restart: unless-stopped
     depends_on:
       - db 
+
+  ##############################################################
+  # Will just check a project and update every interval
+  ##############################################################
+  mergin-client:
+    image: *mergin-client-image
+    profiles: ["mergin-client"]
+    env_file: .env
+    environment:
+      # You can define multiple databases by providing a comma
+      # separated list here.
+      - MERGIN_URL=${MERGIN_URL}
+      - MERGIN_AUTH=${MERGIN_AUTH}
+      - MERGIN_PROJECT=${MERGIN_PROJECT}
+    command: "download tim1/GloriousProjectOfMagnificence /data/qgis_projects/test2"
+      #command: "/bin/sh -c 'set -x; mergin.sh download $MERGIN_PROJECT; while :; do sleep 1m & wait $${!}; set -x; cd $MERGIN_PROJECT; mergin pull; cd ..; done' "
+    volumes:
+      # Host mounted volume
+      # Mounted in SCP and to QGIS Server for serving QGIS projects
+      - scp_qgis_projects:/data/qgis_projects
+    networks:
+     - os-gis-stack
 
   ############################################################
   #
