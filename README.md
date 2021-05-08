@@ -34,7 +34,7 @@ This project provides a platform for creating, sharing and publishing data and m
 This will automatically install only security fixes on a continual basis on your server.
 
 ```
-sudo apt install unattended upgrades
+sudo apt install unattended-upgrades
 ```
 
 ### ssh
