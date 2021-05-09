@@ -5,9 +5,11 @@ build:
 	@echo "------------------------------------------------------------------"
 	@echo "Fetching pbf if not cached and then copying to settings dir"
 	@echo "------------------------------------------------------------------"
+	@read -p "URL For Country PBF File: " URL; \
+	   cp pbf_fetcher/Dockerfile.example pbf_fetcher/Dockerfile; \
+	   rpl PBF_URL $$URL pbf_fetcher/Dockerfile
 	@docker-compose build pbf
-	@docker-compose up -d pbf
-	@docker cp maceiramergindbsync_pbf_1:/settings/country.pbf ../osm_conf
+	@docker-compose run pbf
 	@docker-compose rm -f pbf
 
 ps:
@@ -26,7 +28,8 @@ prepare-templates:
 	@echo "------------------------------------------------------------------"
 	@echo "Preparing templates"
 	@echo "This will replace any local configuration changes you have made"
-	@echo "in .env, mapproxy, nginx  config files and the init script for letsencrypt"
+	@echo "in .env, mapproxy, nginx, pbf_fetcher/Dockerfile config files "
+	@echo "and the init script for letsencrypt"
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
 	@cp .env.example .env

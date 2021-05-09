@@ -454,6 +454,10 @@ services:
     build:
       context: pbf_fetcher
       dockerfile: Dockerfile
+    entrypoint: /bin/cp
+    command: "/settings/country.pbf /home/settings/country.pbf"
+    volumes:
+      - ./osm_conf:/home/settings
 
   imposm:
     image: *imposm-image

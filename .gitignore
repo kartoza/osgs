@@ -33,4 +33,5 @@ setup.sql
 mapproxy_conf/mapproxy.yaml
 # Todo investigate and fix file extension naming inconsistency
 mapproxy_conf/seed.yml
+pbf_fetcher/Dockerfile
 
