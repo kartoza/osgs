@@ -43,7 +43,7 @@ prepare-templates:
 	@read -p "Domain name: " DOMAIN; \
 	   rpl example.org $$DOMAIN nginx_conf/nginx.conf nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh .env
 	@read -p "Email Address: " EMAIL; \
-	   rpl validemail@yourdomain.org $$EMAIL ini-letsencrypt.sh
+	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh
 
 init-letsencrypt:
 	@echo
