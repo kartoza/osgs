@@ -585,6 +585,9 @@ For example, here is one we published for a client (domain name changed):
 
 ``https://example.org/ogc/Elevation``
 
+You can read more about the mergin-client at the separate git repo here:
+
+https://github.com/kartoza/mergin-client
 
 --------------------------------------------
 SCRAP
