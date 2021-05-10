@@ -739,7 +739,7 @@ services:
     # Broken for now, see Makefile osm-to-mbtiles target for
     # details
     image: *postgres-image
-    profiles: ["osm"]
+    profiles: ["osm-tiles"]
     networks:
       - os-gis-stack
     volumes:

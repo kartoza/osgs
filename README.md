@@ -647,7 +647,21 @@ clearing the databse and restarting the import.
 
 ## Run services
 
+To run the OSM services do:
 
+```docker-compose --profile=osm up -d```
+
+## Publishing
+
+You can publish the data in the osm schema using GeoServer or 
+by publishing a QGIS project that references the data layers in
+the OSM schema.
+
+Note that whenever you publish a map containing OSM data, be
+careful to adhere to the license and credit the OSM Project as
+per:
+
+https://www.openstreetmap.org/copyright
 
 --------------------------------------------
 SCRAP
