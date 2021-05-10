@@ -6,7 +6,9 @@ version: "3.9"
 # DOCKER IMAGES
 #
 
-x-postgres-image: &postgres-image kartoza/postgis:13.0
+# 13-3.1 is the first pg version with FORCE_SSL support
+# needed to force clients to use SSL
+x-postgres-image: &postgres-image kartoza/postgis:13-3.1
 x-osm-update-image: &osm-update-image kartoza/docker-osm:osmupdate-latest
 x-imposm-image: &imposm-image kartoza/docker-osm:imposm-latest
 x-osmenrich-image: &osm-enrich-image kartoza/docker-osm:osmenrich-latest
@@ -85,6 +87,8 @@ services:
     profiles: ["all","production","nginx","postgres","osm","geoserver","qgis-server", "mergin", "dev"]
     volumes:
       - postgis_data:/var/lib/postgresql
+      # So we can use SSL certs for pg too
+      - ./certbot/certbot/conf:/etc/letsencrypt
     env_file: .env
     environment:
       # You can define multiple databases by providing a comma
@@ -93,6 +97,23 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - ALLOW_IP_RANGE=0.0.0.0/0
+      # You can pass as many extensions as you need.
+      - POSTGRES_MULTIPLE_EXTENSIONS="postgis,hstore,postgis_topology,postgis_raster,pgrouting"
+      # Some extensions need to be registered in the postgresql.conf as
+      # shared_preload_libraries. pg_cron should always be added because the
+      # extension is installed with the image.
+      - SHARED_PRELOAD_LIBRARIES='pg_cron' 
+      - DEFAULT_ENCODING="UTF8"
+      - DEFAULT_COLLATION="en_US.UTF-8"
+      - DEFAULT_CTYPE="en_US.UTF-8"
+      - POSTGRES_TEMPLATE_EXTENSIONS=true
+      - SSL_CERT_FILE=/etc/letsencrypt/conf/love/${DOMAIN}/cert.pem
+      - SSL_KEY_FILE=/etc/letsencrypt/conf/love/${DOMAIN}/privkey.pem
+      #- SSL_CA_FILE=/your/own/ssl_ca_file.pem
+      # Force clients to connect with SSL - will add hostssl
+      # instead of host to lines in pg_hba.conf
+      - FORCE_SSL=TRUE
+
     networks:
      - os-gis-stack
     ports:
