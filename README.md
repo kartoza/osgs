@@ -682,7 +682,7 @@ https://example.org/geoserver/SaintLucia/wfs
 
 or
 
-https://example.org/geoserver/SaintLucia/wfs
+https://example.org/geoserver/SaintLucia/wms
 
    ![Layer Details in GeoServer](img/../docs/img/geoserver-osm-4.png)
 
