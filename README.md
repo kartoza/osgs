@@ -589,6 +589,66 @@ You can read more about the mergin-client at the separate git repo here:
 
 https://github.com/kartoza/mergin-client
 
+# OSM Mirror
+
+The OSM mirror uses the kartoza/docker-osm tool to create an in-database
+mirror of a designated geographical area in the designated postgres
+databse schema (set to: osm). The OSM mirror tool is described in the project
+README here:
+
+https://github.com/kartoza/docker-osm
+
+To deploy the docker-mirror you need to follow the steps descibed below. 
+First a process overview:
+
+1. Create the PBF feature container passing it a URL to a PBF file
+2. Create a clip file that will be used to constrain any retrieved / imported
+   data to a specific geographic area.
+3. Tweak the mappings.yml file (advanced users)
+4. Run the docker-osm service
+5. Optionally include these data in published services via QGIS projects, 
+   GeoServer etc.
+
+## PBF Container
+
+During the ``make configure`` process, the script will ask for the URL
+to an OSM .pbf file e.g.:
+
+```
+------------------------------------------------------------------
+Fetching pbf if not cached and then copying to settings dir
+------------------------------------------------------------------
+URL For Country PBF File: https://download.geofabrik.de/central-america-latest.osm.pbf
+```
+
+You can enter any valid URL for an OSM .PBF file at this point. A docker
+container will be built that fetches the PBD and stores it on the host 
+file system under osm_config.
+
+## Clip Area
+
+Create the clip area to constrain the geographical region that data 
+will be harvested for. For best performance, a simple rectangle is best,
+but any complext polygon can be used. The clip area must be saved 
+as ``osm_config/clip.geojson``. The format for the clip area must be 
+GeoJSON. You can easily create this using QGIS.
+
+## Mappings
+
+For advanced users, you can tweak the ``osm_config/mapping.yml`` 
+
+
+You can see how the imposm3 mapping syntax works here: 
+
+https://imposm.org/docs/imposm3/latest/mapping.html
+
+Note that you cannot alter the mappings after the service is running without
+clearing the databse and restarting the import.
+
+## Run services
+
+
+
 --------------------------------------------
 SCRAP
 
@@ -788,7 +848,6 @@ See the [project documentation](https://github.com/3liz/qgis-atlasprint/blob/mas
 
 ### Docker OSM
 
-See how the imposm3 mapping syntax works here: https://imposm.org/docs/imposm3/latest/mapping.html
 
 <<<<<<< HEAD
 ## Generating Vector Tiles
