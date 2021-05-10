@@ -651,17 +651,67 @@ To run the OSM services do:
 
 ```docker-compose --profile=osm up -d```
 
-## Publishing
+## Publishing with GeoServer
 
 You can publish the data in the osm schema using GeoServer or 
 by publishing a QGIS project that references the data layers in
 the OSM schema.
+
+The steps for publishing with GeoServer are quite simple:
+
+1. Log in to GeoServer using the 'admin' user and the password in 
+   .env.
+2. Create a new store of type 'Postgis' and configure it as per the
+   screenshot below, replacing the password with the Postgres password
+   stored in .env:
+
+   ![Store Creation in GeoServer](img/../docs/img/geoserver-osm-1.png)
+
+3. Register one or more layers from that store as per the image below:
+   
+   ![Layer Creation in GeoServer](img/../docs/img/geoserver-osm-2.png)
+
+4.Complete the layer details as appropriate and make sure to click the options highlighted in red in the screenshot below:
+
+   
+   ![Adding a GeoServer WMS layer in QGIS](img/../docs/img/geoserver-osm-3.png)
+
+5. Connect to the GeoServer from a client e.g. QGIS using WFS or WMS using the scheme:
+
+https://example.org/geoserver/SaintLucia/wfs
+
+or
+
+https://example.org/geoserver/SaintLucia/wfs
+
+   ![Layer Details in GeoServer](img/../docs/img/geoserver-osm-4.png)
+
+
+
+
+## OSM Attribution
 
 Note that whenever you publish a map containing OSM data, be
 careful to adhere to the license and credit the OSM Project as
 per:
 
 https://www.openstreetmap.org/copyright
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 --------------------------------------------
 SCRAP
