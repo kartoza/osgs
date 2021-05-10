@@ -107,10 +107,10 @@ services:
       - DEFAULT_COLLATION="en_US.UTF-8"
       - DEFAULT_CTYPE="en_US.UTF-8"
       - POSTGRES_TEMPLATE_EXTENSIONS=true
-        #- SSL_CERT_FILE=/etc/letsencrypt/live/${DOMAIN}/cert.pem
-        #- SSL_KEY_FILE=/etc/letsencrypt/live/${DOMAIN}/privkey.pem
-      - SSL_CERT_FILE=/etc/pg/cert.pem
-      - SSL_KEY_FILE=/etc/pg/privkey.pem
+      - SSL_CERT_FILE=/etc/letsencrypt/live/${DOMAIN}/cert.pem
+      - SSL_KEY_FILE=/etc/letsencrypt/live/${DOMAIN}/privkey.pem
+        #- SSL_CERT_FILE=/etc/pg/cert.pem
+        #- SSL_KEY_FILE=/etc/pg/privkey.pem
       #- SSL_CA_FILE=/your/own/ssl_ca_file.pem
       # Force clients to connect with SSL - will add hostssl
       # instead of host to lines in pg_hba.conf
