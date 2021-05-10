@@ -667,6 +667,11 @@ The steps for publishing with GeoServer are quite simple:
 
    ![Store Creation in GeoServer](img/../docs/img/geoserver-osm-1.png)
 
+   Also, be sure to scroll down and set SSL mode to Required:
+
+   ![SSL Mode Required](img/../docs/img/geoserver-osm-5.png)
+
+
 3. Register one or more layers from that store as per the image below:
    
    ![Layer Creation in GeoServer](img/../docs/img/geoserver-osm-2.png)

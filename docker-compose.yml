@@ -98,11 +98,11 @@ services:
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - ALLOW_IP_RANGE=0.0.0.0/0
       # You can pass as many extensions as you need.
-      - POSTGRES_MULTIPLE_EXTENSIONS="postgis,hstore,postgis_topology,postgis_raster,pgrouting"
+      - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,postgis_raster,pgrouting
       # Some extensions need to be registered in the postgresql.conf as
       # shared_preload_libraries. pg_cron should always be added because the
       # extension is installed with the image.
-      - SHARED_PRELOAD_LIBRARIES='pg_cron' 
+      - SHARED_PRELOAD_LIBRARIES=pg_cron 
       - DEFAULT_ENCODING="UTF8"
       - DEFAULT_COLLATION="en_US.UTF-8"
       - DEFAULT_CTYPE="en_US.UTF-8"
