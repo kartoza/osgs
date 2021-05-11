@@ -26,7 +26,6 @@ x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
 
-
 # 
 # VOLUMES
 #
@@ -74,30 +73,6 @@ volumes:
   lizmap-www:
   lizmap-log:
 
-
-lizmap:
-    image: *lizmap-image
-    profiles: ["all","production","nginx","lizmap", "dev"]
-    command: 
-      - php-fpm
-    env_file: .env
-    environment:
-      LIZMAP_WPS_URL: https://${DOMAIN}/lizmap/ # see nginx.conf
-      LIZMAP_CACHESTORAGETYPE: redis   
-      LIZMAP_CACHEREDISDB: '1'
-      LIZMAP_USER: '1010'
-      LIZMAP_WMSSERVERURL: https://${DOMAIN}/lizmap/ows/
-      LIZMAP_CACHEREDISHOST: redis
-      LIZMAP_HOME: /srv/lizmap/
-    volumes:
-      - scp_qgis_projects:/srv/projects
-      - lizmap-theme-config:/www/lizmap/var/lizmap-theme-config
-      - lizmap-config:/www/lizmap/var/config
-      - lizmap-db:/www/lizmap/var/db
-      - lizmap-www:/www/lizmap/www
-      - lizmap-log:/www/lizmap/var/log
-    networks:
-      - os-gis-stack
 #
 # SERVICES
 #
@@ -153,6 +128,30 @@ services:
     restart: unless-stopped
     healthcheck:
         test: "exit 0"
+
+  lizmap:
+    image: *lizmap-image
+    profiles: ["all","production","nginx","lizmap", "dev"]
+    command: 
+      - php-fpm
+    env_file: .env
+    environment:
+      LIZMAP_WPS_URL: https://${DOMAIN}/lizmap/ # see nginx.conf
+      LIZMAP_CACHESTORAGETYPE: redis   
+      LIZMAP_CACHEREDISDB: '1'
+      LIZMAP_USER: '1010'
+      LIZMAP_WMSSERVERURL: https://${DOMAIN}/lizmap/ows/
+      LIZMAP_CACHEREDISHOST: redis
+      LIZMAP_HOME: /srv/lizmap/
+    volumes:
+      - scp_qgis_projects:/srv/projects
+      - lizmap-theme-config:/www/lizmap/var/lizmap-theme-config
+      - lizmap-config:/www/lizmap/var/config
+      - lizmap-db:/www/lizmap/var/db
+      - lizmap-www:/www/lizmap/www
+      - lizmap-log:/www/lizmap/var/log
+    networks:
+      - os-gis-stack
 
   geoserver:
     image: *geoserver-image
