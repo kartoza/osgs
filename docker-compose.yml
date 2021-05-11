@@ -76,8 +76,8 @@ volumes:
   lizmap-www:
   lizmap-log:
   # Seafile related volumes
-  mysql-data
-  seafile-data
+  mysql-data:
+  seafile-data:
 
 
 networks:
