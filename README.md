@@ -739,6 +739,9 @@ The workflows described in this section apply equally to any database hosted
 
 
 
+Further reading for understanding authentication with PostgreSQL using cert based authentication here:
+
+https://joelonsql.com/2013/04/27/securing-postgresql-using-hostssl-cert-clientcert1/
 
 
 
