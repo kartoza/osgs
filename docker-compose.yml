@@ -25,6 +25,9 @@ x-odm-image: &odm-image opendronemap/odm
 x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
+x-mariadb-image: &mariadb-image mariadb:10.5
+x-memcached-image: &memcached-image memcached:1.5.6
+x-seafile-image: &seafile-image seafileltd/seafile-mc:latest
 
 # 
 # VOLUMES
@@ -66,12 +69,19 @@ volumes:
   scp_odm_data:
   # Mounted in SCP only for data sharing
   scp_general_data:
-  # Lizmap related images
+  # Lizmap related volumes
   lizmap-theme-config:
   lizmap-config:
   lizmap-db:
   lizmap-www:
   lizmap-log:
+  # Seafile related volumes
+  mysql-data
+  seafile-data
+
+
+networks:
+  seafile-net:
 
 #
 # SERVICES
@@ -112,10 +122,9 @@ services:
       - DEFAULT_COLLATION="en_US.UTF-8"
       - DEFAULT_CTYPE="en_US.UTF-8"
       - POSTGRES_TEMPLATE_EXTENSIONS=true
-      - SSL_CERT_FILE=/etc/letsencrypt/live/${DOMAIN}/cert.pem
-      - SSL_KEY_FILE=/etc/letsencrypt/live/${DOMAIN}/privkey.pem
-        #- SSL_CERT_FILE=/etc/pg/cert.pem
-        #- SSL_KEY_FILE=/etc/pg/privkey.pem
+      # Doesnt currently work
+      #- SSL_CERT_FILE=/etc/letsencrypt/live/${DOMAIN}/cert.pem
+      #- SSL_KEY_FILE=/etc/letsencrypt/live/${DOMAIN}/privkey.pem
       #- SSL_CA_FILE=/your/own/ssl_ca_file.pem
       # Force clients to connect with SSL - will add hostssl
       # instead of host to lines in pg_hba.conf
@@ -130,6 +139,7 @@ services:
         test: "exit 0"
 
   lizmap:
+    # Need to resolve an issue with lizmap home still......
     image: *lizmap-image
     profiles: ["all","production","nginx","lizmap", "dev"]
     command: 
@@ -631,6 +641,79 @@ services:
       # if 0, then no update will be done, only the first initial import from the PBF
       # - TIME=120
       # command: bash -c "while [ ! -f /home/settings/importer.lock ] ; do sleep 1; done && python3 -u /home/enrich.py"
+
+
+  ############################################################
+  #
+  #
+  # Seafile profile.
+  #
+  #
+  ############################################################
+  
+  mariadb: 
+    image: *mariadb-image
+    profiles: ["production","seafile"]
+    env_file: .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_LOG_CONSOLE=true
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - os-gis-stack
+
+  memcached:
+    image: *memcached-image
+    profiles: ["production","seafile"]
+    entrypoint: memcached -m 256
+    networks:
+      - os-gis-stack
+          
+  seafile:
+    image: *seafile-image
+    profiles: ["production","seafile"]
+    ports:
+      - "80"
+    volumes:
+      # Requested, specifies the path to Seafile data persistent store.
+      - seafile-data:/shared   
+      # Mounted in SCP and to geoserver for serving geoserver data store
+      - scp_geoserver_data:/shared/geoserver_data
+      # Mounted in SCP and to QGIS Server for serving QGIS projects
+      - scp_qgis_projects:/shared/qgis_projects
+      # Mounted in SCP and to QGIS Server for serving QGIS fonts
+      - scp_qgis_fonts:/shared/qgis_fonts
+      # Mounted in SCP and to QGIS Server for serving QGIS svgs
+      - scp_qgis_svg:/shared/qgis_svg
+      # Mounted in SCP and to Hugo for rendering static pages
+      - scp_hugo_data:/shared/hugo_data
+      # Mounted in SCP and to ODM for processing uploaded images
+      - scp_odm_data:/shared/odm_data
+      # Mounted in SCP only for data sharing
+      - scp_general_data:/shared/general_data
+    env_file: .env
+    environment:
+      - DB_HOST=mariadb
+      # Requested, the value shuold be root's password of MySQL service.
+      - DB_ROOT_PASSWD=${MYSQL_PASSWORD} 
+      # Optional, default is UTC. Should be uncomment and set to your local time zone.
+      # TODO move to .env and configure make script
+      - TIME_ZONE=Etc/UTC 
+      # Specifies Seafile admin user, default is 'me@example.com'.
+      - SEAFILE_ADMIN_EMAIL=${CONTACT_EMAIL} 
+      # Specifies Seafile admin password, default is 'asecret'.
+      - SEAFILE_ADMIN_PASSWORD=${SEAFILE_ADMIN_PASSWORD} 
+      # Whether to use https or not - we are not using it since we have nginx reverse proxy
+      - SEAFILE_SERVER_LETSENCRYPT=false   
+        # Specifies your host name if https is enabled - we are not using it since we have 
+        # nginx reverse proxy
+        #- SEAFILE_SERVER_HOSTNAME=docs.seafile.com 
+    depends_on:
+      - mariadb
+      - memcached
+    networks:
+      - os-gis-stack
 
   ############################################################
   #

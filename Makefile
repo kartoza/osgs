@@ -40,13 +40,15 @@ prepare-templates:
 	@cp mapproxy_conf/seed.yml.example mapproxy_conf/seed.yml 
 	@export PASSWD=$$(pwgen 20 1); rpl POSTGRES_PASSWORD=docker POSTGRES_PASSWORD=$$PASSWD .env; echo "Postgres password set to $$PASSWD"
 	@export PASSWD=$$(pwgen 20 1); rpl GEOSERVER_ADMIN_PASSWORD=myawesomegeoserver GEOSERVER_ADMIN_PASSWORD=$$PASSWD .env; echo "GeoServer password set to $$PASSWD"
+	@export PASSWD=$$(pwgen 20 1); rpl MYSQL_PASSWORD=mysqlpassword MYSQL_PASSWORD=$$PASSWD .env; echo "Mysql password set to $$PASSWD"
+	@export PASSWD=$$(pwgen 20 1); rpl SEAFILE_ADMIN_PASSWORD=seafilepassword SEAFILE_ADMIN_PASSWORD=$$PASSWD .env; echo "Seafile Admine password set to $$PASSWD"
 	@export PASSWD=$$(pwgen 20 1); rpl PGRST_JWT_SECRET=foobarxxxyyyzzz PGRST_JWT_SECRET=$$PASSWD .env; echo "PostGREST JWT token set to $$PASSWD"
 	@echo "Please enter your valid domain name for the site and SSL cert"
 	@echo "e.g. example.org or subdomain.example.org:"
 	@read -p "Domain name: " DOMAIN; \
 	   rpl example.org $$DOMAIN nginx_conf/nginx.conf nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh .env
-	@read -p "Email Address: " EMAIL; \
-	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh
+	@read -p "Valid Contact Person Email Address: " EMAIL; \
+	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh .env
 
 init-letsencrypt:
 	@echo
