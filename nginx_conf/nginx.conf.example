@@ -206,23 +206,36 @@ http {
             proxy_connect_timeout 600;
             proxy_set_header X-Script-Name /geoserver;
         }
+        # Commented out for now .... still trying ot get this to work.....
+        #location /lizmap/~* /(\w+/)?\w+\.php {
+        #    root /srv/lizmap/www;
+        #    index index.html index.php;
+        #    fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        #    set $path_info $fastcgi_path_info; # because of bug http://trac.nginx.org/nginx/ticket/321
 
-        location /lizmap/~* /(\w+/)?\w+\.php {
-            root /srv/lizmap/www;
-            index index.html index.php;
-            fastcgi_split_path_info ^(.+\.php)(/.+)$;
-            set $path_info $fastcgi_path_info; # because of bug http://trac.nginx.org/nginx/ticket/321
-
-            try_files $fastcgi_script_name =404;
-            include fastcgi_params;
+        #   try_files $fastcgi_script_name =404;
+        #    include fastcgi_params;
         
-            fastcgi_index index.php;
-            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-            fastcgi_param SERVER_NAME $http_host;
-            fastcgi_param PATH_INFO $path_info;
-            fastcgi_param PATH_TRANSLATED $document_root$path_info;
-            fastcgi_pass  lizmap:9000;
-        }
+        #    fastcgi_index index.php;
+        #    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        #    fastcgi_param SERVER_NAME $http_host;
+        #    fastcgi_param PATH_INFO $path_info;
+        #    fastcgi_param PATH_TRANSLATED $document_root$path_info;
+        #    fastcgi_pass  lizmap:9000;
+        #}
+
+	    location /files {
+	    	proxy_read_timeout 310s;
+		    proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+		    proxy_set_header Forwarded "for=$remote_addr;proto=$scheme";
+		    proxy_set_header X-Forwarded-For $remote_addr;
+		    proxy_set_header X-Forwarded-Proto $scheme;
+		    proxy_set_header X-Real-IP $remote_addr;
+		    proxy_set_header Connection "";
+		    proxy_http_version 1.1;
+		    proxy_pass http://seafile:80;
+	    }
 
         # PostgREST related
         # expose to the outside world
