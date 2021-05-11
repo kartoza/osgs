@@ -1,257 +1,481 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-  <!-- META -->
-  <meta charset="utf-8" />
-  <meta name="robots" content="noodp" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Beauter CSS framework -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
-  <link rel="stylesheet" type="text/css" href="https://rawgit.com/outboxcraft/beauter/master/beauter.min.css" />
-  <!-- PAGE TITLE -->
-  <title>Smallholding with Open Source GIS</title>
+  <!-- CSS Framework -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+  <!-- <link rel="stylesheet" href="./css/bulma.min.css"> -->
 
-  <!-- FAVICON -->
-  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
-  <link rel="manifest" href="/favicon/site.webmanifest" />
-  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5" />
-  <meta name="msapplication-TileColor" content="#da532c" />
-  <meta name="theme-color" content="#ffffff" />
+  <!-- OpenLayers -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+  <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
 
-  <!-- openlayers css-->
-  <link rel="stylesheet" href="/styles/ol.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/layerswitcher.css" type="text/css" />
+  <!-- FAVICO -->
 
-  <style>
-    html,
-    body {
-      height: 100%;
-      margin: 0;
+  <!-- Title -->
+  <title>Geoservices - Saint Lucia</title>
+
+  <!-- Style -->
+  <style type="text/css" media="screen">
+    html {
+      scroll-behavior: smooth;
+    }
+    a.page-anchor {
+      display: block;
+      position: relative;
+      top: -75px;
+      visibility: hidden;
+    }
+    .hero {
+      color: white;
+      text-shadow: 1px 1px 2px #333;
+    }
+    .hero.unsplash * {
+      color: white;
+    }
+    .unsplash {
+      background: url('https://source.unsplash.com/random/?geography')center center; background-size:cover;
     }
 
-    #ol-map {
-      width: 50%;
-      height: 100%;
-      position: fixed;
+    .pagemap {
+      height: 75vh;
+      width: 100%;
+    }
+
+    .link-element {
+      transition: all .2s ease-in-out;
+    }
+    .link-element:hover {
+      transform: scale(1.04);
+    }
+    .link-element .content {
+      overflow: hidden;
+      max-height: 10vh;
+    }
+    .link-element a {
+      color: #363636;
+      text-decoration: none;
+    }
+    .modal-effect {
+      opacity: 1;
+      animation: fade 1s linear;
+    }
+
+    @keyframes fade {
+      0% { opacity: 0 }
+      40% { opacity: 33 }
+      50% { opacity: 80 }
+      100% { opacity: 1 }
     }
   </style>
+
+  <script>
+    function toggleActiveState(elementArray) {
+      if (elementArray.length > 0) {
+        // Add a click event on each of them
+        elementArray.forEach( el => {
+          el.addEventListener('click', () => {
+            // Get the target from the "data-target" attribute
+            const target = el.dataset.target;
+            const $target = document.getElementById(target);
+            // toggle active state
+            // el.classList.toggle('is-active');  // toggle element active state
+            $target.classList.toggle('is-active');  // toggle data-target active state
+          });
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // manage hamburger menu state
+      // https://bulma.io/documentation/components/navbar/
+      const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+      toggleActiveState($navbarBurgers)
+      // use active toggle for modals
+      const $modalCallers = Array.prototype.slice.call(document.querySelectorAll('.content-card'), 0);
+      toggleActiveState($modalCallers)
+      const $navModals = Array.prototype.slice.call(document.querySelectorAll('.navbar-modal-link'), 0);
+      toggleActiveState($navModals)
+      const $modalClosers = Array.prototype.slice.call(document.querySelectorAll('.modal-close'), 0);
+      toggleActiveState($modalClosers)
+
+    });
+  </script>
+
+  <script>
+    // openlayers map
+    // https://openlayers.org/en/latest/doc/quickstart.html
+    document.addEventListener('DOMContentLoaded', () => {
+
+      var map = new ol.Map({
+          target: 'pagemap',
+          layers: [
+            new ol.layer.Tile({
+              source: new ol.source.OSM()
+            })
+          ],
+          view: new ol.View({
+            center: ol.proj.fromLonLat([-61, 14]),
+            zoom: 13
+          })
+        });
+
+      });
+  </script>
+
 </head>
 
-<body>
-  <div class="row" style="padding-top: 3em;">
-    <div class="col m6">
-      <div>
-        <div id="ol-map" class="map"></div>
+<body class="has-navbar-fixed-top">
+
+<!-- nav -->
+  <nav class="navbar is-fixed-top has-shadow is-info">
+    <div class="container">
+      <div class="navbar-brand">
+        <a href="#" class="navbar-item">&#x1F30E; Geoservices</a>
+          <span class="navbar-burger burger" data-target="navbarMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-end">
+          <a class="navbar-item navbar-modal-link" href="#" data-target="modal-about">About</a>
+          <a class="navbar-item" href="#map">Map</a>
+          <a class="navbar-item" href="#services">Services</a>
+        </div>
       </div>
     </div>
-    <div class="col m1"></div>
-    <div class="col m4">
-      <section id="intro">
-        <h2>Smallholding with FOSSGIS</h2>
-        <p class="subline">
-          Welcome to the smallholding with FOSS platform. You can explore the map on the left, clicking on features to
-          discover more about them. Below you will find a list of reports that will be dynamically generated from the
-          data associated with the map.
-        </p>
-      </section>
-      <section id="layers">
-        <div class="col m6">
-          <div class="card _alignCenter">
-            <h5>Mouse location</h5>
-            <div class="-content">
-              <span id="mouse-position"></span>
-            </div>
-          </div>
-        </div>
-        <div class="col m6">
-          <div class="card _alignCenter">
-            <h5>Map extents</h5>
-            <div class="-content">
-              <span id="minx"></span>,<span id="miny"></span>,<span id="maxx"></span>,<span id="maxy"></span>
-            </div>
-          </div>
-        </div>
-        <div class="col m12 _alignCenter">
-          Press <img src="img/e-button.png" alt="E Button"> on the map to return to the original map extent. Click anywhere on the map to query the smallholding related features.
-        </div>
-        <div class="col m12 _alignCenter">
-          <section id="gfi-response">
-            <!-- for getFeatureInfo responses -->
-            <div id="info">&nbsp;</div>
-          </section>
-        </div>
-        <section>
-          <h3>Map Legend</h3>
-          <p>The smallholding layer is the heart of this platform. We use it to map farm infrastructure such as
-            buildings,
-            paths, sheds, shelters and fencelines. We also map the vegetation, especially trees of agricultural
-            interest.
-            The POI layer is used to map maintenance issues and points of interest around the farm.</p>
-          <div>
-            <img class="modalimg" id="img-smallholding-legend-small"
-              src="/map/?SERVICE=WMS&REQUEST=GetPrint&TEMPLATE=Legend%20-%20Smallholding&CRS=EPSG:3857"
-              alt="Smallholding Legend"
-              onclick="openimg('img-smallholding-legend-small','img-smallholding-legend-large')">
+  </nav>
 
-            <div id="img-smallholding-legend-large" class="modal">
-              <span class="-close">✖</span>
-              <img class="modal-content">
-              <div class="caption"></div>
-            </div>
+<!-- hero -->
+  <section class="hero is-medium is-info is-bold">
+    <div class="hero-body">
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <figure class="image is-128x128">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Coat_of_arms_of_Saint_Lucia.svg">
+            </figure>
           </div>
-          <p> <a href="https://osm.org">OpenStreetMap</a> is a wonderful resource of community collected and contributed
-            data. We use it to provide local context on the map. Our platform contains an always up to date of whatever
-            data is in OpenStreetMap to the selected thematic elements we mirror from the OpenStreetMap project. This is
-            achieved thanks to the Kartoza <a href="https://github.com/kartoza/docker-osm">Docker OSM project</a>.</p>
-          <div>
-            <img class="modalimg" id="img-osm-legend-small"
-              src="/map/?SERVICE=WMS&REQUEST=GetPrint&TEMPLATE=Legend%20-%20OSM&CRS=EPSG:3857" alt="OSM Legend"
-              onclick="openimg('img-osm-legend-small','img-osm-legend-large')">
+          <div class="level-item">
+          <div class="container">
+            <h1 class="title pb-3">
+               Geoservices
+            </h1>
+            <h2 class="subtitle pt-3">
+              By the <a href="http://www.govt.lc/">Government of Saint Lucia</a>
+            </h2>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            <div id="img-osm-legend-large" class="modal">
-              <span class="-close">✖</span>
-              <img class="modal-content">
-              <div class="caption"></div>
-            </div>
-          </div>
-          <p>Boundaries show the social and political context of your smallholding. These boundaries are from the <a
-              href="https://dados.gov.pt/en/datasets/distritos/">Portuguese Public Administration's Open Data
-              Portal.</a>
+<!-- page -->
+  <section class="is-large">
+    <div class="container">
+      <div class="container p-6 card">
+        <h1 class="title p-3 has-text-centered">
+          Core Services
+        </h1>
+        <h2 class="subtitle p-3 has-text-centered">
+          Core Geodata Services & Application Endpoints
+        </h2>
+        <div class="p-3 has-text-centered">
+          <p class="pb-4">
+            The following components form key services used in the Geodata Service Infrastructure
           </p>
-          <div>
-            <img class="modalimg" id="img-boundaries-legend-small"
-              src="/map/?SERVICE=WMS&REQUEST=GetPrint&TEMPLATE=Legend%20-%20Boundaries&CRS=EPSG:3857"
-              alt="Boundaries Legend" onclick="openimg('img-boundaries-legend-small','img-boundaries-legend-large')">
+          <aside class="menu p-3">
+            <p class="menu-label">
+              Platform Services
+            </p>
+            <ul class="menu-list">
+              <li><a href="/geoserver/">GeoServer</a></li>
+              <li><a href="/mapproxy/demo/">Mapproxy</a></li>
+            </ul>
+            <p class="menu-label">
+              Data Service Endpoints
+            </p>
+            <ul class="menu-list">
+              <li><a href="https://geoservices.govt.lc/geoserver/SaintLucia/wms">Saint Lucia GeoServer WMS</a></li>
+              <li><a href="/map/?SERVICE=WMS&REQUEST=GetCapabilities">QGIS Server Capabilities Document</a></li>
+              <li><a href="/mapproxy/service?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities">Map Proxy Capabilities Document</a></li>
+            </ul>
+            <p class="menu-label">
+              Developer API
+            </p>
+            <ul class="menu-list">
+              <li><a href="/api/">Postgrest API</a></li>
+              <li><a href="/swagger/">Swagger API Browser</a></li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            <div id="img-boundaries-legend-large" class="modal">
-              <span class="-close">✖</span>
-              <img class="modal-content">
-              <div class="caption"></div>
-            </div>
+<!-- break -->
+  <section class="hero is-info is-small is-bold has-text-centered">
+    <div class="hero-body">
+      <a id="map" class="page-anchor"></a>
+      <div class="container">
+        <h1 class="title p-3">
+          Map
+        </h1>
+      </div>
+    </div>
+  </section>
+
+<!-- page -->
+  <section class="is-large">
+    <div class="container">
+      <div class="container p-6 card">
+        <div id="pagemap"class="pagemap p-3 p-3 is-fullwidth is-fullheight"></div>
+      </div>
+    </div>
+  </section>
+
+<!-- break -->
+  <section class="hero unsplash is-small is-bold has-text-centered">
+    <div class="hero-body">
+      <a id="services" class="page-anchor"></a>
+      <div class="container">
+        <h1 class="title p-3">
+          Featured Services
+        </h1>
+        <h2 class="subtitle p-3">
+          Geodata Platform Showcase
+        </h2>
+      </div>
+    </div>
+  </section>
+
+<!-- tiles -->
+  <div class="container">
+    <div class="section">
+
+      <div class="row columns is-multiline">
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card" href="#" data-target="modal-card-01">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  <img src="https://webodm.net/static/images/models/ortho.jpg" alt="">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">Web ODM</p>
+                  <p class="subtitle no-padding no-margin">Open Drone Map UI</p>
+                </div>
+                <div class="content description">
+                  Web ODM is the web interface for OpenDroneMap, allowing users to process drone imagery and aerial photography to produce orthophoto mosaics and 3D pointclouds.
+                </div>
+              </div>
+            </a>
           </div>
+        </div>
 
-          <h3>Location Overview</h3>
-          <p>Our farm is located in Portugal, the South Western most country in Europe, on the Iberian Peninsula.</p>
-          <div>
-            <img class="modalimg" id="img-locality-small"
-              src="/map/?SERVICE=WMS&REQUEST=GetPrint&TEMPLATE=Location%20Overview&CRS=EPSG:3857"
-              alt="Locality Map"
-              onclick="openimg('img-locality-small','img-locality-large')">
-            <div id="img-locality-large" class="modal">
-              <span class="-close">✖</span>
-              <img class="modal-content">
-              <div class="caption"></div>
-            </div>
-          </div>
-          Portugal is organised into 18 districts which are in turn subdivided into 278 councils.
+      </div>
 
-          <div>
-            <img class="modalimg" id="img-country-small"
-              src="/map/?SERVICE=WMS&REQUEST=GetPrint&TEMPLATE=Country%20Overview&CRS=EPSG:3857"
-              alt="Country Map"
-              onclick="openimg('img-country-small','img-country-large')">
-            <div id="img-country-large" class="modal">
-              <span class="-close">✖</span>
-              <img class="modal-content">
-              <div class="caption"></div>
-            </div>
-          </div>
-
-          <h3>Monitoring From Space</h3>
-          <p>With the development of space platforms such as Landsat and, more recently, Sentinel, new opportunities are available for monitoring growth productivity from afar. In this plot with show the Normalised Density of Vegetation Index (NDVI) for the smallholding as measured by Sentinel-2.</p>
-          <div>
-            <!-- Needs dataplotly support in QGIS Server to work
-            <img class="modalimg" id="img-ndvi-small"
-              src="/map/?SERVICE=WMS&REQUEST=GetPrint&TEMPLATE=Sentinel%202%20-%20NDVI&CRS=EPSG:3857"
-              alt="NDVI Plot"
-              onclick="openimg('img-ndvi-small','img-ndvi-large')"> -->
-            <img class="modalimg" id="img-ndvi-small"
-              src="/img/ndvi.png"
-              alt="NDVI Plot"
-              onclick="openimg('img-ndvi-small','img-ndvi-large')">
-            <div id="img-ndvi-large" class="modal">
-              <span class="-close">✖</span>
-              <img class="modal-content">
-              <div class="caption"></div>
-            </div>
-          </div>
-
-
-        </section>
-        <section id="about">
-          <h3>About this platform.</h3>
-          <p>
-            This platform is a composition of Open Source GIS components which have been integrated to provide a
-            platform
-            useful for owners or managers of small farms. Here is a list of services deployed on this platform.
-          </p>
-          <ul>
-            <li><a href="pg-map-mapproxy.html">QGIS map in PostGIS</a></li>
-            <li><a href="/api/">Postgrest API</a></li>
-            <li><a href="/swagger/">Swagger API Browser</a></li>
-            <li><a href="file-based-map.html">File Based Project File</a></li>
-            <li><a href="/geoserver/">GeoServer</a></li>
-            <li><a href="/mapproxy/demo/">Mapproxy</a></li>
-            <li><a href="http://castelo.kartoza.com:8000">Open Drone Map</a></li>
-            <li><a href="/map/?SERVICE=WMS&REQUEST=GetCapabilities">QGIS Server Capabilities Document</a></li>
-            <li><a href="/mapproxy/service?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities">Map Proxy Capabilities
-                Document</a></li>
-            <li><a href="/superset">Superset Dashboard Platform</a></li>
-          </ul>
-          <p>
-            You can find all of the source code, installation notes and detailed descriptions of the platform can be
-            found
-            on the
-            <a href="https://github.com/kartoza/MarceiraMerginSyncProject">
-              GitHub page</a>
-            for this platform.
-          </p>
-          <p>The data for the smallholding is managed in the <a href="https://public.cloudmergin.com/#">Mergin</a> cloud
-            syncing platform. The Mergin project can be edited both on <a href="https://qgis.org">QGIS</a> desktop, and
-            using the <a href="https://inputapp.io/en/">Input</a> mobile data collection tool. With the <a
-              href="https://github.com/lutraconsulting/mergin-db-sync">mergin-db-sync</a> tool, this data is also
-            seamlessly synchronised to our <a href="https://postgis.org">PostGIS</a> database, from where it is
-            published
-            via QGIS Server here on this web site. Furthermore, any edits made in the database, on QGIS Desktop or in
-            the
-            field using Input, can be synchronised to all other instances of the project, providing incredible
-            opportunity
-            to build robust workflows for your enterprise.</p>
-          <p>For more thoughts on our design approach, see our <a href="/mantras.html">Design Mantras</a>.</p>
-
-          <p>This platform includes data provided from <a href="https://osm.org">OpenStreetMap</a> and copyright
-            OpenStreetMap Contributors.</p>
-        </section>
-        <section id="reports">
-          <h3>Standard Reports.</h3>
-          <p>These are coming soon!</p>
-          <ul>
-            <li><a href="/map/?SERVICE=ATLAS&REQUEST=GetPrint&TEMPLATE=Camps Layout&CRS=EPSG:3857&EXP_FILTER=id in ('1','2','3','4','5','6','7','8','9','10','11','12','13','14','15')" target="_blank">Camps</a></li>
-            <li>Structures</li>
-            <li>Plants</li>
-            <li>Farm Map</li>
-            <li>3D View</li>
-          </ul>
-        </section>
-        <section id="contact">
-          <h3>Contact Me.</h3>
-          <ul class="contact-list">
-            <li>@timlinux</li>
-            <li>tim@kartoza.com</li>
-          </ul>
-        </section>
     </div>
   </div>
-  </div>
-  <script src="https://rawgit.com/outboxcraft/beauter/master/beauter.min.js"></script>
-  <script src="/libs/ol.js"></script>
-  <script src="/libs/layerswitcher.js"></script>
-  <script type="text/javascript" src="./main.js"></script>
-</body>
 
+<!-- break -->
+  <section class="hero is-info is-small is-bold has-text-centered">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title p-3">
+          Software
+        </h1>
+      </div>
+    </div>
+  </section>
+
+<!-- tiles -->
+  <div class="container">
+    <div class="section">
+
+      <div class="row columns is-multiline">
+        <div class="content p-3">
+          <p class="has-text-centered">
+            The following Open Source Software forms a critical part of the spatial data infrastructure within Saint Lucia,
+             and users are encouraged to utilise these products and services as extensively as is practical in line with Open Data Standards.
+          </p>
+        </div>
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card" href="https://qgis.org/">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  <img src="https://planet.qgis.org/en/_downloads/346c98156457acb14251dbfd0b88a027/qgis-logo.svg" alt="">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">QGIS</p>
+                  <p class="subtitle no-padding no-margin">Open Source GIS</p>
+                </div>
+                <div class="content description">
+                  QGIS Desktop and QGIS Server are fully featured Geographic Information Systems and are the de facto leader in Open Source Desktop GIS.
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card" href="https://inputapp.io">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  <!-- <img style="background: #209CEE" src="https://inputapp.io/img/logo.svg" alt=""> -->
+                  <img style="background: #003023" src="https://inputapp.io/img/logo.svg" alt="">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">Input</p>
+                  <p class="subtitle no-padding no-margin">Mobile Field Survey Solution</p>
+                </div>
+                <div class="content description">
+                  The Input App leverages the QGIS ecosystem and the Mergin cloud platform for simple and effective field data capture.
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card" href="https://postgis.net/">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  <img src="https://postgis.net/images/postgis-logo.png" alt="">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">PostGIS</p>
+                  <p class="subtitle no-padding no-margin">Spatial and Geographic objects for PostgreSQL</p>
+                </div>
+                <div class="content description">
+                  PostGIS is a spatial database extender for PostgreSQL object-relational database. It adds support for geographic objects allowing location queries to be run in SQL.
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+<!-- ======================================== -->
+<!-- modals -->
+
+<div id="modal-about" class="modal modal-effect">
+  <div class="modal-background"></div>
+  <div class="modal-content is-tiny">
+    <div class="card">
+      <div class="card-image">
+        <figure class="image is-16by9">
+          <img src="https://source.unsplash.com/random/800x450?geography" alt="">
+        </figure>
+      </div>
+      <div class="card-content">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-48x48">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Coat_of_arms_of_Saint_Lucia.svg" alt="Saint Lucia Logo">
+              <!-- <img src="https://kartoza.com/static/img/kartoza-logo-only.png" alt="Kartoza Logo"> -->
+            </figure>
+          </div>
+          <div class="media-content">
+            <p class="title is-4">Geoservices</p>
+            <p class="subtitle is-6">By the Government of Saint Lucia</p>
+          </div>
+        </div>
+        <div class="content">
+          <p>
+            The Geoservices Platform provides a number of services, content, components, and data for geospatial solution support in and around Saint Lucia.
+          </p>
+          <p>
+            This site is a component of the OpenSource GIS Stack, a full featured complete stack with end-to-end workflows for many common GIS Infrastructure components.
+          </p>
+          <p>
+            Built and deployed by <a href="https://www.kartoza.com/"><strong>Kartoza</strong></a> as a component of the 2021 Open Source GIS Training programme, delivered in line with the objectives of the Disaster Vulnerability Reduction Project (DVRP).
+          </p>
+          <p>
+            The OpenSource GIS Stack is a composition of various Free and Open Source software, platforms, and components. The source code is available on GitHub, and community contributions are welcome.
+          </p>
+        </div>
+        <div class="content">
+        <a href="https://github.com/kartoza/OpenSource-GIS-Stack"><button class="button is-medium is-info is-fullwidth">View Source</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="modal-close is-large" aria-label="close" data-target="modal-about"></button>
+</div>
+
+
+
+  <div id="modal-card-01" class="modal modal-effect">
+    <div class="modal-background"></div>
+    <div class="modal-content is-tiny">
+      <div class="card">
+        <div class="card-image">
+          <figure class="image is-16by9">
+            <img src="https://raw.githubusercontent.com/OpenDroneMap/WebODM/master/screenshots/pointcloud.png" alt="">
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img src="https://www.opendronemap.org/wp-content/uploads/2018/07/odm-logo.svg" alt="open drone map logo">
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4">Web ODM</p>
+              <p class="subtitle is-6">Open Drone Map UI</p>
+            </div>
+          </div>
+          <div class="content">
+          Web ODM is the web interface for OpenDroneMap, allowing users to process drone imagery and aerial photography to produce orthophoto mosaics and 3D pointclouds.
+          Petierunt uti sibi concilium totius Galliae in diem certam indicere. Morbi fringilla convallis sapien, id pulvinar odio volutpat. A communi observantia non est recedendum.
+          </div>
+          <div class="content">
+          <a href="https://www.opendronemap.org/"><button class="button is-medium is-info is-fullwidth">Go to Service</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close" data-target="modal-card-01"></button>
+  </div>
+
+<!-- footer -->
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        This site is a component of the <a href="https://github.com/kartoza/OpenSource-GIS-Stack">OpenSource GIS Stack</a>.
+      </p>
+      <p>
+        Built by <a href="https://www.kartoza.com/"><strong>Kartoza</strong></a>
+      </p>
+    </div>
+  </footer>
+</body>
 </html>
