@@ -24,7 +24,7 @@ x-scp-image: &scp-image quay.io/lkiesow/docker-scp
 x-odm-image: &odm-image opendronemap/odm
 x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
-x-lizmap-image: &lizmap-image lizmap-wps-web-client:3.2
+x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
 
 
 # 
@@ -68,23 +68,25 @@ volumes:
   # Mounted in SCP only for data sharing
   scp_general_data:
   # Lizmap related images
-  lizmap-theme-config:/www/lizmap/var/lizmap-theme-config
-  lizmap-config:/www/lizmap/var/config
-  lizmap-db:/www/lizmap/var/db
-  lizmap-www:/www/lizmap/www
-  lizmap-log:/www/lizmap/var/log
+  lizmap-theme-config:
+  lizmap-config:
+  lizmap-db:
+  lizmap-www:
+  lizmap-log:
 
 
 lizmap:
     image: *lizmap-image
+    profiles: ["all","production","nginx","lizmap", "dev"]
     command: 
       - php-fpm
+    env_file: .env
     environment:
-      LIZMAP_WPS_URL: http://wps:8080/ # According to your configuration
+      LIZMAP_WPS_URL: https://${DOMAIN}/lizmap/ # see nginx.conf
       LIZMAP_CACHESTORAGETYPE: redis   
       LIZMAP_CACHEREDISDB: '1'
       LIZMAP_USER: '1010'
-      LIZMAP_WMSSERVERURL: http://map:8080/ows/
+      LIZMAP_WMSSERVERURL: https://${DOMAIN}/lizmap/ows/
       LIZMAP_CACHEREDISHOST: redis
       LIZMAP_HOME: /srv/lizmap/
     volumes:
@@ -94,7 +96,8 @@ lizmap:
       - lizmap-db:/www/lizmap/var/db
       - lizmap-www:/www/lizmap/www
       - lizmap-log:/www/lizmap/var/log
-
+    networks:
+      - os-gis-stack
 #
 # SERVICES
 #
