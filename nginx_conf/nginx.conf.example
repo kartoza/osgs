@@ -223,7 +223,8 @@ http {
         #    fastcgi_param PATH_TRANSLATED $document_root$path_info;
         #    fastcgi_pass  lizmap:9000;
         #}
-
+        
+        # To webdav container
 	    location /files {
 	    	proxy_read_timeout 310s;
 		    proxy_set_header Host $host;
@@ -234,7 +235,7 @@ http {
 		    proxy_set_header X-Real-IP $remote_addr;
 		    proxy_set_header Connection "";
 		    proxy_http_version 1.1;
-		    proxy_pass http://seafile:80;
+		    proxy_pass http://webdav:80;
 	    }
 
         # PostgREST related

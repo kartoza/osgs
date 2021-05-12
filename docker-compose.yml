@@ -25,9 +25,7 @@ x-odm-image: &odm-image opendronemap/odm
 x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
-x-mariadb-image: &mariadb-image mariadb:10.5
-x-memcached-image: &memcached-image memcached:1.5.6
-x-seafile-image: &seafile-image seafileltd/seafile-mc:latest
+x-webdav-image: &webdav-image dgraziotin/nginx-webdav-nononsense
 
 # 
 # VOLUMES
@@ -75,9 +73,8 @@ volumes:
   lizmap-db:
   lizmap-www:
   lizmap-log:
-  # Seafile related volumes
-  mysql-data:
-  seafile-data:
+  # WebDav related volumes
+  webdav-data:
 
 
 networks:
@@ -646,75 +643,34 @@ services:
   ############################################################
   #
   #
-  # Seafile profile.
+  # No nonsense webdav profile.
   #
   #
   ############################################################
   
-  mariadb: 
-    image: *mariadb-image
-    profiles: ["production","seafile"]
+
+  webdav:
+    container_name: *webdav-image
+    volumes:
+        - webdav-data:/data
+        # You need to manually make the .htpassword if you want to 
+        # use it. Otherwise you can use the env vars below for a single
+        # user
+        - ./nginx_conf/htpasswd:/etc/nginx/htpasswd
+    networks:
+        - os-gis-stack
     env_file: .env
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_LOG_CONSOLE=true
-    volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - os-gis-stack
-
-  memcached:
-    image: *memcached-image
-    profiles: ["production","seafile"]
-    entrypoint: memcached -m 256
-    networks:
-      - os-gis-stack
-          
-  seafile:
-    image: *seafile-image
-    profiles: ["production","seafile"]
+        - PUID=501
+        - PGID=20
+        - TZ=${TIMEZONE}
+        - WEBDAV_USERNAME=${WEBDAV_USERNAME}
+        - WEBDAV_PASSWORD=§{WEBDAV_PASSWORD}
+        - SERVER_NAMES=${DOMAIN}
+        - TIMEOUTS_S=1200 # these are seconds
+        - CLIENT_MAX_BODY_SIZE=120M # must end with M(egabytes) or G(igabytes)
     ports:
-      - "80"
-    volumes:
-      # Requested, specifies the path to Seafile data persistent store.
-      - seafile-data:/shared   
-      # Mounted in SCP and to geoserver for serving geoserver data store
-      - scp_geoserver_data:/shared/geoserver_data
-      # Mounted in SCP and to QGIS Server for serving QGIS projects
-      - scp_qgis_projects:/shared/qgis_projects
-      # Mounted in SCP and to QGIS Server for serving QGIS fonts
-      - scp_qgis_fonts:/shared/qgis_fonts
-      # Mounted in SCP and to QGIS Server for serving QGIS svgs
-      - scp_qgis_svg:/shared/qgis_svg
-      # Mounted in SCP and to Hugo for rendering static pages
-      - scp_hugo_data:/shared/hugo_data
-      # Mounted in SCP and to ODM for processing uploaded images
-      - scp_odm_data:/shared/odm_data
-      # Mounted in SCP only for data sharing
-      - scp_general_data:/shared/general_data
-    env_file: .env
-    environment:
-      - DB_HOST=mariadb
-      # Requested, the value shuold be root's password of MySQL service.
-      - DB_ROOT_PASSWD=${MYSQL_PASSWORD} 
-      # Optional, default is UTC. Should be uncomment and set to your local time zone.
-      # TODO move to .env and configure make script
-      - TIME_ZONE=Etc/UTC 
-      # Specifies Seafile admin user, default is 'me@example.com'.
-      - SEAFILE_ADMIN_EMAIL=${CONTACT_EMAIL} 
-      # Specifies Seafile admin password, default is 'asecret'.
-      - SEAFILE_ADMIN_PASSWORD=${SEAFILE_ADMIN_PASSWORD} 
-      # Whether to use https or not - we are not using it since we have nginx reverse proxy
-      - SEAFILE_SERVER_LETSENCRYPT=false   
-        # Specifies your host name if https is enabled - we are not using it since we have 
-        # nginx reverse proxy
-        #- SEAFILE_SERVER_HOSTNAME=docs.seafile.com 
-    depends_on:
-      - mariadb
-      - memcached
-    networks:
-      - os-gis-stack
-
+      - 80
   ############################################################
   #
   #
