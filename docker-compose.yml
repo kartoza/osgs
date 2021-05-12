@@ -651,6 +651,7 @@ services:
 
   webdav:
     image: *webdav-image
+    profiles: ["all", "production","dev"]
     volumes:
         - webdav-data:/data
         # You need to manually make the .htpassword if you want to 
