@@ -650,7 +650,7 @@ services:
   
 
   webdav:
-    container_name: *webdav-image
+    image: *webdav-image
     volumes:
         - webdav-data:/data
         # You need to manually make the .htpassword if you want to 
