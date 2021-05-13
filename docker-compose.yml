@@ -25,7 +25,7 @@ x-odm-image: &odm-image opendronemap/odm
 x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
-x-webdav-image: &webdav-image dgraziotin/nginx-webdav-nononsense
+x-webdav-image: &webdav-image jgeusebroek/webdav
 
 # 
 # VOLUMES
@@ -76,9 +76,6 @@ volumes:
   # WebDav related volumes
   webdav-data:
 
-
-networks:
-  seafile-net:
 
 #
 # SERVICES
@@ -643,35 +640,48 @@ services:
   ############################################################
   #
   #
-  # No nonsense webdav profile.
+  # Webdav profile.
   #
   #
   ############################################################
   
-
   webdav:
-    image: *webdav-image
-    profiles: ["all", "production","dev"]
+    # See https://github.com/jgeusebroek/docker-webdav
+    image: *webdav-image 
     volumes:
-        - webdav-data:/data
-        # You need to manually make the .htpassword if you want to 
-        # use it. Otherwise you can use the env vars below for a single
-        # user
-        - ./nginx_conf/htpasswd:/etc/nginx/htpasswd
+      # You need to manually make the .htpassword if you want to 
+      # use it. Otherwise you can use the env vars below for a single
+      # user
+      # Use this site to create new password entries
+      # https://hostingcanada.org/htpasswd-generator/
+      # and add them to the htpasswd file, one line per user
+      #- ./webdav_conf:/config
+      - webdav-data:/webdav
+      # Mounted in SCP and to geoserver for serving geoserver data
+      # store
+      - scp_geoserver_data:/webdav/geoserver_data
+      # Mounted in SCP and to QGIS Server for serving QGIS projects
+      - scp_qgis_projects:/webdav/qgis_projects
+      # Mounted in SCP and to QGIS Server for serving QGIS fonts
+      - scp_qgis_fonts:/webdav/qgis_fonts
+      # Mounted in SCP and to QGIS Server for serving QGIS svgs
+      - scp_qgis_svg:/webdav/qgis_svg
+      # Mounted in SCP and to Hugo for rendering static pages
+      - scp_hugo_data:/webdav/hugo_data
+      # Mounted in SCP and to ODM for processing uploaded images
+      - scp_odm_data:/webdav/odm_data
+      # Mounted in SCP only for data sharing
+      - scp_general_data:/webdav/general_data
     networks:
         - os-gis-stack
     env_file: .env
     environment:
-        - PUID=501
-        - PGID=20
-        - TZ=${TIMEZONE}
-        - WEBDAV_USERNAME=${WEBDAV_USERNAME}
-        - WEBDAV_PASSWORD=§{WEBDAV_PASSWORD}
-        - SERVER_NAMES=${DOMAIN}
-        - TIMEOUTS_S=1200 # these are seconds
-        - CLIENT_MAX_BODY_SIZE=120M # must end with M(egabytes) or G(igabytes)
+        - USER_UID=1000
+        - USER_GID=1000
+        - READWRITE=true
     ports:
-      - 80
+        - 8002:80
+
   ############################################################
   #
   #
