@@ -61,7 +61,7 @@ init-letsencrypt:
 	@echo "------------------------------------------------------------------"
 	@echo "Getting an SSL cert from letsencypt"
 	@echo "------------------------------------------------------------------"
-	@./init-letsencrypt.sh
+	@./init-letsencrypt.sh	
 	@docker-compose --profile=certbot-init kill
 	@docker-compose --profile=certbot-init rm
 
