@@ -25,7 +25,7 @@ x-odm-image: &odm-image opendronemap/odm
 x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
-x-webdav-image: &webdav-image jgeusebroek/webdav
+x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 
 # 
 # VOLUMES
@@ -56,7 +56,7 @@ volumes:
   # Mounted in SCP and to geoserver for a file store
   scp_geoserver_data:
   # Mounted in SCP and to QGIS Server for serving QGIS projects
-  scp_qgis_projects:
+  qgis_projects:
   # Mounted in SCP and to QGIS Server for serving QGIS fonts
   scp_qgis_fonts:
   # Mounted in SCP and to QGIS Server for serving QGIS svgs
@@ -76,6 +76,9 @@ volumes:
   # WebDav related volumes
   webdav-data:
 
+
+networks:
+  seafile-net:
 
 #
 # SERVICES
@@ -148,7 +151,7 @@ services:
       LIZMAP_CACHEREDISHOST: redis
       LIZMAP_HOME: /srv/lizmap/
     volumes:
-      - scp_qgis_projects:/srv/projects
+      - qgis_projects:/srv/projects
       - lizmap-theme-config:/www/lizmap/var/lizmap-theme-config
       - lizmap-config:/www/lizmap/var/config
       - lizmap-db:/www/lizmap/var/db
@@ -298,7 +301,7 @@ services:
      # too so that you can upload your projects easily
      # using SCP and then have them published
      #
-     - scp_qgis_projects:/io/data:ro
+     - qgis_projects:/io/data:ro
      # 
      # qgis_plugins
      # |
@@ -423,7 +426,7 @@ services:
       # store
       - scp_geoserver_data:/data/geoserver_data
       # Mounted in SCP and to QGIS Server for serving QGIS projects
-      - scp_qgis_projects:/data/qgis_projects
+      - qgis_projects:/data/qgis_projects
       # Mounted in SCP and to QGIS Server for serving QGIS fonts
       - scp_qgis_fonts:/data/qgis_fonts
       # Mounted in SCP and to QGIS Server for serving QGIS svgs
@@ -489,7 +492,7 @@ services:
     volumes:
       # Host mounted volume
       # Mounted in SCP and to QGIS Server for serving QGIS projects
-      - scp_qgis_projects:/home/mergin
+      - qgis_projects:/home/mergin
     networks:
      - os-gis-stack
 
@@ -640,51 +643,6 @@ services:
   ############################################################
   #
   #
-  # Webdav profile.
-  #
-  #
-  ############################################################
-  
-  webdav:
-    # See https://github.com/jgeusebroek/docker-webdav
-    image: *webdav-image 
-    volumes:
-      # You need to manually make the .htpassword if you want to 
-      # use it. Otherwise you can use the env vars below for a single
-      # user
-      # Use this site to create new password entries
-      # https://hostingcanada.org/htpasswd-generator/
-      # and add them to the htpasswd file, one line per user
-      #- ./webdav_conf:/config
-      - webdav-data:/webdav
-      # Mounted in SCP and to geoserver for serving geoserver data
-      # store
-      - scp_geoserver_data:/webdav/geoserver_data
-      # Mounted in SCP and to QGIS Server for serving QGIS projects
-      - scp_qgis_projects:/webdav/qgis_projects
-      # Mounted in SCP and to QGIS Server for serving QGIS fonts
-      - scp_qgis_fonts:/webdav/qgis_fonts
-      # Mounted in SCP and to QGIS Server for serving QGIS svgs
-      - scp_qgis_svg:/webdav/qgis_svg
-      # Mounted in SCP and to Hugo for rendering static pages
-      - scp_hugo_data:/webdav/hugo_data
-      # Mounted in SCP and to ODM for processing uploaded images
-      - scp_odm_data:/webdav/odm_data
-      # Mounted in SCP only for data sharing
-      - scp_general_data:/webdav/general_data
-    networks:
-        - os-gis-stack
-    env_file: .env
-    environment:
-        - USER_UID=1000
-        - USER_GID=1000
-        - READWRITE=true
-    ports:
-        - 8002:80
-
-  ############################################################
-  #
-  #
   # DEV profile. Mainly runs nginx without cert for local testing
   #
   #
@@ -720,6 +678,70 @@ services:
       - geoserver
       - postgrest
       - swagger
+
+
+  ############################################################
+  #
+  #
+  # Mergin client services. These are all run once containers.
+  # 
+  # The idea is to checkout the projects that have been shared
+  # with the designated user into a directory and then publish
+  # those using QGIS Server (or GeoServer if you like.).scp_qgis_projects
+  #
+  #
+  ############################################################
+    
+
+
+  download-project:
+    image: *mergin-client-image
+    profiles: ["mergin-client"]
+    env_file: .env
+    environment:
+      - MERGIN_URL=${MERGIN_URL}
+      - MERGIN_USER=${MERGIN_USER}
+      - MERGIN_PASSWORD=${MERGIN_PASSWORD}
+    command: "download tim1/GloriousProjectOfMagnificence /home/mergin/project"
+      #command: "/bin/sh -c 'set -x; mergin.sh download $MERGIN_PROJECT; while :; do sleep 1m & wait $${!}; set -x; cd $MERGIN_PROJECT; mergin pull; cd ..; done' "
+    volumes:
+      - qgis_projects:/home/mergin
+
+  pull-projects:
+    image: *mergin-client-image
+    profiles: ["mergin-client"]
+    env_file: .env
+    environment:
+      - MERGIN_URL=${MERGIN_URL}
+      - MERGIN_USER=${MERGIN_USER}
+      - MERGIN_PASSWORD=${MERGIN_PASSWORD}
+    command: "pull"
+    volumes:
+      - qgis_projects:/home/mergin
+
+  list-shared-projects:
+    image: *mergin-client-image
+    profiles: ["mergin-client"]
+    env_file: .env
+    environment:
+      - MERGIN_URL=${MERGIN_URL}
+      - MERGIN_USER=${MERGIN_USER}
+      - MERGIN_PASSWORD=${MERGIN_PASSWORD}
+    command: "list-projects --flag shared"
+    volumes:
+      - qgis_projects:/home/mergin
+
+  download-shared-projects:
+    image: *mergin-client-image
+    profiles: ["mergin-client"]
+    env_file: .env
+    environment:
+      - MERGIN_URL=${MERGIN_URL}
+      - MERGIN_USER=${MERGIN_USER}
+      - MERGIN_PASSWORD=${MERGIN_PASSWORD}
+    command: "download-shared"
+    volumes:
+      - qgis_projects:/home/mergin
 
   ############################################################
   #
