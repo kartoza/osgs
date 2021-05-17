@@ -25,7 +25,6 @@ x-odm-image: &odm-image opendronemap/odm
 x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
-x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 
 # 
 # VOLUMES
