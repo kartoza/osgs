@@ -501,6 +501,14 @@ services:
     command: "celery-cmd"
     networks:
       - os-gis-stack 
+      
+  data-dir-conf:
+    profiles: ["all","production","dev"]
+    image: geonode/geoserver_data:2.18.2
+    command: /bin/true
+    volumes:
+      - geonode-geoserver-data:/geoserver_data/data
+    restart: on-failure 
 
   # Geoserver backend specifically for GeoNode
   # until such time we can get the GeoNode plugins
@@ -514,7 +522,9 @@ services:
       timeout: 10s
       retries: 1
       start_period: 60s
-    env_file:
+    depends_on:
+        - data-dir-conf    
+      env_file:
       - .env-geonode-geoserver
     volumes:
       - geonode-static-files:/mnt/volumes/statics
@@ -524,16 +534,7 @@ services:
       - geonode-tmp:/tmp      
     restart: on-failure
     networks:
-      - os-gis-stack 
-      
-  data-dir-conf:
-    profiles: ["all","production","dev"]
-    image: geonode/geoserver_data:2.18.2
-    command: /bin/true
-    volumes:
-      - geonode-geoserver-data:/geoserver_data/data
-    restart: on-failure    
-
+      - os-gis-stack    
 
   ############################################################
   #
