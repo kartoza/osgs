@@ -1,21 +1,4 @@
 # -*- coding: utf-8 -*-
-# vim: tabstop=4 shiftwidth=4 softtabstop=4
-#
-# oq-qgis-server
-# Copyright (C) 2018-2019 GEM Foundation
-#
-# oq-qgis-server is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# oq-qgis-server is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 user nginx;
 worker_processes auto;
@@ -91,10 +74,6 @@ http {
     upstream swagger {
         server swagger:8080;
     }
-    upstream webdav {
-        server webdav;
-    }
-
     server {
         listen 443 ssl default_server;
         server_name example.org;
@@ -209,16 +188,6 @@ http {
             proxy_connect_timeout 600;
             proxy_set_header X-Script-Name /geoserver;
         }
-	    location /files/ {
-            proxy_set_header X-Real-IP  $remote_addr;
-            proxy_set_header X-Forwarded-For $remote_addr;
-            proxy_set_header Host $host;
-            proxy_pass http://webdav/;
-            proxy_set_header    X-Forwarded-for $remote_addr;
-            #proxy_set_header X-Script-Name /;
-	}
-
-
         # PostgREST related
         # expose to the outside world
         location /api/ {
