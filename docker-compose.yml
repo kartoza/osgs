@@ -449,6 +449,7 @@ services:
 
 
   geonode:
+    profiles: ["all","production","dev"]
     image: *geonode-image
     restart: on-failure
     env_file:
@@ -474,6 +475,7 @@ services:
 
   # Celery worker that executes celery tasks created by Django.
   geonode-celery:
+    profiles: ["all","production","dev"]
     image: *geonode-image
     restart: on-failure
     env_file:
@@ -485,7 +487,7 @@ services:
       - geonode-data:/data
       - geonode-tmp:/tmp
     depends_on:
-      - django
+      - geonode
     environment:
       - IS_CELERY=True
     entrypoint: ["/usr/src/geonode/entrypoint.sh"]
