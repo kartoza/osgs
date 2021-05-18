@@ -72,10 +72,13 @@ volumes:
   lizmap-db:
   lizmap-www:
   lizmap-log:
-  # WebDav related volumes
-  webdav-data:
-
-
+  # GeoNode related volumes
+  geonode-static-files:
+  geonode-geoserver-data:
+  geonode-backup-restore:
+  geonode-data:
+  geonode-tmp:
+    
 networks:
   seafile-net:
 
