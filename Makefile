@@ -66,7 +66,7 @@ prepare-general-templates:
 	@echo "=========================:"
 	@echo "GeoNode specific updates:"
 	@echo "=========================:"
-	@export PASSWD=$$(pwgen 20 1); rpl ADMIN_PASSWORD=admin ADMIN_PASSWORD=$$PASSWD .env-example; echo "GeoNode Admin password set to $$PASSWD"
+	@export PASSWD=$$(pwgen 20 1); rpl ADMIN_PASSWORD=admin ADMIN_PASSWORD=$$PASSWD .env-geonode; echo "GeoNode Admin password set to $$PASSWD"
 
 init-letsencrypt:
 	@echo
