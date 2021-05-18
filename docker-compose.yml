@@ -243,6 +243,7 @@ services:
       - geoserver
       - postgrest
       - swagger
+      - geonode
 
   certbot:
     image: *certbot-image
@@ -498,6 +499,8 @@ services:
       - IS_CELERY=True
     entrypoint: ["/usr/src/geonode/entrypoint.sh"]
     command: "celery-cmd"
+    networks:
+      - os-gis-stack 
 
   # Geoserver backend specifically for GeoNode
   # until such time we can get the GeoNode plugins
@@ -520,7 +523,9 @@ services:
       - geonode-data:/data
       - geonode-tmp:/tmp      
     restart: on-failure
-
+    networks:
+      - os-gis-stack 
+      
   data-dir-conf:
     profiles: ["all","production","dev"]
     image: geonode/geoserver_data:2.18.2
