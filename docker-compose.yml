@@ -25,7 +25,7 @@ x-odm-image: &odm-image opendronemap/odm
 x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
-
+x-geonode-image: &geonode-image geosolutionsit/geonode:latest
 # 
 # VOLUMES
 #
@@ -438,6 +438,61 @@ services:
       - scp_general_data:/data/general_data
     networks:
       - os-gis-stack  
+
+  ############################################################
+  #
+  # GeoNode related services
+  #
+  # docker-compose --profile=mergin up -d
+  #
+  ############################################################
+
+
+  geonode:
+    image: *geonode-image
+    restart: on-failure
+    env_file:
+      - .env
+    volumes:
+      - geonode-static-files:/mnt/volumes/statics
+      - geonode-geoserver-data:/geoserver_data/data
+      - geonode-backup-restore:/backup_restore
+      - geonode-data:/data
+      - geonode-tmp:/tmp    
+    healthcheck:
+      test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8001/"
+      interval: 60s
+      timeout: 10s
+      retries: 1
+      start_period: 60s
+    environment:
+      - IS_CELERY=False
+    entrypoint: ["/usr/src/geonode/entrypoint.sh"]
+    command: "uwsgi --ini /usr/src/geonode/uwsgi.ini"
+    networks:
+      - os-gis-stack  
+
+  # Celery worker that executes celery tasks created by Django.
+  geonode-celery:
+    image: *geonode-image
+    restart: on-failure
+    env_file:
+      - .env
+    volumes:
+      - geonode-static-files:/mnt/volumes/statics
+      - geonode-geoserver-data:/geoserver_data/data
+      - geonode-backup-restore:/backup_restore
+      - geonode-data:/data
+      - geonode-tmp:/tmp
+    depends_on:
+      - django
+    environment:
+      - IS_CELERY=True
+    entrypoint: ["/usr/src/geonode/entrypoint.sh"]
+    command: "celery-cmd"
+
+
+
   ############################################################
   #
   # MERGIN Service - this is not run in production by
