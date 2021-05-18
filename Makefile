@@ -57,11 +57,11 @@ prepare-general-templates:
 	@echo "Please enter your valid domain name for the site and SSL cert"
 	@echo "e.g. example.org or subdomain.example.org:"
 	@read -p "Domain name: " DOMAIN; \
-	   rpl example.org $$DOMAIN nginx_conf/nginx.conf nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh .env, \
+	   rpl example.org $$DOMAIN nginx_conf/nginx.conf nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh .env; \
 	   rpl DOMAIN $$DOMAIN .env-geonode
 	@read -p "Valid Contact Person Email Address: " EMAIL; \
 	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh .env \
-	   rpl ADMIN_EMAIL=admin@localhost ADMIN_EMAIL=$$EMAIL .env-geonode \
+	   rpl ADMIN_EMAIL=admin@localhost ADMIN_EMAIL=$$EMAIL .env-geonode; \
 	   rpl EMAIL=admin@localhost EMAIL=$$EMAIL .env-geonode
 	@echo "=========================:"
 	@echo "GeoNode specific updates:"
