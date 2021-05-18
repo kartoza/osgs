@@ -22,9 +22,7 @@ ps:
 configure: prepare-templates init-letsencrypt deploy
 
 
-prepare-templates: prepare-general-templates prepare-geonode-templates
-
-prepare-general-templates:
+prepare-templates: 
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Preparing templates"

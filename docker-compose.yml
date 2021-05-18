@@ -497,6 +497,33 @@ services:
     entrypoint: ["/usr/src/geonode/entrypoint.sh"]
     command: "celery-cmd"
 
+  # Geoserver backend specifically for GeoNode
+  # until such time we can get the GeoNode plugins
+  # deployed in the Kartoza GeoServer image
+  geonode-geoserver:
+    image: geonode/geoserver:2.18.2
+    healthcheck:
+      test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8080/geoserver/rest/workspaces/geonode.html"
+      interval: 60s
+      timeout: 10s
+      retries: 1
+      start_period: 60s
+    env_file:
+      - .env-geonode-geoserver
+    volumes:
+      - geonode-static-files:/mnt/volumes/statics
+      - geonode-geoserver-data:/geoserver_data/data
+      - geonode-backup-restore:/backup_restore
+      - geonode-data:/data
+      - geonode-tmp:/tmp      
+    restart: on-failure
+
+  data-dir-conf:
+    image: geonode/geoserver_data:2.18.2
+    command: /bin/true
+    volumes:
+      - geonode-geoserver-data:/geoserver_data/data
+    restart: on-failure    
 
 
   ############################################################
