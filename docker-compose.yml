@@ -524,7 +524,7 @@ services:
       start_period: 60s
     depends_on:
         - data-dir-conf    
-      env_file:
+    env_file:
       - .env-geonode-geoserver
     volumes:
       - geonode-static-files:/mnt/volumes/statics
