@@ -22,28 +22,33 @@ ps:
 configure: prepare-templates init-letsencrypt deploy
 
 
+prepare-templates: prepare-general-templates prepare-geonode-templates
 
-prepare-templates:
+prepare-general-templates:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Preparing templates"
 	@echo "This will replace any local configuration changes you have made"
-	@echo "in .env, mapproxy, nginx, pbf_fetcher/Dockerfile config files "
+	@echo "in .env, .env-geonode, mapproxy, nginx, pbf_fetcher/Dockerfile config files "
 	@echo "and the init script for letsencrypt"
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
 	@cp .env.example .env
+	@cp .env-geonode.example .env-geonode
 	@cp nginx_conf/nginx.conf.example nginx_conf/nginx.conf
 	@cp nginx_certbot_init_conf/nginx.conf.example nginx_certbot_init_conf/nginx.conf
 	@cp init-letsencrypt.sh.example init-letsencrypt.sh
 	@cp mapproxy_conf/mapproxy.yaml.example mapproxy_conf/mapproxy.yaml 
 	@cp mapproxy_conf/seed.yml.example mapproxy_conf/seed.yml 
-	@export PASSWD=$$(pwgen 20 1); rpl POSTGRES_PASSWORD=docker POSTGRES_PASSWORD=$$PASSWD .env; echo "Postgres password set to $$PASSWD"
-	@export PASSWD=$$(pwgen 20 1); rpl GEOSERVER_ADMIN_PASSWORD=myawesomegeoserver GEOSERVER_ADMIN_PASSWORD=$$PASSWD .env; echo "GeoServer password set to $$PASSWD"
-	@export PASSWD=$$(pwgen 20 1); rpl WEBDAV_PASSWORD=webdavpassword WEBDAV_PASSWORD=$$PASSWD .env; echo "WebDav  password set to $$PASSWD"
+	@export PASSWD=$$(pwgen 20 1); \
+	    rpl POSTGRES_PASSWORD=docker POSTGRES_PASSWORD=$$PASSWD .env .env-geonode; \
+	    echo "Postgres password set to $$PASSWD"
+	@export PASSWD=$$(pwgen 20 1); \
+	    rpl GEOSERVER_ADMIN_PASSWORD=myawesomegeoserver GEOSERVER_ADMIN_PASSWORD=$$PASSWD .env .env-geonode; \
+	    echo "GeoServer password set to $$PASSWD"
+	@export PASSWD=$$(pwgen 80 1); \
+	    rpl SECRET_KEY='' SECRET_KEY='$$PASSWD' .env-geonode; 
 	@export PASSWD=$$(pwgen 20 1); rpl PGRST_JWT_SECRET=foobarxxxyyyzzz PGRST_JWT_SECRET=$$PASSWD .env; echo "PostGREST JWT token set to $$PASSWD"
-	@read -p "WebDav User Name: " DAVUSER; \
-	   rpl WEBDAV_USERNAME=webdavuser WEBDAV_USERNAME=$$DAVUSER .env
 	@echo "Please enter the timezone for your server"
 	@echo "See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
 	@echo "Follow exactly the format of the TZ Database Name column"
@@ -52,9 +57,16 @@ prepare-templates:
 	@echo "Please enter your valid domain name for the site and SSL cert"
 	@echo "e.g. example.org or subdomain.example.org:"
 	@read -p "Domain name: " DOMAIN; \
-	   rpl example.org $$DOMAIN nginx_conf/nginx.conf nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh .env
+	   rpl example.org $$DOMAIN nginx_conf/nginx.conf nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh .env, \
+	   rpl DOMAIN $$DOMAIN .env-geonode
 	@read -p "Valid Contact Person Email Address: " EMAIL; \
-	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh .env
+	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh .env \
+	   rpl ADMIN_EMAIL=admin@localhost ADMIN_EMAIL=$$EMAIL .env-geonode \
+	   rpl EMAIL=admin@localhost EMAIL=$$EMAIL .env-geonode
+	@echo "=========================:"
+	@echo "GeoNode specific updates:"
+	@echo "=========================:"
+	@export PASSWD=$$(pwgen 20 1); rpl ADMIN_PASSWORD=admin ADMIN_PASSWORD=$$PASSWD .env-example; echo "GeoNode Admin password set to $$PASSWD"
 
 init-letsencrypt:
 	@echo
@@ -64,6 +76,7 @@ init-letsencrypt:
 	@./init-letsencrypt.sh	
 	@docker-compose --profile=certbot-init kill
 	@docker-compose --profile=certbot-init rm
+
 
 deploy: build
 	@echo

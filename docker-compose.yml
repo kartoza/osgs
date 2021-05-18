@@ -78,7 +78,7 @@ volumes:
   geonode-backup-restore:
   geonode-data:
   geonode-tmp:
-    
+
 networks:
   seafile-net:
 
@@ -107,7 +107,7 @@ services:
     environment:
       # You can define multiple databases by providing a comma
       # separated list here.
-      - POSTGRES_DB=gis
+      - POSTGRES_DB=gis,geonode,geonode_data
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - ALLOW_IP_RANGE=0.0.0.0/0
@@ -212,6 +212,7 @@ services:
      - ./nginx_conf/nginx.conf:/etc/nginx/nginx.conf
      - ./certbot/certbot/conf:/etc/letsencrypt
      - ./certbot/certbot/www:/var/www/certbot
+     - geonode-static-files:/var/www/geonode-static
      # Mount the mergin db sync data into nginx so we can access
      # images etc.
      # Ideally we should only be mounting the image subfolders to
@@ -456,7 +457,7 @@ services:
     image: *geonode-image
     restart: on-failure
     env_file:
-      - .env
+      - .env-geonode
     volumes:
       - geonode-static-files:/mnt/volumes/statics
       - geonode-geoserver-data:/geoserver_data/data
@@ -482,7 +483,7 @@ services:
     image: *geonode-image
     restart: on-failure
     env_file:
-      - .env
+      - .env-geonode
     volumes:
       - geonode-static-files:/mnt/volumes/statics
       - geonode-geoserver-data:/geoserver_data/data
