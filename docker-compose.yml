@@ -12,7 +12,9 @@ x-postgres-image: &postgres-image kartoza/postgis:13-3.1
 x-osm-update-image: &osm-update-image kartoza/docker-osm:osmupdate-latest
 x-imposm-image: &imposm-image kartoza/docker-osm:imposm-latest
 x-osmenrich-image: &osm-enrich-image kartoza/docker-osm:osmenrich-latest
-x-geoserver-image: &geoserver-image kartoza/geoserver:2.18.0
+# Special build of the kartoza geoserver image which includes the 
+# plugins etc. GeoNode needs to communicate with GeoServer
+x-geoserver-image: &geoserver-image kartoza/geoserver:2.18.2-geonode
 x-mergin-db-sync-image: &mergin-db-sync-image lutraconsulting/mergin-db-sync
 x-nginx-image: &nginx-image nginx
 x-certbot-image: &certbot-image certbot/certbot
@@ -74,7 +76,6 @@ volumes:
   lizmap-log:
   # GeoNode related volumes
   geonode-static-files:
-  geonode-geoserver-data:
   geonode-backup-restore:
   geonode-data:
   geonode-tmp:
@@ -167,18 +168,25 @@ services:
     profiles: ["all","production","nginx","geoserver", "dev"]
     volumes:
       # Must create this dir yourself so that it is owned by you
-      - geoserver_data:/opt/geoserver/data_dir
+      - geoserver_data:/spcgeonode-geodatadir/
       # Mounted in SCP and to geoserver for serving geoserver data
       # store
       - scp_geoserver_data:/data/scp_geoserver_data
     restart: on-failure
     env_file: .env
     environment:
-      - GEOSERVER_ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
-      - GEOSERVER_ADMIN_USER=${GEOSERVER_ADMIN_USER}
+      - ADMIN_USERNAME=${GEOSERVER_ADMIN_USER}
+      - ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
       - INITIAL_MEMORY=${INITIAL_MEMORY}
       - MAXIMUM_MEMORY=${MAXIMUM_MEMORY}
       - STABLE_EXTENSIONS=importer-plugin
+      - HTTPS_HOST=${HTTPS_HOST}
+      - HTTPS_PORT=${HTTPS_PORT}
+      - HTTP_HOST=${HTTP_HOST}
+      - HTTP_PORT=${HTTP_PORT}
+      - DATABASE_URL=postgres://${GEONODE_DATABASE_USER}:${GEONODE_DATABASE_PASSWORD}@postgres:5432/${GEONODE_DATABASE}
+      - GEODATABASE_URL=postgis://${GEONODE_GEODATABASE_USER}:${GEONODE_GEODATABASE_PASSWORD}@postgres:5432/${GEONODE_GEODATABASE}
+
     networks:
      - os-gis-stack
     depends_on:
@@ -574,7 +582,7 @@ services:
       - db 
 
   ##############################################################
-  # Will just check a project and update every interval
+  # Will just check out a project and update every interval
   ##############################################################
   mergin-client:
     image: *mergin-client-image
