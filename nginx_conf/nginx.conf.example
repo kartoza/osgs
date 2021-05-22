@@ -187,8 +187,13 @@ http {
             port_in_redirect off;
             proxy_connect_timeout 600;
             proxy_set_header X-Script-Name /geoserver;
-        }
 
+            # This is how it was set up in GeoNode configs
+            # proxy_set_header            X-Forwarded-Host $server_name;
+            # proxy_set_header            X-Forwarded-For $proxy_add_x_forwarded_for;
+            # proxy_set_header            X-Forwarded-Proto $scheme;
+
+        }
         #######################################################
         #
         # GeoNode Related Configs
@@ -223,16 +228,6 @@ http {
             add_header Access-Control-Allow-Methods "GET, POST, PUT, PATCH, OPTIONS";
         }
 
-        location /geonode/geoserver {
-            proxy_redirect              off;
-            proxy_set_header            Host $host;
-            proxy_set_header            X-Real-IP $remote_addr;
-            proxy_set_header            X-Forwarded-Host $server_name;
-            proxy_set_header            X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header            X-Forwarded-Proto $scheme;
-
-            proxy_pass http://geonode-geoserver:8080/geoserver;
-        }
 
         ############################################################
 

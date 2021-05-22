@@ -163,39 +163,55 @@ services:
     networks:
       - os-gis-stack
 
+  # Geoserver backend specifically supporting GeoNode
+  # that includes the GeoNode plugins
+  # deployed in the Kartoza GeoServer image
   geoserver:
     image: *geoserver-image
     profiles: ["all","production","nginx","geoserver", "dev"]
-    volumes:
-      # Must create this dir yourself so that it is owned by you
-      - geoserver_data:/spcgeonode-geodatadir/
-      # Mounted in SCP and to geoserver for serving geoserver data
-      # store
-      - scp_geoserver_data:/data/scp_geoserver_data
-    restart: on-failure
-    env_file: .env
+    healthcheck:
+      test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8080/geoserver/rest/workspaces/geonode.html"
+      interval: 60s
+      timeout: 10s
+      retries: 1 
+      start_period: 60s
+    depends_on:
+        - db    
+    env_file:
+      - .env
+      - .env-geonode-geoserver
+    healthcheck:
+      test: curl --fail -s http://localhost:8080/ || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
     environment:
       - ADMIN_USERNAME=${GEOSERVER_ADMIN_USER}
       - ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
       - INITIAL_MEMORY=${INITIAL_MEMORY}
       - MAXIMUM_MEMORY=${MAXIMUM_MEMORY}
       - STABLE_EXTENSIONS=importer-plugin
-      - HTTPS_HOST=${HTTPS_HOST}
-      - HTTPS_PORT=${HTTPS_PORT}
-      - HTTP_HOST=${HTTP_HOST}
-      - HTTP_PORT=${HTTP_PORT}
+      - HTTPS_HOST=${DOMAIN}
+      - HTTPS_PORT=443
+      - HTTP_HOST=127.0.0.1
+      - HTTP_PORT=80
       - DATABASE_URL=postgres://${GEONODE_DATABASE_USER}:${GEONODE_DATABASE_PASSWORD}@postgres:5432/${GEONODE_DATABASE}
-      - GEODATABASE_URL=postgis://${GEONODE_GEODATABASE_USER}:${GEONODE_GEODATABASE_PASSWORD}@postgres:5432/${GEONODE_GEODATABASE}
-
+      - GEODATABASE_URL=postgis://${GEONODE_GEODATABASE_USER}:${GEONODE_GEODATABASE_PASSWORD}@postgres:5432/${GEONODE_GEODATABASE}  
+    volumes:
+      - geonode-static-files:/mnt/volumes/statics
+      - geonode-geoserver-data:/geoserver_data/data
+      - geonode-backup-restore:/backup_restore
+      - geonode-data:/data
+      - geonode-tmp:/tmp      
+      # Must create this dir yourself so that it is owned by you
+      - geoserver_data:/spcgeonode-geodatadir/
+      # Mounted in SCP and to geoserver for serving geoserver data
+      # store
+      - scp_geoserver_data:/data/scp_geoserver_data
+    restart: on-failure
     networks:
-     - os-gis-stack
-    depends_on:
-      - db
-    healthcheck:
-      test: curl --fail -s http://localhost:8080/ || exit 1
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
+      - os-gis-stack    
+
 
   # This is only intended to be used during the initial setup of
   # certbot, thereafter use the nginx or nginx-dev services       
@@ -509,40 +525,7 @@ services:
     command: "celery-cmd"
     networks:
       - os-gis-stack 
-      
-  data-dir-conf:
-    profiles: ["all","production","dev"]
-    image: geonode/geoserver_data:2.18.2
-    command: /bin/true
-    volumes:
-      - geonode-geoserver-data:/geoserver_data/data
-    restart: on-failure 
 
-  # Geoserver backend specifically for GeoNode
-  # until such time we can get the GeoNode plugins
-  # deployed in the Kartoza GeoServer image
-  geonode-geoserver:
-    profiles: ["all","production","dev"]
-    image: geonode/geoserver:2.18.2
-    healthcheck:
-      test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8080/geoserver/rest/workspaces/geonode.html"
-      interval: 60s
-      timeout: 10s
-      retries: 1
-      start_period: 60s
-    depends_on:
-        - data-dir-conf    
-    env_file:
-      - .env-geonode-geoserver
-    volumes:
-      - geonode-static-files:/mnt/volumes/statics
-      - geonode-geoserver-data:/geoserver_data/data
-      - geonode-backup-restore:/backup_restore
-      - geonode-data:/data
-      - geonode-tmp:/tmp      
-    restart: on-failure
-    networks:
-      - os-gis-stack    
 
   ############################################################
   #
