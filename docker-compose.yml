@@ -199,7 +199,7 @@ services:
       - GEODATABASE_URL=postgis://${GEONODE_GEODATABASE_USER}:${GEONODE_GEODATABASE_PASSWORD}@postgres:5432/${GEONODE_GEODATABASE}  
     volumes:
       - geonode-static-files:/mnt/volumes/statics
-      - geonode-geoserver-data:/geoserver_data/data
+      #- geonode-geoserver-data:/geoserver_data/data
       - geonode-backup-restore:/backup_restore
       - geonode-data:/data
       - geonode-tmp:/tmp      
@@ -485,7 +485,7 @@ services:
       - .env-geonode
     volumes:
       - geonode-static-files:/mnt/volumes/statics
-      - geonode-geoserver-data:/geoserver_data/data
+      #- geonode-geoserver-data:/geoserver_data/data
       - geonode-backup-restore:/backup_restore
       - geonode-data:/data
       - geonode-tmp:/tmp    
@@ -513,7 +513,7 @@ services:
       - .env-geonode
     volumes:
       - geonode-static-files:/mnt/volumes/statics
-      - geonode-geoserver-data:/geoserver_data/data
+      #- geonode-geoserver-data:/geoserver_data/data
       - geonode-backup-restore:/backup_restore
       - geonode-data:/data
       - geonode-tmp:/tmp
