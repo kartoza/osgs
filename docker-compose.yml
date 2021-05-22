@@ -496,7 +496,7 @@ services:
       retries: 1
       start_period: 60s
     depends_on:
-      - geonode-geoserver
+      - geoserver
     environment:
       - IS_CELERY=False
     entrypoint: ["/usr/src/geonode/entrypoint.sh"]
