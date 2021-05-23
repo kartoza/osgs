@@ -108,7 +108,7 @@ services:
     environment:
       # You can define multiple databases by providing a comma
       # separated list here.
-      - POSTGRES_DB=gis,geonode,geonode_data
+      - POSTGRES_DB=gis,geonode,geonode-data
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - ALLOW_IP_RANGE=0.0.0.0/0
@@ -195,8 +195,10 @@ services:
       - HTTPS_PORT=443
       - HTTP_HOST=127.0.0.1
       - HTTP_PORT=80
-      - DATABASE_URL=postgres://${GEONODE_DATABASE_USER}:${GEONODE_DATABASE_PASSWORD}@postgres:5432/${GEONODE_DATABASE}
-      - GEODATABASE_URL=postgis://${GEONODE_GEODATABASE_USER}:${GEONODE_GEODATABASE_PASSWORD}@postgres:5432/${GEONODE_GEODATABASE}  
+      # This is the database that geonode stores its content in
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/geonode
+      # This is hte database that GeoServer uses of its data for stuff uploaded in geonode
+      - GEODATABASE_URL=postgis://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/geonode-data  
     volumes:
       - geonode-static-files:/mnt/volumes/statics
       #- geonode-geoserver-data:/geoserver_data/data
