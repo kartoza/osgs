@@ -44,6 +44,12 @@ prepare-templates:
 	@export PASSWD=$$(pwgen 20 1); \
 	    rpl GEOSERVER_ADMIN_PASSWORD=myawesomegeoserver GEOSERVER_ADMIN_PASSWORD=$$PASSWD .env .env-geonode; \
 	    echo "GeoServer password set to $$PASSWD"
+	@export PASSWD=$$(pwgen 20 1); \
+	    rpl GEONODE_DATABASE_PASSWORD=geonode_database_password GEONODE_DATABASE_PASSWORD=$$PASSWD .env; \
+	    echo "GeoNode Database User password set to $$PASSWD"
+	@export PASSWD=$$(pwgen 20 1); \
+	    rpl GEONODE_GEODATABASE_PASSWORD=geonode_geodatabase_password GEONODE_GEODATABASE_PASSWORD=$$PASSWD .env; \
+	    echo "GeoNode GeoDatabase User password set to $$PASSWD"
 	@export PASSWD=$$(pwgen 80 1); \
 	    rpl SECRET_KEY='' SECRET_KEY='$$PASSWD' .env-geonode; 
 	@export PASSWD=$$(pwgen 20 1); rpl PGRST_JWT_SECRET=foobarxxxyyyzzz PGRST_JWT_SECRET=$$PASSWD .env; echo "PostGREST JWT token set to $$PASSWD"

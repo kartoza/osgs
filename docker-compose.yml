@@ -27,7 +27,7 @@ x-odm-image: &odm-image opendronemap/odm
 x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
-x-geonode-image: &geonode-image geosolutionsit/geonode:latest
+x-geonode-image: &geonode-image geonode/geonode:3.1
 # 
 # VOLUMES
 #
@@ -101,14 +101,24 @@ services:
     image: *postgres-image
     profiles: ["all","production","nginx","postgres","osm","geoserver","qgis-server", "mergin", "dev"]
     volumes:
+      # This will create two users on startup if they dont already exist
+      # One user for the geonode instance to connect to the geonode database
+      # for storing application state.
+      # One user for the geonode instance to connect to the geonode_data database
+      # to store uploaded geospatial data.
+      # Both need read / write access for the stack to work
+      - ./pg_conf/init-users.sh:/docker-entrypoint-initdb.d/init-users.sh
+      # Persistent storage of the database cluster 
       - postgis_data:/var/lib/postgresql
       # So we can use SSL certs for pg too
+      # Currently NOT WORKING - eventually we can set this and then
+      # Enable full CA based encryption
       - ./certbot/certbot/conf:/etc/letsencrypt
     env_file: .env
     environment:
       # You can define multiple databases by providing a comma
       # separated list here.
-      - POSTGRES_DB=gis,geonode,geonode-data
+      - POSTGRES_DB=gis,${GEONODE_DATABASE},${GEONODE_GEODATABASE}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - ALLOW_IP_RANGE=0.0.0.0/0
@@ -180,11 +190,6 @@ services:
     env_file:
       - .env
       - .env-geonode-geoserver
-    healthcheck:
-      test: curl --fail -s http://localhost:8080/ || exit 1
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
     environment:
       - ADMIN_USERNAME=${GEOSERVER_ADMIN_USER}
       - ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
@@ -195,10 +200,13 @@ services:
       - HTTPS_PORT=443
       - HTTP_HOST=127.0.0.1
       - HTTP_PORT=80
+      - GEOSERVER_DATA_DIR=/opt/geoserver/data_dir
+      # See this link for explanation of URL schemes below:
+      #  https://github.com/kennethreitz/dj-database-url#url-schema
       # This is the database that geonode stores its content in
-      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/geonode
+      - DATABASE_URL=postgres://${GEONODE_DATABASE_USER}:${GEONODE_DATABASE_PASSWORD}@db:5432/${GEONODE_DATABASE}
       # This is hte database that GeoServer uses of its data for stuff uploaded in geonode
-      - GEODATABASE_URL=postgis://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/geonode-data  
+      - GEODATABASE_URL=postgis://${GEONODE_GEODATABASE_USER}:${GEONODE_GEODATABASE_PASSWORD}@db:5432/${GEONODE_GEODATABASE}
     volumes:
       - geonode-static-files:/mnt/volumes/statics
       #- geonode-geoserver-data:/geoserver_data/data
@@ -206,7 +214,8 @@ services:
       - geonode-data:/data
       - geonode-tmp:/tmp      
       # Must create this dir yourself so that it is owned by you
-      - geoserver_data:/spcgeonode-geodatadir/
+      # This path is specified by the GEOSERVER_DATA_DIR
+      - geoserver_data:/opt/geoserver/data_dir
       # Mounted in SCP and to geoserver for serving geoserver data
       # store
       - scp_geoserver_data:/data/scp_geoserver_data

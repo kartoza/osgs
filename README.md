@@ -750,8 +750,6 @@ https://joelonsql.com/2013/04/27/securing-postgresql-using-hostssl-cert-clientce
 
 
 
-
-
 --------------------------------------------
 SCRAP
 
