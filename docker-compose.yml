@@ -500,6 +500,7 @@ services:
     restart: on-failure
     env_file:
       - .env-geonode
+      - .env
     volumes:
       - geonode-static-files:/mnt/volumes/statics
       #- geonode-geoserver-data:/geoserver_data/data
@@ -510,7 +511,7 @@ services:
       # because it does not enable SSL and makes some 
       # assumptions about database names and user names 
       # that don't match our configs
-      - ./geonode_conf/wait-for-databases.sh:/usr/src/app/wait-for-databases.sh
+      - ./geonode_conf/wait-for-databases.sh:/usr/bin/wait-for-databases
     healthcheck:
       test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8001/"
       interval: 60s

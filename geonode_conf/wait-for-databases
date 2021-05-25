@@ -17,7 +17,6 @@ until PGSSLMODE=require PGPASSWORD=${GEONODE_DATABASE_PASSWORD} psql -h "$host" 
 done
 echo "Geonode db is online"
 
-GEONODE_GEODATABASE_PASSWORD=ahfai1EexeeH0ui8aph8
 GEONODE_GEODATABASE_PASSWORD=foo
 until PGSSLMODE=require PGPASSWORD=${GEONODE_GEODATABASE_PASSWORD} psql -h "$host" -U ${GEONODE_GEODATABASE_USER} -d ${GEONODE_GEODATABASE} -P "pager=off" -c '\l'; do
   >&2 echo "${GEONODE_GEODATABASE} is unavailable - sleeping"
