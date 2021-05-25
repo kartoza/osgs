@@ -100,7 +100,7 @@ services:
 
   db:
     image: *postgres-image
-    profiles: ["all","production","nginx","postgres","osm","geoserver","qgis-server", "mergin", "dev"]
+    profiles: ["all","db", "production","nginx","postgres","osm","geoserver","qgis-server", "mergin", "dev"]
     volumes:
       # This will create two users on startup if they dont already exist
       # One user for the geonode instance to connect to the geonode database
