@@ -522,7 +522,13 @@ services:
       - geoserver
     environment:
       - IS_CELERY=False
-    entrypoint: ["/usr/src/geonode/entrypoint.sh"]
+      # See this link for explanation of URL schemes below:
+      #  https://github.com/kennethreitz/dj-database-url#url-schema
+      # This is the database that geonode stores its content in
+      - DATABASE_URL=postgres://${GEONODE_DATABASE_USER}:${GEONODE_DATABASE_PASSWORD}@db:5432/${GEONODE_DATABASE}
+      # This is hte database that GeoServer uses of its data for stuff uploaded in geonode
+      - GEODATABASE_URL=postgis://${GEONODE_GEODATABASE_USER}:${GEONODE_GEODATABASE_PASSWORD}@db:5432/${GEONODE_GEODATABASE}
+      entrypoint: ["/usr/src/geonode/entrypoint.sh"]
     command: "uwsgi --ini /usr/src/geonode/uwsgi.ini"
     networks:
       - os-gis-stack  
@@ -544,6 +550,12 @@ services:
       - geonode
     environment:
       - IS_CELERY=True
+      # See this link for explanation of URL schemes below:
+      #  https://github.com/kennethreitz/dj-database-url#url-schema
+      # This is the database that geonode stores its content in
+      - DATABASE_URL=postgres://${GEONODE_DATABASE_USER}:${GEONODE_DATABASE_PASSWORD}@db:5432/${GEONODE_DATABASE}
+      # This is hte database that GeoServer uses of its data for stuff uploaded in geonode
+      - GEODATABASE_URL=postgis://${GEONODE_GEODATABASE_USER}:${GEONODE_GEODATABASE_PASSWORD}@db:5432/${GEONODE_GEODATABASE}      
     entrypoint: ["/usr/src/geonode/entrypoint.sh"]
     command: "celery-cmd"
     networks:
