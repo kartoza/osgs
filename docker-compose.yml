@@ -491,8 +491,6 @@ services:
   #
   # GeoNode related services
   #
-  # docker-compose --profile=mergin up -d
-  #
   ############################################################
 
 
@@ -508,6 +506,11 @@ services:
       - geonode-backup-restore:/backup_restore
       - geonode-data:/data
       - geonode-tmp:/tmp    
+      # We need to override the one shipped by GeoNode
+      # because it does not enable SSL and makes some 
+      # assumptions about database names and user names 
+      # that don't match our configs
+      - ./geonode_conf/wait-for-databases.sh:/usr/src/app/wait-for-databases.sh
     healthcheck:
       test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8001/"
       interval: 60s
