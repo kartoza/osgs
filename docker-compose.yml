@@ -28,6 +28,7 @@ x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
 x-geonode-image: &geonode-image geonode/geonode:3.1
+
 # 
 # VOLUMES
 #
@@ -121,7 +122,14 @@ services:
       - POSTGRES_DB=gis,${GEONODE_DATABASE},${GEONODE_GEODATABASE}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
+      # Read the notes at
+      # https://github.com/kartoza/docker-postgis#postgres-ssl-setup
+      # When connecting using your client, set SSL mode to 'Require'
+      # If you want force using a certificate, use PASSWORD_AUTHENTICATION=cert
+      # But then you also need to deploy certificates (again see the docs above)
       - ALLOW_IP_RANGE=0.0.0.0/0
+      - FORCE_SSL=TRUE
+      - PASSWORD_AUTHENTICATION=scram-sha-256
       # You can pass as many extensions as you need.
       - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,postgis_raster,pgrouting
       # Some extensions need to be registered in the postgresql.conf as
