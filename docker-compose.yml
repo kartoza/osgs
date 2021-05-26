@@ -55,6 +55,7 @@ volumes:
   #
   # For uploading stuff via scp
   #
+  scp_etc:
   # Mounted in SCP and to geoserver for a file store
   scp_geoserver_data:
   # Mounted in SCP and to QGIS Server for serving QGIS projects
