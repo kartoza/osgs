@@ -401,7 +401,7 @@ services:
 
   mapproxy:
     image: *mapproxy-image
-    profiles: ["all","production","nginx","qgis-server","dev"]
+    profiles: ["all","production","nginx","qgis-server","dev", "mapproxy"]
     env_file: .env
     environment:
       - PRODUCTION=false
@@ -411,10 +411,8 @@ services:
     volumes:
       - mapproxy_data:/mapproxy/
       - ./mapproxy_conf/app.py:/mapproxy/app.py
-      - ./mapproxy_conf/seed.yml:/mapproxy/seed.yml
-      - ./mapproxy_conf/mapproxy.yml:/mapproxy/mapproxy.yml
-    depends_on:
-      - qgis-server
+      - ./mapproxy_conf/seed.yml:/mapproxy/seed.yaml
+      - ./mapproxy_conf/mapproxy.yml:/mapproxy/mapproxy.yaml
     networks:
      - os-gis-stack
 
@@ -469,7 +467,7 @@ services:
       # data files for geoserver etc.
       - "2222:22"
     volumes:
-      # Host mounted volumes
+      # Host mounted volumes./mapproxy_conf/mapproxy.yml
       # We need to persist the /etc/ssh folder so that 
       # Docker restart don't create a new host key each time
       # because clients connecting will error out with host
