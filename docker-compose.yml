@@ -468,7 +468,12 @@ services:
       # data files for geoserver etc.
       - "2222:22"
     volumes:
-      # Host mounted volume
+      # Host mounted volumes
+      # We need to persist the /etc/ssh folder so that 
+      # Docker restart don't create a new host key each time
+      # because clients connecting will error out with host
+      # key changed errors
+      - scp_etc:/etc/ssh
       # One file per user, each file containing list
       # of ssh keys allowed to upload to the data dir
       # Files should be given same name as user
