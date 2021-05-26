@@ -36,8 +36,6 @@ prepare-templates:
 	@cp nginx_conf/nginx.conf.example nginx_conf/nginx.conf
 	@cp nginx_certbot_init_conf/nginx.conf.example nginx_certbot_init_conf/nginx.conf
 	@cp init-letsencrypt.sh.example init-letsencrypt.sh
-	@cp mapproxy_conf/mapproxy.yaml.example mapproxy_conf/mapproxy.yaml 
-	@cp mapproxy_conf/seed.yml.example mapproxy_conf/seed.yml 
 	@export PASSWD=$$(pwgen 20 1); \
 	    rpl POSTGRES_PASSWORD=docker POSTGRES_PASSWORD=$$PASSWD .env .env-geonode; \
 	    echo "Postgres password set to $$PASSWD"
@@ -81,7 +79,17 @@ prepare-templates:
 	@export PASSWD=$$(pwgen 40 1); \
 	    rpl 40LetterOAuthID $$PASSWD .env; 
 	@export PASSWD=$$(pwgen 128 1); \
-	    rpl 128LetterOAuthIDSecret $$PASSWD .env; 		
+	    rpl 128LetterOAuthIDSecret $$PASSWD .env; 	
+	@echo "=========================:"
+	@echo "Mapproxy specific updates:"
+	@echo "=========================:"
+	@cp mapproxy_conf/mapproxy.yaml.example mapproxy_conf/mapproxy.yaml 
+	@cp mapproxy_conf/seed.yaml.example mapproxy_conf/seed.yaml 
+	@echo "We have created template mapproxy.yaml and seed.yaml"
+	@echo "configuration files in mapproxy_conf."
+	@echo "You will need to hand edit those files and then "
+	@echo "restart mapproxy for those edits to take effect."
+	@echo "see: make reinitialise-mapproxy"	
 	@echo "=========================:"
 	@echo "OSM Mirror specific updates:"
 	@echo "=========================:"
