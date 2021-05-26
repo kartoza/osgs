@@ -196,9 +196,13 @@ services:
     depends_on:
         - db    
     env_file:
+      # Editable configs (will be edited by make configure or by user)
       - .env
+      # Non editible configs in this one
       - .env-geonode-geoserver
     environment:
+      - OAUTH2_CLIENT_ID=${OAUTH2_CLIENT_ID}
+      - OAUTH2_CLIENT_SECRET=${OAUTH2_CLIENT_SECRET}
       - ADMIN_USERNAME=${GEOSERVER_ADMIN_USER}
       - ADMIN_PASSWORD=${GEOSERVER_ADMIN_PASSWORD}
       - INITIAL_MEMORY=${INITIAL_MEMORY}
@@ -526,7 +530,7 @@ services:
       #  https://github.com/kennethreitz/dj-database-url#url-schema
       # This is the database that geonode stores its content in
       - DATABASE_URL=postgres://${GEONODE_DATABASE_USER}:${GEONODE_DATABASE_PASSWORD}@db:5432/${GEONODE_DATABASE}
-      # This is hte database that GeoServer uses of its data for stuff uploaded in geonode
+      # This is the database that GeoServer uses of its data for stuff uploaded in geonode
       - GEODATABASE_URL=postgis://${GEONODE_GEODATABASE_USER}:${GEONODE_GEODATABASE_PASSWORD}@db:5432/${GEONODE_GEODATABASE}
     entrypoint: ["/usr/src/geonode/entrypoint.sh"]
     command: "uwsgi --ini /usr/src/geonode/uwsgi.ini"
@@ -540,6 +544,7 @@ services:
     restart: on-failure
     env_file:
       - .env-geonode
+      - .env      
     volumes:
       - geonode-static-files:/mnt/volumes/statics
       #- geonode-geoserver-data:/geoserver_data/data
