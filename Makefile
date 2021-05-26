@@ -55,7 +55,7 @@ prepare-templates:
 	@echo "Please enter the timezone for your server"
 	@echo "See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
 	@echo "Follow exactly the format of the TZ Database Name column"
-	@read -p "Server Time Zone: e.g. Etc/UTC \n" TZ; \
+	@read -p "Server Time Zone (e.g. Etc/UTC):" TZ; \
 	   rpl TIMEZONE=Etc/UTC TIMEZONE=$$TZ .env
 	@echo "Please enter your valid domain name for the site and SSL cert"
 	@echo "e.g. example.org or subdomain.example.org:"
