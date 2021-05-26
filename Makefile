@@ -82,6 +82,14 @@ prepare-templates:
 	    rpl 40LetterOAuthID $$PASSWD .env; 
 	@export PASSWD=$$(pwgen 128 1); \
 	    rpl 128LetterOAuthIDSecret $$PASSWD .env; 		
+	@echo "=========================:"
+	@echo "OSM Mirror specific updates:"
+	@echo "=========================:"
+	@echo "I have prepared my clip area (optional) and"
+	@echo "saved it as osm_config/clip.geojson."
+	@echo "You can easily create such a clip document"
+	@echo "at https://geojson.io or by using QGIS"
+	@read -p "Press enter to continue" CONFIRM;
 
 init-letsencrypt:
 	@echo
