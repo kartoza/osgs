@@ -517,7 +517,7 @@ services:
       # that don't match our configs
       - ./geonode_conf/wait-for-databases:/usr/bin/wait-for-databases
     healthcheck:
-      test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8001/"
+      test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8000/"
       interval: 60s
       timeout: 10s
       retries: 1
