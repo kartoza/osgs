@@ -52,11 +52,10 @@ prepare-templates:
 	    echo "GeoNode GeoDatabase User password set to $$PASSWD"
 	@export PASSWD=$$(pwgen 80 1); \
 	    rpl SECRET_KEY='' SECRET_KEY='$$PASSWD' .env-geonode; 
-	@export PASSWD=$$(pwgen 20 1); rpl PGRST_JWT_SECRET=foobarxxxyyyzzz PGRST_JWT_SECRET=$$PASSWD .env; echo "PostGREST JWT token set to $$PASSWD"
 	@echo "Please enter the timezone for your server"
 	@echo "See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
 	@echo "Follow exactly the format of the TZ Database Name column"
-	@read -p "Server Time Zone: " TZ; \
+	@read -p "Server Time Zone: e.g. Etc/UTC" TZ; \
 	   rpl TIMEZONE=Etc/UTC TIMEZONE=$$TZ .env
 	@echo "Please enter your valid domain name for the site and SSL cert"
 	@echo "e.g. example.org or subdomain.example.org:"
@@ -68,9 +67,21 @@ prepare-templates:
 	   rpl ADMIN_EMAIL=admin@localhost ADMIN_EMAIL=$$EMAIL .env-geonode; \
 	   rpl EMAIL=admin@localhost EMAIL=$$EMAIL .env-geonode
 	@echo "=========================:"
+	@echo "PostgREST specific updates:"
+	@echo "=========================:"
+	@export PASSWD=$$(pwgen 20 1); \
+		rpl PGRST_JWT_SECRET=foobarxxxyyyzzz PGRST_JWT_SECRET=$$PASSWD .env; \
+		echo "PostGREST JWT token set to $$PASSWD"
+	@echo "=========================:"
 	@echo "GeoNode specific updates:"
 	@echo "=========================:"
 	@export PASSWD=$$(pwgen 20 1); rpl ADMIN_PASSWORD=admin ADMIN_PASSWORD=$$PASSWD .env-geonode; echo "GeoNode Admin password set to $$PASSWD"
+	@export PASSWD=$$(pwgen 25 1); \
+	    rpl 25LetterOAuthKey $$PASSWD .env; 
+	@export PASSWD=$$(pwgen 40 1); \
+	    rpl 40LetterOAuthID $$PASSWD .env; 
+	@export PASSWD=$$(pwgen 128 1); \
+	    rpl 128LetterOAuthIDSecret $$PASSWD .env; 		
 
 init-letsencrypt:
 	@echo

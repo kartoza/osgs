@@ -507,7 +507,10 @@ services:
       - .env
     volumes:
       - geonode-static-files:/mnt/volumes/statics
-      #- geonode-geoserver-data:/geoserver_data/data
+      # This mount is needed when initialising GeoNode
+      # so that it can get/set oauth details in the Geoserver 
+      # See https://github.com/GeoNode/geonode/blob/master/tasks.py#L216
+      - geoserver_data:/geoserver_data/data
       - geonode-backup-restore:/backup_restore
       - geonode-data:/data
       - geonode-tmp:/tmp    
