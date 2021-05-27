@@ -432,8 +432,6 @@ services:
       - ./mapproxy_conf/app.py:/mapproxy/app.py
       - ./mapproxy_conf/seed.yml:/mapproxy/seed.yml
       - ./mapproxy_conf/mapproxy.yml:/mapproxy/mapproxy.yml
-    depends_on:
-      - qgis-server
     networks:
       - os-gis-stack     
 
