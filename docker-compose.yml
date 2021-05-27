@@ -416,6 +416,27 @@ services:
     networks:
      - os-gis-stack
 
+  mapproxy-seed:
+    image: *mapproxy-image
+    profiles: ["mapproxy-seed"]
+    entrypoint: ["mapproxy-seed -c 4 -s /mapproxy/seed.yaml -f /mapproxy/mapproxy.yaml"]
+    #command: "mapproxy-seed -c 4 -s /mapproxy/seed.yaml -f /mapproxy/mapproxy.yaml"
+    env_file: .env
+    environment:
+      - PRODUCTION=false
+      - PROCESSES=4
+      - THREADS=10
+    user: "1000:10001"
+    volumes:
+      - mapproxy_data:/mapproxy/
+      - ./mapproxy_conf/app.py:/mapproxy/app.py
+      - ./mapproxy_conf/seed.yml:/mapproxy/seed.yml
+      - ./mapproxy_conf/mapproxy.yml:/mapproxy/mapproxy.yml
+    depends_on:
+      - qgis-server
+    networks:
+      - os-gis-stack     
+
   postgrest:
     #
     # Used for pushing readings from IoT devices to our database
