@@ -416,24 +416,31 @@ services:
     networks:
      - os-gis-stack
 
-  mapproxy-seed:
-    image: *mapproxy-image
-    profiles: ["mapproxy-seed"]
-    entrypoint: ["mapproxy-seed -c 4 -s /mapproxy/seed.yaml -f /mapproxy/mapproxy.yaml"]
-    #command: "mapproxy-seed -c 4 -s /mapproxy/seed.yaml -f /mapproxy/mapproxy.yaml"
-    env_file: .env
-    environment:
-      - PRODUCTION=false
-      - PROCESSES=4
-      - THREADS=10
-    user: "1000:10001"
-    volumes:
-      - mapproxy_data:/mapproxy/
-      - ./mapproxy_conf/app.py:/mapproxy/app.py
-      - ./mapproxy_conf/seed.yaml:/mapproxy/seed.yaml
-      - ./mapproxy_conf/mapproxy.yaml:/mapproxy/mapproxy.yaml
-    networks:
-      - os-gis-stack     
+    mapproxy-seed:
+      ##
+      ## Example usage: docker-compose --profile=mapproxy-seed up mapproxy-seed
+      ## 
+      ## Crank up the number of threads and processes if you have a 
+      ## fast machine
+      ##
+      image: *mapproxy-image
+      profiles: ["mapproxy-seed"]
+      entrypoint: ["mapproxy-seed"]
+      command: ["-c", "4", "-s", "/mapproxy/seed.yaml", "-f",  "/mapproxy/mapproxy.yaml"]
+      env_file: .env
+      environment:
+        - PRODUCTION=false
+        - PROCESSES=4
+        - THREADS=10
+      user: "1000:10001"
+      volumes:
+        - mapproxy_data:/mapproxy/
+        - ./mapproxy_conf/app.py:/mapproxy/app.py
+        - ./mapproxy_conf/seed.yaml:/mapproxy/seed.yaml
+        - ./mapproxy_conf/mapproxy.yaml:/mapproxy/mapproxy.yaml
+      networks:
+        - os-gis-stack
+      
 
   postgrest:
     #
