@@ -256,8 +256,10 @@ reinitialise-mergin:
 	@docker-compose kill mergin-sync
 	@docker-compose rm mergin-sync
 	@sudo rm -rf mergin_sync_data/*
-	@docker-compose exec -u postgres db psql -c "drop schema smallholding cascade;" gis 
-	@docker-compose exec -u postgres db psql -c "drop schema mergin_sync_base_do_not_touch cascade;" gis 
+	# Next line allowed to fail
+	-@docker-compose exec -u postgres db psql -c "drop schema qgis_demo cascade;" gis 
+	# Next line allowed to fail
+	-@docker-compose exec -u postgres db psql -c "drop schema mergin_sync_base_do_not_touch cascade;" gis 	
 	@docker-compose up -d mergin-sync
 	@docker-compose logs -f mergin-sync
 
