@@ -194,40 +194,6 @@ http {
             # proxy_set_header            X-Forwarded-Proto $scheme;
 
         }
-        #######################################################
-        #
-        # GeoNode Related Configs
-        #
-        # Based on https://github.com/GeoNode/nginx-docker/blob/master/nginx.conf
-        #
-        #######################################################
-
-        location /geonode/static {
-            # Mounted from docker volume
-            root /var/www/geonode-static;
-        }
-        location /geonode {
-            if ($request_method = OPTIONS) {
-                add_header Access-Control-Allow-Methods "GET, POST, PUT, PATCH, OPTIONS";
-                add_header Access-Control-Allow-Headers "Authorization, Content-Type, Accept";
-                add_header Access-Control-Allow-Credentials true;
-                add_header Content-Length 0;
-                add_header Content-Type text/plain;
-                add_header Access-Control-Max-Age 1728000;
-                return 200;
-            }
-            try_files $uri @django;
-        }
-
-        location @django {
-            include uwsgi_params;
-            uwsgi_pass uwsgi://geonode:8000;
-
-            add_header Access-Control-Allow-Credentials false;
-            add_header Access-Control-Allow-Headers "Content-Type, Accept, Authorization, Origin, User-Agent";
-            add_header Access-Control-Allow-Methods "GET, POST, PUT, PATCH, OPTIONS";
-        }
-
 
         ############################################################
 
