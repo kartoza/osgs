@@ -104,7 +104,7 @@ services:
     environment:
       # You can define multiple databases by providing a comma
       # separated list here.
-      - POSTGRES_DB=gis,${GEONODE_DATABASE},${GEONODE_GEODATABASE}
+      - POSTGRES_DB=gis
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       # Read the notes at
