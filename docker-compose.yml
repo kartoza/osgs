@@ -614,7 +614,7 @@ services:
       - mergin_sync_data:/tmp
     env_file: .env
     environment:
-      - DB_CONN_INFO=host=db dbname=gis user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}
+      - DB_CONN_INFO=host=db dbname=gis user=${POSTGRES_USER} password=${POSTGRES_PASSWORD} sslmode=require
       - DB_SCHEMA_MODIFIED=${DB_SCHEMA_MODIFIED}
       - DB_SCHEMA_BASE=${DB_SCHEMA_BASE}
       - MERGIN_USERNAME=${MERGIN_USER}
