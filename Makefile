@@ -71,6 +71,19 @@ prepare-templates:
 	@echo "restart mapproxy for those edits to take effect."
 	@echo "see: make reinitialise-mapproxy"	
 	@echo "=========================:"
+	@echo "Mergin related configs:"
+	@echo "=========================:"
+	@read -p "Mergin User (not email address): " USER; \
+	   rpl mergin_username $$USER .env
+	@read -p "Mergin Password: " PASSWORD; \
+	   rpl mergin_password $$PASSWORD .env
+	@read -p "Mergin Project (without username part): " PROJECT; \
+	   rpl mergin_project $$PROJECT .env
+	@read -p "Mergin Project GeoPackage: " PACKAGE; \
+	   rpl mergin_project_geopackage.gpkg $$PACKAGE .env
+	@read -p "Mergin Database Schema to hold mirror of geopackage): " SCHEMA; \
+	   rpl schematoreceivemergindata $$SCHEMA .env
+	@echo "=========================:"
 	@echo "OSM Mirror specific updates:"
 	@echo "=========================:"
 	@echo "I have prepared my clip area (optional) and"
