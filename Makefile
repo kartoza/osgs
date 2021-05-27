@@ -51,9 +51,7 @@ prepare-templates:
 	@read -p "Domain name: " DOMAIN; \
 	   rpl example.org $$DOMAIN nginx_conf/nginx.conf nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh .env; 
 	@read -p "Valid Contact Person Email Address: " EMAIL; \
-	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh .env; \
-	   rpl ADMIN_EMAIL=admin@localhost ADMIN_EMAIL=$$EMAIL; \
-	   rpl EMAIL=admin@localhost EMAIL=$$EMAIL 
+	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh .env
 	@echo "=========================:"
 	@echo "PostgREST specific updates:"
 	@echo "=========================:"
