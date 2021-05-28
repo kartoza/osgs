@@ -198,7 +198,7 @@
             Gallery
           </h1>
           <h2 class="subtitle p-3">
-            Geodata Platform Showcase
+            Featured Content Showcase
           </h2>
         </div>
       </div>
@@ -210,33 +210,6 @@
     <div class="section">
 
       <div class="row columns is-multiline">
-
-        {{ range $elem_key, $elem_val := .Params.GalleryLinks }}
-
-        <div class="column is-4">
-          <div class="card small link-element">
-            <a class="content-card modal-link" href="#!" data-target="modal-gallery-{{ $elem_key }}">
-              <div class="card-image">
-                <figure class="image is-16by9">
-                  <img style="background: {{ .BgColor }}" src="{{ .Image }}">
-                </figure>
-              </div>
-              <div class="card-content">
-                <div class="content has-text-centered">
-                  <p class="title no-padding no-margin">{{ .Title }}</p>
-                  <p class="subtitle no-padding no-margin">{{ .Subtitle }}</p>
-                </div>
-                <div class="content description">
-                  <p>
-                    {{ .Blurb }}
-                  </p>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        {{ end }}
 
         {{ range where .Site.Pages "Type" "section" }}
 
