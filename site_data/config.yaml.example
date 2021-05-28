@@ -1,0 +1,9 @@
+baseURL: "https://{{siteDomain}}/"
+languageCode: "en-us"
+title: "{{siteTitle}}"
+params:
+  symbolIcon: "u\\1F30E"
+  ownerName: "{{ownerName}}"
+  ownerURL: "https://{{ownerDomain}}/"
+  siteLogo: "{{logoURL}}"
+  description: "OpenGIS Stack Geoservices Site"

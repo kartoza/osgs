@@ -1,0 +1,229 @@
+{{ define "title" }}
+<!-- Title -->
+<title>{{ .Parent.Title }} - {{ .Site.Title }}</title>
+{{ end }}
+
+{{ define "styles" }}
+<link rel="stylesheet" href="/css/map.css">
+<!-- <link rel="stylesheet" href="/css/ol/ol-layerswitcher.css"> -->
+<link rel="stylesheet" href="https://unpkg.com/ol-layerswitcher@3.8.3/dist/ol-layerswitcher.css" />
+
+<style type="text/css" media="screen">
+  #navbar {
+    /* Fix leaflet rendering over nav */
+    z-index: 9999;
+  }
+  .page-content p {
+    padding-top: 0.4rem !important;
+    padding-bottom: 0.4rem !important;
+  }
+  #map-info {
+    overflow: auto;
+  }
+  .ol-control.layer-switcher {
+    margin-top: -42px
+  }
+  .ol-control.layer-switcher button {
+    padding: 18px
+  }
+</style>
+{{ end }}
+
+{{ define "javascript" }}
+<!-- JS -->
+<script type="application/javascript" src="/js/main.js"></script>
+
+<!-- OpenLayers -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+
+<!-- <script type="application/javascript" src="/js/ol/ol-layerswitcher.js"></script> -->
+<script src="https://unpkg.com/ol-layerswitcher@3.8.3"></script>
+{{ end }}
+
+{{ define "scripts" }}
+<script>
+  // openlayers map
+  document.addEventListener('DOMContentLoaded', () => {
+
+    var mousePositionControl = new ol.control.MousePosition({
+	    coordinateFormat: ol.coordinate.createStringXY(4),
+	    projection: 'EPSG:4326',
+	    // comment the following two lines to have the mouse position
+	    // be placed within the map.
+	    className: 'custom-mouse-position',
+	    target: document.getElementById('cursor-position'),
+	    undefinedHTML: '{{ htmlUnescape "&nbsp;" }}',
+    });
+
+    var layerSwitcher = new ol.control.LayerSwitcher()
+
+    // document.getElementById('cursor-position').textContent = '&nbsp;'
+    // document.getElementById('cursor-position').textContent = '\u00A0'
+
+    // hugo delimit not working for unknown reasons
+    {{/* $layers := delimit (slice .Params.Layers) "," */}}
+
+    var map_layers = {{ .Params.Layers }}
+
+    if (map_layers) {
+      map_layers = map_layers.join(",")
+    }
+
+    var wmsSource =  new ol.source.TileWMS({
+		    url: "{{ .Params.WMS }}",
+				transition: 1,
+				params: {
+					'LAYERS': map_layers,
+					'TILED': true
+			  },
+		  })
+
+    var view = new ol.View({
+      center: ol.proj.fromLonLat([{{ .Params.Long | default "2" }}, {{ .Params.Lat | default "25" }}]),
+      zoom: {{ .Params.Zoom | default "3" }}
+    })
+
+    var map = new ol.Map({
+      controls: ol.control.defaults().extend([
+        mousePositionControl,
+        layerSwitcher
+      ]),
+      target: 'pagemap',
+      layers: [
+        new ol.layer.Tile({
+          title: 'Open Street Map',
+          source: new ol.source.OSM()
+        }),
+        {{ if .Params.Layers }}
+        new ol.layer.Tile ({
+          title: 'WMS Layers',
+          source:wmsSource
+        })
+        {{ end }}
+      ],
+      view: view
+    });
+
+    map.on('singleclick', function (evt) {
+      document.getElementById('map-info').innerHTML = ''
+      // var viewResolution = /** @type {number} */ (view.getResolution())
+      var viewResolution = view.getResolution();
+
+      var url = wmsSource.getFeatureInfoUrl(
+        evt.coordinate,
+        viewResolution,
+        'EPSG:3857',
+        {'INFO_FORMAT': 'text/html'}
+      );
+
+      if (url) {
+        fetch(url)
+          .then(function (response) { return response.text(); })
+          .then(function (html) {
+            document.getElementById('map-info-title').style.display = 'block'
+            document.getElementById('map-info').innerHTML = html
+          });
+      }
+	  });
+
+    function setBounds(evt) {
+      var map = evt.map
+      var extent = map.getView().calculateExtent(map.getSize())
+      extent = ol.proj.transformExtent(extent, 'EPSG:3857', 'EPSG:4326')
+      document.getElementById('mapbounds-north').textContent =  extent[0].toFixed(4)
+      document.getElementById('mapbounds-east').textContent = extent[2].toFixed(4)
+      document.getElementById('mapbounds-south').textContent = extent[1].toFixed(4)
+      document.getElementById('mapbounds-west').textContent = extent[3].toFixed(4)
+    }
+
+    map.addControl(layerSwitcher)
+
+    map.on('moveend', setBounds)
+
+  });
+</script>
+{{ end }}
+
+{{ define "main" }}
+<!-- app -->
+<div class="container">
+  <div class="section">
+    <div class="columns">
+      <div class="column">
+        <div class="block is-flex-direction-row is-flex-wrap-wrap">
+          <div id="map-page-tile" class="columns">
+<!-- map -->
+            <div class="column m-1 is-two-thirds is-fullheight card">
+              <div id="map-tile">
+                <div id="pagemap"></div>
+              </div>
+            </div>
+<!-- sidebar -->
+            <div id="map-sidebar" class="column m-1 card p-2">
+              <div class="content">
+                <p class="title">{{ .Title }}</p>
+                <p class="subtitle">{{ .Params.Subtitle }}</p>
+                  <div class="content page-content">
+                    {{ .Summary | default "" }}
+                  </div>
+                  <div id="map-info-title" style="display: none" class="content page-content">
+                    Feature Information:
+                  </div>
+                  <div id="map-info" class="content page-content">
+                  </div>
+                  <div class="content page-content">
+                    {{ .Content }}
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+<!-- widgets -->
+        <div class="block is-flex-direction-row is-flex-wrap-wrap">
+          <div id="map-widgets" class="columns notification pt-2">
+            <div class="column is-one-third has-text-centered map-widget">
+              <div class="container">
+                <p class="subtitle">Position</p>
+                <div class="columns">
+                  <div class="column p-1 card has-text-centered map-widget notification is-info m-1">
+                    <p class="subtitle">Cursor</p>
+                    <p id="cursor-position" class="title">
+                      <!-- <div class="custom-mouse-position">{{ htmlUnescape "&nbsp;" }}</div> -->
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column is-two-thirds has-text-centered map-widget">
+              <div class="container">
+                <p class="subtitle">Bounds</p>
+                <div class="columns">
+                  <div class="column p-1 card has-text-centered map-widget notification is-info m-1">
+                    <p class="subtitle">North</p>
+                    <p id="mapbounds-north" class="title">{{ htmlUnescape "&nbsp;" }}</p>
+                  </div>
+                  <div class="column p-1 card has-text-centered map-widget notification is-info m-1">
+                    <p class="subtitle">South</p>
+                    <p id="mapbounds-south" class="title">{{ htmlUnescape "&nbsp;" }}</p>
+                  </div>
+                  <div class="column p-1 card has-text-centered map-widget notification is-info m-1">
+                    <p class="subtitle">West</p>
+                    <p id="mapbounds-west" class="title">{{ htmlUnescape "&nbsp;" }}</p>
+                  </div>
+                  <div class="column p-1 card has-text-centered map-widget notification is-info m-1">
+                    <p class="subtitle">East</p>
+                    <p id="mapbounds-east" class="title">{{ htmlUnescape "&nbsp;" }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{{ end }}

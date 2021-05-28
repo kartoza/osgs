@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>featured on Geoservices</title>
+    <link>https://example.com/tags/featured/</link>
+    <description>Recent content in featured on Geoservices</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 01 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/featured/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Demo</title>
+      <link>https://example.com/maps/demo/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/maps/demo/</guid>
+      <description>Demo map summary info</description>
+    </item>
+    
+    <item>
+      <title>Example</title>
+      <link>https://example.com/maps/example/</link>
+      <pubDate>Fri, 01 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://example.com/maps/example/</guid>
+      <description>Example map.
+Fictum, deserunt mollit anim laborum astutumque! Quisque placerat facilisis egestas cillum dolore. Nec dubitamus multa iter quae et nos invenerat. Contra legem facit qui id facit quod lex prohibet. Quam diu etiam furor iste tuus nos eludet?</description>
+    </item>
+    
+  </channel>
+</rss>

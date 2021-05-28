@@ -1,0 +1,506 @@
+{{ define "title" }}
+<!-- Title -->
+<title>{{ .Site.Title }}</title>
+{{ end }}
+
+{{ define "styles" }}
+<link rel="stylesheet" href="/css/map.css">
+<style type="text/css" media="screen">
+  #pagemap {
+    height: 75vh;
+    width: 100%;
+  }
+  .page-content p {
+    padding-top: 0.4rem !important;
+    padding-bottom: 0.4rem !important;
+  }
+</style>
+{{ end }}
+
+{{ define "javascript" }}
+<!-- JS -->
+<script type="application/javascript" src="/js/main.js"></script>
+<script type="application/javascript" src="/js/ol-landing.js"></script>
+
+<!-- OpenLayers -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+{{ end }}
+
+{{ define "nav" }}
+<!-- nav -->
+  <nav class="navbar is-fixed-top has-shadow is-info">
+    <div class="container">
+      <div class="navbar-brand">
+        <a href="#" class="navbar-item">
+            <figure class="image is-24x24 mr-2">
+              <img src="{{ .Site.Params.SiteLogo }}">
+            </figure>
+            {{ .Site.Title }}
+        </a>
+          <span class="navbar-burger burger" data-target="navbarMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-end">
+          <a class="navbar-item" href="#about">About</a>
+          <a class="navbar-item" href="#map">Map</a>
+          <a class="navbar-item" href="#services">Services</a>
+          <a class="navbar-item" href="#gallery">Gallery</a>
+          <a class="navbar-item" href="#tools">Utilities</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+{{ end }}
+
+{{ define "main" }}
+
+  {{ block "hero" . }}
+<!-- hero -->
+  <div class="container">
+    <section id="hero" class="hero is-medium is-info is-bold landing-hero">
+      <div class="hero-body">
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <figure class="image is-128x128">
+                <img src="{{ .Site.Params.SiteLogo }}">
+              </figure>
+            </div>
+            <div class="level-item">
+            <div class="container">
+              <h1 class="title pb-3">
+                {{ .Site.Title }}
+              </h1>
+              <h2 class="subtitle pt-3">
+                By <a href="{{ .Site.Params.OwnerURL }}">{{ .Site.Params.OwnerName }}</a>
+              </h2>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  {{ end }}
+
+
+<!-- page -->
+
+<!-- about -->
+<section class="is-large">
+  <div class="container">
+    <div class="container p-6 card">
+      <a id="about" class="page-anchor"></a>
+      <h1 class="title has-text-centered">
+        {{ .Title }}
+      </h1>
+        <div class="pl-6 pr-6 pb-2 has-text-centered">
+          {{ .Content }}
+          <ul class="menu-list">
+            {{ range .Params.PageLinks }}
+            <li class="subtitle"><a href="{{ .Link }}">{{ .Title }}</a></li>
+            {{ end }}
+          </ul>
+        </div>
+    </div>
+  </div>
+</section>
+
+<!-- map -->
+  <div class="container">
+    <section class="hero is-info is-small is-bold has-text-centered">
+      <div class="hero-body">
+        <a id="map" class="page-anchor"></a>
+        <div class="container">
+          <h1 class="title p-3">
+            Map
+          </h1>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="is-large">
+    <div class="container">
+      <div class="container p-6 card">
+        <div id="pagemap"class="pagemap p-3 p-3 is-fullwidth is-fullheight"></div>
+      </div>
+    </div>
+  </section>
+
+<!-- services -->
+  <div class="container">
+    <section class="hero is-info is-small is-bold has-text-centered">
+      <div class="hero-body">
+        <a id="services" class="page-anchor"></a>
+        <div class="container">
+          <h1 class="title p-3">
+            Core Services
+          </h1>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="is-large">
+    <div class="container">
+      <div class="container p-6 card">
+        <h2 class="subtitle p-3 has-text-centered">
+          Core Geodata Services & Application Endpoints
+        </h2>
+        <div class="p-3 has-text-centered">
+          <p class="pb-4">
+            The following components form key services used in the Geodata Service Infrastructure
+          </p>
+          <aside class="menu p-3">
+            <p class="menu-label">
+              Platform Services
+            </p>
+            <ul class="menu-list">
+              {{ range .Params.ServiceLinks.Platform }}
+              <li><a href="{{ .Link }}">{{ .Title }}</a></li>
+              {{ end }}
+            </ul>
+            <p class="menu-label">
+              Data Service Endpoints
+            </p>
+            <ul class="menu-list">
+              {{ range .Params.ServiceLinks.Data }}
+              <li><a href="{{ .Link }}">{{ .Title }}</a></li>
+              {{ end }}
+            </ul>
+            <p class="menu-label">
+              Developer API
+            </p>
+            <ul class="menu-list">
+              {{ range .Params.ServiceLinks.Developer }}
+              <li><a href="{{ .Link }}">{{ .Title }}</a></li>
+              {{ end }}
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- gallery -->
+  <div class="container">
+    <section class="hero unsplash is-small is-bold has-text-centered">
+      <div class="hero-body">
+        <a id="gallery" class="page-anchor"></a>
+        <div class="container">
+          <h1 class="title p-3">
+            Gallery
+          </h1>
+          <h2 class="subtitle p-3">
+            Geodata Platform Showcase
+          </h2>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- tiles -->
+  <div class="container">
+    <div class="section">
+
+      <div class="row columns is-multiline">
+
+        {{ range $elem_key, $elem_val := .Params.GalleryLinks }}
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card modal-link" href="#!" data-target="modal-gallery-{{ $elem_key }}">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  <img style="background: {{ .BgColor }}" src="{{ .Image }}">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">{{ .Title }}</p>
+                  <p class="subtitle no-padding no-margin">{{ .Subtitle }}</p>
+                </div>
+                <div class="content description">
+                  <p>
+                    {{ .Blurb }}
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        {{ end }}
+
+        {{ range where .Site.Pages "Type" "section" }}
+
+        <div class="column is-6">
+          <div class="card small link-element">
+            <a class="content-card" href="{{ .Permalink }}">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  {{ $default := slice "/img/map-sample.png" }}
+                  {{ $images := .Params.Images | default $default }}
+                  {{ $image := index ($images) 0 }}
+                  <img src="{{ $image }}">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">{{ .Title }}</p>
+                  <p class="subtitle no-padding no-margin">{{ .Params.Subtitle }}</p>
+                </div>
+                <div class="content description">
+                  <p>
+                    {{ .Summary }}
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        {{ end }}
+
+        {{ $maps := where .Site.Pages "Section" "maps" }}
+        {{ $featured := slice "Featured" }}
+        {{ $range := where $maps "Params.categories" "intersect" $featured }}
+        {{ range first 3 $range }}
+        {{/* template "_internal/pagination.html" . */}}
+        {{/* range (.Paginate ( $range.ByDate ) 3).Pages */}}
+        {{/* range (.Paginate ( first 3 $range.ByDate )).Pages */}}
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card" href="{{ .Permalink }}">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  {{ $default := slice "/img/map-sample.png" }}
+                  {{ $images := .Params.Images | default $default }}
+                  {{ $image := index ($images) 0 | default "/img/map-sample.png" }}
+                  <img src="{{ $image }}">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">{{ .Title }}</p>
+                  <p class="subtitle no-padding no-margin">{{ .Params.Subtitle }}</p>
+                </div>
+                <div class="content description">
+                  <p>
+                    {{ .Summary }}
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        {{ end }}
+
+        {{ $docs := where .Site.Pages "Section" "docs" }}
+        {{ $featured := slice "Featured" }}
+        {{ $range := where $docs "Params.categories" "intersect" $featured }}
+        {{ range first 3 $range }}
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card" href="{{ .Permalink }}">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  {{ $default := slice "/img/doc-sample.png" }}
+                  {{ $images := .Params.Images | default $default }}
+                  {{ $image := index ($images) 0 | default "/img/map-sample.png" }}
+                  <img src="{{ $image }}">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">{{ .Title }}</p>
+                  <p class="subtitle no-padding no-margin">{{ .Params.Subtitle }}</p>
+                </div>
+                <div class="content description">
+                  <p>
+                    {{ .Summary }}
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        {{ end }}
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- modals -->
+
+  {{ range $elem_key, $elem_val := .Params.GalleryLinks }}
+
+  <div id="modal-gallery-{{ $elem_key }}" class="modal modal-effect">
+    <div class="modal-background"></div>
+    <div class="modal-content is-tiny">
+      <div class="card">
+        <div class="card-image">
+          <figure class="image is-16by9">
+            <img src="{{ .Preview }}" alt="">
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img src="{{ .Icon }}" alt="logo">
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4">{{ .Title }}</p>
+              <p class="subtitle is-6">{{ .Subtitle }}</p>
+            </div>
+          </div>
+          <div class="content description">
+            <p>
+              {{ .Blurb }}
+            </p>
+            <p>
+              {{ .Description }}
+            </p>
+          </div>
+          <div class="content">
+          <a href="{{ .Link }}"><button class="button is-medium is-info is-fullwidth">Go to Service</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close" data-target="modal-gallery-{{ $elem_key }}"></button>
+  </div>
+
+  {{ end }}
+
+
+<!-- utilities -->
+  <div class="container">
+    <section class="hero is-info is-small is-bold has-text-centered">
+      <div class="hero-body">
+        <div class="container">
+          <a id="tools" class="page-anchor"></a>
+          <h1 class="title p-3">
+            Utilities
+          </h1>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- tiles -->
+
+
+  <div class="container">
+    <div class="section">
+
+      <div class="row columns is-multiline">
+        <div class="content p-3">
+          <p class="has-text-centered">
+            The following Open Source Software forms a critical part of the spatial data infrastructure implemented within the Open GIS Stack, and users are encouraged to utilise these products and services as extensively as is practical in line with Open Data Standards.
+          </p>
+        </div>
+
+        {{ range $elem_key, $elem_val := .Params.UtilityLinks }}
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card" href="{{ .Link }}">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  <img style="background: {{ .BgColor }}" src="{{ .image }}">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">{{ .Title }}</p>
+                  <p class="subtitle no-padding no-margin">{{ .Subtitle }}</p>
+                </div>
+                <div class="content description">
+                  {{ .Blurb }}
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        {{ end }}
+
+      </div>
+
+    </div>
+  </div>
+
+<!-- ======================================== -->
+<!-- page modals -->
+
+  <!-- about modal -->
+  <div id="modal-about" class="modal modal-effect">
+    <div class="modal-background"></div>
+    <div class="modal-content is-tiny">
+      <div class="card">
+        <div class="card-image">
+          <figure class="image is-16by9">
+            <img src="/unsplash/photo-1576767810583-046a1f7da256.jpg" alt="">
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img src="https://kartoza.com/static/img/kartoza-logo-only.png" alt="Kartoza Logo">
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4">Open GIS Stack</p>
+              <p class="subtitle is-6"><a href="https://kartoza.com/">By Kartoza</a></p>
+            </div>
+          </div>
+          <div class="content">
+            <p>
+              This site is a component of the OpenSource GIS Stack, a full featured complete stack with end-to-end workflows for many common GIS Infrastructure components.
+            </p>
+            <p class="pb-4">
+              The Open GIS Stack is developed and maintained by <a href="https://www.kartoza.com/"><strong>Kartoza</strong></a> and is a composition of various Free and Open Source software, platforms, and components. The source code is available on GitHub, and community contributions are welcome.
+            </p>
+          </div>
+          <div class="content">
+          <a href="https://github.com/kartoza/OpenSource-GIS-Stack"><button class="button is-medium is-info is-fullwidth">View Source</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close" data-target="modal-about"></button>
+  </div>
+
+{{ end }}
+
+{{ define "footer" }}
+<!-- footer -->
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        This site is a component of the <a class="modal-link" href="#!about" data-target="modal-about">OpenSource GIS Stack</a>.
+      </p>
+      <p>
+        Built by <a href="https://www.kartoza.com/"><strong>Kartoza</strong></a>
+      </p>
+      <p>
+        <a href="/contact"><strong>Contact</strong></a>
+      </p>
+    </div>
+  </footer>
+{{ end }}

@@ -1,0 +1,58 @@
+html {
+  scroll-behavior: smooth;
+}
+
+a.page-anchor {
+  display: block;
+  position: relative;
+  top: -75px;
+  visibility: hidden;
+}
+
+/* .landing-hero {
+  background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/GrosPiton.JPG/1024px-GrosPiton.JPG')center center; background-size:cover;
+} */
+.hero {
+  color: white;
+  text-shadow: 1px 1px 2px #333;
+}
+.hero.unsplash * {
+  color: white;
+}
+.unsplash {
+  /* background: url('https://source.unsplash.com/random/?geography')center center; background-size:cover; */
+  background: url('/unsplash/photo-1614728672820-e88260ce6d0d.jpg')center center; background-size:cover;
+}
+
+.link-element {
+  transition: all .2s ease-in-out;
+}
+.link-element:hover {
+  transform: scale(1.04);
+}
+.link-element a {
+  color: #363636;
+  text-decoration: none;
+}
+.link-element .card-content {
+  height: 300px;
+  overflow: auto;
+}
+/*
+.link-element .content {
+  overflow: hidden;
+  max-height: 10vh;
+}
+*/
+
+.modal-effect {
+  opacity: 1;
+  animation: fade 1s linear;
+}
+
+@keyframes fade {
+  0% { opacity: 0 }
+  40% { opacity: 33 }
+  50% { opacity: 80 }
+  100% { opacity: 1 }
+}
