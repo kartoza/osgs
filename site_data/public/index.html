@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta name="generator" content="Hugo 0.82.0" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+  
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  
+<link rel="stylesheet" href="/css/map.css">
+<style type="text/css" media="screen">
+  #pagemap {
+    height: 75vh;
+    width: 100%;
+  }
+  .page-content p {
+    padding-top: 0.4rem !important;
+    padding-bottom: 0.4rem !important;
+  }
+</style>
+
+
+  
+
+<script type="application/javascript" src="/js/main.js"></script>
+<script type="application/javascript" src="/js/ol-landing.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+
+
+  
+  
+  <link rel="apple-touch-icon" sizes="57x57" href="/favico/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/favico/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/favico/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/favico/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/favico/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/favico/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/favico/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/favico/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favico/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/favico/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favico/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favico/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favico/favicon-16x16.png">
+  <link rel="manifest" href="/favico/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/favico/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  
+
+  
+
+<title>Geoservices</title>
+
+
+  
+  
+
+</head>
+
+
+<body class="has-navbar-fixed-top">
+
+  
+
+  <nav class="navbar is-fixed-top has-shadow is-info">
+    <div class="container">
+      <div class="navbar-brand">
+        <a href="#" class="navbar-item">
+            <figure class="image is-24x24 mr-2">
+              <img src="img/Circle-icons-stack.svg">
+            </figure>
+            Geoservices
+        </a>
+          <span class="navbar-burger burger" data-target="navbarMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-end">
+          <a class="navbar-item" href="#about">About</a>
+          <a class="navbar-item" href="#map">Map</a>
+          <a class="navbar-item" href="#services">Services</a>
+          <a class="navbar-item" href="#gallery">Gallery</a>
+          <a class="navbar-item" href="#tools">Utilities</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+
+  
+
+  
+
+  <div class="container">
+    <section id="hero" class="hero is-medium is-info is-bold landing-hero">
+      <div class="hero-body">
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <figure class="image is-128x128">
+                <img src="img/Circle-icons-stack.svg">
+              </figure>
+            </div>
+            <div class="level-item">
+            <div class="container">
+              <h1 class="title pb-3">
+                Geoservices
+              </h1>
+              <h2 class="subtitle pt-3">
+                By <a href="https://www.kartoza.com/">Kartoza</a>
+              </h2>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+
+
+
+
+
+<section class="is-large">
+  <div class="container">
+    <div class="container p-6 card">
+      <a id="about" class="page-anchor"></a>
+      <h1 class="title has-text-centered">
+        About
+      </h1>
+        <div class="pl-6 pr-6 pb-2 has-text-centered">
+          <p>The Geoservices Platform provides a number of services, content, components, and data for geospatial solution support.</p>
+<p>This site is a component of the OpenSource GIS Stack, a full featured complete stack with end-to-end workflows for many common GIS Infrastructure components.</p>
+<hr>
+
+          <ul class="menu-list">
+            
+            <li class="subtitle"><a href="/docs/">View Documents</a></li>
+            
+            <li class="subtitle"><a href="/maps/">View Maps</a></li>
+            
+          </ul>
+        </div>
+    </div>
+  </div>
+</section>
+
+
+  <div class="container">
+    <section class="hero is-info is-small is-bold has-text-centered">
+      <div class="hero-body">
+        <a id="map" class="page-anchor"></a>
+        <div class="container">
+          <h1 class="title p-3">
+            Map
+          </h1>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="is-large">
+    <div class="container">
+      <div class="container p-6 card">
+        <div id="pagemap"class="pagemap p-3 p-3 is-fullwidth is-fullheight"></div>
+      </div>
+    </div>
+  </section>
+
+
+  <div class="container">
+    <section class="hero is-info is-small is-bold has-text-centered">
+      <div class="hero-body">
+        <a id="services" class="page-anchor"></a>
+        <div class="container">
+          <h1 class="title p-3">
+            Core Services
+          </h1>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="is-large">
+    <div class="container">
+      <div class="container p-6 card">
+        <h2 class="subtitle p-3 has-text-centered">
+          Core Geodata Services & Application Endpoints
+        </h2>
+        <div class="p-3 has-text-centered">
+          <p class="pb-4">
+            The following components form key services used in the Geodata Service Infrastructure
+          </p>
+          <aside class="menu p-3">
+            <p class="menu-label">
+              Platform Services
+            </p>
+            <ul class="menu-list">
+              
+              <li><a href="/geoserver/">GeoServer</a></li>
+              
+              <li><a href="/mapproxy/demo/">MapProxy</a></li>
+              
+            </ul>
+            <p class="menu-label">
+              Data Service Endpoints
+            </p>
+            <ul class="menu-list">
+              
+              <li><a href="/map/?SERVICE=WMS&amp;REQUEST=GetCapabilities">QGIS Server Capabilities Document</a></li>
+              
+              <li><a href="/mapproxy/service?SERVICE=WMS&amp;VERSION=1.3.0&amp;REQUEST=GetCapabilities">Map Proxy Capabilities Document</a></li>
+              
+            </ul>
+            <p class="menu-label">
+              Developer API
+            </p>
+            <ul class="menu-list">
+              
+              <li><a href="/api/">Postgrest API</a></li>
+              
+              <li><a href="/swagger/">Swagger API Browser</a></li>
+              
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <div class="container">
+    <section class="hero unsplash is-small is-bold has-text-centered">
+      <div class="hero-body">
+        <a id="gallery" class="page-anchor"></a>
+        <div class="container">
+          <h1 class="title p-3">
+            Gallery
+          </h1>
+          <h2 class="subtitle p-3">
+            Geodata Platform Showcase
+          </h2>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  
+  <div class="container">
+    <div class="section">
+
+      <div class="row columns is-multiline">
+
+        
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card modal-link" href="#!" data-target="modal-gallery-1-qgis">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  <img style="background: #FFFFFF" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Schweiz_Karte_Baedeker%2C_1913.jpg/1280px-Schweiz_Karte_Baedeker%2C_1913.jpg">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">QGIS Portal</p>
+                  <p class="subtitle no-padding no-margin">OGC Feature Services</p>
+                </div>
+                <div class="content description">
+                  <p>
+                    Access the QGIS Server admin interface which provides dashboards and documentation for available QGIS Server services.
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card modal-link" href="#!" data-target="modal-gallery-2-files">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  <img style="background: #FFFFFF" src="https://tinyfilemanager.github.io/img/bg-showcase-1.jpg">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">File Manager</p>
+                  <p class="subtitle no-padding no-margin">Edit Geoservice Resources</p>
+                </div>
+                <div class="content description">
+                  <p>
+                    Use the Open GIS Stack File Manager to upload data for the services to use in processing and publication workflows.
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card modal-link" href="#!" data-target="modal-gallery-3-odm">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  <img style="background: #FFFFFF" src="https://webodm.net/static/images/models/ortho.jpg">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">Web ODM</p>
+                  <p class="subtitle no-padding no-margin">Open Drone Map UI</p>
+                </div>
+                <div class="content description">
+                  <p>
+                    Web ODM is the web interface for OpenDroneMap, allowing users to process drone imagery and aerial photography to produce orthophoto mosaics and 3D pointclouds.
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        
+
+        
+
+        <div class="column is-6">
+          <div class="card small link-element">
+            <a class="content-card" href="https://example.com/docs/">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  
+                  
+                  
+                  <img src="/unsplash/photo-1579818136210-457ff9197a99.jpg">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">Documents</p>
+                  <p class="subtitle no-padding no-margin">Available Documents</p>
+                </div>
+                <div class="content description">
+                  <p>
+                    Documents are typical site pages for sharing and publishing information and user stories.
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        
+
+        <div class="column is-6">
+          <div class="card small link-element">
+            <a class="content-card" href="https://example.com/maps/">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  
+                  
+                  
+                  <img src="/unsplash/photo-1582033197967-8b95adc79d8e.jpg">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">Maps</p>
+                  <p class="subtitle no-padding no-margin">Available Maps</p>
+                </div>
+                <div class="content description">
+                  <p>
+                    Maps are simple web applications which are able to represent spatial data in context.
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        
+
+        
+        
+        
+        
+        
+        
+        
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card" href="https://example.com/maps/example/">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  
+                  
+                  
+                  <img src="/img/map-sample.png">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">Example</p>
+                  <p class="subtitle no-padding no-margin">An example of a map page</p>
+                </div>
+                <div class="content description">
+                  <p>
+                    Example map.
+Fictum, deserunt mollit anim laborum astutumque! Quisque placerat facilisis egestas cillum dolore. Nec dubitamus multa iter quae et nos invenerat. Contra legem facit qui id facit quod lex prohibet. Quam diu etiam furor iste tuus nos eludet?
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        
+        
+        
+        
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card" href="https://example.com/maps/sample/">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  
+                  
+                  
+                  <img src="/img/map-sample.png">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">Sample</p>
+                  <p class="subtitle no-padding no-margin">A sample of a map page</p>
+                </div>
+                <div class="content description">
+                  <p>
+                    Sample map.
+Plura mihi bona sunt, inclinet, amari petere vellent. Ab illo tempore, ab est sed immemorabili. Ullamco laboris nisi ut aliquid ex ea commodi consequat. Quae vero auctorem tractata ab fiducia dicuntur. At nos hinc posthac, sitientis piros Afros. Ab illo tempore, ab est sed immemorabili. Cum sociis natoque penatibus et magnis dis parturient. Quam diu etiam furor iste tuus nos eludet? Ut enim ad minim veniam, quis nostrud exercitation.
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        
+        
+        
+        
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card" href="https://example.com/maps/sample-4/">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  
+                  
+                  
+                  <img src="/unsplash/photo-1579818136210-457ff9197a99.jpg">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">Sample Four</p>
+                  <p class="subtitle no-padding no-margin">A sample of a map page</p>
+                </div>
+                <div class="content description">
+                  <p>
+                    Sample map summary
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        
+
+        
+        
+        
+        
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card" href="https://example.com/docs/demo/">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  
+                  
+                  
+                  <img src="/img/doc-sample.png">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">Documents</p>
+                  <p class="subtitle no-padding no-margin">Rich content and media</p>
+                </div>
+                <div class="content description">
+                  <p>
+                    Lorem ipsum dolor sit amet
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card" href="https://example.com/docs/example/">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  
+                  
+                  
+                  <img src="/img/doc-sample.png">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">Example</p>
+                  <p class="subtitle no-padding no-margin">An example of a document</p>
+                </div>
+                <div class="content description">
+                  <p>
+                    Example document.
+A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Nihilne te nocturnum praesidium Palati, nihil urbis vigiliae. Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Donec sed odio operae, eu vulputate felis rhoncus. Salutantibus vitae elit libero, a pharetra augue. Nihil hic munitissimus habendi senatus locus, nihil horum? A communi observantia non est recedendum.
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card" href="https://example.com/docs/sample/">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  
+                  
+                  
+                  <img src="/img/doc-sample.png">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">Sample</p>
+                  <p class="subtitle no-padding no-margin">A sample of a document</p>
+                </div>
+                <div class="content description">
+                  <p>
+                    Sample document.
+Curabitur blandit tempus ardua ridiculus sed magna. Sed haec quis possit intrepidus aestimare tellus. Quisque ut dolor gravida, placerat libero vel, euismod. Plura mihi bona sunt, inclinet, amari petere vellent. Fabio vel iudice vincam, sunt in culpa qui officia. Inmensae subtilitatis, obscuris et malesuada fames. Ambitioni dedisse scripsisse iudicaretur. Nec dubitamus multa iter quae et nos invenerat. Petierunt uti sibi concilium totius Galliae in diem certam indicere. Morbi fringilla convallis sapien, id pulvinar odio volutpat.
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        
+
+      </div>
+
+    </div>
+  </div>
+
+  
+
+  
+
+  <div id="modal-gallery-1-qgis" class="modal modal-effect">
+    <div class="modal-background"></div>
+    <div class="modal-content is-tiny">
+      <div class="card">
+        <div class="card-image">
+          <figure class="image is-16by9">
+            <img src="/unsplash/photo-1518732180525-52cc0d02180b.jpg" alt="">
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/QGIS_logo_new.svg" alt="logo">
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4">QGIS Portal</p>
+              <p class="subtitle is-6">OGC Feature Services</p>
+            </div>
+          </div>
+          <div class="content description">
+            <p>
+              Access the QGIS Server admin interface which provides dashboards and documentation for available QGIS Server services.
+            </p>
+            <p>
+              The QGIS Server Portal will automatically grant users access to all projects published and shared on the organisational publishing account on the Mergin platform.
+            </p>
+          </div>
+          <div class="content">
+          <a href="/map/"><button class="button is-medium is-info is-fullwidth">Go to Service</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close" data-target="modal-gallery-1-qgis"></button>
+  </div>
+
+  
+
+  <div id="modal-gallery-2-files" class="modal modal-effect">
+    <div class="modal-background"></div>
+    <div class="modal-content is-tiny">
+      <div class="card">
+        <div class="card-image">
+          <figure class="image is-16by9">
+            <img src="https://tinyfilemanager.github.io/img/bg-showcase-3.jpg" alt="">
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Home_free_icon.svg" alt="logo">
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4">File Manager</p>
+              <p class="subtitle is-6">Edit Geoservice Resources</p>
+            </div>
+          </div>
+          <div class="content description">
+            <p>
+              Use the Open GIS Stack File Manager to upload data for the services to use in processing and publication workflows.
+            </p>
+            <p>
+              
+            </p>
+          </div>
+          <div class="content">
+          <a href="/files/"><button class="button is-medium is-info is-fullwidth">Go to Service</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close" data-target="modal-gallery-2-files"></button>
+  </div>
+
+  
+
+  <div id="modal-gallery-3-odm" class="modal modal-effect">
+    <div class="modal-background"></div>
+    <div class="modal-content is-tiny">
+      <div class="card">
+        <div class="card-image">
+          <figure class="image is-16by9">
+            <img src="https://raw.githubusercontent.com/OpenDroneMap/WebODM/master/screenshots/pointcloud.png" alt="">
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img src="https://www.opendronemap.org/wp-content/uploads/2018/07/odm-logo.svg" alt="logo">
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4">Web ODM</p>
+              <p class="subtitle is-6">Open Drone Map UI</p>
+            </div>
+          </div>
+          <div class="content description">
+            <p>
+              Web ODM is the web interface for OpenDroneMap, allowing users to process drone imagery and aerial photography to produce orthophoto mosaics and 3D pointclouds.
+            </p>
+            <p>
+              
+            </p>
+          </div>
+          <div class="content">
+          <a href="https://www.opendronemap.org/"><button class="button is-medium is-info is-fullwidth">Go to Service</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close" data-target="modal-gallery-3-odm"></button>
+  </div>
+
+  
+
+
+
+  <div class="container">
+    <section class="hero is-info is-small is-bold has-text-centered">
+      <div class="hero-body">
+        <div class="container">
+          <a id="tools" class="page-anchor"></a>
+          <h1 class="title p-3">
+            Utilities
+          </h1>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  
+
+
+  <div class="container">
+    <div class="section">
+
+      <div class="row columns is-multiline">
+        <div class="content p-3">
+          <p class="has-text-centered">
+            The following Open Source Software forms a critical part of the spatial data infrastructure implemented within the Open GIS Stack, and users are encouraged to utilise these products and services as extensively as is practical in line with Open Data Standards.
+          </p>
+        </div>
+
+        
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card" href="https://qgis.org/">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  <img style="background: #FFFFFF" src="https://planet.qgis.org/en/_downloads/346c98156457acb14251dbfd0b88a027/qgis-logo.svg">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">QGIS</p>
+                  <p class="subtitle no-padding no-margin">Open Source GIS</p>
+                </div>
+                <div class="content description">
+                  QGIS Desktop and QGIS Server are fully featured Geographic Information Systems and are the de facto leader in Open Source Desktop GIS.
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card" href="https://inputapp.io/">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  <img style="background: #003023" src="https://inputapp.io/img/logo.svg">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">Input</p>
+                  <p class="subtitle no-padding no-margin">Mobile Field Survey Solution</p>
+                </div>
+                <div class="content description">
+                  The Input App leverages the QGIS ecosystem and the Mergin cloud platform for simple and effective field data capture.
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        
+
+        <div class="column is-4">
+          <div class="card small link-element">
+            <a class="content-card" href="https://postgis.net/">
+              <div class="card-image">
+                <figure class="image is-16by9">
+                  <img style="background: #FFFFFF" src="https://postgis.net/images/postgis-logo.png">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content has-text-centered">
+                  <p class="title no-padding no-margin">PostGIS</p>
+                  <p class="subtitle no-padding no-margin">Spatial objects for PostgreSQL</p>
+                </div>
+                <div class="content description">
+                  PostGIS is a spatial database extender for PostgreSQL object-relational database. It adds support for geographic objects allowing location queries to be run in SQL.
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        
+
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+  
+  <div id="modal-about" class="modal modal-effect">
+    <div class="modal-background"></div>
+    <div class="modal-content is-tiny">
+      <div class="card">
+        <div class="card-image">
+          <figure class="image is-16by9">
+            <img src="/unsplash/photo-1576767810583-046a1f7da256.jpg" alt="">
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img src="https://kartoza.com/static/img/kartoza-logo-only.png" alt="Kartoza Logo">
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4">Open GIS Stack</p>
+              <p class="subtitle is-6"><a href="https://kartoza.com/">By Kartoza</a></p>
+            </div>
+          </div>
+          <div class="content">
+            <p>
+              This site is a component of the OpenSource GIS Stack, a full featured complete stack with end-to-end workflows for many common GIS Infrastructure components.
+            </p>
+            <p class="pb-4">
+              The Open GIS Stack is developed and maintained by <a href="https://www.kartoza.com/"><strong>Kartoza</strong></a> and is a composition of various Free and Open Source software, platforms, and components. The source code is available on GitHub, and community contributions are welcome.
+            </p>
+          </div>
+          <div class="content">
+          <a href="https://github.com/kartoza/OpenSource-GIS-Stack"><button class="button is-medium is-info is-fullwidth">View Source</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close" data-target="modal-about"></button>
+  </div>
+
+
+
+  
+
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        This site is a component of the <a class="modal-link" href="#!about" data-target="modal-about">OpenSource GIS Stack</a>.
+      </p>
+      <p>
+        Built by <a href="https://www.kartoza.com/"><strong>Kartoza</strong></a>
+      </p>
+      <p>
+        <a href="/contact"><strong>Contact</strong></a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -324,40 +324,75 @@ vrt-styles:
 	@git clone git@github.com:lutraconsulting/qgis-vectortiles-styles.git
 
 
-hugo-initialise:
+site-init: site-config site-build site-set-output
+
+site-config:
 	@echo "------------------------------------------------------------------"
-	@echo "Setting up Hugo content management system"
+	@echo "Configure your static site content management system"
 	@echo "You should only do this once per site deployment"
 	@echo "------------------------------------------------------------------"
-	# Try create the dir, continue anyway if it fails (-)
-	-@mkdir hugo_data
-	@docker run --rm -it -v $(PWD)/hugo_data:/src klakegg/hugo:0.82.0 new site mysite
-	@git submodule add https://github.com/budparr/gohugo-theme-ananke.git hugo_data/themes/ananke;
-	@echo 'theme = "ananke"' >> hugo_data/config.toml
-
-hugo-create-page:
-	# The entire command must be in one line for the scope of the varable to be shared between read
+	@echo "This will replace any local configuration changes you have made"
 	@echo "------------------------------------------------------------------"
-	@echo "Creating a new page for the static site"
-	@echo "------------------------------------------------------------------"
-	# and docker command
-	@echo "Enter a section name e.g. posts and a file name for your post e.g. mypost.md: ";
-	@read -p "Section name (e.g. posts):" SECTION; \
-	    read -p "Filename (.md):" FILENAME; \
-		docker run --rm -it -v $(PWD)/hugo_data:/src klakegg/hugo:0.82.0 new $$SECTION/$$FILENAME ; \
-		echo "Now edit $$FILENAME then run make hugo-build"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@cp ./site_data/config.yaml.example ./site_data/config.yaml
+	@echo "Please enter the site domain name (default 'example.com')"
+	@read -p "Domain name: " result; \
+	  DOMAINNAME=$${result:-"example.com"} && \
+	  rpl -q {{siteDomain}} "$$DOMAINNAME" $(shell pwd)/site_data/config.yaml
+	@echo "Please enter the title of your website (default 'Geoservices')"
+	@read -p "Site Title: " result; \
+	  SITETITLE=$${result:-"Geoservices"} && \
+	  rpl -q {{siteTitle}} "$$SITETITLE" $(shell pwd)/site_data/config.yaml
+	@echo "Please enter the name of the website owner (default 'Kartoza')"
+	@read -p "Site Owner: " result; \
+	  SITEOWNER=$${result:-"Kartoza"} && \
+	  rpl -q {{ownerName}} "$$SITEOWNER" $(shell pwd)/site_data/config.yaml
+	@echo "Please supply the URL of the site owner (default 'www.kartoza.com')."
+	@read -p "Owner URL: " result; \
+	  OWNERURL=$${result:-"www.kartoza.com"} && \
+	  rpl -q {{ownerDomain}} "$$OWNERURL" $(shell pwd)/site_data/config.yaml
+	@echo "Please supply a valid public URL to the Website Logo."
+	@echo "Be sure to include the protocol prefix (e.g. https://)"
+	@read -p "Logo URL: " result; \
+	  LOGOURL=$${result:-"img/Circle-icons-stack.svg"} && \
+	  rpl -q {{logoURL}} "$$LOGOURL" $(shell pwd)/site_data/config.yaml
 
-hugo-build:
+site-reset:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Reset site configuration to default values"
+	@echo "This will replace any local configuration changes you have made"
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@cp ./site_data/config.yaml.example ./site_data/config.yaml
+
+site-build:
 	@echo "------------------------------------------------------------------"
 	@echo "Building the site, compiling html from any new pages."
 	@echo "------------------------------------------------------------------"
-	@docker run --rm -it -v $(PWD)/hugo_data:/src klakegg/hugo:0.82.0
+	@docker run --rm -it -v $(shell pwd)/site_data:/src klakegg/hugo:0.82.0
 
-hugo-serve:
+site-set-output:
+	@echo "------------------------------------------------------------------"
+	@echo "Setting site publication directory to $(shell pwd)/html"
+	@echo "This will remove any existing in that location"
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+ifneq ("$(wildcard ./html)","")
+	@rm -r $(shell pwd)/html
+	@echo "Existing content removed"
+else
+	@echo "Existing data not available"
+endif
+	@ln -s $(shell pwd)/site_data/public $(shell pwd)/html
+	@echo "Symbolic link created"
+
+site-serve:
 	@echo "------------------------------------------------------------------"
 	@echo "Serving the site locally - intended for local testing only."
 	@echo "------------------------------------------------------------------"
-	@docker run --rm -it -v $(PWD)/hugo_data:/src -p 1313:1313 klakegg/hugo:0.82.0 server
+	@docker run --rm -it -v $(shell pwd)/site_data:/src -p 1313:1313 klakegg/hugo:0.82.0 server
+
 
 setup-scp:
 	@echo "------------------------------------------------------------------"

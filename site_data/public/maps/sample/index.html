@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+  
+  
+  <link rel="stylesheet" href="/css/main.css">
+  
+  
+<link rel="stylesheet" href="/css/map.css">
+
+<link rel="stylesheet" href="https://unpkg.com/ol-layerswitcher@3.8.3/dist/ol-layerswitcher.css" />
+
+<style type="text/css" media="screen">
+  #navbar {
+     
+    z-index: 9999;
+  }
+  .page-content p {
+    padding-top: 0.4rem !important;
+    padding-bottom: 0.4rem !important;
+  }
+  #map-info {
+    overflow: auto;
+  }
+  .ol-control.layer-switcher {
+    margin-top: -42px
+  }
+  .ol-control.layer-switcher button {
+    padding: 18px
+  }
+</style>
+
+
+  
+
+<script type="application/javascript" src="/js/main.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+
+
+<script src="https://unpkg.com/ol-layerswitcher@3.8.3"></script>
+
+
+  
+  
+  <link rel="apple-touch-icon" sizes="57x57" href="/favico/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/favico/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/favico/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/favico/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/favico/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/favico/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/favico/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/favico/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favico/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/favico/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favico/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favico/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favico/favicon-16x16.png">
+  <link rel="manifest" href="/favico/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/favico/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  
+
+  
+
+<title>Maps - Geoservices</title>
+
+
+  
+<script>
+  
+  document.addEventListener('DOMContentLoaded', () => {
+
+    var mousePositionControl = new ol.control.MousePosition({
+	    coordinateFormat: ol.coordinate.createStringXY(4),
+	    projection: 'EPSG:4326',
+	    
+	    
+	    className: 'custom-mouse-position',
+	    target: document.getElementById('cursor-position'),
+	    undefinedHTML: ' ',
+    });
+
+    var layerSwitcher = new ol.control.LayerSwitcher()
+
+    
+    
+
+    
+    
+
+    var map_layers =  null 
+
+    if (map_layers) {
+      map_layers = map_layers.join(",")
+    }
+
+    var wmsSource =  new ol.source.TileWMS({
+		    url: "",
+				transition: 1,
+				params: {
+					'LAYERS': map_layers,
+					'TILED': true
+			  },
+		  })
+
+    var view = new ol.View({
+      center: ol.proj.fromLonLat(["-61", "14"]),
+      zoom: "3"
+    })
+
+    var map = new ol.Map({
+      controls: ol.control.defaults().extend([
+        mousePositionControl,
+        layerSwitcher
+      ]),
+      target: 'pagemap',
+      layers: [
+        new ol.layer.Tile({
+          title: 'Open Street Map',
+          source: new ol.source.OSM()
+        }),
+        new ol.layer.Tile ({
+          title: 'WMS Layers',
+          source:wmsSource
+        })
+      ],
+      view: view
+    });
+
+    map.on('singleclick', function (evt) {
+      document.getElementById('map-info').innerHTML = ''
+      
+      var viewResolution = view.getResolution();
+
+      var url = wmsSource.getFeatureInfoUrl(
+        evt.coordinate,
+        viewResolution,
+        'EPSG:3857',
+        {'INFO_FORMAT': 'text/html'}
+      );
+
+      if (url) {
+        fetch(url)
+          .then(function (response) { return response.text(); })
+          .then(function (html) {
+            document.getElementById('map-info').innerHTML = html
+          });
+      }
+	  });
+
+    function setBounds(evt) {
+      var map = evt.map
+      var extent = map.getView().calculateExtent(map.getSize())
+      extent = ol.proj.transformExtent(extent, 'EPSG:3857', 'EPSG:4326')
+      document.getElementById('mapbounds-north').textContent =  extent[0].toFixed(4)
+      document.getElementById('mapbounds-east').textContent = extent[2].toFixed(4)
+      document.getElementById('mapbounds-south').textContent = extent[1].toFixed(4)
+      document.getElementById('mapbounds-west').textContent = extent[3].toFixed(4)
+    }
+
+    map.addControl(layerSwitcher)
+
+    map.on('moveend', setBounds)
+
+  });
+</script>
+
+
+</head>
+
+
+<body class="has-navbar-fixed-top">
+
+  
+
+  <nav id="navbar" class="navbar is-fixed-top has-shadow is-info">
+    <div class="container">
+      <div class="navbar-brand">
+        <a href="/" class="navbar-item">
+            <figure class="image is-24x24 mr-2">
+              <img src="/img/Circle-icons-stack.svg">
+            </figure>
+            Geoservices
+        </a>
+          <span class="navbar-burger burger" data-target="navbarMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+      </div>
+      <div id="navbarMenu" class="navbar-menu">
+        <div class="navbar-end">
+          
+            <a href="https://example.com/about/" class="navbar-item">About</a>
+          
+            <a href="https://example.com/docs/" class="navbar-item">Documents</a>
+          
+            <a href="https://example.com/maps/" class="navbar-item">Maps</a>
+          
+            <a href="https://example.com/contact/" class="navbar-item">Contact</a>
+          
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+
+  
+
+<div class="container">
+  <div class="section">
+    <div class="columns">
+      <div class="column">
+        <div class="block is-flex-direction-row is-flex-wrap-wrap">
+          <div id="map-page-tile" class="columns">
+
+            <div class="column m-1 is-two-thirds is-fullheight card">
+              <div id="map-tile">
+                <div id="pagemap"></div>
+              </div>
+            </div>
+
+            <div id="map-sidebar" class="column m-1 card p-2">
+              <div class="content">
+                <p class="title">Sample</p>
+                <p class="subtitle">A sample of a map page</p>
+                  <div class="content page-content">
+                    Sample map.
+Plura mihi bona sunt, inclinet, amari petere vellent. Ab illo tempore, ab est sed immemorabili. Ullamco laboris nisi ut aliquid ex ea commodi consequat. Quae vero auctorem tractata ab fiducia dicuntur. At nos hinc posthac, sitientis piros Afros. Ab illo tempore, ab est sed immemorabili. Cum sociis natoque penatibus et magnis dis parturient. Quam diu etiam furor iste tuus nos eludet? Ut enim ad minim veniam, quis nostrud exercitation.
+                  </div>
+                  <div class="content page-content">
+                    Feature Information:
+                  </div>
+                  <div id="map-info" class="content page-content">
+                  </div>
+                  <div class="content page-content">
+                    <p>Sample map.</p>
+<p>Plura mihi bona sunt, inclinet, amari petere vellent. Ab illo tempore, ab est sed immemorabili. Ullamco laboris nisi ut aliquid ex ea commodi consequat. Quae vero auctorem tractata ab fiducia dicuntur. At nos hinc posthac, sitientis piros Afros.
+Ab illo tempore, ab est sed immemorabili. Cum sociis natoque penatibus et magnis dis parturient. Quam diu etiam furor iste tuus nos eludet? Ut enim ad minim veniam, quis nostrud exercitation.
+Morbi fringilla convallis sapien, id pulvinar odio volutpat. Hi omnes lingua, institutis, legibus inter se differunt. Non equidem invideo, miror magis posuere velit aliquet. Quid securi etiam tamquam eu fugiat nulla pariatur. Inmensae subtilitatis, obscuris et malesuada fames. Fictum, deserunt mollit anim laborum astutumque!
+Curabitur blandit tempus ardua ridiculus sed magna. Sed haec quis possit intrepidus aestimare tellus. Quisque ut dolor gravida, placerat libero vel, euismod. Plura mihi bona sunt, inclinet, amari petere vellent.</p>
+<p>Petierunt uti sibi concilium totius Galliae in diem certam indicere. Morbi fringilla convallis sapien, id pulvinar odio volutpat. A communi observantia non est recedendum.
+Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Donec sed odio operae, eu vulputate felis rhoncus. Salutantibus vitae elit libero, a pharetra augue. Nihil hic munitissimus habendi senatus locus, nihil horum? A communi observantia non est recedendum.
+A communi observantia non est recedendum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus. Nihilne te nocturnum praesidium Palati, nihil urbis vigiliae.
+Quisque ut dolor gravida, placerat libero vel, euismod. Ambitioni dedisse scripsisse iudicaretur. Donec sed odio operae, eu vulputate felis rhoncus. Nihilne te nocturnum praesidium Palati, nihil urbis vigiliae.</p>
+<p>Nihilne te nocturnum praesidium Palati, nihil urbis vigiliae. Salutantibus vitae elit libero, a pharetra augue. Quam diu etiam furor iste tuus nos eludet? Fabio vel iudice vincam, sunt in culpa qui officia. Quam temere in vitiis, legem sancimus haerentia. Quisque ut dolor gravida, placerat libero vel, euismod.
+Cum sociis natoque penatibus et magnis dis parturient. Curabitur blandit tempus ardua ridiculus sed magna. Salutantibus vitae elit libero, a pharetra augue.</p>
+
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block is-flex-direction-row is-flex-wrap-wrap">
+          <div id="map-widgets" class="columns notification pt-2">
+            <div class="column is-one-third has-text-centered map-widget">
+              <div class="container">
+                <p class="subtitle">Position</p>
+                <div class="columns">
+                  <div class="column p-1 card has-text-centered map-widget notification is-info m-1">
+                    <p class="subtitle">Cursor</p>
+                    <p id="cursor-position" class="title">
+                      
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column is-two-thirds has-text-centered map-widget">
+              <div class="container">
+                <p class="subtitle">Bounds</p>
+                <div class="columns">
+                  <div class="column p-1 card has-text-centered map-widget notification is-info m-1">
+                    <p class="subtitle">North</p>
+                    <p id="mapbounds-north" class="title"> </p>
+                  </div>
+                  <div class="column p-1 card has-text-centered map-widget notification is-info m-1">
+                    <p class="subtitle">South</p>
+                    <p id="mapbounds-south" class="title"> </p>
+                  </div>
+                  <div class="column p-1 card has-text-centered map-widget notification is-info m-1">
+                    <p class="subtitle">West</p>
+                    <p id="mapbounds-west" class="title"> </p>
+                  </div>
+                  <div class="column p-1 card has-text-centered map-widget notification is-info m-1">
+                    <p class="subtitle">East</p>
+                    <p id="mapbounds-east" class="title"> </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        This site is a component of the <a href="/about">OpenSource GIS Stack</a>.
+      </p>
+      <p>
+        Built by <a href="https://www.kartoza.com/"><strong>Kartoza</strong></a>
+      </p>
+      <p>
+        <a href="/contact"><strong>Contact</strong></a>
+      </p>
+    </div>
+  </footer>
+  
+</body>
+</html>
