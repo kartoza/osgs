@@ -127,7 +127,7 @@ db-qgis-project-backup:
 	@echo "Backing up QGIS project stored in db"
 	@echo "------------------------------------------------------------------"
 	@docker-compose exec -u postgres db pg_dump -f /tmp/QGISProject.sql -t qgis_projects gis
-	@docker cp maceiramergindbsync_db_1:/tmp/QGISProject.sql .
+	@docker cp osgisstack_db_1:/tmp/QGISProject.sql .
 	@docker-compose exec -u postgres db rm /tmp/QGISProject.sql
 	@ls -lah QGISProject.sql
 
@@ -136,7 +136,7 @@ db-qgis-project-restore:
 	@echo "------------------------------------------------------------------"
 	@echo "Restoring QGIS project to db"
 	@echo "------------------------------------------------------------------"
-	@docker cp QGISProject.sql maceiramergindbsync_db_1:/tmp/ 
+	@docker cp QGISProject.sql osgisstack_db_1:/tmp/ 
 	# - at start of next line means error will be ignored (in case QGIS project table isnt already there)
 	-@docker-compose exec -u postgres db psql -c "drop table qgis_projects;" gis 
 	@docker-compose exec -u postgres db psql -f /tmp/QGISProject.sql -d gis
@@ -148,10 +148,10 @@ db-backup:
 	@echo "------------------------------------------------------------------"
 	@echo "Backing up entire postgres db"
 	@echo "------------------------------------------------------------------"
-	@docker-compose exec -u postgres db pg_dump -Fc -f /tmp/smallholding-database.dmp gis
-	@docker cp maceiramergindbsync_db_1:/tmp/smallholding-database.dmp .
-	@docker-compose exec -u postgres db rm /tmp/smallholding-database.dmp
-	@ls -lah smallholding-database.dmp
+	@docker-compose exec -u postgres db pg_dump -Fc -f /tmp/osgisstack-database.dmp gis
+	@docker cp osgisstack_db_1:/tmp/osgisstack-database.dmp .
+	@docker-compose exec -u postgres db rm /tmp/osgisstack-database.dmp
+	@ls -lah osgisstack-database.dmp
 
 db-backup-mergin-base-schema:
 	@echo
@@ -159,7 +159,7 @@ db-backup-mergin-base-schema:
 	@echo "Backing up mergin base schema from  postgres db"
 	@echo "------------------------------------------------------------------"
 	@docker-compose exec -u postgres db pg_dump -Fc -f /tmp/mergin-base-schema.dmp -n mergin_sync_base_do_not_touch gis
-	@docker cp maceiramergindbsync_db_1:/tmp/mergin-base-schema.dmp .
+	@docker cp osgisstack_db_1:/tmp/mergin-base-schema.dmp .
 	@docker-compose exec -u postgres db rm /tmp/mergin-base-schema.dmp
 	@ls -lah mergin-base-schema.dmp
 
@@ -262,6 +262,19 @@ mergin-logs:
 	@echo "------------------------------------------------------------------"
 	@docker-compose logs -f mergin-sync
 
+get-fonts:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Getting Google apache license and gnu free fonts"
+	@echo "and placing them into the qgis_fonts volume" 
+	@echo "------------------------------------------------------------------"
+	-@mkdir fonts
+	@cd fonts;wget  https://github.com/google/fonts/archive/refs/heads/main.zip
+	@cd fonts;unzip main.zip; rm main.zip
+	@cd fonts;wget http://ftp.gnu.org/gnu/freefont/freefont-ttf-20120503.zip
+	@cd fonts;unzip freefont-ttf-20120503.zip; rm freefont-ttf-20120503.zip
+	@cd fonts;find . -name "*.ttf" -exec mv -t . {} +
+
 
 qgis-logs:
 	@echo
@@ -276,18 +289,18 @@ odm-clean:
 	@echo "Note that the odm_datasets directory should be considered mutable as this script "
 	@echo "cleans out all other files"
 	@echo "------------------------------------------------------------------"
-	@sudo rm -rf odm_datasets/smallholding/odm*
-	@sudo rm -rf odm_datasets/smallholding/cameras.json
-	@sudo rm -rf odm_datasets/smallholding/img_list.txt
-	@sudo rm -rf odm_datasets/smallholding/cameras.json
-	@sudo rm -rf odm_datasets/smallholding/opensfm
-	@sudo rm -rf odm_datasets/smallholding/images.json
+	@sudo rm -rf odm_datasets/osgisstack/odm*
+	@sudo rm -rf odm_datasets/osgisstack/cameras.json
+	@sudo rm -rf odm_datasets/osgisstack/img_list.txt
+	@sudo rm -rf odm_datasets/osgisstack/cameras.json
+	@sudo rm -rf odm_datasets/osgisstack/opensfm
+	@sudo rm -rf odm_datasets/osgisstack/images.json
 
 odm-run: odm-clean
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Generating ODM Ortho, DEM, DSM then clipping it and loading it into postgis"
-	@echo "Before running please remove any old images from odm_datasets/smallholding/images"
+	@echo "Before running please remove any old images from odm_datasets/osgisstack/images"
 	@echo "and copy the images that need to be mosaicked into it."
 	@echo "Note that the odm_datasets directory should be considered mutable as this script "
 	@echo "cleans out all other files"

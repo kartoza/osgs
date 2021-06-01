@@ -373,12 +373,13 @@ services:
       - PRODUCTION=false
       - PROCESSES=4
       - THREADS=10
-    user: "1000:10001"
+    user: "1000:1000"
     volumes:
       - mapproxy_data:/mapproxy/
       - ./mapproxy_conf/app.py:/mapproxy/app.py
       - ./mapproxy_conf/seed.yaml:/mapproxy/seed.yaml
       - ./mapproxy_conf/mapproxy.yaml:/mapproxy/mapproxy.yaml
+      - ./mapproxy_conf/clip:/mapproxy/clip
     networks:
      - os-gis-stack
 
@@ -395,15 +396,16 @@ services:
     command: ["-c", "4", "-s", "/mapproxy/seed.yaml", "-f",  "/mapproxy/mapproxy.yaml"]
     env_file: .env
     environment:
-      - PRODUCTION=false
-      - PROCESSES=4
-      - THREADS=10
-    user: "1000:10001"
+      - PRODUCTION=True
+      - PROCESSES=30
+      - THREADS=100
+    user: "1000:1000"
     volumes:
       - mapproxy_data:/mapproxy/
       - ./mapproxy_conf/app.py:/mapproxy/app.py
       - ./mapproxy_conf/seed.yaml:/mapproxy/seed.yaml
       - ./mapproxy_conf/mapproxy.yaml:/mapproxy/mapproxy.yaml
+      - ./mapproxy_conf/clip:/mapproxy/clip
     networks:
       - os-gis-stack
     
