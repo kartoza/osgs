@@ -104,7 +104,7 @@ services:
     environment:
       # You can define multiple databases by providing a comma
       # separated list here.
-      - POSTGRES_DB=gis
+      - POSTGRES_DB=gis,mergin-server
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       # Read the notes at
@@ -136,7 +136,7 @@ services:
     networks:
      - os-gis-stack
     ports:
-      - ${POSTGRES_PUBLIC_PORT}:5432 
+      - ${POSTGRES_PUBLIC_PORT}:${POSTGRES_PRIVATE_PORT} 
     restart: unless-stopped
     healthcheck:
         test: "exit 0"
@@ -418,7 +418,7 @@ services:
     profiles: ["all","production","postgrest","dev"]
     env_file: .env
     environment:
-      PGRST_DB_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/gis
+      PGRST_DB_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PUBLIC_PORT}/gis
       PGRST_DB_SCHEMA: ${PGRST_DB_SCHEMA}
       # In production this role should not be the same as the one used for the connection
       # depends_on
@@ -586,7 +586,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - POSTGRES_DBNAME=gis
-      - POSTGRES_PORT=5432
+      - POSTGRES_PORT=${POSTGRES_PUBLIC_PORT}
       - POSTGRES_HOST=db
       # seconds between 2 executions of the script if 0, then no
       # update will be done, only the first initial import from the
@@ -676,7 +676,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - POSTGRES_DBNAME=gis
-      - POSTGRES_PORT=5432
+      - POSTGRES_PORT=${POSTGRES_PUBLIC_PORT}
       - POSTGRES_HOST=db
       # These are all currently the defaults but listed here for
       # your convenience if you want to change them.
@@ -729,6 +729,69 @@ services:
       - postgrest
       - swagger
 
+
+  ############################################################
+  #
+  #
+  # Mergin Server services. See https://github.com/lutraconsulting/mergin
+  # 
+  #
+  ############################################################
+
+  mergin-server:
+    image: lutraconsulting/mergin
+    container_name: mergin-server
+    volumes:
+      - ./projects:/data  # map data dir to host
+    env_file: .env      
+    environment:
+      - VERSION=${MERGIN_SERVER_VERSION}
+      - SWAGGER_UI=0
+      - SECRET_KEY=${MERGIN_SERVER_SECRET_KEY}
+      - SECURITY_PASSWORD_SALT=fixme
+      - LOCAL_PROJECTS=/data
+      - MAINTENANCE_FILE=/data/MAINTENANCE
+      - USER_SELF_REGISTRATION=1
+      - USE_X_ACCEL=${MERGIN_SERVER_USE_X_ACCEL}
+      - GEODIFF_LOGGER_LEVEL=${MERGIN_SERVER_GEODIFF_LOGGER_LEVEL}
+      - TEMP_DIR=/data/tmp
+      - MERGIN_TESTING=${MERGIN_SERVER_MERGIN_TESTING}
+      - MAX_CHUNK_SIZE=${MERGIN_SERVER_MAX_CHUNK_SIZE}
+      - TEMP_EXPIRATION=${MERGIN_SERVER_TEMP_EXPIRATION}
+      - DELETED_PROJECT_EXPIRATION=${MERGIN_SERVER_DELETED_PROJECT_EXPIRATION}
+      - CLOSED_ACCOUNT_EXPIRATION=${MERGIN_SERVER_CLOSED_ACCOUNT_EXPIRATION}
+      - DEFAULT_STORAGE_SIZE=${MERGIN_SERVER_DEFAULT_STORAGE_SIZE}
+      # TODO - create separate user for mergin db so it does not have superuser rights
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_HOST=db
+      - DB_PORT=${POSTGRES_PUBLIC_PORT}
+      # Check if this is the db name?
+      - DB_APPLICATION_NAME=mergin-server
+      - MAIL_SUPPRESS_SEND=${MERGIN_SERVER_MAIL_SUPPRESS_SEND}
+      - MAIL_SERVER=${MERGIN_SERVER_MAIL_SERVER}
+      - MAIL_DEFAULT_SENDER=${MERGIN_SERVER_MAIL_DEFAULT_SENDER}
+      - MAIL_USERNAME=${MERGIN_SERVER_MAIL_USERNAME}
+      - MERGIN_BASE_URL=${MERGIN_SERVER_MERGIN_BASE_URL}
+      - MERGIN_LOGO_URL=${MERGIN_SERVER_MERGIN_LOGO_URL}
+      - CONTACT_EMAIL=${MERGIN_SERVER_CONTACT_EMAIL}
+      - SLACK_HOOK_URL=${MERGIN_SERVER_SLACK_HOOK_URL}
+      - CELERY_BROKER_URL=redis://mergin-redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://mergin-redis:6379/0
+    ports:
+      - 5000
+    depends_on:
+      - db
+      - mergin-redis
+    networks:
+      - os-gis-stack   
+
+  mergin-redis:
+    image: redis
+    ports:
+      - 6379   
+    networks:
+      - os-gis-stack        
 
   ############################################################
   #
