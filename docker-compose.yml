@@ -52,6 +52,7 @@ volumes:
   odm_datasets:
   redis:
   cache:
+  generated_hugo_data:
   #
   # For uploading stuff via scp
   #
@@ -472,10 +473,17 @@ services:
     # Only runs when you do docker-compose --profile=site reset
     profiles: ["site"]
     volumes:
-      # config 
-      - hugo_conf:/src
+      # config from host mounted volume
+      - ./hugo_conf/config.yaml:/src/config.yaml
+      - ./hugo_conf/content_template:/src/content_template
+      # Rest of content comes from docker volumes
+      # Only raw markdown should be put in here
+      # This service will replace conten with default from hugo_conf/content_template
+      # which is a potentially DESTRUCTIVE operation
+      - scp_hugo_data:/src/content
+      - generated_hugo_data:/src
     restart: never
-    entrypoint: "cp /src/config.yaml.example /src/config.yaml"
+    entrypoint: "cat /src/config.yaml.example > /src/config.yaml"
 
   site-init:
     # A run once container that reset all the default content of the hugo site
@@ -487,12 +495,15 @@ services:
     # Only runs when you do docker-compose --profile=site reset
     profiles: ["site"]
     volumes:
-      # config 
-      - hugo_conf:/src
+      # config from host mounted volume
+      - ./hugo_conf/config.yaml:/src/config.yaml
+      - ./hugo_conf/content_template:/src/content_template
+      # Rest of content comes from docker volumes
       # Only raw markdown should be put in here
       # This service will replace conten with default from hugo_conf/content_template
       # which is a potentially DESTRUCTIVE operation
       - scp_hugo_data:/src/content
+      - generated_hugo_data:/src
 
     restart: never
     entrypoint: "cp -r /src/content_template/* /src/content/"
@@ -507,11 +518,15 @@ services:
     # Only runs when you do docker-compose --profile=site build
     profiles: ["site"]
     volumes:
-      # config
-      - hugo_conf:/src
-      # Mounted in SCP and to Hugo for rendering static pages
+      # config from host mounted volume
+      - ./hugo_conf/config.yaml:/src/config.yaml
+      - ./hugo_conf/content_template:/src/content_template
+      # Rest of content comes from docker volumes
       # Only raw markdown should be put in here
-      - scp_hugo_data:/src/content     
+      # This service will replace conten with default from hugo_conf/content_template
+      # which is a potentially DESTRUCTIVE operation
+      - scp_hugo_data:/src/content
+      - generated_hugo_data:/src   
     restart: never
 
 #######################################################
