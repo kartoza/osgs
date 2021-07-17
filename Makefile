@@ -235,8 +235,8 @@ redeploy-mergin:
 	@git clone git@github.com:lutraconsulting/mergin-db-sync.git --depth=1
 	@cd mergin-db-sync; docker build --no-cache -t mergin_db_sync .; cd ..
 	@rm -rf mergin-db-sync
-	@docker-compose up -d mergin-sync
-	@docker-compose logs -f mergin-sync
+	@docker-compose --profile=mergin up -d mergin-sync
+	@docker-compose --profile=mergin logs -f mergin-sync
 
 reinitialise-mergin:
 	@echo
@@ -251,16 +251,23 @@ reinitialise-mergin:
 	-@docker-compose exec -u postgres db psql -c "drop schema qgis_demo cascade;" gis 
 	# Next line allowed to fail
 	-@docker-compose exec -u postgres db psql -c "drop schema mergin_sync_base_do_not_touch cascade;" gis 	
-	@docker-compose up -d mergin-sync
-	@docker-compose logs -f mergin-sync
+	@docker-compose --profile=mergin up -d mergin-sync
+	@docker-compose --profile=mergin logs -f mergin-sync
 
+mergin-start:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting mergin-db-sync service"
+	@echo "------------------------------------------------------------------"
+	@docker-compose --profile=mergin up mergin-sync
+	@docker-compose --profile=mergin logs -f mergin-sync
 
 mergin-logs:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Polling mergin-db-sync logs"
 	@echo "------------------------------------------------------------------"
-	@docker-compose logs -f mergin-sync
+	@docker-compose --profile=mergin logs -f mergin-sync
 
 get-fonts:
 	@echo
@@ -385,6 +392,9 @@ site-build:
 	@echo "------------------------------------------------------------------"
 	@docker run --rm -it -v $(shell pwd)/site_data:/src klakegg/hugo:0.82.0
 
+#
+# TIM: I think we can delete this one?
+#
 site-set-output:
 	@echo "------------------------------------------------------------------"
 	@echo "Setting site publication directory to $(shell pwd)/html"
