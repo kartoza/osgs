@@ -146,12 +146,22 @@ db-qgis-project-restore:
 db-backup:
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Backing up entire postgres db"
+	@echo "Backing up entire GIS postgres db"
 	@echo "------------------------------------------------------------------"
 	@docker-compose exec -u postgres db pg_dump -Fc -f /tmp/osgisstack-database.dmp gis
 	@docker cp osgisstack_db_1:/tmp/osgisstack-database.dmp .
 	@docker-compose exec -u postgres db rm /tmp/osgisstack-database.dmp
 	@ls -lah osgisstack-database.dmp
+
+db-backupall:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Backing up all postgres databases"
+	@echo "------------------------------------------------------------------"
+	@docker-compose exec -u postgres db pg_dumpall -f /tmp/osgisstack-all-databases.dmp
+	@docker cp osgisstack_db_1:/tmp/osgisstack-all-databases.dmp .
+	@docker-compose exec -u postgres db rm /tmp/osgisstack-all-databases.dmp
+	@ls -lah osgisstack-all-databases.dmp
 
 db-backup-mergin-base-schema:
 	@echo
