@@ -7,16 +7,13 @@
 
   <!-- CSS Framework -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
-  <!-- <link rel="stylesheet" href="./css/bulma.min.css"> -->
 
   <!-- OpenLayers -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
   <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
 
-  <!-- FAVICO -->
-
   <!-- Title -->
-  <title>Geoservices - Saint Lucia</title>
+  <title>Geoservices</title>
 
   <!-- Style -->
   <style type="text/css" media="screen">
@@ -51,14 +48,21 @@
     .link-element:hover {
       transform: scale(1.04);
     }
-    .link-element .content {
-      overflow: hidden;
-      max-height: 10vh;
-    }
     .link-element a {
       color: #363636;
       text-decoration: none;
     }
+    .link-element .card-content {
+      height: 300px;
+      overflow: auto;
+    }
+    /*
+    .link-element .content {
+      overflow: hidden;
+      max-height: 10vh;
+    }
+    */
+
     .modal-effect {
       opacity: 1;
       animation: fade 1s linear;
@@ -95,10 +99,8 @@
       const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
       toggleActiveState($navbarBurgers)
       // use active toggle for modals
-      const $modalCallers = Array.prototype.slice.call(document.querySelectorAll('.content-card'), 0);
+      const $modalCallers = Array.prototype.slice.call(document.querySelectorAll('.modal-link'), 0);
       toggleActiveState($modalCallers)
-      const $navModals = Array.prototype.slice.call(document.querySelectorAll('.navbar-modal-link'), 0);
-      toggleActiveState($navModals)
       const $modalClosers = Array.prototype.slice.call(document.querySelectorAll('.modal-close'), 0);
       toggleActiveState($modalClosers)
 
@@ -143,46 +145,106 @@
       </div>
       <div id="navbarMenu" class="navbar-menu">
         <div class="navbar-end">
-          <a class="navbar-item navbar-modal-link" href="#" data-target="modal-about">About</a>
+          <a class="navbar-item" href="#about">About</a>
           <a class="navbar-item" href="#map">Map</a>
           <a class="navbar-item" href="#services">Services</a>
+          <a class="navbar-item" href="#tools">Utilities</a>
         </div>
       </div>
     </div>
   </nav>
 
 <!-- hero -->
-  <section class="hero is-medium is-info is-bold">
-    <div class="hero-body">
-      <div class="level">
-        <div class="level-left">
-          <div class="level-item">
-            <figure class="image is-128x128">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Coat_of_arms_of_Saint_Lucia.svg">
-            </figure>
-          </div>
-          <div class="level-item">
-          <div class="container">
-            <h1 class="title pb-3">
-               Geoservices
-            </h1>
-            <h2 class="subtitle pt-3">
-              By the <a href="http://www.govt.lc/">Government of Saint Lucia</a>
-            </h2>
-          </div>
+  <div class="container">
+    <section class="hero is-medium is-info is-bold landing-hero">
+      <div class="hero-body">
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <figure class="image is-128x128">
+                <img src="https://kartoza.com/static/img/kartoza-logo-only.png">
+              </figure>
+            </div>
+            <div class="level-item">
+            <div class="container">
+              <h1 class="title pb-3">
+                Geoservices
+              </h1>
+              <h2 class="subtitle pt-3">
+                By <a href="http://www.kartoza.com/">Kartoza</a>
+              </h2>
+            </div>
+            </div>
           </div>
         </div>
+      </div>
+    </section>
+  </div>
+
+<!-- page -->
+
+<!-- about -->
+  <section class="is-large">
+    <div class="container">
+      <div class="container p-6 card">
+        <a id="about" class="page-anchor"></a>
+        <h1 class="title has-text-centered">
+          About
+        </h1>
+          <div class="pl-6 pr-6 pb-2 has-text-centered">
+            <p class="pl-6 pr-6 pb-4">
+              The Geoservices Platform provides a number of services, content, components, and data for geospatial solution support.
+            </p>
+            <p class="pl-6 pr-6 pb-4">
+              This message indicates that the site configuration has not yet been completed. Please use the command <code>make site-init</code> from the project root to configure your site for production.
+            </p>
+            <p class="pl-6 pr-6 pb-4">
+            This site is a component of the OpenSource GIS Stack, a full featured complete stack with end-to-end workflows for many common GIS Infrastructure components.
+            </p>
+          </div>
       </div>
     </div>
   </section>
 
-<!-- page -->
+<!-- map -->
+  <div class="container">
+    <section class="hero is-info is-small is-bold has-text-centered">
+      <div class="hero-body">
+        <a id="map" class="page-anchor"></a>
+        <div class="container">
+          <h1 class="title p-3">
+            Map
+          </h1>
+        </div>
+      </div>
+    </section>
+  </div>
+
   <section class="is-large">
     <div class="container">
       <div class="container p-6 card">
-        <h1 class="title p-3 has-text-centered">
-          Core Services
-        </h1>
+        <div id="pagemap"class="pagemap p-3 p-3 is-fullwidth is-fullheight"></div>
+      </div>
+    </div>
+  </section>
+
+<!-- services -->
+  <div class="container">
+    <section class="hero is-info is-small is-bold has-text-centered">
+      <div class="hero-body">
+        <a id="services" class="page-anchor"></a>
+        <div class="container">
+          <h1 class="title p-3">
+            Core Services
+          </h1>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="is-large">
+    <div class="container">
+      <div class="container p-6 card">
         <h2 class="subtitle p-3 has-text-centered">
           Core Geodata Services & Application Endpoints
         </h2>
@@ -202,7 +264,6 @@
               Data Service Endpoints
             </p>
             <ul class="menu-list">
-              <li><a href="https://geoservices.govt.lc/geoserver/SaintLucia/wms">Saint Lucia GeoServer WMS</a></li>
               <li><a href="/map/?SERVICE=WMS&REQUEST=GetCapabilities">QGIS Server Capabilities Document</a></li>
               <li><a href="/mapproxy/service?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities">Map Proxy Capabilities Document</a></li>
             </ul>
@@ -220,83 +281,18 @@
   </section>
 
 <!-- break -->
-  <section class="hero is-info is-small is-bold has-text-centered">
-    <div class="hero-body">
-      <a id="map" class="page-anchor"></a>
-      <div class="container">
-        <h1 class="title p-3">
-          Map
-        </h1>
-      </div>
-    </div>
-  </section>
-
-<!-- page -->
-  <section class="is-large">
-    <div class="container">
-      <div class="container p-6 card">
-        <div id="pagemap"class="pagemap p-3 p-3 is-fullwidth is-fullheight"></div>
-      </div>
-    </div>
-  </section>
-
-<!-- break -->
-  <section class="hero unsplash is-small is-bold has-text-centered">
-    <div class="hero-body">
-      <a id="services" class="page-anchor"></a>
-      <div class="container">
-        <h1 class="title p-3">
-          Featured Services
-        </h1>
-        <h2 class="subtitle p-3">
-          Geodata Platform Showcase
-        </h2>
-      </div>
-    </div>
-  </section>
-
-<!-- tiles -->
   <div class="container">
-    <div class="section">
-
-      <div class="row columns is-multiline">
-
-        <div class="column is-4">
-          <div class="card small link-element">
-            <a class="content-card" href="#" data-target="modal-card-01">
-              <div class="card-image">
-                <figure class="image is-16by9">
-                  <img src="https://webodm.net/static/images/models/ortho.jpg" alt="">
-                </figure>
-              </div>
-              <div class="card-content">
-                <div class="content has-text-centered">
-                  <p class="title no-padding no-margin">Web ODM</p>
-                  <p class="subtitle no-padding no-margin">Open Drone Map UI</p>
-                </div>
-                <div class="content description">
-                  Web ODM is the web interface for OpenDroneMap, allowing users to process drone imagery and aerial photography to produce orthophoto mosaics and 3D pointclouds.
-                </div>
-              </div>
-            </a>
-          </div>
+    <section class="hero is-info is-small is-bold has-text-centered">
+      <div class="hero-body">
+        <div class="container">
+          <a id="tools" class="page-anchor"></a>
+          <h1 class="title p-3">
+            Utilities
+          </h1>
         </div>
-
       </div>
-
-    </div>
+    </section>
   </div>
-
-<!-- break -->
-  <section class="hero is-info is-small is-bold has-text-centered">
-    <div class="hero-body">
-      <div class="container">
-        <h1 class="title p-3">
-          Software
-        </h1>
-      </div>
-    </div>
-  </section>
 
 <!-- tiles -->
   <div class="container">
@@ -305,14 +301,13 @@
       <div class="row columns is-multiline">
         <div class="content p-3">
           <p class="has-text-centered">
-            The following Open Source Software forms a critical part of the spatial data infrastructure within Saint Lucia,
-             and users are encouraged to utilise these products and services as extensively as is practical in line with Open Data Standards.
+            The following Open Source Software forms a critical part of the spatial data infrastructure implemented within the Open GIS Stack, and users are encouraged to utilise these products and services as extensively as is practical in line with Open Data Standards.
           </p>
         </div>
 
         <div class="column is-4">
           <div class="card small link-element">
-            <a class="content-card" href="https://qgis.org/">
+            <a class="content-card modal-link" href="https://qgis.org/">
               <div class="card-image">
                 <figure class="image is-16by9">
                   <img src="https://planet.qgis.org/en/_downloads/346c98156457acb14251dbfd0b88a027/qgis-logo.svg" alt="">
@@ -333,7 +328,7 @@
 
         <div class="column is-4">
           <div class="card small link-element">
-            <a class="content-card" href="https://inputapp.io">
+            <a class="content-card modal-link" href="https://inputapp.io">
               <div class="card-image">
                 <figure class="image is-16by9">
                   <!-- <img style="background: #209CEE" src="https://inputapp.io/img/logo.svg" alt=""> -->
@@ -355,7 +350,7 @@
 
         <div class="column is-4">
           <div class="card small link-element">
-            <a class="content-card" href="https://postgis.net/">
+            <a class="content-card modal-link" href="https://postgis.net/">
               <div class="card-image">
                 <figure class="image is-16by9">
                   <img src="https://postgis.net/images/postgis-logo.png" alt="">
@@ -364,7 +359,7 @@
               <div class="card-content">
                 <div class="content has-text-centered">
                   <p class="title no-padding no-margin">PostGIS</p>
-                  <p class="subtitle no-padding no-margin">Spatial and Geographic objects for PostgreSQL</p>
+                  <p class="subtitle no-padding no-margin">Spatial objects for PostgreSQL</p>
                 </div>
                 <div class="content description">
                   PostGIS is a spatial database extender for PostgreSQL object-relational database. It adds support for geographic objects allowing location queries to be run in SQL.
@@ -378,9 +373,6 @@
 
     </div>
   </div>
-
-
-
 
 <!-- ======================================== -->
 <!-- modals -->
@@ -398,27 +390,20 @@
         <div class="media">
           <div class="media-left">
             <figure class="image is-48x48">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Coat_of_arms_of_Saint_Lucia.svg" alt="Saint Lucia Logo">
-              <!-- <img src="https://kartoza.com/static/img/kartoza-logo-only.png" alt="Kartoza Logo"> -->
+              <img src="https://kartoza.com/static/img/kartoza-logo-only.png" alt="Kartoza Logo">
             </figure>
           </div>
           <div class="media-content">
-            <p class="title is-4">Geoservices</p>
-            <p class="subtitle is-6">By the Government of Saint Lucia</p>
+            <p class="title is-4">Open GIS Stack</p>
+            <p class="subtitle is-6"><a href="https://kartoza.com/">By Kartoza</a></p>
           </div>
         </div>
         <div class="content">
           <p>
-            The Geoservices Platform provides a number of services, content, components, and data for geospatial solution support in and around Saint Lucia.
-          </p>
-          <p>
             This site is a component of the OpenSource GIS Stack, a full featured complete stack with end-to-end workflows for many common GIS Infrastructure components.
           </p>
-          <p>
-            Built and deployed by <a href="https://www.kartoza.com/"><strong>Kartoza</strong></a> as a component of the 2021 Open Source GIS Training programme, delivered in line with the objectives of the Disaster Vulnerability Reduction Project (DVRP).
-          </p>
-          <p>
-            The OpenSource GIS Stack is a composition of various Free and Open Source software, platforms, and components. The source code is available on GitHub, and community contributions are welcome.
+          <p class="pb-4">
+            The Open GIS Stack is developed and maintained by <a href="https://www.kartoza.com/"><strong>Kartoza</strong></a> and is a composition of various Free and Open Source software, platforms, and components. The source code is available on GitHub, and community contributions are welcome.
           </p>
         </div>
         <div class="content">
@@ -430,47 +415,11 @@
   <button class="modal-close is-large" aria-label="close" data-target="modal-about"></button>
 </div>
 
-
-
-  <div id="modal-card-01" class="modal modal-effect">
-    <div class="modal-background"></div>
-    <div class="modal-content is-tiny">
-      <div class="card">
-        <div class="card-image">
-          <figure class="image is-16by9">
-            <img src="https://raw.githubusercontent.com/OpenDroneMap/WebODM/master/screenshots/pointcloud.png" alt="">
-          </figure>
-        </div>
-        <div class="card-content">
-          <div class="media">
-            <div class="media-left">
-              <figure class="image is-48x48">
-                <img src="https://www.opendronemap.org/wp-content/uploads/2018/07/odm-logo.svg" alt="open drone map logo">
-              </figure>
-            </div>
-            <div class="media-content">
-              <p class="title is-4">Web ODM</p>
-              <p class="subtitle is-6">Open Drone Map UI</p>
-            </div>
-          </div>
-          <div class="content">
-          Web ODM is the web interface for OpenDroneMap, allowing users to process drone imagery and aerial photography to produce orthophoto mosaics and 3D pointclouds.
-          Petierunt uti sibi concilium totius Galliae in diem certam indicere. Morbi fringilla convallis sapien, id pulvinar odio volutpat. A communi observantia non est recedendum.
-          </div>
-          <div class="content">
-          <a href="https://www.opendronemap.org/"><button class="button is-medium is-info is-fullwidth">Go to Service</button></a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <button class="modal-close is-large" aria-label="close" data-target="modal-card-01"></button>
-  </div>
-
 <!-- footer -->
   <footer class="footer">
     <div class="content has-text-centered">
       <p>
-        This site is a component of the <a href="https://github.com/kartoza/OpenSource-GIS-Stack">OpenSource GIS Stack</a>.
+        This site is a component of the <a class="modal-link" href="#!about" data-target="modal-about">OpenSource GIS Stack</a>.
       </p>
       <p>
         Built by <a href="https://www.kartoza.com/"><strong>Kartoza</strong></a>

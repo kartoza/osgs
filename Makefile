@@ -132,7 +132,7 @@ db-qgis-project-backup:
 	@echo "Backing up QGIS project stored in db"
 	@echo "------------------------------------------------------------------"
 	@docker-compose exec -u postgres db pg_dump -f /tmp/QGISProject.sql -t qgis_projects gis
-	@docker cp maceiramergindbsync_db_1:/tmp/QGISProject.sql .
+	@docker cp osgisstack_db_1:/tmp/QGISProject.sql .
 	@docker-compose exec -u postgres db rm /tmp/QGISProject.sql
 	@ls -lah QGISProject.sql
 
@@ -141,7 +141,7 @@ db-qgis-project-restore:
 	@echo "------------------------------------------------------------------"
 	@echo "Restoring QGIS project to db"
 	@echo "------------------------------------------------------------------"
-	@docker cp QGISProject.sql maceiramergindbsync_db_1:/tmp/ 
+	@docker cp QGISProject.sql osgisstack_db_1:/tmp/ 
 	# - at start of next line means error will be ignored (in case QGIS project table isnt already there)
 	-@docker-compose exec -u postgres db psql -c "drop table qgis_projects;" gis 
 	@docker-compose exec -u postgres db psql -f /tmp/QGISProject.sql -d gis
@@ -151,12 +151,22 @@ db-qgis-project-restore:
 db-backup:
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Backing up entire postgres db"
+	@echo "Backing up entire GIS postgres db"
 	@echo "------------------------------------------------------------------"
-	@docker-compose exec -u postgres db pg_dump -Fc -f /tmp/smallholding-database.dmp gis
-	@docker cp maceiramergindbsync_db_1:/tmp/smallholding-database.dmp .
-	@docker-compose exec -u postgres db rm /tmp/smallholding-database.dmp
-	@ls -lah smallholding-database.dmp
+	@docker-compose exec -u postgres db pg_dump -Fc -f /tmp/osgisstack-database.dmp gis
+	@docker cp osgisstack_db_1:/tmp/osgisstack-database.dmp .
+	@docker-compose exec -u postgres db rm /tmp/osgisstack-database.dmp
+	@ls -lah osgisstack-database.dmp
+
+db-backupall:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Backing up all postgres databases"
+	@echo "------------------------------------------------------------------"
+	@docker-compose exec -u postgres db pg_dumpall -f /tmp/osgisstack-all-databases.dmp
+	@docker cp osgisstack_db_1:/tmp/osgisstack-all-databases.dmp .
+	@docker-compose exec -u postgres db rm /tmp/osgisstack-all-databases.dmp
+	@ls -lah osgisstack-all-databases.dmp
 
 db-backup-mergin-base-schema:
 	@echo
@@ -164,7 +174,7 @@ db-backup-mergin-base-schema:
 	@echo "Backing up mergin base schema from  postgres db"
 	@echo "------------------------------------------------------------------"
 	@docker-compose exec -u postgres db pg_dump -Fc -f /tmp/mergin-base-schema.dmp -n mergin_sync_base_do_not_touch gis
-	@docker cp maceiramergindbsync_db_1:/tmp/mergin-base-schema.dmp .
+	@docker cp osgisstack_db_1:/tmp/mergin-base-schema.dmp .
 	@docker-compose exec -u postgres db rm /tmp/mergin-base-schema.dmp
 	@ls -lah mergin-base-schema.dmp
 
@@ -240,8 +250,8 @@ redeploy-mergin:
 	@git clone git@github.com:lutraconsulting/mergin-db-sync.git --depth=1
 	@cd mergin-db-sync; docker build --no-cache -t mergin_db_sync .; cd ..
 	@rm -rf mergin-db-sync
-	@docker-compose up -d mergin-sync
-	@docker-compose logs -f mergin-sync
+	@docker-compose --profile=mergin up -d mergin-sync
+	@docker-compose --profile=mergin logs -f mergin-sync
 
 reinitialise-mergin:
 	@echo
@@ -256,16 +266,36 @@ reinitialise-mergin:
 	-@docker-compose exec -u postgres db psql -c "drop schema qgis_demo cascade;" gis 
 	# Next line allowed to fail
 	-@docker-compose exec -u postgres db psql -c "drop schema mergin_sync_base_do_not_touch cascade;" gis 	
-	@docker-compose up -d mergin-sync
-	@docker-compose logs -f mergin-sync
+	@docker-compose --profile=mergin up -d mergin-sync
+	@docker-compose --profile=mergin logs -f mergin-sync
 
+mergin-start:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting mergin-db-sync service"
+	@echo "------------------------------------------------------------------"
+	@docker-compose --profile=mergin up mergin-sync
+	@docker-compose --profile=mergin logs -f mergin-sync
 
 mergin-logs:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Polling mergin-db-sync logs"
 	@echo "------------------------------------------------------------------"
-	@docker-compose logs -f mergin-sync
+	@docker-compose --profile=mergin logs -f mergin-sync
+
+get-fonts:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Getting Google apache license and gnu free fonts"
+	@echo "and placing them into the qgis_fonts volume" 
+	@echo "------------------------------------------------------------------"
+	-@mkdir fonts
+	@cd fonts;wget  https://github.com/google/fonts/archive/refs/heads/main.zip
+	@cd fonts;unzip main.zip; rm main.zip
+	@cd fonts;wget http://ftp.gnu.org/gnu/freefont/freefont-ttf-20120503.zip
+	@cd fonts;unzip freefont-ttf-20120503.zip; rm freefont-ttf-20120503.zip
+	@cd fonts;find . -name "*.ttf" -exec mv -t . {} +
 
 
 qgis-logs:
@@ -281,18 +311,18 @@ odm-clean:
 	@echo "Note that the odm_datasets directory should be considered mutable as this script "
 	@echo "cleans out all other files"
 	@echo "------------------------------------------------------------------"
-	@sudo rm -rf odm_datasets/smallholding/odm*
-	@sudo rm -rf odm_datasets/smallholding/cameras.json
-	@sudo rm -rf odm_datasets/smallholding/img_list.txt
-	@sudo rm -rf odm_datasets/smallholding/cameras.json
-	@sudo rm -rf odm_datasets/smallholding/opensfm
-	@sudo rm -rf odm_datasets/smallholding/images.json
+	@sudo rm -rf odm_datasets/osgisstack/odm*
+	@sudo rm -rf odm_datasets/osgisstack/cameras.json
+	@sudo rm -rf odm_datasets/osgisstack/img_list.txt
+	@sudo rm -rf odm_datasets/osgisstack/cameras.json
+	@sudo rm -rf odm_datasets/osgisstack/opensfm
+	@sudo rm -rf odm_datasets/osgisstack/images.json
 
 odm-run: odm-clean
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Generating ODM Ortho, DEM, DSM then clipping it and loading it into postgis"
-	@echo "Before running please remove any old images from odm_datasets/smallholding/images"
+	@echo "Before running please remove any old images from odm_datasets/osgisstack/images"
 	@echo "and copy the images that need to be mosaicked into it."
 	@echo "Note that the odm_datasets directory should be considered mutable as this script "
 	@echo "cleans out all other files"
@@ -329,40 +359,78 @@ vrt-styles:
 	@git clone git@github.com:lutraconsulting/qgis-vectortiles-styles.git
 
 
-hugo-initialise:
+site-init: site-config site-build site-set-output
+
+site-config:
 	@echo "------------------------------------------------------------------"
-	@echo "Setting up Hugo content management system"
+	@echo "Configure your static site content management system"
 	@echo "You should only do this once per site deployment"
 	@echo "------------------------------------------------------------------"
-	# Try create the dir, continue anyway if it fails (-)
-	-@mkdir hugo_data
-	@docker run --rm -it -v $(PWD)/hugo_data:/src klakegg/hugo:0.82.0 new site mysite
-	@git submodule add https://github.com/budparr/gohugo-theme-ananke.git hugo_data/themes/ananke;
-	@echo 'theme = "ananke"' >> hugo_data/config.toml
-
-hugo-create-page:
-	# The entire command must be in one line for the scope of the varable to be shared between read
+	@echo "This will replace any local configuration changes you have made"
 	@echo "------------------------------------------------------------------"
-	@echo "Creating a new page for the static site"
-	@echo "------------------------------------------------------------------"
-	# and docker command
-	@echo "Enter a section name e.g. posts and a file name for your post e.g. mypost.md: ";
-	@read -p "Section name (e.g. posts):" SECTION; \
-	    read -p "Filename (.md):" FILENAME; \
-		docker run --rm -it -v $(PWD)/hugo_data:/src klakegg/hugo:0.82.0 new $$SECTION/$$FILENAME ; \
-		echo "Now edit $$FILENAME then run make hugo-build"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@cp ./site_data/config.yaml.example ./site_data/config.yaml
+	@echo "Please enter the site domain name (default 'example.com')"
+	@read -p "Domain name: " result; \
+	  DOMAINNAME=$${result:-"example.com"} && \
+	  rpl -q {{siteDomain}} "$$DOMAINNAME" $(shell pwd)/site_data/config.yaml
+	@echo "Please enter the title of your website (default 'Geoservices')"
+	@read -p "Site Title: " result; \
+	  SITETITLE=$${result:-"Geoservices"} && \
+	  rpl -q {{siteTitle}} "$$SITETITLE" $(shell pwd)/site_data/config.yaml
+	@echo "Please enter the name of the website owner (default 'Kartoza')"
+	@read -p "Site Owner: " result; \
+	  SITEOWNER=$${result:-"Kartoza"} && \
+	  rpl -q {{ownerName}} "$$SITEOWNER" $(shell pwd)/site_data/config.yaml
+	@echo "Please supply the URL of the site owner (default 'www.kartoza.com')."
+	@read -p "Owner URL: " result; \
+	  OWNERURL=$${result:-"www.kartoza.com"} && \
+	  rpl -q {{ownerDomain}} "$$OWNERURL" $(shell pwd)/site_data/config.yaml
+	@echo "Please supply a valid public URL to the Website Logo."
+	@echo "Be sure to include the protocol prefix (e.g. https://)"
+	@read -p "Logo URL: " result; \
+	  LOGOURL=$${result:-"img/Circle-icons-stack.svg"} && \
+	  rpl -q {{logoURL}} "$$LOGOURL" $(shell pwd)/site_data/config.yaml
 
-hugo-build:
+site-reset:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Reset site configuration to default values"
+	@echo "This will replace any local configuration changes you have made"
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@cp ./site_data/config.yaml.example ./site_data/config.yaml
+
+site-build:
 	@echo "------------------------------------------------------------------"
 	@echo "Building the site, compiling html from any new pages."
 	@echo "------------------------------------------------------------------"
-	@docker run --rm -it -v $(PWD)/hugo_data:/src klakegg/hugo:0.82.0
+	@docker run --rm -it -v $(shell pwd)/site_data:/src klakegg/hugo:0.82.0
 
-hugo-serve:
+#
+# TIM: I think we can delete this one?
+#
+site-set-output:
+	@echo "------------------------------------------------------------------"
+	@echo "Setting site publication directory to $(shell pwd)/html"
+	@echo "This will remove any existing in that location"
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+ifneq ("$(wildcard ./html)","")
+	@rm -r $(shell pwd)/html
+	@echo "Existing content removed"
+else
+	@echo "Existing data not available"
+endif
+	@ln -s $(shell pwd)/site_data/public $(shell pwd)/html
+	@echo "Symbolic link created"
+
+site-serve:
 	@echo "------------------------------------------------------------------"
 	@echo "Serving the site locally - intended for local testing only."
 	@echo "------------------------------------------------------------------"
-	@docker run --rm -it -v $(PWD)/hugo_data:/src -p 1313:1313 klakegg/hugo:0.82.0 server
+	@docker run --rm -it -v $(shell pwd)/site_data:/src -p 1313:1313 klakegg/hugo:0.82.0 server
+
 
 setup-scp:
 	@echo "------------------------------------------------------------------"

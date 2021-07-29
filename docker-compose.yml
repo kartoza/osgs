@@ -27,6 +27,7 @@ x-odm-image: &odm-image opendronemap/odm
 x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
+x-hugo-image: &hugo-image klakegg/hugo:0.82.0
 
 # 
 # VOLUMES
@@ -51,6 +52,7 @@ volumes:
   odm_datasets:
   redis:
   cache:
+  generated_hugo_data:
   #
   # For uploading stuff via scp
   #
@@ -104,13 +106,16 @@ services:
     environment:
       # You can define multiple databases by providing a comma
       # separated list here.
-      - POSTGRES_DB=gis
+      # gis - for general purpose gis projects
+      # mergin-server - for mergin server flask app
+      # mergin - for mergin-db-sync
+      - POSTGRES_DB=gis,mergin-server,mergin
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       # Read the notes at
       # https://github.com/kartoza/docker-postgis#postgres-ssl-setup
       # Certificate from letsencrypt doesn't currently work
-      #- SSL_CERT_FILE=/etc/letsencrypt/live/${DOMAIN}/cert.pem
+      #- SSL_CERT_FILE=/etc/letsencrypt/live/${DOMAIN}/cert.pems
       #- SSL_KEY_FILE=/etc/letsencrypt/live/${DOMAIN}/privkey.pem
       #- SSL_CA_FILE=/your/own/ssl_ca_file.pem
       # Force clients to connect with SSL - will add hostssl
@@ -136,7 +141,7 @@ services:
     networks:
      - os-gis-stack
     ports:
-      - ${POSTGRES_PUBLIC_PORT}:5432 
+      - ${POSTGRES_PUBLIC_PORT}:${POSTGRES_PRIVATE_PORT} 
     restart: unless-stopped
     healthcheck:
         test: "exit 0"
@@ -373,12 +378,13 @@ services:
       - PRODUCTION=false
       - PROCESSES=4
       - THREADS=10
-    user: "1000:10001"
+    user: "1000:1000"
     volumes:
       - mapproxy_data:/mapproxy/
       - ./mapproxy_conf/app.py:/mapproxy/app.py
       - ./mapproxy_conf/seed.yaml:/mapproxy/seed.yaml
       - ./mapproxy_conf/mapproxy.yaml:/mapproxy/mapproxy.yaml
+      - ./mapproxy_conf/clip:/mapproxy/clip
     networks:
      - os-gis-stack
 
@@ -395,15 +401,16 @@ services:
     command: ["-c", "4", "-s", "/mapproxy/seed.yaml", "-f",  "/mapproxy/mapproxy.yaml"]
     env_file: .env
     environment:
-      - PRODUCTION=false
-      - PROCESSES=4
-      - THREADS=10
-    user: "1000:10001"
+      - PRODUCTION=True
+      - PROCESSES=30
+      - THREADS=100
+    user: "1000:1000"
     volumes:
       - mapproxy_data:/mapproxy/
       - ./mapproxy_conf/app.py:/mapproxy/app.py
       - ./mapproxy_conf/seed.yaml:/mapproxy/seed.yaml
       - ./mapproxy_conf/mapproxy.yaml:/mapproxy/mapproxy.yaml
+      - ./mapproxy_conf/clip:/mapproxy/clip
     networks:
       - os-gis-stack
     
@@ -416,7 +423,7 @@ services:
     profiles: ["all","production","postgrest","dev"]
     env_file: .env
     environment:
-      PGRST_DB_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/gis
+      PGRST_DB_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PUBLIC_PORT}/gis
       PGRST_DB_SCHEMA: ${PGRST_DB_SCHEMA}
       # In production this role should not be the same as the one used for the connection
       # depends_on
@@ -449,6 +456,86 @@ services:
       - postgrest
     networks:
       - os-gis-stack
+
+#######################################################
+#
+# Run-once services for generating hugo site content etc.
+#
+#######################################################
+      
+  site-reset:
+    # A run once container that reset all the config of the hugo site
+    # Treat this as a run-once job and run it using either
+    # docker-compose --profile=site run site-reset
+    # or 
+    # make site-reset
+    image: *hugo-image
+    # Only runs when you do docker-compose --profile=site reset
+    profiles: ["site"]
+    volumes:
+      # config from host mounted volume
+      - ./hugo_conf/config.yaml:/src/config.yaml
+      - ./hugo_conf/content_template:/src/content_template
+      # Rest of content comes from docker volumes
+      # Only raw markdown should be put in here
+      # This service will replace conten with default from hugo_conf/content_template
+      # which is a potentially DESTRUCTIVE operation
+      - scp_hugo_data:/src/content
+      - generated_hugo_data:/src
+    restart: never
+    entrypoint: "cat /src/config.yaml.example > /src/config.yaml"
+
+  site-init:
+    # A run once container that reset all the default content of the hugo site
+    # Treat this as a run-once job and run it using either
+    # docker-compose --profile=site run site-init
+    # or 
+    # make site-reset
+    image: *hugo-image
+    # Only runs when you do docker-compose --profile=site reset
+    profiles: ["site"]
+    volumes:
+      # config from host mounted volume
+      - ./hugo_conf/config.yaml:/src/config.yaml
+      - ./hugo_conf/content_template:/src/content_template
+      # Rest of content comes from docker volumes
+      # Only raw markdown should be put in here
+      # This service will replace conten with default from hugo_conf/content_template
+      # which is a potentially DESTRUCTIVE operation
+      - scp_hugo_data:/src/content
+      - generated_hugo_data:/src
+
+    restart: never
+    entrypoint: "cp -r /src/content_template/* /src/content/"
+
+  site-build:
+    # A run once container that build all the static content of the hugo site
+    # Treat this as a run-once job and run it using either
+    # docker-compose --profile=site run build
+    # or 
+    # make odm
+    image: *hugo-image
+    # Only runs when you do docker-compose --profile=site build
+    profiles: ["site"]
+    volumes:
+      # config from host mounted volume
+      - ./hugo_conf/config.yaml:/src/config.yaml
+      - ./hugo_conf/content_template:/src/content_template
+      # Rest of content comes from docker volumes
+      # Only raw markdown should be put in here
+      # This service will replace conten with default from hugo_conf/content_template
+      # which is a potentially DESTRUCTIVE operation
+      - scp_hugo_data:/src/content
+      - generated_hugo_data:/src   
+    restart: never
+
+#######################################################
+#
+# We provide an SCP server for copying content up to 
+# the various services. View the readme for details.
+#
+#######################################################
+
   scp:
     image: *scp-image
     profiles: ["all","production","scp","dev"]
@@ -506,7 +593,7 @@ services:
       - mergin_sync_data:/tmp
     env_file: .env
     environment:
-      - DB_CONN_INFO=host=db dbname=gis user=${POSTGRES_USER} password=${POSTGRES_PASSWORD} sslmode=require
+      - DB_CONN_INFO=host=db dbname=${MERGIN_DATABASE} user=${POSTGRES_USER} password=${POSTGRES_PASSWORD} sslmode=require
       - DB_SCHEMA_MODIFIED=${DB_SCHEMA_MODIFIED}
       - DB_SCHEMA_BASE=${DB_SCHEMA_BASE}
       - MERGIN_USERNAME=${MERGIN_USER}
@@ -535,8 +622,10 @@ services:
       - MERGIN_URL=${MERGIN_URL}
       - MERGIN_USER=${MERGIN_USER}
       - MERGIN_PASSWORD=${MERGIN_PASSWORD}
-    command: "download-shared"
+    command: "download"
+    command: "download tim1/GloriousProjectOfMagnificence /home/mergin/project"
     #command: "/bin/sh -c 'set -x; mergin.sh download $MERGIN_PROJECT; while :; do sleep 1m & wait $${!}; set -x; cd $MERGIN_PROJECT; mergin pull; cd ..; done' "
+    
     volumes:
       # Host mounted volume
       # Mounted in SCP and to QGIS Server for serving QGIS projects
@@ -584,7 +673,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - POSTGRES_DBNAME=gis
-      - POSTGRES_PORT=5432
+      - POSTGRES_PORT=${POSTGRES_PUBLIC_PORT}
       - POSTGRES_HOST=db
       # seconds between 2 executions of the script if 0, then no
       # update will be done, only the first initial import from the
@@ -674,7 +763,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - POSTGRES_DBNAME=gis
-      - POSTGRES_PORT=5432
+      - POSTGRES_PORT=${POSTGRES_PUBLIC_PORT}
       - POSTGRES_HOST=db
       # These are all currently the defaults but listed here for
       # your convenience if you want to change them.
@@ -727,6 +816,69 @@ services:
       - postgrest
       - swagger
 
+
+  ############################################################
+  #
+  #
+  # Mergin Server services. See https://github.com/lutraconsulting/mergin
+  # 
+  #
+  ############################################################
+
+  mergin-server:
+    image: lutraconsulting/mergin
+    container_name: mergin-server
+    volumes:
+      - ./projects:/data  # map data dir to host
+    env_file: .env      
+    environment:
+      - VERSION=${MERGIN_SERVER_VERSION}
+      - SWAGGER_UI=0
+      - SECRET_KEY=${MERGIN_SERVER_SECRET_KEY}
+      - SECURITY_PASSWORD_SALT=fixme
+      - LOCAL_PROJECTS=/data
+      - MAINTENANCE_FILE=/data/MAINTENANCE
+      - USER_SELF_REGISTRATION=1
+      - USE_X_ACCEL=${MERGIN_SERVER_USE_X_ACCEL}
+      - GEODIFF_LOGGER_LEVEL=${MERGIN_SERVER_GEODIFF_LOGGER_LEVEL}
+      - TEMP_DIR=/data/tmp
+      - MERGIN_TESTING=${MERGIN_SERVER_MERGIN_TESTING}
+      - MAX_CHUNK_SIZE=${MERGIN_SERVER_MAX_CHUNK_SIZE}
+      - TEMP_EXPIRATION=${MERGIN_SERVER_TEMP_EXPIRATION}
+      - DELETED_PROJECT_EXPIRATION=${MERGIN_SERVER_DELETED_PROJECT_EXPIRATION}
+      - CLOSED_ACCOUNT_EXPIRATION=${MERGIN_SERVER_CLOSED_ACCOUNT_EXPIRATION}
+      - DEFAULT_STORAGE_SIZE=${MERGIN_SERVER_DEFAULT_STORAGE_SIZE}
+      # TODO - create separate user for mergin db so it does not have superuser rights
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_HOST=db
+      - DB_PORT=${POSTGRES_PUBLIC_PORT}
+      # Check if this is the db name?
+      - DB_APPLICATION_NAME=mergin-server
+      - MAIL_SUPPRESS_SEND=${MERGIN_SERVER_MAIL_SUPPRESS_SEND}
+      - MAIL_SERVER=${MERGIN_SERVER_MAIL_SERVER}
+      - MAIL_DEFAULT_SENDER=${MERGIN_SERVER_MAIL_DEFAULT_SENDER}
+      - MAIL_USERNAME=${MERGIN_SERVER_MAIL_USERNAME}
+      - MERGIN_BASE_URL=${MERGIN_SERVER_MERGIN_BASE_URL}
+      - MERGIN_LOGO_URL=${MERGIN_SERVER_MERGIN_LOGO_URL}
+      - CONTACT_EMAIL=${MERGIN_SERVER_CONTACT_EMAIL}
+      - SLACK_HOOK_URL=${MERGIN_SERVER_SLACK_HOOK_URL}
+      - CELERY_BROKER_URL=redis://mergin-redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://mergin-redis:6379/0
+    ports:
+      - 5000
+    depends_on:
+      - db
+      - mergin-redis
+    networks:
+      - os-gis-stack   
+
+  mergin-redis:
+    image: redis
+    ports:
+      - 6379   
+    networks:
+      - os-gis-stack        
 
   ############################################################
   #

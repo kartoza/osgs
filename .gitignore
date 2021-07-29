@@ -36,3 +36,11 @@ mapproxy_conf/seed.yml
 pbf_fetcher/Dockerfile
 .env-geonode
 osm_conf/clip.geojson
+*.code-workspace
+hugo.exe
+site_data/config.yaml
+site_data/*.cmd
+site_data/public/
+
+fonts
+
