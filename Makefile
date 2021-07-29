@@ -1,9 +1,14 @@
 SHELL := /bin/bash
 
+menu:
+	RESULT := $(dialog --checklist
+
 build:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Fetching pbf if not cached and then copying to settings dir"
+	@echo "You can download PBF files from GeoFabrik here:"
+	@echo "https://download.geofabrik.de/"
 	@echo "------------------------------------------------------------------"
 	@read -p "URL For Country PBF File: " URL; \
 	   cp pbf_fetcher/Dockerfile.example pbf_fetcher/Dockerfile; \
