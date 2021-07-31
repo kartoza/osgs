@@ -27,7 +27,7 @@ x-odm-image: &odm-image opendronemap/odm
 x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
-x-hugo-image: &hugo-image klakegg/hugo:0.82.0
+x-hugo-image: &hugo-image kartoza/hugo-watcher:latest
 
 # 
 # VOLUMES
@@ -50,6 +50,7 @@ volumes:
   osm_cache:
   odm_cutline:
   odm_datasets:
+  mergin-projects:
   redis:
   cache:
   generated_hugo_data:
@@ -94,7 +95,7 @@ services:
 
   db:
     image: *postgres-image
-    profiles: ["all","db", "production","nginx","postgres","osm","geoserver","qgis-server", "mergin", "dev"]
+    profiles: ["all","db", "production","nginx","postgres","osm","geoserver","qgis-server", "mergin", "mergin-server", "dev"]
     volumes:
       # Persistent storage of the database cluster 
       - postgis_data:/var/lib/postgresql
@@ -227,10 +228,11 @@ services:
   # Nginx with ssl      
   nginx:
     image: *nginx-image
-    profiles: ["all","production","nginx"]
+    profiles: ["all","production","nginx","mergin-server"]
     volumes:
      - ./html:/var/www/html
      - ./nginx_conf/nginx.conf:/etc/nginx/nginx.conf
+     - ./nginx_conf/htpasswd:/etc/nginx/.htpasswd
      - ./certbot/certbot/conf:/etc/letsencrypt
      - ./certbot/certbot/www:/var/www/certbot
      # Mount the mergin db sync data into nginx so we can access
@@ -240,6 +242,8 @@ services:
      # To do that the mergin project needs to be set up accordingly
      # - TODO for the future
      - mergin_sync_data:/mergin-data
+     # mount the hugo data folder so that we can serve the static site
+     - generated_hugo_data:/hugo
     # This makes nginx reload its configuration (and certificates)
     # every six hours in the background and launches nginx in the
     # foreground.
@@ -459,75 +463,35 @@ services:
 
 #######################################################
 #
-# Run-once services for generating hugo site content etc.
+# Hugo static content management
+#
+# docker-compose --profile=site run hugo-watcher
+#
+# Then use the docker scp containers to upload content
+# into the hugo dir.
 #
 #######################################################
       
-  site-reset:
-    # A run once container that reset all the config of the hugo site
-    # Treat this as a run-once job and run it using either
-    # docker-compose --profile=site run site-reset
-    # or 
-    # make site-reset
-    image: *hugo-image
-    # Only runs when you do docker-compose --profile=site reset
-    profiles: ["site"]
-    volumes:
-      # config from host mounted volume
-      - ./hugo_conf/config.yaml:/src/config.yaml
-      - ./hugo_conf/content_template:/src/content_template
-      # Rest of content comes from docker volumes
-      # Only raw markdown should be put in here
-      # This service will replace conten with default from hugo_conf/content_template
-      # which is a potentially DESTRUCTIVE operation
-      - scp_hugo_data:/src/content
-      - generated_hugo_data:/src
-    restart: never
-    entrypoint: "cat /src/config.yaml.example > /src/config.yaml"
-
-  site-init:
-    # A run once container that reset all the default content of the hugo site
-    # Treat this as a run-once job and run it using either
-    # docker-compose --profile=site run site-init
-    # or 
-    # make site-reset
-    image: *hugo-image
-    # Only runs when you do docker-compose --profile=site reset
-    profiles: ["site"]
-    volumes:
-      # config from host mounted volume
-      - ./hugo_conf/config.yaml:/src/config.yaml
-      - ./hugo_conf/content_template:/src/content_template
-      # Rest of content comes from docker volumes
-      # Only raw markdown should be put in here
-      # This service will replace conten with default from hugo_conf/content_template
-      # which is a potentially DESTRUCTIVE operation
-      - scp_hugo_data:/src/content
-      - generated_hugo_data:/src
-
-    restart: never
-    entrypoint: "cp -r /src/content_template/* /src/content/"
-
-  site-build:
-    # A run once container that build all the static content of the hugo site
-    # Treat this as a run-once job and run it using either
-    # docker-compose --profile=site run build
+  hugo-watcher:
+    # This service watches for changes in the static content
+    # source files of the hugo site and rebuilds the site 
+    # whenver a source file is changed.
+    # Use the scp service to upload your markdown files to
+    # scp_hugo_data.
+    # docker-compose --profile=site run site-build
     # or 
     # make odm
     image: *hugo-image
-    # Only runs when you do docker-compose --profile=site build
     profiles: ["site"]
     volumes:
+      - generated_hugo_data:/src/public
+      # Only raw markdown should be put in here
+      # This service will replace content with default from hugo_conf/content_template
+      # which is a potentially DESTRUCTIVE operation
+      - scp_hugo_data:/src/content
       # config from host mounted volume
       - ./hugo_conf/config.yaml:/src/config.yaml
       - ./hugo_conf/content_template:/src/content_template
-      # Rest of content comes from docker volumes
-      # Only raw markdown should be put in here
-      # This service will replace conten with default from hugo_conf/content_template
-      # which is a potentially DESTRUCTIVE operation
-      - scp_hugo_data:/src/content
-      - generated_hugo_data:/src   
-    restart: never
 
 #######################################################
 #
@@ -827,9 +791,9 @@ services:
 
   mergin-server:
     image: lutraconsulting/mergin
-    container_name: mergin-server
+    profiles: ["all", "mergin-server"]
     volumes:
-      - ./projects:/data  # map data dir to host
+      - mergin-projects:/data  # map data dir to host
     env_file: .env      
     environment:
       - VERSION=${MERGIN_SERVER_VERSION}
@@ -875,6 +839,7 @@ services:
 
   mergin-redis:
     image: redis
+    profiles: ["all", "mergin-server"]
     ports:
       - 6379   
     networks:
