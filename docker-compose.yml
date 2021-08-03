@@ -232,6 +232,10 @@ services:
     volumes:
      - ./html:/var/www/html
      - ./nginx_conf/nginx.conf:/etc/nginx/nginx.conf
+     - ./nginx_conf/servername.conf:/etc/nginx/servername.conf
+     - ./nginx_conf/ssl.conf:/etc/nginx/ssl.conf
+     - ./nginx_conf/upstreams:/etc/nginx/upstreams
+     - ./nginx_conf/locations:/etc/nginx/locations
      - ./nginx_conf/htpasswd:/etc/nginx/.htpasswd
      - ./certbot/certbot/conf:/etc/letsencrypt
      - ./certbot/certbot/www:/var/www/certbot

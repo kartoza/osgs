@@ -37,24 +37,32 @@ prepare-templates:
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
 	@cp .env.example .env
-	@cp nginx_conf/nginx.conf.example nginx_conf/nginx.conf
 	@cp nginx_certbot_init_conf/nginx.conf.example nginx_certbot_init_conf/nginx.conf
+	@echo "Creating user 'web' for protected areas of the web site"
+	@export PASSWD=$(pwgen 20 1); \
+	       	htpasswd -cbB nginx_conf/nginx.conf htpasswd web $$PASSWD; \
+		echo "#User account for protected areas of the site using httpauth" >> .env \
+		echo "#You can add more accounts to nginx_conf/htpasswd using the htpasswd tool" >> .env \
+		echo $$PASSWD >> .env
 	@cp init-letsencrypt.sh.example init-letsencrypt.sh
 	@export PASSWD=$$(pwgen 20 1); \
-	    rpl POSTGRES_PASSWORD=docker POSTGRES_PASSWORD=$$PASSWD .env; \
-	    echo "Postgres password set to $$PASSWD"
+		rpl POSTGRES_PASSWORD=docker POSTGRES_PASSWORD=$$PASSWD .env; \
+		echo "Postgres password set to $$PASSWD"
 	@export PASSWD=$$(pwgen 20 1); \
-	    rpl GEOSERVER_ADMIN_PASSWORD=myawesomegeoserver GEOSERVER_ADMIN_PASSWORD=$$PASSWD .env; \
-	    echo "GeoServer password set to $$PASSWD"
+		rpl GEOSERVER_ADMIN_PASSWORD=myawesomegeoserver GEOSERVER_ADMIN_PASSWORD=$$PASSWD .env; \
+		echo "GeoServer password set to $$PASSWD"
 	@echo "Please enter the timezone for your server"
 	@echo "See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
 	@echo "Follow exactly the format of the TZ Database Name column"
 	@read -p "Server Time Zone (e.g. Etc/UTC):" TZ; \
 	   rpl TIMEZONE=Etc/UTC TIMEZONE=$$TZ .env
+	@cp nginx_conf/ssl.conf.example nginx_conf/ssl.conf
+	@cp nginx_conf/servername.conf.example nginx_conf/servername.conf
 	@echo "Please enter your valid domain name for the site and SSL cert"
 	@echo "e.g. example.org or subdomain.example.org:"
 	@read -p "Domain name: " DOMAIN; \
-	   rpl example.org $$DOMAIN nginx_conf/nginx.conf nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh .env; 
+		rpl example.org $$DOMAIN nginx_conf/ssl.conf nginx_conf/servername.conf \
+		nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh .env; 
 	@read -p "Valid Contact Person Email Address: " EMAIL; \
 	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh .env
 	@echo "=========================:"
