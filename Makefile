@@ -113,19 +113,20 @@ init-letsencrypt:
 	@docker-compose --profile=certbot-init rm
 
 
-deploy: build
+deploy:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting all production containers"
 	@echo "------------------------------------------------------------------"
-	@docker-compose --profile=production up -d
+	@docker-compose --profile=production up -d --scale qgis-server=10 --remove-orphans
+
 
 restart:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restarting all containers"
 	@echo "------------------------------------------------------------------"
-	@docker-compose restart
+	@docker-compose --profile=production restart
 
 db-shell:
 	@echo

@@ -888,7 +888,7 @@ services:
 
   mergin-redis:
     image: redis
-    profiles: ["all", "mergin-server"]
+    profiles: ["all", "mergin-server", "production"]
     ports:
       - 6379   
     networks:
