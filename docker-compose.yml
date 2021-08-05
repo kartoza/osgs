@@ -27,7 +27,8 @@ x-odm-image: &odm-image opendronemap/odm
 x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
-x-hugo-image: &hugo-image kartoza/hugo-watcher:latest
+x-hugo-image: &hugo-image hugo-watcher:latest
+#x-hugo-image: &hugo-image kartoza/hugo-watcher:latest
 
 # 
 # VOLUMES
@@ -467,17 +468,61 @@ services:
 
 #######################################################
 #
-# Hugo static content management
+# Run-once services for generating hugo site content etc.
 #
-# docker-compose --profile=site run hugo-watcher
+# For new deployments run in this sequence:
+#
+# docker-compose --profile=site run site-reset
+# docker-compose --profile=site run site-init
+# docker-compose --profile=site run site-build
 #
 # Then use the docker scp containers to upload content
 # into the hugo dir.
 #
 #######################################################
       
-  hugo-watcher:
-    # This service watches for changes in the static content
+  site-reset:
+    # A run once container that reset the config.yaml of the hugo site
+    # Treat this as a run-once job and run it using either
+    # docker-compose --profile=site run site-reset
+    # or 
+    # make site-reset
+    # Typically we don't use host mounted volumes 
+    # but for this case we cannot mount files
+    # that don't exist (config.yaml) so we mount 
+    # the parent volume as source to copy over the template
+    image: *hugo-image
+    profiles: ["site"]
+    volumes:
+      # config from host mounted volume
+      - ./hugo_conf:/src/
+    entrypoint: ["/bin/sh", "-c",  "cat /src/config.yaml.example > /src/config.yaml"]
+
+  site-init:
+    # A run once container that reset all the default content of the hugo site
+    # Treat this as a run-once job and run it using either
+    # docker-compose --profile=site run site-init
+    # or 
+    # make site-init
+    image: *hugo-image
+    profiles: ["site"]
+    volumes:
+      - generated_hugo_data:/src
+      # Only raw markdown should be put in here
+      # This service will replace content with defaults
+      # from hugo_conf/content_template
+      # which is a potentially DESTRUCTIVE operation
+      - scp_hugo_data:/src/content
+      # config from host mounted volume
+      - ./hugo_conf/config.yaml:/src/config.yaml
+      - ./hugo_conf/content_template:/src/content_template
+    #entrypoint: ["tail", "-f", "/dev/null"]
+    #entrypoint: "ls /src/content"
+    #entrypoint: "ls /src/content_template/"
+    entrypoint: "cp -r /src/content_template/* /src/content/"
+
+  site-build:
+    # Thi service watches for changes in the static content
     # source files of the hugo site and rebuilds the site 
     # whenver a source file is changed.
     # Use the scp service to upload your markdown files to
@@ -486,7 +531,7 @@ services:
     # or 
     # make odm
     image: *hugo-image
-    profiles: ["site"]
+    profiles: ["site", "production"]
     volumes:
       - generated_hugo_data:/src/public
       # Only raw markdown should be put in here
@@ -795,7 +840,7 @@ services:
 
   mergin-server:
     image: lutraconsulting/mergin
-    profiles: ["all", "mergin-server"]
+    profiles: ["all", "mergin-server", "production"]
     volumes:
       - mergin-projects:/data  # map data dir to host
     env_file: .env      

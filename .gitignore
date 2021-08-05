@@ -42,6 +42,9 @@ hugo.exe
 site_data/config.yaml
 site_data/*.cmd
 site_data/public/
+mapproxy_conf/clip/*
+mapproxy_conf/seed.yaml
+nginx_conf/htpasswd
 
 fonts
 
