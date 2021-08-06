@@ -45,6 +45,7 @@ site_data/public/
 mapproxy_conf/clip/*
 mapproxy_conf/seed.yaml
 nginx_conf/htpasswd
+docs/build
 
 fonts
 

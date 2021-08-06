@@ -535,8 +535,6 @@ services:
     volumes:
       - generated_hugo_data:/src/public
       # Only raw markdown should be put in here
-      # This service will replace content with default from hugo_conf/content_template
-      # which is a potentially DESTRUCTIVE operation
       - scp_hugo_data:/src/content
       # config from host mounted volume
       - ./hugo_conf/config.yaml:/src/config.yaml

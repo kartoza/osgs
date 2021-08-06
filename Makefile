@@ -3,7 +3,7 @@ SHELL := /bin/bash
 menu:
 	RESULT := $(dialog --checklist
 
-build:
+build-bpf:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Fetching pbf if not cached and then copying to settings dir"
