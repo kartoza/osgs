@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to OpenSourceGISStack's documentation!
+Open Source GIS Stack (OSGS documentation)
 ==============================================
 
 .. toctree::
@@ -14,7 +14,12 @@ Welcome to OpenSourceGISStack's documentation!
    introduction
    server_preparation
    initial_configuration
-
+   scp
+   postgis
+   qgis_server_scaling
+   geoserver
+   mergin_projects
+   osm
 
 
 Indices and tables
