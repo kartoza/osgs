@@ -13,8 +13,10 @@ OSGS
    introduction
    server_preparation
    initial_configuration
+   production_stack
    scp
    postgis
+   postgresql_workflows
    qgis_server_scaling
    geoserver
    mergin_projects
