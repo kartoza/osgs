@@ -3,14 +3,13 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Open Source GIS Stack (OSGS documentation)
+OSGS
 ==============================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   building_docs
    introduction
    server_preparation
    initial_configuration
@@ -20,6 +19,7 @@ Open Source GIS Stack (OSGS documentation)
    geoserver
    mergin_projects
    osm
+   building_docs
 
 
 Indices and tables

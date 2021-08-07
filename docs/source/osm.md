@@ -74,23 +74,23 @@ The steps for publishing with GeoServer are quite simple:
    screenshot below, replacing the password with the Postgres password
    stored in .env:
 
-   ![Store Creation in GeoServer](img/../docs/img/geoserver-osm-1.png)
+   ![Store Creation in GeoServer](img/geoserver-osm-1.png)
 
    Also, be sure to scroll down and set SSL mode to Required:
 
-   ![SSL Mode Required](img/../docs/img/geoserver-osm-5.png)
+   ![SSL Mode Required](img/geoserver-osm-5.png)
 
 
 3. Register one or more layers from that store as per the image below:
    
-   ![Layer Creation in GeoServer](img/../docs/img/geoserver-osm-2.png)
+   ![Layer Creation in GeoServer](img/geoserver-osm-2.png)
 
 4.Complete the layer details as appropriate and make sure to click the options highlighted in red in the screenshot below:
 
    
-   ![Adding a GeoServer WMS layer in QGIS](img/../docs/img/geoserver-osm-3.png)
+   ![Adding a GeoServer WMS layer in QGIS](img/geoserver-osm-3.png)
 
-5. Connect to the GeoServer from a client e.g. QGIS using WFS or WMS using the scheme:
+1. Connect to the GeoServer from a client e.g. QGIS using WFS or WMS using the scheme:
 
 https://example.org/geoserver/SaintLucia/wfs
 
@@ -98,7 +98,7 @@ or
 
 https://example.org/geoserver/SaintLucia/wms
 
-   ![Layer Details in GeoServer](img/../docs/img/geoserver-osm-4.png)
+   ![Layer Details in GeoServer](img/geoserver-osm-4.png)
 
 
 ## Publishing with QGIS Server

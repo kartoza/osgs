@@ -21,4 +21,4 @@ This project provides a platform for creating, sharing and publishing data and m
 
 ## Overview Diagram
 
-![Overview Diagram](diagrams/QGIS-Server-PG-Project-Design.png)
+![Overview Diagram](img/QGIS-Server-PG-Project-Design.png)
