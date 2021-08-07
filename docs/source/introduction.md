@@ -19,6 +19,11 @@ This project provides a platform for creating, sharing and publishing data and m
    9. [QGIS Server Docker Image](https://github.com/gem/oq-qgis-server) from OpenQuake.
    10. [Apache Superset](https://superset.apache.org/) to provide dashboard visualisations
 
+
+<div class="admonition warning">
+These projects are independent from the Opsn Source GIS Stack project and any issues encountered using these applications should be raised with the appropriate upstream project.
+</div>
+
 ## Overview Diagram
 
 ![Overview Diagram](img/QGIS-Server-PG-Project-Design.png)

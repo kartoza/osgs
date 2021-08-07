@@ -21,6 +21,7 @@ OSGS
    geoserver
    mergin_projects
    osm
+   fonts
    building_docs
 
 
