@@ -1,21 +1,5 @@
 SHELL := /bin/bash
 
-menu:
-	RESULT := $(dialog --checklist
-
-build-bpf:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Fetching pbf if not cached and then copying to settings dir"
-	@echo "You can download PBF files from GeoFabrik here:"
-	@echo "https://download.geofabrik.de/"
-	@echo "------------------------------------------------------------------"
-	@read -p "URL For Country PBF File: " URL; \
-	   cp pbf_fetcher/Dockerfile.example pbf_fetcher/Dockerfile; \
-	   rpl PBF_URL $$URL pbf_fetcher/Dockerfile
-	@docker-compose build pbf
-	@docker-compose run pbf
-	@docker-compose rm -f pbf
 
 ps:
 	@echo
@@ -37,25 +21,14 @@ prepare-templates:
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
 	@cp .env.example .env
+	@echo "Do you want to set up SSL using letsencrypt?"
+	@echo "This is recommended for production!"
+	@echo -n "Proceed? [y/N] " && read ans && if [ $${ans:-'N'} = 'y' ]; then make configure-ssl; fi
+
+configure-ssl:
 	@cp nginx_certbot_init_conf/nginx.conf.example nginx_certbot_init_conf/nginx.conf
 	@echo "Creating user 'web' for protected areas of the web site"
-	@export PASSWD=$(pwgen 20 1); \
-	       	htpasswd -cbB nginx_conf/nginx.conf htpasswd web $$PASSWD; \
-		echo "#User account for protected areas of the site using httpauth" >> .env \
-		echo "#You can add more accounts to nginx_conf/htpasswd using the htpasswd tool" >> .env \
-		echo $$PASSWD >> .env
 	@cp init-letsencrypt.sh.example init-letsencrypt.sh
-	@export PASSWD=$$(pwgen 20 1); \
-		rpl POSTGRES_PASSWORD=docker POSTGRES_PASSWORD=$$PASSWD .env; \
-		echo "Postgres password set to $$PASSWD"
-	@export PASSWD=$$(pwgen 20 1); \
-		rpl GEOSERVER_ADMIN_PASSWORD=myawesomegeoserver GEOSERVER_ADMIN_PASSWORD=$$PASSWD .env; \
-		echo "GeoServer password set to $$PASSWD"
-	@echo "Please enter the timezone for your server"
-	@echo "See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
-	@echo "Follow exactly the format of the TZ Database Name column"
-	@read -p "Server Time Zone (e.g. Etc/UTC):" TZ; \
-	   rpl TIMEZONE=Etc/UTC TIMEZONE=$$TZ .env
 	@cp nginx_conf/ssl.conf.example nginx_conf/ssl.conf
 	@cp nginx_conf/servername.conf.example nginx_conf/servername.conf
 	@echo "Please enter your valid domain name for the site and SSL cert"
@@ -65,12 +38,39 @@ prepare-templates:
 		nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh .env; 
 	@read -p "Valid Contact Person Email Address: " EMAIL; \
 	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh .env
+
+configure-htpasswd:
+	@export PASSWD=$(pwgen 20 1); \
+	       	htpasswd -cbB nginx_conf/nginx.conf htpasswd web $$PASSWD; \
+		echo "#User account for protected areas of the site using httpauth" >> .env \
+		echo "#You can add more accounts to nginx_conf/htpasswd using the htpasswd tool" >> .env \
+		echo $$PASSWD >> .env
+configure-pgpasswd:
+	@export PASSWD=$$(pwgen 20 1); \
+		rpl POSTGRES_PASSWORD=docker POSTGRES_PASSWORD=$$PASSWD .env; \
+		echo "Postgres password set to $$PASSWD"
+
+configure-geoserver-passwd:
+	@export PASSWD=$$(pwgen 20 1); \
+		rpl GEOSERVER_ADMIN_PASSWORD=myawesomegeoserver GEOSERVER_ADMIN_PASSWORD=$$PASSWD .env; \
+		echo "GeoServer password set to $$PASSWD"
+
+configure-timezone:
+	@echo "Please enter the timezone for your server"
+	@echo "See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
+	@echo "Follow exactly the format of the TZ Database Name column"
+	@read -p "Server Time Zone (e.g. Etc/UTC):" TZ; \
+	   rpl TIMEZONE=Etc/UTC TIMEZONE=$$TZ .env
+
+configure-postgrest:
 	@echo "=========================:"
 	@echo "PostgREST specific updates:"
 	@echo "=========================:"
 	@export PASSWD=$$(pwgen 20 1); \
 		rpl PGRST_JWT_SECRET=foobarxxxyyyzzz PGRST_JWT_SECRET=$$PASSWD .env; \
 		echo "PostGREST JWT token set to $$PASSWD"
+
+configure-mapproxy:
 	@echo "=========================:"
 	@echo "Mapproxy specific updates:"
 	@echo "=========================:"
@@ -81,6 +81,8 @@ prepare-templates:
 	@echo "You will need to hand edit those files and then "
 	@echo "restart mapproxy for those edits to take effect."
 	@echo "see: make reinitialise-mapproxy"	
+
+configure-mergin-client:
 	@echo "=========================:"
 	@echo "Mergin related configs:"
 	@echo "=========================:"
@@ -94,6 +96,8 @@ prepare-templates:
 	   rpl mergin_project_geopackage.gpkg $$PACKAGE .env
 	@read -p "Mergin Database Schema to hold mirror of geopackage): " SCHEMA; \
 	   rpl schematoreceivemergindata $$SCHEMA .env
+
+configure-osm-mirror:
 	@echo "=========================:"
 	@echo "OSM Mirror specific updates:"
 	@echo "=========================:"
@@ -111,6 +115,7 @@ init-letsencrypt:
 	@./init-letsencrypt.sh	
 	@docker-compose --profile=certbot-init kill
 	@docker-compose --profile=certbot-init rm
+	@make build-pbf
 
 
 deploy:
@@ -210,6 +215,19 @@ reinitialise-qgis-server:
 	@docker-compose restart nginx
 	@docker-compose logs -f qgis-server 
 
+build-bpf:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Fetching pbf if not cached and then copying to settings dir"
+	@echo "You can download PBF files from GeoFabrik here:"
+	@echo "https://download.geofabrik.de/"
+	@echo "------------------------------------------------------------------"
+	@read -p "URL For Country PBF File: " URL; \
+	   cp pbf_fetcher/Dockerfile.example pbf_fetcher/Dockerfile; \
+	   rpl PBF_URL $$URL pbf_fetcher/Dockerfile
+	@docker-compose build pbf
+	@docker-compose run pbf
+	@docker-compose rm -f pbf
 
 kill-osm:
 	@echo
@@ -244,11 +262,11 @@ osm-to-mbtiles:
 	@echo "------------------------------------------------------------------"
 	@echo "Creating a vector tiles store from the docker osm schema"
 	@echo "------------------------------------------------------------------"
-    #@docker-compose run osm-to-mbtiles
+        #@docker-compose run osm-to-mbtiles
 	@echo "we use below for now because the container aproach doesnt have a new enough gdal (2.x vs >=3.1 needed)"
 	@ogr2ogr -f MBTILES osm.mbtiles PG:"dbname='gis' host='localhost' port='15432' user='docker' password='docker' SCHEMAS=osm" -dsco "MAXZOOM=10 BOUNDS=-7.389126,39.410085,-7.381439,39.415144"
 	
-redeploy-mergin:
+redeploy-mergin-client:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Stopping merging container, rebuilding the image, then restarting mergin db sync"
@@ -262,7 +280,7 @@ redeploy-mergin:
 	@docker-compose --profile=mergin up -d mergin-sync
 	@docker-compose --profile=mergin logs -f mergin-sync
 
-reinitialise-mergin:
+reinitialise-mergin-client:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Deleting mergin database schemas and removing local sync files"
@@ -278,7 +296,7 @@ reinitialise-mergin:
 	@docker-compose --profile=mergin up -d mergin-sync
 	@docker-compose --profile=mergin logs -f mergin-sync
 
-mergin-start:
+mergin-dbsycn-start:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting mergin-db-sync service"
@@ -286,7 +304,7 @@ mergin-start:
 	@docker-compose --profile=mergin up mergin-sync
 	@docker-compose --profile=mergin logs -f mergin-sync
 
-mergin-logs:
+mergin-dbsync-logs:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Polling mergin-db-sync logs"
@@ -443,7 +461,7 @@ site-serve:
 
 setup-scp:
 	@echo "------------------------------------------------------------------"
-	@echo "Serving the site locally - intended for local testing only."
+	@echo "Copying .ssh/authorized keys to all scp shares."
 	@echo "------------------------------------------------------------------"
 	@cat ~/.ssh/authorized_keys > scp_conf/geoserver_data
 	@cat ~/.ssh/authorized_keys > scp_conf/qgis_projects
@@ -467,13 +485,11 @@ rm: kill
 	@echo "------------------------------------------------------------------"
 	@docker-compose rm
 
-nuke:
+nuke: rm
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Nuking Everything!
 	@echo "------------------------------------------------------------------"
-	@sudo rm -rf postgis_data/*
-	@sudo rm -rf mergin_sync_data/*
-	@sudo rm -rf geoserver_data/*
+	@sudo docker volume prune
 	@sudo rm -rf certbot/certbot
 
