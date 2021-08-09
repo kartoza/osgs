@@ -38,12 +38,13 @@ prepare-templates:
 		rpl example.org $$DOMAIN nginx_conf/servername.conf .env; 
 	@echo "We are going to set up a self signed certificate now."
 	@make configure-ssl-self-signed
-	@cp nginx_conf/ssl/certifcates.conf.selfsigned.example nginx_conf/ssl/ssl.conf
+	@cp nginx_conf/ssl/certificates.conf.selfsigned.example nginx_conf/ssl/ssl.conf
 	@echo "Afterwards if you want to put the server into production mode"
 	@echo "please run:"
 	@echo "make configure-letsencrypt-ssl"
 
 configure-ssl-self-signed:
+	@mkdir -p ./certbot/certbot/conf/
 	@openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./certbot/certbot/conf/nginx-selfsigned.key -out ./certbot/certbot/conf/nginx-selfsigned.crt
 
 configure-letsencrypt-ssl:

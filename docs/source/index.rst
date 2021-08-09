@@ -17,6 +17,7 @@ OSGS
    scp
    postgis
    postgresql_workflows
+   qgis_server
    qgis_server_scaling
    geoserver
    mergin_projects

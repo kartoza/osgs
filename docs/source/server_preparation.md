@@ -88,11 +88,11 @@ Needed for checking out our docker project and running the various make
 commands we provide.
 
 ```
-sudo apt install git make rpl pwgen openssl-devel
+sudo apt install git make rpl pwgen openssl
 ```
 
 or fedora:
 ```
-sudo dnf install openssl-devel rpl git pwgen
+sudo dnf install openssl rpl git pwgen
 ```
 
