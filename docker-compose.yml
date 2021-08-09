@@ -27,7 +27,7 @@ x-odm-image: &odm-image opendronemap/odm
 x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
-x-hugo-image: &hugo-image hugo-watcher:latest
+x-hugo-image: &hugo-image kartoza/hugo-watcher:latest
 #x-hugo-image: &hugo-image kartoza/hugo-watcher:latest
 
 # 
@@ -231,10 +231,8 @@ services:
     image: *nginx-image
     profiles: ["all","production","nginx","mergin-server"]
     volumes:
-     - ./html:/var/www/html
      - ./nginx_conf/nginx.conf:/etc/nginx/nginx.conf
      - ./nginx_conf/servername.conf:/etc/nginx/servername.conf
-     - ./nginx_conf/ssl.conf:/etc/nginx/ssl.conf
      - ./nginx_conf/upstreams:/etc/nginx/upstreams
      - ./nginx_conf/locations:/etc/nginx/locations
      - ./nginx_conf/htpasswd:/etc/nginx/.htpasswd

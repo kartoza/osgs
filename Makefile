@@ -19,7 +19,7 @@ ps:
 	@echo "------------------------------------------------------------------"
 	@docker-compose ps
 
-configure: prepare-templates init-letsencrypt deploy
+configure: prepare-templates deploy
 
 
 prepare-templates: 
@@ -27,28 +27,59 @@ prepare-templates:
 	@echo "------------------------------------------------------------------"
 	@echo "Preparing templates"
 	@echo "This will replace any local configuration changes you have made"
-	@echo "in .env, mapproxy, nginx, pbf_fetcher/Dockerfile config files "
-	@echo "and the init script for letsencrypt"
+	@echo "in .env, nginx_conf/servername.conf"
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
 	@cp .env.example .env
-	@echo "Do you want to set up SSL using letsencrypt?"
-	@echo "This is recommended for production!"
-	@echo -n "Proceed? [y/N] " && read ans && if [ $${ans:-'N'} = 'y' ]; then make configure-ssl; fi
-
-configure-ssl:
-	@cp nginx_certbot_init_conf/nginx.conf.example nginx_certbot_init_conf/nginx.conf
-	@echo "Creating user 'web' for protected areas of the web site"
-	@cp init-letsencrypt.sh.example init-letsencrypt.sh
-	@cp nginx_conf/ssl.conf.example nginx_conf/ssl.conf
 	@cp nginx_conf/servername.conf.example nginx_conf/servername.conf
-	@echo "Please enter your valid domain name for the site and SSL cert"
+	@echo "Please enter your valid domain name for the site."
 	@echo "e.g. example.org or subdomain.example.org:"
 	@read -p "Domain name: " DOMAIN; \
-		rpl example.org $$DOMAIN nginx_conf/ssl.conf nginx_conf/servername.conf \
-		nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh .env; 
+		rpl example.org $$DOMAIN nginx_conf/servername.conf .env; 
+	@echo "We are going to set up a self signed certificate now."
+	@make configure-ssl-self-signed
+	@cp nginx_conf/ssl/certifcates.conf.selfsigned.example nginx_conf/ssl/ssl.conf
+	@echo "Afterwards if you want to put the server into production mode"
+	@echo "please run:"
+	@echo "make configure-letsencrypt-ssl"
+
+configure-ssl-self-signed:
+	@openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./certbot/certbot/conf/nginx-selfsigned.key -out ./certbot/certbot/conf/nginx-selfsigned.crt
+
+configure-letsencrypt-ssl:
+	@echo "Do you want to set up SSL using letsencrypt?"
+	@echo "This is recommended for production!"
+	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@echo "Please enter your valid domain name for the SSL certificate."
+	@echo "e.g. example.org or subdomain.example.org:"
+	@read -p "Domain name: " DOMAIN; \
+		rpl example.org $$DOMAIN nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh; 
+	@cp nginx_certbot_init_conf/nginx.conf.example nginx_certbot_init_conf/nginx.conf
+	@cp init-letsencrypt.sh.example init-letsencrypt.sh
+	@cp nginx_conf/ssl/ssl.conf.example nginx_conf/ssl/ssl.conf
 	@read -p "Valid Contact Person Email Address: " EMAIL; \
 	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh .env
+
+deploy:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting all production containers"
+	@echo "------------------------------------------------------------------"
+	@docker-compose --profile=production up -d --scale qgis-server=10 --remove-orphans
+	@docker-compose --profile=production restart nginx
+
+
+init-letsencrypt:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Getting an SSL cert from letsencypt"
+	@echo "------------------------------------------------------------------"
+	@./init-letsencrypt.sh	
+	@docker-compose --profile=certbot-init kill
+	@docker-compose --profile=certbot-init rm
+	@make build-pbf
+
+
 
 configure-htpasswd:
 	@export PASSWD=$(pwgen 20 1); \
@@ -117,24 +148,6 @@ configure-osm-mirror:
 	@echo "You can easily create such a clip document"
 	@echo "at https://geojson.io or by using QGIS"
 	@read -p "Press enter to continue" CONFIRM;
-
-init-letsencrypt:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Getting an SSL cert from letsencypt"
-	@echo "------------------------------------------------------------------"
-	@./init-letsencrypt.sh	
-	@docker-compose --profile=certbot-init kill
-	@docker-compose --profile=certbot-init rm
-	@make build-pbf
-
-
-deploy:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Starting all production containers"
-	@echo "------------------------------------------------------------------"
-	@docker-compose --profile=production up -d --scale qgis-server=10 --remove-orphans
 
 
 restart:

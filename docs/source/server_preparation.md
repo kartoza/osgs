@@ -82,12 +82,17 @@ sudo snap install bpytop
 sudo apt install docker.io docker-compose
 ```
 
-### Git, rpl, pwgen and Make
+### Git, rpl, pwgen and Make. openssl
 
 Needed for checking out our docker project and running the various make
 commands we provide.
 
 ```
-sudo apt install git make rpl pwgen
+sudo apt install git make rpl pwgen openssl-devel
+```
+
+or fedora:
+```
+sudo dnf install openssl-devel rpl git pwgen
 ```
 

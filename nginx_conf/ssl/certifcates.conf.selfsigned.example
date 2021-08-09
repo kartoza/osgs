@@ -1,0 +1,2 @@
+ssl_certificate /etc/letsencrypt/nginx-selfsigned.key;
+ssl_certificate_key /etc/letsencrypt/nginx-selfsigned.crt;

@@ -27,7 +27,7 @@ scp_conf/qgis_projects
 scp_conf/qgis_svg
 pg_conf/pg_service.conf
 nginx_certbot_init_conf/nginx.conf
-nginx_conf/ssl.conf
+nginx_conf/ssl/ssl.conf
 nginx_conf/servername.conf
 init-letsencrypt.sh
 setup.sql
