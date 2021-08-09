@@ -1,5 +1,16 @@
 SHELL := /bin/bash
 
+# We need to declare phony here since the docs dir exists
+# otherwise make tries to execute the docs file directly
+.PHONY: docs
+docs:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Making docs"
+	@echo "------------------------------------------------------------------"
+	$(MAKE) -C docs html
+	$(MAKE) -C docs latexpdf
+	@cp docs/build/latex/osgs.pdf osgs-manual.pdf
 
 ps:
 	@echo
