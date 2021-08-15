@@ -16,7 +16,8 @@ x-osmenrich-image: &osm-enrich-image kartoza/docker-osm:osmenrich-latest
 # plugins etc. GeoNode needs to communicate with GeoServer
 x-geoserver-image: &geoserver-image kartoza/geoserver:2.18.2
 x-mergin-db-sync-image: &mergin-db-sync-image lutraconsulting/mergin-db-sync
-x-nginx-image: &nginx-image nginx
+# alpine spin needed for bcrypt support
+x-nginx-image: &nginx-image nginx:alpine
 x-certbot-image: &certbot-image certbot/certbot
 x-qgis-server-image: &qgis-server-image openquake/qgis-server:stable
 x-mapproxy-image: &mapproxy-image kartoza/mapproxy
@@ -28,7 +29,6 @@ x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
 x-hugo-image: &hugo-image kartoza/hugo-watcher:latest
-#x-hugo-image: &hugo-image kartoza/hugo-watcher:latest
 
 # 
 # VOLUMES
@@ -129,6 +129,8 @@ services:
      - mergin_sync_data:/mergin-data
      # mount the hugo data folder so that we can serve the static site
      - generated_hugo_data:/hugo
+     # General sharing of files to the web
+     - scp_general_data:/files
      # mount the html folder as /help and make it available
      # at /help in the web site
      # Run make docs to generate latest help
@@ -639,7 +641,7 @@ services:
       - scp_hugo_data:/data/hugo_data
       # Mounted in SCP and to ODM for processing uploaded images
       - scp_odm_data:/data/odm_data
-      # Mounted in SCP only for data sharing
+      # Mounted in SCP and under nginx as /files only for data sharing
       - scp_general_data:/data/general_data
     networks:
       - os-gis-stack  

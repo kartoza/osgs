@@ -109,6 +109,11 @@ enable-help:
 disable-help:
 	@cd nginx_conf/locations; rm help.conf
 
+enable-files:
+	@cd nginx_conf/locations; ln -s files.conf.available files.conf
+
+disable-files:
+	@cd nginx_conf/locations; rm files.conf
 
 
 setup-scp:
@@ -137,11 +142,16 @@ configure-htpasswd:
 	@echo "Accessible at /files/"
 	@echo "Access credentials will be stored in .env"
 	@echo "------------------------------------------------------------------"
-	@export PASSWD=$(pwgen 20 1); \
-	       	htpasswd -cbB nginx_conf/nginx.conf htpasswd web $$PASSWD; \
-		echo "#User account for protected areas of the site using httpauth" >> .env \
-		echo "#You can add more accounts to nginx_conf/htpasswd using the htpasswd tool" >> .env \
-		echo $$PASSWD >> .env
+	# bcrypt encrypted pwd, be sure to usie nginx:alpine nginx image
+	@export PASSWD=$$(pwgen 20 1); \
+	       	htpasswd -cbB nginx_conf/htpasswd web $$PASSWD; \
+		echo "#User account for protected areas of the site using httpauth" >> .env; \
+		echo "#You can add more accounts to nginx_conf/htpasswd using the htpasswd tool" >> .env; \
+		echo $$PASSWD >> .env; \
+		echo "Files sharing htpasswd set to $$PASSWD"
+	@make enable-files
+
+
 
 ################################################
 ##  End of initial site config targets
@@ -263,15 +273,6 @@ nginx-shell:
 	@echo "Creating nginx shell"
 	@echo "------------------------------------------------------------------"
 	@docker-compose exec nginx /bin/bash
-
-
-nginx-shell:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Creating nginx shell"
-	@echo "------------------------------------------------------------------"
-	@docker-compose exec nginx /bin/bash
-
 
 db-shell:
 	@echo
