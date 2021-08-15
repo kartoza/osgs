@@ -96,7 +96,17 @@ services:
 
   db:
     image: *postgres-image
-    profiles: ["all","db", "production","nginx","postgres","osm","geoserver","qgis-server", "mergin", "mergin-server", "dev"]
+    profiles:
+        - all
+        - db
+        - nginx
+        - postgres
+        - osm
+        - geoserver
+        - qgis-server
+        - mergin
+        - mergin-server
+        - dev
     volumes:
       # Persistent storage of the database cluster 
       - postgis_data:/var/lib/postgresql
@@ -139,7 +149,6 @@ services:
       - DEFAULT_CTYPE="en_US.UTF-8"
       - POSTGRES_TEMPLATE_EXTENSIONS=true
 
-
     networks:
      - os-gis-stack
     ports:
@@ -151,7 +160,11 @@ services:
   lizmap:
     # Need to resolve an issue with lizmap home still......
     image: *lizmap-image
-    profiles: ["all","production","nginx","lizmap", "dev"]
+    profiles:
+        - all
+        - nginx
+        - lizmap
+        - dev
     command: 
       - php-fpm
     env_file: .env
@@ -178,7 +191,11 @@ services:
   # deployed in the Kartoza GeoServer image
   geoserver:
     image: *geoserver-image
-    profiles: ["all","production","nginx","geoserver", "dev"]
+    profiles: 
+        - all
+        - nginx
+        - geoserver
+        - dev
     healthcheck:
       test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8080/geoserver"
       interval: 60s
@@ -216,7 +233,8 @@ services:
   # certbot, thereafter use the nginx or nginx-dev services       
   nginx-certbot-init:
     image: *nginx-image
-    profiles: ["certbot-init"]
+    profiles:
+        - certbot-init
     ports:
       - "80:80"
       - "443:443"
@@ -229,7 +247,11 @@ services:
   # Nginx with ssl      
   nginx:
     image: *nginx-image
-    profiles: ["all","production","nginx","mergin-server"]
+    profiles: 
+     - all
+     - production
+     - nginx
+     - mergin-server
     volumes:
      - ./nginx_conf/nginx.conf:/etc/nginx/nginx.conf
      - ./nginx_conf/servername.conf:/etc/nginx/servername.conf
@@ -264,16 +286,16 @@ services:
       options:
         max-size: 200m
         max-file: '10'
-    depends_on:
-      - qgis-server
-      - mapproxy
-      - geoserver
-      - postgrest
-      - swagger
+    #depends_on:
+      #- qgis-server
+      #- mapproxy
+      #- geoserver
+      #- postgrest
+      #- swagger
 
   certbot:
     image: *certbot-image
-    profiles: ["all","production","nginx","certbot-init"]
+    profiles: ["all","nginx","certbot-init"]
     # This checks every 12 hours if our cert is up for renewal and
     # refreshes it if needed
     # See https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
@@ -284,7 +306,11 @@ services:
 
   qgis-server:
     image: *qgis-server-image
-    profiles: ["all","production","nginx","qgis-server","dev"]
+    profiles: 
+      -  all 
+      -  nginx 
+      -  qgis-server 
+      -  dev
     #image: "openquake/qgis-server:3"
     env_file: .env
     environment:
@@ -379,7 +405,12 @@ services:
 
   mapproxy:
     image: *mapproxy-image
-    profiles: ["all","production","nginx","qgis-server","dev", "mapproxy"]
+    profiles: 
+      - all
+      - nginx
+      - qgis-server
+      - dev
+      - mapproxy
     env_file: .env
     environment:
       - PRODUCTION=false
@@ -403,7 +434,8 @@ services:
     ## fast machine
     ##
     image: *mapproxy-image
-    profiles: ["mapproxy-seed"]
+    profiles: 
+      - mapproxy-seed
     entrypoint: ["mapproxy-seed"]
     command: ["-c", "4", "-s", "/mapproxy/seed.yaml", "-f",  "/mapproxy/mapproxy.yaml"]
     env_file: .env
@@ -427,7 +459,10 @@ services:
     # Used for pushing readings from IoT devices to our database
     #
     image: *postgrest-image
-    profiles: ["all","production","postgrest","dev"]
+    profiles: 
+      - all
+      - postgrest
+      - dev
     env_file: .env
     environment:
       PGRST_DB_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PUBLIC_PORT}/gis
@@ -449,7 +484,10 @@ services:
 
   swagger:
     image: *swagger-image
-    profiles: ["all","production","postgrest","dev"]
+    profiles: 
+      - all 
+      - postgrest 
+      - dev
     ports:
       - "8080"
     volumes:
@@ -490,7 +528,8 @@ services:
     # that don't exist (config.yaml) so we mount 
     # the parent volume as source to copy over the template
     image: *hugo-image
-    profiles: ["site"]
+    profiles: 
+      - site
     volumes:
       # config from host mounted volume
       - ./hugo_conf:/src/
@@ -503,7 +542,8 @@ services:
     # or 
     # make site-init
     image: *hugo-image
-    profiles: ["site"]
+    profiles: 
+      - site
     volumes:
       - generated_hugo_data:/src
       # Only raw markdown should be put in here
@@ -519,8 +559,8 @@ services:
     #entrypoint: "ls /src/content_template/"
     entrypoint: "cp -r /src/content_template/* /src/content/"
 
-  site-build:
-    # Thi service watches for changes in the static content
+  hugo-watcher:
+    # This service watches for changes in the static content
     # source files of the hugo site and rebuilds the site 
     # whenver a source file is changed.
     # Use the scp service to upload your markdown files to
@@ -529,7 +569,9 @@ services:
     # or 
     # make odm
     image: *hugo-image
-    profiles: ["site", "production"]
+    profiles: 
+      - site
+      - production
     volumes:
       - generated_hugo_data:/src/public
       # Only raw markdown should be put in here
@@ -547,7 +589,12 @@ services:
 
   scp:
     image: *scp-image
-    profiles: ["all","production","scp","dev"]
+    profiles: 
+      - all
+      - production
+      - scp
+      - dev
+      - site
     ports:
       # This is one of the few cases where we are 
       # exposing a port to the host. Users should
@@ -595,7 +642,10 @@ services:
 
   mergin-sync:
     image: *mergin-db-sync-image
-    profiles: ["all","mergin","dev"]
+    profiles: 
+      - all
+      - mergin
+      - dev
     volumes:
       # We do this so we can easily inspect what is being pulled
       # down from mergin, flush the working dir when needed etc
@@ -625,7 +675,8 @@ services:
   ##############################################################
   mergin-client:
     image: *mergin-client-image
-    profiles: ["mergin-client"]
+    profiles: 
+      - mergin-client
     env_file: .env
     environment:
       - MERGIN_URL=${MERGIN_URL}
@@ -655,7 +706,10 @@ services:
   # This is a storage container for the country pbf
   pbf:
     image: pbf:stable
-    profiles: ["all","osm","dev"]
+    profiles: 
+      - all
+      - osm
+      - dev
     build:
       context: pbf_fetcher
       dockerfile: Dockerfile
@@ -666,7 +720,10 @@ services:
 
   imposm:
     image: *imposm-image
-    profiles: ["all", "osm","dev"]
+    profiles: 
+      - all
+      - osm
+      - dev
     volumes:
       # These are sharable to other containers
       - ./osm_conf:/home/settings
@@ -714,7 +771,10 @@ services:
 
   osmupdate:
     image: *osm-update-image
-    profiles: ["all","osm","dev"]
+    profiles: 
+      - all
+      - osm
+      - dev
   
     volumes:
       # These are sharable to other containers
@@ -756,7 +816,10 @@ services:
 
   osmenrich:
     image: *osm-enrich-image
-    profiles: ["all", "osm","dev"]
+    profiles: 
+      - all
+      - osm
+      - dev 
     volumes:
       # These are sharable to other containers
       - ./osm_conf:/home/settings
@@ -785,47 +848,6 @@ services:
       # - TIME=120
       # command: bash -c "while [ ! -f /home/settings/importer.lock ] ; do sleep 1; done && python3 -u /home/enrich.py"
 
-
-  ############################################################
-  #
-  #
-  # DEV profile. Mainly runs nginx without cert for local testing
-  #
-  #
-  ############################################################
-
-  # Nginx without ssl meant for local testing only      
-  nginx-testing:
-    image: *nginx-image
-    profiles: ["dev"]
-    volumes:
-     - ./html:/var/www/html
-     - ./nginx_dev_conf/nginx.conf:/etc/nginx/nginx.conf
-     # Mount the mergin db sync data into nginx so we can access
-     # images etc.
-     # Ideally we should only be mounting the image subfolders to
-     # avoid leaking our geopackage etc.
-     # To do that the mergin project needs to be set up accordingly
-     # - TODO for the future
-     - mergin_sync_data:/mergin-data
-    ports:
-     - "80:80"
-    networks:
-     - os-gis-stack
-    restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-size: 200m
-        max-file: '10'
-    depends_on:
-      - qgis-server
-      - mapproxy
-      - geoserver
-      - postgrest
-      - swagger
-
-
   ############################################################
   #
   #
@@ -836,7 +858,9 @@ services:
 
   mergin-server:
     image: lutraconsulting/mergin
-    profiles: ["all", "mergin-server", "production"]
+    profiles:
+      - all
+      - mergin-server
     volumes:
       - mergin-projects:/data  # map data dir to host
     env_file: .env      
@@ -884,7 +908,9 @@ services:
 
   mergin-redis:
     image: redis
-    profiles: ["all", "mergin-server", "production"]
+    profiles: 
+      - all
+      - mergin-server
     ports:
       - 6379   
     networks:
@@ -906,7 +932,8 @@ services:
 
   download-project:
     image: *mergin-client-image
-    profiles: ["mergin-client"]
+    profiles: 
+      - mergin-client
     env_file: .env
     environment:
       - MERGIN_URL=${MERGIN_URL}
@@ -919,7 +946,8 @@ services:
 
   pull-projects:
     image: *mergin-client-image
-    profiles: ["mergin-client"]
+    profiles: 
+      - mergin-client
     env_file: .env
     environment:
       - MERGIN_URL=${MERGIN_URL}
@@ -972,7 +1000,8 @@ services:
     # make odm
     image: *odm-image
     # Only runs when you do docker-compose --profile=odm imposm
-    profiles: ["odm"]
+    profiles: 
+      - odm
     volumes:
       # odm datasets should be arranged with project folders each
       # containing an images folder e.g.
@@ -998,7 +1027,8 @@ services:
     # then we get pg support too
     image: *gdal-image
     # Only runs when you do docker-compose --profile=odm .....
-    profiles: ["odm"]
+    profiles: 
+      - odm
     volumes:
       # odm datasets should be arranged with project folders each
       # containing an images folder e.g.
@@ -1025,7 +1055,8 @@ services:
     # then we get pg support too    
     image: *gdal-image
     # Only runs when you do docker-compose --profile=odm .....
-    profiles: ["odm"]
+    profiles: 
+      - odm
     volumes:
       # odm datasets should be arranged with project folders each
       # containing an images folder e.g.
@@ -1052,7 +1083,8 @@ services:
     # then we get pg support too    
     image: *gdal-image
     # Only runs when you do docker-compose --profile=odm .....
-    profiles: ["odm"]
+    profiles: 
+      - odm
     volumes:
       # odm datasets should be arranged with project folders each
       # containing an images folder e.g.
@@ -1073,7 +1105,8 @@ services:
     # Broken for now, see Makefile osm-to-mbtiles target for
     # details
     image: *postgres-image
-    profiles: ["osm-tiles"]
+    profiles: 
+      - osm-tiles
     networks:
       - os-gis-stack
     volumes:

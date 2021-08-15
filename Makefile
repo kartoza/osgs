@@ -410,9 +410,6 @@ vrt-styles:
 	@echo "------------------------------------------------------------------"
 	@git clone git@github.com:lutraconsulting/qgis-vectortiles-styles.git
 
-
-site-init: site-config site-build site-set-output
-
 site-config:
 	@echo "------------------------------------------------------------------"
 	@echo "Configure your static site content management system"
@@ -452,36 +449,6 @@ site-reset:
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
 	@cp ./site_data/config.yaml.example ./site_data/config.yaml
-
-site-build:
-	@echo "------------------------------------------------------------------"
-	@echo "Building the site, compiling html from any new pages."
-	@echo "------------------------------------------------------------------"
-	@docker run --rm -it -v $(shell pwd)/site_data:/src klakegg/hugo:0.82.0
-
-#
-# TIM: I think we can delete this one?
-#
-site-set-output:
-	@echo "------------------------------------------------------------------"
-	@echo "Setting site publication directory to $(shell pwd)/html"
-	@echo "This will remove any existing in that location"
-	@echo "------------------------------------------------------------------"
-	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
-ifneq ("$(wildcard ./html)","")
-	@rm -r $(shell pwd)/html
-	@echo "Existing content removed"
-else
-	@echo "Existing data not available"
-endif
-	@ln -s $(shell pwd)/site_data/public $(shell pwd)/html
-	@echo "Symbolic link created"
-
-site-serve:
-	@echo "------------------------------------------------------------------"
-	@echo "Serving the site locally - intended for local testing only."
-	@echo "------------------------------------------------------------------"
-	@docker run --rm -it -v $(shell pwd)/site_data:/src -p 1313:1313 klakegg/hugo:0.82.0 server
 
 
 setup-scp:
