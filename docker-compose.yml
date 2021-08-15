@@ -131,11 +131,11 @@ services:
      - generated_hugo_data:/hugo
      # General sharing of files to the web
      - scp_general_data:/files
-     # mount the html folder as /help and make it available
-     # at /help in the web site
+     # mount the docs folder as /docs and make it available
+     # at /docs in the web site
      # Run make docs to generate latest help
-     - ./help:/help
-
+     # You also need to do make enable-docs for the docs to show on your site
+     - ./docs:/docs
     # This makes nginx reload its configuration (and certificates)
     # every six hours in the background and launches nginx in the
     # foreground.

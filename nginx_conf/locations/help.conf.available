@@ -1,3 +1,0 @@
-        location /help {
-            alias /help;
-        }

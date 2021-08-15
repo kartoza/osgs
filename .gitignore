@@ -48,8 +48,9 @@ nginx_conf/htpasswd
 docs/build
 nginx_conf/locations/hugo.conf
 hugo_conf/config.yaml
-docs/build
+sphinx/build
 nginx_conf/locations/files.conf
+nginx_conf/locations/docs.conf
 
 fonts
 

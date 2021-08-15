@@ -6,12 +6,12 @@ SHELL := /bin/bash
 docs:
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Making docs"
+	@echo "Making sphinx docs"
 	@echo "------------------------------------------------------------------"
-	$(MAKE) -C docs html
-	@cp -r  docs/build/html help
-	$(MAKE) -C docs latexpdf
-	@cp docs/build/latex/osgs.pdf osgs-manual.pdf
+	$(MAKE) -C sphinx html
+	@cp -r  sphinx/build/html docs
+	$(MAKE) -C sphinx latexpdf
+	@cp sphinx/build/latex/osgs.pdf osgs-manual.pdf
 
 ps:
 	@echo
@@ -103,11 +103,11 @@ enable-hugo:
 disable-hugo:
 	@cd nginx_conf/locations; rm hugo.conf
 
-enable-help:
-	@cd nginx_conf/locations; ln -s help.conf.available help.conf
+enable-docs:
+	@cd nginx_conf/locations; ln -s docs.conf.available docs.conf
 
-disable-help:
-	@cd nginx_conf/locations; rm help.conf
+disable-docs:
+	@cd nginx_conf/locations; rm docs.conf
 
 enable-files:
 	@cd nginx_conf/locations; ln -s files.conf.available files.conf
