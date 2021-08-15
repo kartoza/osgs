@@ -129,6 +129,11 @@ services:
      - mergin_sync_data:/mergin-data
      # mount the hugo data folder so that we can serve the static site
      - generated_hugo_data:/hugo
+     # mount the html folder as /help and make it available
+     # at /help in the web site
+     # Run make docs to generate latest help
+     - ./help:/help
+
     # This makes nginx reload its configuration (and certificates)
     # every six hours in the background and launches nginx in the
     # foreground.

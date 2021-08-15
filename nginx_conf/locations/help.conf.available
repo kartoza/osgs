@@ -1,0 +1,3 @@
+        location /help/ {
+            root /help;
+        }

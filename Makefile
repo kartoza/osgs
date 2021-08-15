@@ -9,6 +9,7 @@ docs:
 	@echo "Making docs"
 	@echo "------------------------------------------------------------------"
 	$(MAKE) -C docs html
+	@cp -r  docs/build/html help
 	$(MAKE) -C docs latexpdf
 	@cp docs/build/latex/osgs.pdf osgs-manual.pdf
 
@@ -101,6 +102,13 @@ enable-hugo:
 
 disable-hugo:
 	@cd nginx_conf/locations; rm hugo.conf
+
+enable-help:
+	@cd nginx_conf/locations; ln -s help.conf.available help.conf
+
+disable-help:
+	@cd nginx_conf/locations; rm help.conf
+
 
 
 setup-scp:
@@ -241,6 +249,21 @@ restart:
 	@echo "------------------------------------------------------------------"
 	@docker-compose restart
 	@docker-compose logs -f
+
+logs:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Tailing logs"
+	@echo "------------------------------------------------------------------"
+	@docker-compose logs -f
+
+nginx-shell:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating nginx shell"
+	@echo "------------------------------------------------------------------"
+	@docker-compose exec nginx /bin/bash
+
 
 nginx-shell:
 	@echo
