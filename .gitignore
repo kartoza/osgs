@@ -46,6 +46,8 @@ mapproxy_conf/clip/*
 mapproxy_conf/seed.yaml
 nginx_conf/htpasswd
 docs/build
+nginx_conf/locations/hugo.conf
+hugo_conf/config.yaml
 
 fonts
 

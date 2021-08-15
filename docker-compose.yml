@@ -88,11 +88,103 @@ services:
  
   ############################################################
   #
-  # First we define all the services in the PRODUCTION profile
-  # These are the database, QGIS Server, and all reverse proxied
-  # services in nginx such as Postgrest, Swagger, GeoServer etc.
+  # First we define all default services that are run if
+  # you do not specify a profile. These are currently
+  # nginx, hugo watcher and scp.
   #
   ############################################################
+ 
+  # Nginx with ssl      
+  nginx:
+    image: *nginx-image
+    volumes:
+     - ./nginx_conf/nginx.conf:/etc/nginx/nginx.conf
+     # You must manually create this file before running
+     # by running either
+     # make configure-ssl-self-signed
+     # or
+     # make configure-letsencrypt-ssl
+     - ./nginx_conf/servername.conf:/etc/nginx/servername.conf
+     - ./nginx_conf/upstreams:/etc/nginx/upstreams
+     - ./nginx_conf/ssl:/etc/nginx/ssl
+     - ./nginx_conf/locations:/etc/nginx/locations
+     - ./nginx_conf/htpasswd:/etc/nginx/.htpasswd
+     # If you are running with a self signed certificate
+     # then make sure the following folder contains these files 
+     # nginx-selfsigned.crt
+     # nginx-selfsigned.key
+     # You can generate them (or a proper letsencrypt cert)
+     # by running either
+     # make configure-ssl-self-signed
+     # or
+     # make configure-letsencrypt-ssl
+     - ./certbot/certbot/conf:/etc/letsencrypt
+     - ./certbot/certbot/www:/var/www/certbot
+     # Mount the mergin db sync data into nginx so we can access
+     # images etc.
+     # Ideally we should only be mounting the image subfolders to
+     # avoid leaking our geopackage etc.
+     # To do that the mergin project needs to be set up accordingly
+     # - TODO for the future
+     - mergin_sync_data:/mergin-data
+     # mount the hugo data folder so that we can serve the static site
+     - generated_hugo_data:/hugo
+    # This makes nginx reload its configuration (and certificates)
+    # every six hours in the background and launches nginx in the
+    # foreground.
+    # See
+    # https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    # For debugging config issues
+    #command: "sleep 3000"
+    ports:
+     - "80:80"
+     - "443:443"
+    networks:
+     - os-gis-stack
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
+    depends_on:
+      - scp
+      - hugo-watcher
+      #- qgis-server
+      #- mapproxy
+      #- geoserver
+      #- postgrest
+      #- swagger
+
+  certbot:
+    image: *certbot-image
+    profiles: ["all","certbot-init"]
+    # This checks every 12 hours if our cert is up for renewal and
+    # refreshes it if needed
+    # See https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    depends_on:
+      - nginx
+    volumes:
+     - ./certbot/certbot/conf:/etc/letsencrypt
+     - ./certbot/certbot/www:/var/www/certbot
+
+
+  # This is only intended to be used during the initial setup of
+  # certbot, thereafter use the nginx service
+  # See the makefile for how this is orchestrated       
+  nginx-certbot-init:
+    image: *nginx-image
+    profiles:
+        - certbot-init
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+     - ./nginx_certbot_init_conf/nginx.conf:/etc/nginx/nginx.conf
+     - ./certbot/certbot/conf:/etc/letsencrypt
+     - ./certbot/certbot/www:/var/www/certbot
 
   db:
     image: *postgres-image
@@ -227,82 +319,6 @@ services:
     restart: on-failure
     networks:
       - os-gis-stack    
-
-
-  # This is only intended to be used during the initial setup of
-  # certbot, thereafter use the nginx or nginx-dev services       
-  nginx-certbot-init:
-    image: *nginx-image
-    profiles:
-        - certbot-init
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-     - ./nginx_certbot_init_conf/nginx.conf:/etc/nginx/nginx.conf
-     - ./certbot/certbot/conf:/etc/letsencrypt
-     - ./certbot/certbot/www:/var/www/certbot
-
- 
-  # Nginx with ssl      
-  nginx:
-    image: *nginx-image
-    profiles: 
-     - all
-     - production
-     - nginx
-     - mergin-server
-    volumes:
-     - ./nginx_conf/nginx.conf:/etc/nginx/nginx.conf
-     - ./nginx_conf/servername.conf:/etc/nginx/servername.conf
-     - ./nginx_conf/upstreams:/etc/nginx/upstreams
-     - ./nginx_conf/locations:/etc/nginx/locations
-     - ./nginx_conf/htpasswd:/etc/nginx/.htpasswd
-     - ./certbot/certbot/conf:/etc/letsencrypt
-     - ./certbot/certbot/www:/var/www/certbot
-     # Mount the mergin db sync data into nginx so we can access
-     # images etc.
-     # Ideally we should only be mounting the image subfolders to
-     # avoid leaking our geopackage etc.
-     # To do that the mergin project needs to be set up accordingly
-     # - TODO for the future
-     - mergin_sync_data:/mergin-data
-     # mount the hugo data folder so that we can serve the static site
-     - generated_hugo_data:/hugo
-    # This makes nginx reload its configuration (and certificates)
-    # every six hours in the background and launches nginx in the
-    # foreground.
-    # See
-    # https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
-    ports:
-     - "80:80"
-     - "443:443"
-    networks:
-     - os-gis-stack
-    restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-size: 200m
-        max-file: '10'
-    #depends_on:
-      #- qgis-server
-      #- mapproxy
-      #- geoserver
-      #- postgrest
-      #- swagger
-
-  certbot:
-    image: *certbot-image
-    profiles: ["all","nginx","certbot-init"]
-    # This checks every 12 hours if our cert is up for renewal and
-    # refreshes it if needed
-    # See https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-    volumes:
-     - ./certbot/certbot/conf:/etc/letsencrypt
-     - ./certbot/certbot/www:/var/www/certbot
 
   qgis-server:
     image: *qgis-server-image
@@ -569,9 +585,7 @@ services:
     # or 
     # make odm
     image: *hugo-image
-    profiles: 
-      - site
-      - production
+    # No profiles specified, automatically started by nginx
     volumes:
       - generated_hugo_data:/src/public
       # Only raw markdown should be put in here
@@ -589,12 +603,7 @@ services:
 
   scp:
     image: *scp-image
-    profiles: 
-      - all
-      - production
-      - scp
-      - dev
-      - site
+    # No profiles specified, automatically started by nginx
     ports:
       # This is one of the few cases where we are 
       # exposing a port to the host. Users should

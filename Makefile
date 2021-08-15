@@ -19,7 +19,7 @@ ps:
 	@echo "------------------------------------------------------------------"
 	@docker-compose ps
 
-configure: prepare-templates deploy
+configure: prepare-templates site-config enable-hugo setup-scp configure-htpasswd deploy
 
 
 prepare-templates: 
@@ -46,6 +46,10 @@ prepare-templates:
 configure-ssl-self-signed:
 	@mkdir -p ./certbot/certbot/conf/
 	@openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./certbot/certbot/conf/nginx-selfsigned.key -out ./certbot/certbot/conf/nginx-selfsigned.crt
+	#@rpl "BEGIN CERTIFICATE" "BEGIN TRUSTED CERTIFICATE" ./certbot/certbot/conf/nginx-selfsigned.crt
+	#@rpl "END CERTIFICATE" "END  TRUSTED CERTIFICATE" ./certbot/certbot/conf/nginx-selfsigned.crt
+	#@rpl "BEGIN PRIVATE KEY" "TRUSTED CERTIFICATE" ./certbot/certbot/conf/nginx-selfsigned.key
+	#@rpl "END PRIVATE KEY" "TRUSTED CERTIFICATE" ./certbot/certbot/conf/nginx-selfsigned.key
 
 configure-letsencrypt-ssl:
 	@echo "Do you want to set up SSL using letsencrypt?"
@@ -61,7 +65,92 @@ configure-letsencrypt-ssl:
 	@read -p "Valid Contact Person Email Address: " EMAIL; \
 	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh .env
 
+site-config:
+	@echo "------------------------------------------------------------------"
+	@echo "Configure your static site content management system"
+	@echo "You should only do this once per site deployment"
+	@echo "------------------------------------------------------------------"
+	@echo "This will replace any local configuration changes you have made"
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@cp ./hugo_conf/config.yaml.example ./hugo_conf/config.yaml
+	@echo "Please enter the site domain name (default 'example.com')"
+	@read -p "Domain name: " result; \
+	  DOMAINNAME=$${result:-"example.com"} && \
+	  rpl -q {{siteDomain}} "$$DOMAINNAME" $(shell pwd)/hugo_conf/config.yaml
+	@echo "Please enter the title of your website (default 'Geoservices')"
+	@read -p "Site Title: " result; \
+	  SITETITLE=$${result:-"Geoservices"} && \
+	  rpl -q {{siteTitle}} "$$SITETITLE" $(shell pwd)/hugo_conf/config.yaml
+	@echo "Please enter the name of the website owner (default 'Kartoza')"
+	@read -p "Site Owner: " result; \
+	  SITEOWNER=$${result:-"Kartoza"} && \
+	  rpl -q {{ownerName}} "$$SITEOWNER" $(shell pwd)/hugo_conf/config.yaml
+	@echo "Please supply the URL of the site owner (default 'www.kartoza.com')."
+	@read -p "Owner URL: " result; \
+	  OWNERURL=$${result:-"www.kartoza.com"} && \
+	  rpl -q {{ownerDomain}} "$$OWNERURL" $(shell pwd)/hugo_conf/config.yaml
+	@echo "Please supply a valid public URL to the Website Logo."
+	@echo "Be sure to include the protocol prefix (e.g. https://)"
+	@read -p "Logo URL: " result; \
+	  LOGOURL=$${result:-"img/Circle-icons-stack.svg"} && \
+	  rpl -q {{logoURL}} "$$LOGOURL" $(shell pwd)/hugo_conf/config.yaml
+
+enable-hugo:
+	@cd nginx_conf/locations; ln -s hugo.conf.available hugo.conf
+
+disable-hugo:
+	@cd nginx_conf/locations; rm hugo.conf
+
+
+setup-scp:
+	@echo "------------------------------------------------------------------"
+	@echo "Copying .ssh/authorized keys to all scp shares."
+	@echo "------------------------------------------------------------------"
+	@cat ~/.ssh/authorized_keys > scp_conf/geoserver_data
+	@cat ~/.ssh/authorized_keys > scp_conf/qgis_projects
+	@cat ~/.ssh/authorized_keys > scp_conf/qgis_fonts
+	@cat ~/.ssh/authorized_keys > scp_conf/qgis_svg
+	@cat ~/.ssh/authorized_keys > scp_conf/hugo_data
+	@cat ~/.ssh/authorized_keys > scp_conf/odm_data
+	@cat ~/.ssh/authorized_keys > scp_conf/general_data
+
 deploy:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting basic nginx site"
+	@echo "------------------------------------------------------------------"
+	@docker-compose up -d
+	@docker-compose logs -f
+
+configure-htpasswd:
+	@echo "------------------------------------------------------------------"
+	@echo "Configuring password controlled file sharing are for your site"
+	@echo "Accessible at /files/"
+	@echo "Access credentials will be stored in .env"
+	@echo "------------------------------------------------------------------"
+	@export PASSWD=$(pwgen 20 1); \
+	       	htpasswd -cbB nginx_conf/nginx.conf htpasswd web $$PASSWD; \
+		echo "#User account for protected areas of the site using httpauth" >> .env \
+		echo "#You can add more accounts to nginx_conf/htpasswd using the htpasswd tool" >> .env \
+		echo $$PASSWD >> .env
+
+################################################
+##  End of initial site config targets
+################################################
+
+site-reset:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Reset site configuration to default values"
+	@echo "This will replace any local configuration changes you have made"
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@cp ./hugo_conf/config.yaml.example ./hugo_conf/config.yaml
+
+
+
+deploy-qgis-server:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting all production containers"
@@ -82,12 +171,6 @@ init-letsencrypt:
 
 
 
-configure-htpasswd:
-	@export PASSWD=$(pwgen 20 1); \
-	       	htpasswd -cbB nginx_conf/nginx.conf htpasswd web $$PASSWD; \
-		echo "#User account for protected areas of the site using httpauth" >> .env \
-		echo "#You can add more accounts to nginx_conf/htpasswd using the htpasswd tool" >> .env \
-		echo $$PASSWD >> .env
 configure-pgpasswd:
 	@export PASSWD=$$(pwgen 20 1); \
 		rpl POSTGRES_PASSWORD=docker POSTGRES_PASSWORD=$$PASSWD .env; \
@@ -156,7 +239,16 @@ restart:
 	@echo "------------------------------------------------------------------"
 	@echo "Restarting all containers"
 	@echo "------------------------------------------------------------------"
-	@docker-compose --profile=production restart
+	@docker-compose restart
+	@docker-compose logs -f
+
+nginx-shell:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating nginx shell"
+	@echo "------------------------------------------------------------------"
+	@docker-compose exec nginx /bin/bash
+
 
 db-shell:
 	@echo
@@ -409,59 +501,6 @@ vrt-styles:
 	@echo "Checking out Vector Tiles QMLs to qgis-vector-tiles folder"
 	@echo "------------------------------------------------------------------"
 	@git clone git@github.com:lutraconsulting/qgis-vectortiles-styles.git
-
-site-config:
-	@echo "------------------------------------------------------------------"
-	@echo "Configure your static site content management system"
-	@echo "You should only do this once per site deployment"
-	@echo "------------------------------------------------------------------"
-	@echo "This will replace any local configuration changes you have made"
-	@echo "------------------------------------------------------------------"
-	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
-	@cp ./site_data/config.yaml.example ./site_data/config.yaml
-	@echo "Please enter the site domain name (default 'example.com')"
-	@read -p "Domain name: " result; \
-	  DOMAINNAME=$${result:-"example.com"} && \
-	  rpl -q {{siteDomain}} "$$DOMAINNAME" $(shell pwd)/site_data/config.yaml
-	@echo "Please enter the title of your website (default 'Geoservices')"
-	@read -p "Site Title: " result; \
-	  SITETITLE=$${result:-"Geoservices"} && \
-	  rpl -q {{siteTitle}} "$$SITETITLE" $(shell pwd)/site_data/config.yaml
-	@echo "Please enter the name of the website owner (default 'Kartoza')"
-	@read -p "Site Owner: " result; \
-	  SITEOWNER=$${result:-"Kartoza"} && \
-	  rpl -q {{ownerName}} "$$SITEOWNER" $(shell pwd)/site_data/config.yaml
-	@echo "Please supply the URL of the site owner (default 'www.kartoza.com')."
-	@read -p "Owner URL: " result; \
-	  OWNERURL=$${result:-"www.kartoza.com"} && \
-	  rpl -q {{ownerDomain}} "$$OWNERURL" $(shell pwd)/site_data/config.yaml
-	@echo "Please supply a valid public URL to the Website Logo."
-	@echo "Be sure to include the protocol prefix (e.g. https://)"
-	@read -p "Logo URL: " result; \
-	  LOGOURL=$${result:-"img/Circle-icons-stack.svg"} && \
-	  rpl -q {{logoURL}} "$$LOGOURL" $(shell pwd)/site_data/config.yaml
-
-site-reset:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Reset site configuration to default values"
-	@echo "This will replace any local configuration changes you have made"
-	@echo "------------------------------------------------------------------"
-	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
-	@cp ./site_data/config.yaml.example ./site_data/config.yaml
-
-
-setup-scp:
-	@echo "------------------------------------------------------------------"
-	@echo "Copying .ssh/authorized keys to all scp shares."
-	@echo "------------------------------------------------------------------"
-	@cat ~/.ssh/authorized_keys > scp_conf/geoserver_data
-	@cat ~/.ssh/authorized_keys > scp_conf/qgis_projects
-	@cat ~/.ssh/authorized_keys > scp_conf/qgis_fonts
-	@cat ~/.ssh/authorized_keys > scp_conf/qgis_svg
-	@cat ~/.ssh/authorized_keys > scp_conf/hugo_data
-	@cat ~/.ssh/authorized_keys > scp_conf/odm_data
-	@cat ~/.ssh/authorized_keys > scp_conf/general_data
 
 kill:
 	@echo
