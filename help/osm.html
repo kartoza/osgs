@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>OSGS - OSM Mirror</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.css" integrity="sha256-xOpS+e/dER8z72w+qryCieOGysQI8cELAVt3MHG0phY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tooltipster@4.2.7/dist/css/tooltipster.bundle.min.css" integrity="sha256-Qc4lCfqZWYaHF5hgEOFrYzSIX9Rrxk0NPHRac+08QeQ=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tooltipster@4.2.7/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css" integrity="sha256-Wa1I4jhSXeWd3N6RhfPlkqr1WlT+zS3Vh2YGCg0129E=" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Code+Pro|Source+Sans+Pro|Source+Serif+Pro|Roboto|Roboto+Mono" rel="stylesheet">
+<link href="https://fonts.red-dove.com/iosevka-ss09-regular/webfont.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/css/sizzle.css" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/tooltipster@4.2.7/dist/js/tooltipster.bundle.min.js" integrity="sha256-NOU7KrY2aTI4PxDegqYUIknk9qfxVCS0E4JfE9aMwaA=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+      $(document).data('sizzle', {on_load: []});
+    </script>
+    <script src="_static/doctools.js"></script>
+      <script src="app-data.js"></script>
+<link rel="index" title="Index" href="genindex.html" />
+<link rel="search" title="Search" href="search.html" />
+<link rel="next" title="Building Documentation" href="building_docs.html" />
+<link rel="prev" title="Working with Mergin projects" href="mergin_projects.html" />
+
+</head>
+<body class="full-height test">
+<noscript>
+  <div>
+    <div id="noscript-message">JavaScript is not enabled. It is needed for this website to work.</div>
+  </div>
+</noscript>
+<div id="whole-page" class="container-fluid content full-height">
+  <div id="header-row" class="row">
+    <div id="header-container" class="col-md-12">
+      <div id="hdr-left">
+        <i class="fa fa-bars menu-toggle"></i>
+        
+<a href="index.html" class="text-logo">OSGS 0.1 documentation</a>
+
+      </div>
+      <div id="hdr-centre" class="text-center stretch">
+        <h3 title="OSM Mirror">OSM Mirror</h3>
+        <h6>OSM Mirror</h6>
+      </div>
+      <div id="hdr-search">
+        
+<div class="input-group" title="Enter something to search for and then either press Enter or click the magnifying glass">
+  <input type="text" class="form-control search-query" placeholder="Search docs ...">
+  <div class="input-group-addon">
+    <i class="fa fa-search"></i>
+  </div>
+</div>
+      </div>
+
+      <div id="hdr-index">
+        <a href="genindex.html" class="btn btn-default" title="Go to the index"><i class="fa fa-list"></i></a>
+      </div>
+
+      <div id="hdr-source">
+        <a href="_sources/osm.md.txt" class="btn btn-default" title="See the source for this page"><i class="fa fa-code"></i></a>
+      </div>
+
+      <div id="hdr-right">
+        
+  
+  <div class="prev-next">
+    
+      <div class="pull-left">
+        <a class="btn btn-default prev" href="mergin_projects.html" title="Previous chapter (Working with Mergin projects)"><i class="fa fa-chevron-left mr-1em" aria-hidden="true"></i><span class="btn-text">Working with Mergin projects</span></a>
+      </div>
+    
+      <div class="pull-right">
+        <a class="btn btn-default next" href="building_docs.html" title="Next chapter (Building Documentation)"><span class="btn-text">Building Documentation</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  
+      </div>
+      <div id="alt-hdr-right">
+
+        <a href="mergin_projects.html"><i class="fa fa-chevron-left mr-8"></i></a>
+
+
+        <a href="index.html"><i class="fa fa-home mr-8"></i></a>
+
+
+        <a href="search.html"><i class="fa fa-search mr-8"></i></a>
+
+
+        <a href="genindex.html"><i class="fa fa-list mr-8"></i></a>
+
+
+        <a href="building_docs.html"><i class="fa fa-chevron-right"></i></a>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="content-row" class="row">
+    <div id="page-content" class="col-md-12 flex-col">
+      <div id="content-container">
+        <div id="nav">
+          
+  <div class="navsidebar">
+    <div id="sidebar-search">
+      
+<div class="input-group" title="Enter something to search for and then either press Enter or click the magnifying glass">
+  <input type="text" class="form-control search-query" placeholder="Search docs ...">
+  <div class="input-group-addon">
+    <i class="fa fa-search"></i>
+  </div>
+</div>
+    </div>
+      <div class="sidebar-block">
+        <div class="sidebar-tocheading">
+          <div class="pull-left">
+            <h2>Table Of Contents</h2>
+          </div>
+          <div class="pull-right" title="Hide this sidebar (hover at left edge to bring it back)"><i class="fa fa-chevron-left hidetoc"></i></div>
+        </div>
+        <div class="sidebar-toc">
+      
+          <div id="toc-filter" title="Type in here to show only matching topics">
+            <input class="form-control" id="toc-filter-query" placeholder="Filter by title ...">
+          </div>
+      
+        
+  
+    <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html#introduction">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#overview-diagram">Overview Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="server_preparation.html">Preparing the server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="server_preparation.html#basic-security">Basic Security</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#unattended-upgrades">Unattended upgrades</a></li>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#ssh">ssh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#crowdsec">Crowdsec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#fail2ban">Fail2ban</a></li>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#firewall">Firewall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#status-monitoring">Status monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="server_preparation.html#additional-software">Additional Software</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#docker">Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#git-rpl-pwgen-and-make">Git, rpl, pwgen and Make</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="initial_configuration.html#initial-configuration">Initial Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="initial_configuration.html#user-group">User Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initial_configuration.html#project-checkout">Project Checkout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initial_configuration.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="production_stack.html">Production Stack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="production_stack.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="production_stack.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scp.html">SCP File Drop Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scp.html#directory-layout-for-the-qgis-projects-folder">Directory layout for the QGIS projects folder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scp.html#starting-the-container">Starting the container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scp.html#faq">FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="postgis.html">Postgres and PostGIS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="postgis.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postgis.html#configuration">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="postgis.html#database-password">Database password:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="postgis.html#service-file-configuration">Service file configuration:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="postgis.html#deployment">Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="postgis.html#validation">Validation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="postgresql_workflows.html">Fee</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qgis_server_scaling.html">QGIS Server Scaling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geoserver.html#geoserver-configuration">GeoServer Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mergin_projects.html#working-with-mergin-projects">Working with Mergin projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mergin_projects.html#mergin-db-sync">Mergin-db-sync</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mergin_projects.html#mergin-client">Mergin-client</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#osm-mirror">OSM Mirror</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pbf-container">PBF Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#clip-area">Clip Area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mappings">Mappings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-services">Run services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#publishing-with-geoserver">Publishing with GeoServer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#publishing-with-qgis-server">Publishing with QGIS Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#osm-attribution">OSM Attribution</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="building_docs.html#building-documentation">Building Documentation</a></li>
+</ul>
+
+  
+        </div>
+      </div>
+  </div>
+        </div>
+        <div id="content" tabindex="0" class="stretch">
+          <div id="mnav">
+            
+  
+    <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html#introduction">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#overview-diagram">Overview Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="server_preparation.html">Preparing the server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="server_preparation.html#basic-security">Basic Security</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#unattended-upgrades">Unattended upgrades</a></li>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#ssh">ssh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#crowdsec">Crowdsec</a></li>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#fail2ban">Fail2ban</a></li>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#firewall">Firewall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#status-monitoring">Status monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="server_preparation.html#additional-software">Additional Software</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#docker">Docker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#git-rpl-pwgen-and-make">Git, rpl, pwgen and Make</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="initial_configuration.html#initial-configuration">Initial Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="initial_configuration.html#user-group">User Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initial_configuration.html#project-checkout">Project Checkout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initial_configuration.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="production_stack.html">Production Stack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="production_stack.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="production_stack.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scp.html">SCP File Drop Service</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scp.html#directory-layout-for-the-qgis-projects-folder">Directory layout for the QGIS projects folder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scp.html#starting-the-container">Starting the container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scp.html#faq">FAQ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="postgis.html">Postgres and PostGIS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="postgis.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="postgis.html#configuration">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="postgis.html#database-password">Database password:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="postgis.html#service-file-configuration">Service file configuration:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="postgis.html#deployment">Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="postgis.html#validation">Validation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="postgresql_workflows.html">Fee</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qgis_server_scaling.html">QGIS Server Scaling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geoserver.html#geoserver-configuration">GeoServer Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mergin_projects.html#working-with-mergin-projects">Working with Mergin projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mergin_projects.html#mergin-db-sync">Mergin-db-sync</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mergin_projects.html#mergin-client">Mergin-client</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#osm-mirror">OSM Mirror</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pbf-container">PBF Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#clip-area">Clip Area</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mappings">Mappings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-services">Run services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#publishing-with-geoserver">Publishing with GeoServer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#publishing-with-qgis-server">Publishing with QGIS Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#osm-attribution">OSM Attribution</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="building_docs.html#building-documentation">Building Documentation</a></li>
+</ul>
+
+  
+          </div>
+          <div class="body">
+            
+  <div class="tex2jax_ignore mathjax_ignore section" id="osm-mirror">
+<h1>OSM Mirror<a class="headerlink" href="#osm-mirror" title="Permalink to this headline">¶</a></h1>
+<p>The OSM mirror uses the kartoza/docker-osm tool to create an in-database
+mirror of a designated geographical area in the designated postgres
+databse schema (set to: osm). The OSM mirror tool is described in the project
+README here:</p>
+<p>https://github.com/kartoza/docker-osm</p>
+<p>To deploy the docker-mirror you need to follow the steps descibed below.
+First a process overview:</p>
+<ol class="simple">
+<li>Create the PBF feature container passing it a URL to a PBF file</li>
+<li>Create a clip file that will be used to constrain any retrieved / imported
+data to a specific geographic area.</li>
+<li>Tweak the mappings.yml file (advanced users)</li>
+<li>Run the docker-osm service</li>
+<li>Optionally include these data in published services via QGIS projects,
+GeoServer etc.</li>
+</ol>
+<div class="section" id="pbf-container">
+<h2>PBF Container<a class="headerlink" href="#pbf-container" title="Permalink to this headline">¶</a></h2>
+<p>During the <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure</span></code> process, the script will ask for the URL
+to an OSM .pbf file e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">------------------------------------------------------------------</span>
+<span class="n">Fetching</span> <span class="n">pbf</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">cached</span> <span class="ow">and</span> <span class="n">then</span> <span class="n">copying</span> <span class="n">to</span> <span class="n">settings</span> <span class="nb">dir</span>
+<span class="o">------------------------------------------------------------------</span>
+<span class="n">URL</span> <span class="n">For</span> <span class="n">Country</span> <span class="n">PBF</span> <span class="n">File</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">download</span><span class="o">.</span><span class="n">geofabrik</span><span class="o">.</span><span class="n">de</span><span class="o">/</span><span class="n">central</span><span class="o">-</span><span class="n">america</span><span class="o">-</span><span class="n">latest</span><span class="o">.</span><span class="n">osm</span><span class="o">.</span><span class="n">pbf</span>
+</pre></div>
+</div>
+<p>You can enter any valid URL for an OSM .PBF file at this point. A docker
+container will be built that fetches the PBD and stores it on the host
+file system under osm_config.</p>
+</div>
+<div class="section" id="clip-area">
+<h2>Clip Area<a class="headerlink" href="#clip-area" title="Permalink to this headline">¶</a></h2>
+<p>Create the clip area to constrain the geographical region that data
+will be harvested for. For best performance, a simple rectangle is best,
+but any complext polygon can be used. The clip area must be saved
+as <code class="docutils literal notranslate"><span class="pre">osm_config/clip.geojson</span></code>. The format for the clip area must be
+GeoJSON. You can easily create this using QGIS.</p>
+</div>
+<div class="section" id="mappings">
+<h2>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline">¶</a></h2>
+<p>For advanced users, you can tweak the <code class="docutils literal notranslate"><span class="pre">osm_config/mapping.yml</span></code></p>
+<p>You can see how the imposm3 mapping syntax works here:</p>
+<p>https://imposm.org/docs/imposm3/latest/mapping.html</p>
+<p>Note that you cannot alter the mappings after the service is running without
+clearing the databse and restarting the import.</p>
+</div>
+<div class="section" id="run-services">
+<h2>Run services<a class="headerlink" href="#run-services" title="Permalink to this headline">¶</a></h2>
+<p>To run the OSM services do:</p>
+<p><code class="docutils literal notranslate"><span class="pre">docker-compose</span> <span class="pre">--profile=osm</span> <span class="pre">up</span> <span class="pre">-d</span></code></p>
+</div>
+<div class="section" id="publishing-with-geoserver">
+<h2>Publishing with GeoServer<a class="headerlink" href="#publishing-with-geoserver" title="Permalink to this headline">¶</a></h2>
+<p>You can publish the data in the osm schema using GeoServer or
+by publishing a QGIS project that references the data layers in
+the OSM schema.</p>
+<p>The steps for publishing with GeoServer are quite simple:</p>
+<ol>
+<li><p class="first">Log in to GeoServer using the ‘admin’ user and the password in
+.env.</p>
+</li>
+<li><p class="first">Create a new store of type ‘Postgis’ and configure it as per the
+screenshot below, replacing the password with the Postgres password
+stored in .env:</p>
+<p><img alt="Store Creation in GeoServer" src="_images/geoserver-osm-1.png" /></p>
+<p>Also, be sure to scroll down and set SSL mode to Required:</p>
+<p><img alt="SSL Mode Required" src="_images/geoserver-osm-5.png" /></p>
+</li>
+<li><p class="first">Register one or more layers from that store as per the image below:</p>
+<p><img alt="Layer Creation in GeoServer" src="_images/geoserver-osm-2.png" /></p>
+</li>
+</ol>
+<p>4.Complete the layer details as appropriate and make sure to click the options highlighted in red in the screenshot below:</p>
+<p><img alt="Adding a GeoServer WMS layer in QGIS" src="_images/geoserver-osm-3.png" /></p>
+<ol class="simple">
+<li>Connect to the GeoServer from a client e.g. QGIS using WFS or WMS using the scheme:</li>
+</ol>
+<p>https://example.org/geoserver/SaintLucia/wfs</p>
+<p>or</p>
+<p>https://example.org/geoserver/SaintLucia/wms</p>
+<p><img alt="Layer Details in GeoServer" src="_images/geoserver-osm-4.png" /></p>
+</div>
+<div class="section" id="publishing-with-qgis-server">
+<h2>Publishing with QGIS Server<a class="headerlink" href="#publishing-with-qgis-server" title="Permalink to this headline">¶</a></h2>
+<p>The workflows described in the section on working with the PostgreSQL database below are basically all you need to know, so we don’t repeat that here, other than to remind you that hte OSM mirrored data is by default stored in a schema called ‘osm’.</p>
+</div>
+<div class="section" id="osm-attribution">
+<h2>OSM Attribution<a class="headerlink" href="#osm-attribution" title="Permalink to this headline">¶</a></h2>
+<p>Note that whenever you publish a map containing OSM data, be
+careful to adhere to the license and credit the OSM Project as
+per:</p>
+<p>https://www.openstreetmap.org/copyright</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="footer-row" class="row">
+
+    <div class="col-md-12">
+        <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        <a href="https://pypi.org/project/sphinx-sizzle-theme/"
+
+           title="0.0.9/821a5457 [2020-04-16T19:31:16]"
+
+        >Sizzle</a> theme.</span>
+    </div>
+
+  </div>
+</div>
+
+<div id="tooltips" class="hidden">
+</div>
+
+<script>
+$(document).ready(function() {
+  'use strict';
+  var $search = $('.search-query');
+
+  var $filter = $('#toc-filter-query');
+  var $toclist = $('.sidebar-toc > ul').find('li');
+
+  if ($toclist.length === 0) {
+    $toclist = $('.localtoc > ul').find('li');
+  }
+
+
+  var $nav = $('#nav');
+
+  //$('#whole-page').removeClass('hidden');
+  var nav_width = $nav.width();
+
+
+  var search_url = 'search.html';
+
+  function perform_search(e) {
+    var $elem;
+
+    if (e.type === 'keypress') {
+      $elem = $(e.target);
+    }
+    else if (e.type === 'click') {
+      $elem = $(e.target).parents('.input-group').find('input');
+    }
+    var q = $elem.val().trim();
+
+    if (q) {
+      var url = search_url + '?q=' + q + '&check_keywords=yes&area=default';
+
+      location.href = url;
+    }
+  }
+
+
+  function apply_filter() {
+    var s = $filter.val().trim().toLowerCase();
+
+    $toclist.find('a').removeClass('hidden');
+    $toclist.each(function() {
+      var $this = $(this);
+      var $link = $this.find('> a');
+      var t = $link.text().toLowerCase();
+      var show = t.indexOf(s) >= 0;
+
+      if (!show) {
+        $link.addClass('hidden');
+      }
+    });
+  }
+
+  $filter.on('keyup', function(e) {
+    apply_filter();
+  });
+
+
+
+  $search.on('keypress', function(e) {
+    if (e.which == 13) {
+      perform_search(e);
+    }
+  });
+  $search.parents('.input-group').find('.input-group-addon').on('click', perform_search);
+  $(document).on('click', '.summary .fa-caret-right', function(e) {
+    var $elem = $(e.target).parents('li');
+    var $next = $elem.next();
+    $elem.addClass('hidden');
+    $next.removeClass('hidden');
+  });
+  $(document).on('click', '.detail .fa-caret-down', function(e) {
+    var $elem = $(e.target).parents('li');
+    var $prev = $elem.prev();
+    $elem.addClass('hidden');
+    $prev.removeClass('hidden');
+  });
+
+  $('#content').on('click', function() {
+    $('#mnav').hide();
+  });
+
+  var counter = 0;
+  var timer = null;
+
+  function show_nav() {
+    $('#content').off('mousemove', track_mouse);
+    if (timer !== null) {
+      clearTimeout(timer);
+      timer = null;
+    }
+    $nav.show();
+  }
+
+  function track_mouse(e) {
+    var x = e.clientX;
+
+    if (x < 15) {
+      ++counter;
+      if (timer === null) {
+        timer = setTimeout(show_nav, 2000);
+      }
+    }
+    else {
+      counter = 0;
+    }
+    if (counter >= 20) {
+      show_nav();
+    }
+  };
+
+  function hide_nav() {
+    $nav.hide();
+    counter = 0;
+    $('#content').on('mousemove', track_mouse);
+  }
+
+  $('.hidetoc').on('click', hide_nav);
+
+  $(document).on('keyup', function(e) {
+    if (e.ctrlKey) {
+      if (e.which == 37) {      // Ctrl+left arrow
+        hide_nav();
+      }
+      else if (e.which == 39) { // Ctrl+right arrow
+        show_nav();
+      }
+    }
+  });
+
+  $('.menu-toggle').on('click', function(e) {
+    $('#mnav').toggle();
+  });
+
+  function scroll_nav(frag) {
+    var sel = '#nav ' + (frag ? 'a[href="' + frag + '"]' : '.toctree-l1 a.current');
+
+    var $link = $(sel);
+
+    if ($link.length > 0) {
+      $link[0].scrollIntoView({block: 'center'});
+    }
+  }
+
+  // If the navigator is long, then the item we clicked on to get here might
+  // not be in view. Try to scroll it into the view - a slight delay is needed
+  // to get it to sync properly with other stuff going on (as the page has just
+  // loaded). Hence the setTimeout with a timeout of 0.
+
+  function do_scroll() {
+    scroll_nav(window.location.hash);
+  }
+
+  setTimeout(do_scroll, 0);
+
+  function adjust_size() {
+    // we need to set the height explicitly so that scrolling regions in the
+    // content area work properly.
+    var h = $('#page-content').height();
+
+    $('#nav, #content').height(h);
+    if ($('#nav').is(':visible')) {
+      $('#mnav').hide();
+    }
+  }
+
+  adjust_size();
+
+  $(window).on('resize', adjust_size);
+
+  function focus_content() {
+    $('#content').focus();  // so that keyboard can be used to scroll, etc.
+  }
+
+  setTimeout(focus_content, 150);
+
+  var sizzle = $(document).data('sizzle');
+
+  function make_tooltip(id, h, b) {
+    var $e = $('<div>').attr('id', id);
+    var $b = $('<div>').addClass('tc-body').html(b);
+
+    if (h) {
+      var $h = $('<div>').addClass('tc-heading').html(h);
+      $e.append($h);
+    }
+    $e.append($b);
+    return $e;
+  }
+
+  var default_tt_options = {
+    theme: ['tooltipster-light', 'tooltipster-light-customized'],
+    interactive: true,
+    maxWidth: 600,
+    contentCloning: true
+  };
+
+  function activate_tooltips() {
+    var $tt = $('.tt');
+
+    //console.log('tt links:', $tt.length);
+    $tt.tooltipster(default_tt_options);
+  }
+
+
+
+  function add_glossary_tooltips() {
+    var links = $('a');  // can qualify with .reference.internal
+    var glinks = {};
+    var pat = /(.*)\.html#(term-.*)$/;
+    var found = false;  // links in this document
+
+    $.each(links, function(i, link) {
+        var $link = $(link);
+        var href = $link.attr('href');
+        var m = href.match(pat);
+
+        if (m) {
+          var s = m[1].replace(/^(\.\.\/)+/, '');
+
+          if (s === sizzle.app_data.glossary.document) {
+            var k = m[2];
+
+            if (k in glinks) {
+              glinks[k].push($link);
+            }
+            else {
+              glinks[k] = [$link];
+            }
+            found = true;
+          }
+        }
+    });
+    if (found) {
+      var $t = $('#tooltips');
+      var data = sizzle.app_data.glossary.terms;
+
+      $.each(glinks, function(k, v) {
+        var d = data[k];
+
+        if (d) {  // as a sanity check
+          var s = 'tc-'+ k;
+          var $e = make_tooltip(s, d.term, d.defn);
+          $t.append($e);
+
+          $.each(v, function(i, link) {
+            link.addClass('tt').attr('data-tooltip-content', '#' + s);
+          });
+        }
+      });
+    }
+  }
+
+  if (sizzle.app_data && sizzle.app_data.glossary &&
+      sizzle.app_data.glossary.document) {
+    add_glossary_tooltips();
+  }
+
+
+
+
+  function add_custom_tooltips() {
+    var info_tips = sizzle.app_data.custom_data['info-tips'] || {};
+
+    if ($.isEmptyObject(info_tips)) {
+      return;
+    }
+
+    var tt_options = $.extend({contentAsHTML: true}, default_tt_options);
+
+    $('.tc-info').each(function() {
+      var $elem = $(this).prev();
+      var classes = $elem.attr('class');
+      var m = /\btci-([\S]+)/.exec(classes);
+
+      if (m !== null) {
+        var key = m[1];
+
+        if (key in info_tips) {
+          var v = info_tips[key];
+          var tt = $elem.tooltipster(tt_options).tooltipster('content', v);
+        }
+      }
+    });
+  }
+
+  add_custom_tooltips();
+
+  setTimeout(activate_tooltips, 1000);
+
+
+  // Clipboard copy for code blocks with captions
+
+  $('.code-block-caption').each(function() {
+    var $cap = $(this);
+    var $btn = $('<span class="clip-copy"><span class="copied hidden">Copied!</span><i class="fa fa-clipboard" title="Copy contents"></i></span>');
+    var $code = $cap.parent().find('.highlight');
+
+    $cap.append($btn);
+    $btn.find('.fa-clipboard').data('clip-text', $code.text());
+  });
+
+  var clipboard = new ClipboardJS('.code-block-caption .fa-clipboard', {
+    'text': function(trigger) {
+      return $(trigger).data('clip-text');
+    }
+  });
+
+  clipboard.on('success', function(e) {
+    var $copied = $(e.trigger).prev();
+
+    $copied.removeClass('hidden');
+
+    setTimeout(function() {$copied.addClass('hidden'); }, 1000);
+  });
+
+  if (sizzle.on_load) {
+    sizzle.on_load.forEach(function(f) {
+      f();
+    });
+  }
+});
+</script>
+</body>
+</html>

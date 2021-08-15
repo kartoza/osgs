@@ -49,6 +49,7 @@ docs/build
 nginx_conf/locations/hugo.conf
 hugo_conf/config.yaml
 docs/build
+nginx_conf/locations/files.conf
 
 fonts
 
