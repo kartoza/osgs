@@ -1,15 +1,35 @@
+# OSGS
+
+Welcome to
+
+```
+  ___  ___  __ _ ___ 
+ / _ \/ __|/ _` / __|
+| (_) \__ \ (_| \__ \ 
+ \___/|___/\__, |___/
+           |___/     
+
+The Open Source GIS Stack
+```
+
+This project aims to provide a rich, integrated, open source based GIS stack for servers 
+for those with limited experience in setting up such things.
+
+
+[Documentation for this platform](https://kartoza.github.io/osgs/)
+
+
+
+## Credits
+
+* Tim Sutton
+* Charles Dixon-Paver
 
 
 
 
 
-
-
-
-
-
-
-
+## Notes to be tidied away
 
 
 
