@@ -33,25 +33,6 @@ for those with limited experience in setting up such things.
 
 
 
-# Obtaining free fonts for your projects
-
-There are two great sources of free fonts that you can use for your projects:
-
-http://ftp.gnu.org/gnu/freefont/freefont-ttf-20120503.zip
-https://fonts.google.com/
-
-There is a makefile target that can be run with:
-
-```
-make get-fonts
-```
-
-That will fetch all of these fonts for you. If you also fetch these fonts on your local machine and place them in your ``~/.fonts`` folder then you can use them in your local QGIS projects, know they will also be available to QGIS server if you publish that project as a web map.
-
-**Note:** This and other makefile targets assume that you have not changed the ``COMPOSE_PROJECT_NAME=osgisstack`` environment variable in .env.
-
-**Note:** The above make command fetches a rather large download!
-
 
 
 
@@ -68,12 +49,6 @@ These are legacy notes to be removed or carefully incorporated into the notes ab
 ![Workflow Diagram](diagrams/QGIS-Server-PG-Project-Workflow.png)
 
 ## Getting started
-
-## Checkout submodules
-
-```
-git submodule update --init --recursive
-```
 
 ## Define your domain name
 
@@ -239,18 +214,6 @@ docker-compose up -d
 ```
 
 Note that some services are intended to be run once only so you may see errors e.g. for odm which you can ignore.
-
-## Essential Reading
-
-### QGIS Server
-
-You should read the [QGIS Server documentation](https://docs.qgis.org/3.16/en/docs/server_manual/getting_started.html#) on QGIS.org. It is well written and covers a lot of background explanation which is not provided here. Also you should familiarise yourself with the [Environment Variables](https://docs.qgis.org/3.16/en/docs/server_manual/config.html#environment-variables).
-
-Alesandro Passoti has made a number of great resources available for QGIS Server. See his [workshop slide deck](http://www.itopen.it/bulk/FOSS4G-IT-2020/#/presentation-title) and his [server side plugin examples](https://github.com/elpaso/qgis3-server-vagrant/tree/master/resources/web/plugins), and [more examples here](https://github.com/elpaso/qgis-helloserver).
-
-### QGIS Server Atlas Print Plugin
-
-See the [project documentation](https://github.com/3liz/qgis-atlasprint/blob/master/atlasprint/README.md#api) for supported request parameters for QGIS Atlas prints.
 
 ### Docker OSM
 

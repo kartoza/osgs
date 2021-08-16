@@ -294,7 +294,6 @@ services:
         - all
         - nginx
         - geoserver
-        - dev
     healthcheck:
       test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8080/geoserver"
       interval: 60s
@@ -302,7 +301,8 @@ services:
       retries: 1 
       start_period: 60s
     depends_on:
-        - db    
+        - nginx
+        - scp
     env_file:
       # Editable configs (will be edited by make configure or by user)
       - .env

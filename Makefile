@@ -20,7 +20,18 @@ ps:
 	@echo "------------------------------------------------------------------"
 	@docker-compose ps
 
-configure: prepare-templates site-config enable-hugo setup-scp configure-htpasswd deploy
+configure: disable-all-services prepare-templates site-config enable-hugo setup-scp configure-htpasswd deploy
+
+disable-all-services:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Disabling services"
+	@echo "This will remove any symlinks in nginx_conf/locations and nginx_conf/upstreams"
+	@echo "effectively disabling all services exposed by nginx"
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@find ./nginx_conf/locations -maxdepth 1 -type l -delete
+	@find ./nginx_conf/upstreams -maxdepth 1 -type l -delete
 
 
 prepare-templates: 
@@ -98,22 +109,28 @@ site-config:
 	  rpl -q {{logoURL}} "$$LOGOURL" $(shell pwd)/hugo_conf/config.yaml
 
 enable-hugo:
-	@cd nginx_conf/locations; ln -s hugo.conf.available hugo.conf
+	-@cd nginx_conf/locations; ln -s hugo.conf.available hugo.conf
 
 disable-hugo:
 	@cd nginx_conf/locations; rm hugo.conf
 
 enable-docs:
-	@cd nginx_conf/locations; ln -s docs.conf.available docs.conf
+	-@cd nginx_conf/locations; ln -s docs.conf.available docs.conf
 
 disable-docs:
 	@cd nginx_conf/locations; rm docs.conf
 
 enable-files:
-	@cd nginx_conf/locations; ln -s files.conf.available files.conf
+	-@cd nginx_conf/locations; ln -s files.conf.available files.conf
 
 disable-files:
 	@cd nginx_conf/locations; rm files.conf
+
+enable-geoserver:
+	-@cd nginx_conf/locations; ln -s geoserver.conf.available geoserver.conf
+
+disable-geoserver:
+	@cd nginx_conf/locations; rm geoserver.conf
 
 
 setup-scp:
