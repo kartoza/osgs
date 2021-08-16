@@ -98,17 +98,17 @@ services:
   nginx:
     image: *nginx-image
     volumes:
-     - ./nginx_conf/nginx.conf:/etc/nginx/nginx.conf
+     - ./conf/nginx_conf/nginx.conf:/etc/nginx/nginx.conf
      # You must manually create this file before running
      # by running either
      # make configure-ssl-self-signed
      # or
      # make configure-letsencrypt-ssl
-     - ./nginx_conf/servername.conf:/etc/nginx/servername.conf
-     - ./nginx_conf/upstreams:/etc/nginx/upstreams
-     - ./nginx_conf/ssl:/etc/nginx/ssl
-     - ./nginx_conf/locations:/etc/nginx/locations
-     - ./nginx_conf/htpasswd:/etc/nginx/.htpasswd
+     - ./conf/nginx_conf/servername.conf:/etc/nginx/servername.conf
+     - ./conf/nginx_conf/upstreams:/etc/nginx/upstreams
+     - ./conf/nginx_conf/ssl:/etc/nginx/ssl
+     - ./conf/nginx_conf/locations:/etc/nginx/locations
+     - ./conf/nginx_conf/htpasswd:/etc/nginx/.htpasswd
      # If you are running with a self signed certificate
      # then make sure the following folder contains these files 
      # nginx-selfsigned.crt
@@ -203,7 +203,7 @@ services:
       # Only raw markdown should be put in here
       - scp_hugo_data:/src/content
       # config from host mounted volume
-      - ./hugo_conf/config.yaml:/src/config.yaml
+      - ./conf/hugo_conf/config.yaml:/src/config.yaml
 
   ############################################################
   #  END OF DEFAULT SERVICES - everything after this
@@ -409,8 +409,8 @@ services:
      # run when container is started.
      - scp_qgis_fonts:/usr/share/fonts
      - scp_qgis_svg:/var/lib/qgis/.local/share/QGIS/QGIS3/profiles/default/svg
-     - ./qgis_conf/qgis-auth.db:/tmp/qgis-auth.db
-     - ./qgis_conf/qgis-auth-pwd.txt:/tmp/qgis-auth-pwd.txt
+     - ./conf/qgis_conf/qgis-auth.db:/tmp/qgis-auth.db
+     - ./conf/qgis_conf/qgis-auth-pwd.txt:/tmp/qgis-auth-pwd.txt
      # Working path for the pg_service file if using
      # openquake/qgis-server:stable
      # See https://github.com/gem/oq-qgis-server/issues/54
@@ -423,12 +423,12 @@ services:
      #         no user/pass data and 
      #         instead we fetch those credentials from the qgis
      #         authdb
-     - ./pg_conf/pg_service.conf:/etc/postgresql-common/pg_service.conf:ro
+     - ./conf/pg_conf/pg_service.conf:/etc/postgresql-common/pg_service.conf:ro
      # As per the oq QGIS Server docs at
      # https://github.com/gem/oq-qgis-server/blob/master/README.md#postgresql-connection-service-file-optional
      # but wrong! 
      #This works instead for the openquake/qgis-server:3 image
-     #- ./pg_conf/pg_service.conf:/etc/pg_service.conf:ro
+     #- ./conf/pg_conf/pg_service.conf:/etc/pg_service.conf:ro
 
      # Mount the mergin db sync data into nginx so we can access
      # images etc.
@@ -456,10 +456,10 @@ services:
     user: "1000:1000"
     volumes:
       - mapproxy_data:/mapproxy/
-      - ./mapproxy_conf/app.py:/mapproxy/app.py
-      - ./mapproxy_conf/seed.yaml:/mapproxy/seed.yaml
-      - ./mapproxy_conf/mapproxy.yaml:/mapproxy/mapproxy.yaml
-      - ./mapproxy_conf/clip:/mapproxy/clip
+      - ./conf/mapproxy_conf/app.py:/mapproxy/app.py
+      - ./conf/mapproxy_conf/seed.yaml:/mapproxy/seed.yaml
+      - ./conf/mapproxy_conf/mapproxy.yaml:/mapproxy/mapproxy.yaml
+      - ./conf/mapproxy_conf/clip:/mapproxy/clip
     networks:
      - os-gis-stack
 
@@ -483,10 +483,10 @@ services:
     user: "1000:1000"
     volumes:
       - mapproxy_data:/mapproxy/
-      - ./mapproxy_conf/app.py:/mapproxy/app.py
-      - ./mapproxy_conf/seed.yaml:/mapproxy/seed.yaml
-      - ./mapproxy_conf/mapproxy.yaml:/mapproxy/mapproxy.yaml
-      - ./mapproxy_conf/clip:/mapproxy/clip
+      - ./conf/mapproxy_conf/app.py:/mapproxy/app.py
+      - ./conf/mapproxy_conf/seed.yaml:/mapproxy/seed.yaml
+      - ./conf/mapproxy_conf/mapproxy.yaml:/mapproxy/mapproxy.yaml
+      - ./conf/mapproxy_conf/clip:/mapproxy/clip
     networks:
       - os-gis-stack
     
@@ -528,7 +528,7 @@ services:
     ports:
       - "8080"
     volumes:
-      - ./swagger_conf/swagger.json:/swagger.json
+      - ./conf/swagger_conf/swagger.json:/swagger.json
     env_file: .env
     environment:
       SWAGGER_JSON: /swagger.json
@@ -557,7 +557,7 @@ services:
       # data files for geoserver etc.
       - "2222:22"
     volumes:
-      # Host mounted volumes./mapproxy_conf/mapproxy.yml
+      # Host mounted volumes./conf/mapproxy_conf/mapproxy.yml
       # We need to persist the /etc/ssh folder so that 
       # Docker restart don't create a new host key each time
       # because clients connecting will error out with host
@@ -566,7 +566,7 @@ services:
       # One file per user, each file containing list
       # of ssh keys allowed to upload to the data dir
       # Files should be given same name as user
-      - ./scp_conf:/conf
+      - ./conf/scp_conf:/conf
       # Mounted in SCP and to geoserver for serving geoserver data
       # store
       - scp_geoserver_data:/data/geoserver_data
@@ -671,7 +671,7 @@ services:
     entrypoint: /bin/cp
     command: "/settings/country.pbf /home/settings/country.pbf"
     volumes:
-      - ./osm_conf:/home/settings
+      - ./conf/osm_conf:/home/settings
 
   imposm:
     image: *imposm-image
@@ -681,7 +681,7 @@ services:
       - dev
     volumes:
       # These are sharable to other containers
-      - ./osm_conf:/home/settings
+      - ./conf/osm_conf:/home/settings
       - osm_import_done:/home/import_done
       - osm_import_queue:/home/import_queue
       - osm_cache:/home/cache
@@ -733,7 +733,7 @@ services:
   
     volumes:
       # These are sharable to other containers
-      - ./osm_conf:/home/settings
+      - ./conf/osm_conf:/home/settings
       - osm_import_done:/home/import_done
       - osm_import_queue:/home/import_queue
       - osm_cache:/home/cache
@@ -777,7 +777,7 @@ services:
       - dev 
     volumes:
       # These are sharable to other containers
-      - ./osm_conf:/home/settings
+      - ./conf/osm_conf:/home/settings
       - osm_import_done:/home/import_done
       - osm_import_queue:/home/import_queue
       - osm_cache:/home/cache

@@ -26,12 +26,12 @@ disable-all-services:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Disabling services"
-	@echo "This will remove any symlinks in nginx_conf/locations and nginx_conf/upstreams"
+	@echo "This will remove any symlinks in conf/nginx_conf/locations and conf/nginx_conf/upstreams"
 	@echo "effectively disabling all services exposed by nginx"
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
-	@find ./nginx_conf/locations -maxdepth 1 -type l -delete
-	@find ./nginx_conf/upstreams -maxdepth 1 -type l -delete
+	@find ./conf/nginx_conf/locations -maxdepth 1 -type l -delete
+	@find ./conf/nginx_conf/upstreams -maxdepth 1 -type l -delete
 
 
 prepare-templates: 
@@ -39,18 +39,18 @@ prepare-templates:
 	@echo "------------------------------------------------------------------"
 	@echo "Preparing templates"
 	@echo "This will replace any local configuration changes you have made"
-	@echo "in .env, nginx_conf/servername.conf"
+	@echo "in .env, conf/nginx_conf/servername.conf"
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
 	@cp .env.example .env
-	@cp nginx_conf/servername.conf.example nginx_conf/servername.conf
+	@cp conf/nginx_conf/servername.conf.example conf/nginx_conf/servername.conf
 	@echo "Please enter your valid domain name for the site."
 	@echo "e.g. example.org or subdomain.example.org:"
 	@read -p "Domain name: " DOMAIN; \
-		rpl example.org $$DOMAIN nginx_conf/servername.conf .env; 
+		rpl example.org $$DOMAIN conf/nginx_conf/servername.conf .env; 
 	@echo "We are going to set up a self signed certificate now."
 	@make configure-ssl-self-signed
-	@cp nginx_conf/ssl/certificates.conf.selfsigned.example nginx_conf/ssl/ssl.conf
+	@cp conf/nginx_conf/ssl/certificates.conf.selfsigned.example conf/nginx_conf/ssl/ssl.conf
 	@echo "Afterwards if you want to put the server into production mode"
 	@echo "please run:"
 	@echo "make configure-letsencrypt-ssl"
@@ -73,7 +73,7 @@ configure-letsencrypt-ssl:
 		rpl example.org $$DOMAIN nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh; 
 	@cp nginx_certbot_init_conf/nginx.conf.example nginx_certbot_init_conf/nginx.conf
 	@cp init-letsencrypt.sh.example init-letsencrypt.sh
-	@cp nginx_conf/ssl/ssl.conf.example nginx_conf/ssl/ssl.conf
+	@cp conf/nginx_conf/ssl/ssl.conf.example conf/nginx_conf/ssl/ssl.conf
 	@read -p "Valid Contact Person Email Address: " EMAIL; \
 	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh .env
 
@@ -85,65 +85,65 @@ site-config:
 	@echo "This will replace any local configuration changes you have made"
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
-	@cp ./hugo_conf/config.yaml.example ./hugo_conf/config.yaml
+	@cp ./conf/hugo_conf/config.yaml.example ./conf/hugo_conf/config.yaml
 	@echo "Please enter the site domain name (default 'example.com')"
 	@read -p "Domain name: " result; \
 	  DOMAINNAME=$${result:-"example.com"} && \
-	  rpl -q {{siteDomain}} "$$DOMAINNAME" $(shell pwd)/hugo_conf/config.yaml
+	  rpl -q {{siteDomain}} "$$DOMAINNAME" $(shell pwd)/conf/hugo_conf/config.yaml
 	@echo "Please enter the title of your website (default 'Geoservices')"
 	@read -p "Site Title: " result; \
 	  SITETITLE=$${result:-"Geoservices"} && \
-	  rpl -q {{siteTitle}} "$$SITETITLE" $(shell pwd)/hugo_conf/config.yaml
+	  rpl -q {{siteTitle}} "$$SITETITLE" $(shell pwd)/conf/hugo_conf/config.yaml
 	@echo "Please enter the name of the website owner (default 'Kartoza')"
 	@read -p "Site Owner: " result; \
 	  SITEOWNER=$${result:-"Kartoza"} && \
-	  rpl -q {{ownerName}} "$$SITEOWNER" $(shell pwd)/hugo_conf/config.yaml
+	  rpl -q {{ownerName}} "$$SITEOWNER" $(shell pwd)/conf/hugo_conf/config.yaml
 	@echo "Please supply the URL of the site owner (default 'www.kartoza.com')."
 	@read -p "Owner URL: " result; \
 	  OWNERURL=$${result:-"www.kartoza.com"} && \
-	  rpl -q {{ownerDomain}} "$$OWNERURL" $(shell pwd)/hugo_conf/config.yaml
+	  rpl -q {{ownerDomain}} "$$OWNERURL" $(shell pwd)/conf/hugo_conf/config.yaml
 	@echo "Please supply a valid public URL to the Website Logo."
 	@echo "Be sure to include the protocol prefix (e.g. https://)"
 	@read -p "Logo URL: " result; \
 	  LOGOURL=$${result:-"img/Circle-icons-stack.svg"} && \
-	  rpl -q {{logoURL}} "$$LOGOURL" $(shell pwd)/hugo_conf/config.yaml
+	  rpl -q {{logoURL}} "$$LOGOURL" $(shell pwd)/conf/hugo_conf/config.yaml
 
 enable-hugo:
-	-@cd nginx_conf/locations; ln -s hugo.conf.available hugo.conf
+	-@cd conf/nginx_conf/locations; ln -s hugo.conf.available hugo.conf
 
 disable-hugo:
-	@cd nginx_conf/locations; rm hugo.conf
+	@cd conf/nginx_conf/locations; rm hugo.conf
 
 enable-docs:
-	-@cd nginx_conf/locations; ln -s docs.conf.available docs.conf
+	-@cd conf/nginx_conf/locations; ln -s docs.conf.available docs.conf
 
 disable-docs:
-	@cd nginx_conf/locations; rm docs.conf
+	@cd conf/nginx_conf/locations; rm docs.conf
 
 enable-files:
-	-@cd nginx_conf/locations; ln -s files.conf.available files.conf
+	-@cd conf/nginx_conf/locations; ln -s files.conf.available files.conf
 
 disable-files:
-	@cd nginx_conf/locations; rm files.conf
+	@cd conf/nginx_conf/locations; rm files.conf
 
 enable-geoserver:
-	-@cd nginx_conf/locations; ln -s geoserver.conf.available geoserver.conf
+	-@cd conf/nginx_conf/locations; ln -s geoserver.conf.available geoserver.conf
 
 disable-geoserver:
-	@cd nginx_conf/locations; rm geoserver.conf
+	@cd conf/nginx_conf/locations; rm geoserver.conf
 
 
 setup-scp:
 	@echo "------------------------------------------------------------------"
 	@echo "Copying .ssh/authorized keys to all scp shares."
 	@echo "------------------------------------------------------------------"
-	@cat ~/.ssh/authorized_keys > scp_conf/geoserver_data
-	@cat ~/.ssh/authorized_keys > scp_conf/qgis_projects
-	@cat ~/.ssh/authorized_keys > scp_conf/qgis_fonts
-	@cat ~/.ssh/authorized_keys > scp_conf/qgis_svg
-	@cat ~/.ssh/authorized_keys > scp_conf/hugo_data
-	@cat ~/.ssh/authorized_keys > scp_conf/odm_data
-	@cat ~/.ssh/authorized_keys > scp_conf/general_data
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/geoserver_data
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_projects
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_fonts
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_svg
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/hugo_data
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/odm_data
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/general_data
 
 deploy:
 	@echo
@@ -161,9 +161,9 @@ configure-htpasswd:
 	@echo "------------------------------------------------------------------"
 	# bcrypt encrypted pwd, be sure to usie nginx:alpine nginx image
 	@export PASSWD=$$(pwgen 20 1); \
-	       	htpasswd -cbB nginx_conf/htpasswd web $$PASSWD; \
+	       	htpasswd -cbB conf/nginx_conf/htpasswd web $$PASSWD; \
 		echo "#User account for protected areas of the site using httpauth" >> .env; \
-		echo "#You can add more accounts to nginx_conf/htpasswd using the htpasswd tool" >> .env; \
+		echo "#You can add more accounts to conf/nginx_conf/htpasswd using the htpasswd tool" >> .env; \
 		echo $$PASSWD >> .env; \
 		echo "Files sharing htpasswd set to $$PASSWD"
 	@make enable-files
@@ -181,7 +181,7 @@ site-reset:
 	@echo "This will replace any local configuration changes you have made"
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
-	@cp ./hugo_conf/config.yaml.example ./hugo_conf/config.yaml
+	@cp ./conf/hugo_conf/config.yaml.example ./conf/hugo_conf/config.yaml
 
 
 
@@ -235,10 +235,10 @@ configure-mapproxy:
 	@echo "=========================:"
 	@echo "Mapproxy specific updates:"
 	@echo "=========================:"
-	@cp mapproxy_conf/mapproxy.yaml.example mapproxy_conf/mapproxy.yaml 
-	@cp mapproxy_conf/seed.yaml.example mapproxy_conf/seed.yaml 
+	@cp conf/mapproxy_conf/mapproxy.yaml.example conf/mapproxy_conf/mapproxy.yaml 
+	@cp conf/mapproxy_conf/seed.yaml.example conf/mapproxy_conf/seed.yaml 
 	@echo "We have created template mapproxy.yaml and seed.yaml"
-	@echo "configuration files in mapproxy_conf."
+	@echo "configuration files in conf/mapproxy_conf."
 	@echo "You will need to hand edit those files and then "
 	@echo "restart mapproxy for those edits to take effect."
 	@echo "see: make reinitialise-mapproxy"	
@@ -263,7 +263,7 @@ configure-osm-mirror:
 	@echo "OSM Mirror specific updates:"
 	@echo "=========================:"
 	@echo "I have prepared my clip area (optional) and"
-	@echo "saved it as osm_config/clip.geojson."
+	@echo "saved it as conf/osm_config/clip.geojson."
 	@echo "You can easily create such a clip document"
 	@echo "at https://geojson.io or by using QGIS"
 	@read -p "Press enter to continue" CONFIRM;
@@ -357,7 +357,7 @@ reinitialise-mapproxy:
 	@echo "------------------------------------------------------------------"
 	@docker-compose kill mapproxy
 	@docker-compose rm mapproxy
-	@rm -rf mapproxy_conf/cache_data/*
+	@rm -rf conf/mapproxy_conf/cache_data/*
 	@docker-compose up -d mapproxy
 	@docker-compose logs -f mapproxy
 
@@ -399,9 +399,9 @@ kill-osm:
 	@docker-compose rm osmupdate
 	@docker-compose rm osmenrich
 	# Next commands have - in front as they as non compulsory to succeed
-	-@sudo rm osm_conf/timestamp.txt
-	-@sudo rm osm_conf/last.state.txt
-	-@sudo rm osm_conf/importer.lock
+	-@sudo rm conf/osm_conf/timestamp.txt
+	-@sudo rm conf/osm_conf/last.state.txt
+	-@sudo rm conf/osm_conf/importer.lock
 	-@docker-compose exec -u postgres db psql -c "drop schema osm cascade;" gis 
 	-@docker-compose exec -u postgres db psql -c "drop schema osm_backup cascade;" gis 
 	-@docker-compose exec -u postgres db psql -c "drop schema osm_import cascade;" gis 
