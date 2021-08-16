@@ -158,11 +158,6 @@ services:
     depends_on:
       - scp
       - hugo-watcher
-      #- qgis-server
-      #- mapproxy
-      #- geoserver
-      #- postgrest
-      #- swagger
 
   certbot:
     image: *certbot-image
@@ -193,15 +188,36 @@ services:
      - ./certbot/certbot/conf:/etc/letsencrypt
      - ./certbot/certbot/www:/var/www/certbot
 
+  hugo-watcher:
+    # This service watches for changes in the static content
+    # source files of the hugo site and rebuilds the site 
+    # whenver a source file is changed.
+    # Use the scp service to upload your markdown files to
+    # scp_hugo_data.
+    image: *hugo-image
+    # No profiles specified, automatically started by nginx
+    volumes:
+      # This is not user editable, generated static html
+      # will be placed here.
+      - generated_hugo_data:/src/public
+      # Only raw markdown should be put in here
+      - scp_hugo_data:/src/content
+      # config from host mounted volume
+      - ./hugo_conf/config.yaml:/src/config.yaml
+
+  ############################################################
+  #  END OF DEFAULT SERVICES - everything after this
+  #  needs to be explicitly started by passing a docker-compose
+  #  profile as parameter.
+  ############################################################
+
   db:
     image: *postgres-image
     profiles:
         - all
         - db
-        - nginx
         - postgres
         - osm
-        - geoserver
         - qgis-server
         - mergin
         - mergin-server
@@ -333,7 +349,6 @@ services:
       -  all 
       -  nginx 
       -  qgis-server 
-      -  dev
     #image: "openquake/qgis-server:3"
     env_file: .env
     environment:
@@ -432,7 +447,6 @@ services:
       - all
       - nginx
       - qgis-server
-      - dev
       - mapproxy
     env_file: .env
     environment:
@@ -525,81 +539,6 @@ services:
     networks:
       - os-gis-stack
 
-#######################################################
-#
-# Run-once services for generating hugo site content etc.
-#
-# For new deployments run in this sequence:
-#
-# docker-compose --profile=site run site-reset
-# docker-compose --profile=site run site-init
-# docker-compose --profile=site run site-build
-#
-# Then use the docker scp containers to upload content
-# into the hugo dir.
-#
-#######################################################
-      
-  site-reset:
-    # A run once container that reset the config.yaml of the hugo site
-    # Treat this as a run-once job and run it using either
-    # docker-compose --profile=site run site-reset
-    # or 
-    # make site-reset
-    # Typically we don't use host mounted volumes 
-    # but for this case we cannot mount files
-    # that don't exist (config.yaml) so we mount 
-    # the parent volume as source to copy over the template
-    image: *hugo-image
-    profiles: 
-      - site
-    volumes:
-      # config from host mounted volume
-      - ./hugo_conf:/src/
-    entrypoint: ["/bin/sh", "-c",  "cat /src/config.yaml.example > /src/config.yaml"]
-
-  site-init:
-    # A run once container that reset all the default content of the hugo site
-    # Treat this as a run-once job and run it using either
-    # docker-compose --profile=site run site-init
-    # or 
-    # make site-init
-    image: *hugo-image
-    profiles: 
-      - site
-    volumes:
-      - generated_hugo_data:/src
-      # Only raw markdown should be put in here
-      # This service will replace content with defaults
-      # from hugo_conf/content_template
-      # which is a potentially DESTRUCTIVE operation
-      - scp_hugo_data:/src/content
-      # config from host mounted volume
-      - ./hugo_conf/config.yaml:/src/config.yaml
-      - ./hugo_conf/content_template:/src/content_template
-    #entrypoint: ["tail", "-f", "/dev/null"]
-    #entrypoint: "ls /src/content"
-    #entrypoint: "ls /src/content_template/"
-    entrypoint: "cp -r /src/content_template/* /src/content/"
-
-  hugo-watcher:
-    # This service watches for changes in the static content
-    # source files of the hugo site and rebuilds the site 
-    # whenver a source file is changed.
-    # Use the scp service to upload your markdown files to
-    # scp_hugo_data.
-    # docker-compose --profile=site run site-build
-    # or 
-    # make odm
-    image: *hugo-image
-    # No profiles specified, automatically started by nginx
-    volumes:
-      - generated_hugo_data:/src/public
-      # Only raw markdown should be put in here
-      - scp_hugo_data:/src/content
-      # config from host mounted volume
-      - ./hugo_conf/config.yaml:/src/config.yaml
-      - ./hugo_conf/content_template:/src/content_template
 
 #######################################################
 #
