@@ -18,13 +18,13 @@ vector-tile-bright-style.json
 superset/
 redis/
 .vscode
-scp_conf/general_data
-scp_conf/geoserver_data
-scp_conf/hugo_data
-scp_conf/odm_data
-scp_conf/qgis_fonts
-scp_conf/qgis_projects
-scp_conf/qgis_svg
+conf/scp_conf/general_data
+conf/scp_conf/geoserver_data
+conf/scp_conf/hugo_data
+conf/scp_conf/odm_data
+conf/scp_conf/qgis_fonts
+conf/scp_conf/qgis_projects
+conf/scp_conf/qgis_svg
 pg_conf/pg_service.conf
 nginx_certbot_init_conf/nginx.conf
 nginx_conf/ssl/ssl.conf
@@ -49,8 +49,11 @@ docs/build
 nginx_conf/locations/hugo.conf
 hugo_conf/config.yaml
 sphinx/build
-nginx_conf/locations/files.conf
-nginx_conf/locations/docs.conf
-
+conf/nginx_conf/locations/*.conf
 fonts
+conf/hugo_conf/config.yaml
+conf/nginx_conf/htpasswd
+conf/nginx_conf/servername.conf
+conf/nginx_conf/ssl/*.conf
+
 

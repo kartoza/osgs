@@ -126,11 +126,44 @@ enable-files:
 disable-files:
 	@cd conf/nginx_conf/locations; rm files.conf
 
+
+#----------------- GeoServer --------------------------
+
+deploy-geoserver: enable-geoserver configure-geoserver-passwd
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting GeoServer"
+	@echo "------------------------------------------------------------------"
+	@docker-compose --profile=geoserver up -d
+	@docker-compose restart nginx
+
+configure-geoserver-passwd:
+	@export PASSWD=$$(pwgen 20 1); \
+		rpl GEOSERVER_ADMIN_PASSWORD=myawesomegeoserver GEOSERVER_ADMIN_PASSWORD=$$PASSWD .env; \
+		echo "GeoServer password set to $$PASSWD"
+
 enable-geoserver:
 	-@cd conf/nginx_conf/locations; ln -s geoserver.conf.available geoserver.conf
 
 disable-geoserver:
 	@cd conf/nginx_conf/locations; rm geoserver.conf
+
+#----------------- QGIS Server --------------------------
+
+deploy-qgis-server: enable-qgis-server
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting QGIS Server"
+	@echo "------------------------------------------------------------------"
+	@docker-compose --profile=qgis-server up -d --scale qgis-server=10 --remove-orphans
+	@docker-compose restart nginx
+
+enable-qgis-server:
+	-@cd conf/nginx_conf/locations; ln -s qgis-server.conf.available qgis-server.conf
+
+disable-qgis-server:
+	@cd conf/nginx_conf/locations; rm qgis-server.conf
+
 
 
 setup-scp:
@@ -185,15 +218,6 @@ site-reset:
 
 
 
-deploy-qgis-server:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Starting all production containers"
-	@echo "------------------------------------------------------------------"
-	@docker-compose --profile=production up -d --scale qgis-server=10 --remove-orphans
-	@docker-compose --profile=production restart nginx
-
-
 init-letsencrypt:
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -211,10 +235,6 @@ configure-pgpasswd:
 		rpl POSTGRES_PASSWORD=docker POSTGRES_PASSWORD=$$PASSWD .env; \
 		echo "Postgres password set to $$PASSWD"
 
-configure-geoserver-passwd:
-	@export PASSWD=$$(pwgen 20 1); \
-		rpl GEOSERVER_ADMIN_PASSWORD=myawesomegeoserver GEOSERVER_ADMIN_PASSWORD=$$PASSWD .env; \
-		echo "GeoServer password set to $$PASSWD"
 
 configure-timezone:
 	@echo "Please enter the timezone for your server"

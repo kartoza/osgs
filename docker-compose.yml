@@ -347,9 +347,7 @@ services:
     image: *qgis-server-image
     profiles: 
       -  all 
-      -  nginx 
       -  qgis-server 
-    #image: "openquake/qgis-server:3"
     env_file: .env
     environment:
       # Do not run the embedded copy of nginx
@@ -437,8 +435,6 @@ services:
      # To do that the mergin project needs to be set up accordingly
      # - TODO for the future
      - mergin_sync_data:/mergin-data     
-    depends_on:
-      - db
     restart: unless-stopped
 
   mapproxy:
@@ -446,7 +442,6 @@ services:
     profiles: 
       - all
       - nginx
-      - qgis-server
       - mapproxy
     env_file: .env
     environment:
