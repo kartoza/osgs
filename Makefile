@@ -164,6 +164,22 @@ enable-qgis-server:
 disable-qgis-server:
 	@cd conf/nginx_conf/locations; rm qgis-server.conf
 
+#----------------- Mapproxy --------------------------
+
+deploy-mapproxy: enable-mapproxy
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting Mapproxy"
+	@echo "------------------------------------------------------------------"
+	@docker-compose --profile=mapproxy up -d 
+	@docker-compose restart nginx
+
+enable-mapproxy:
+	-@cd conf/nginx_conf/locations; ln -s mapproxy.conf.available mapproxy.conf
+
+disable-mapproxy:
+	@cd conf/nginx_conf/locations; rm mapproxy.conf
+
 
 
 setup-scp:
