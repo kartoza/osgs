@@ -1,11 +1,16 @@
-# ProjecName
+# Nginx
 
-Short description
+Nginx is a lightweight web server acting as a proxy in front of QGIS 
+server and as a server for the static HTML content.
 
-**Project Website:**
+**Project Website:** [NGINX](https://www.nginx.com/)
+
 **Project Source Repository:**
+
 **Project Project Technical Documentation:**
+
 **Docker Repository:**
+
 **Docker Source Repository:**
 
 

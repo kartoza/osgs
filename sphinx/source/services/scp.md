@@ -1,4 +1,43 @@
-# SCP File Drop Service
+# SCP
+
+The SCP (secure copy) containers have been arranged so that there are some standard containers out of the box. 
+Each container has its data stored in its own docker volume as well. The data is somewhat isolated 
+and there are containers for QGIS projects, fonts, SVGs that your QGIS projects might reference, 
+general file sharing, uploading data to ODM, etc. The SCP service is designed to only support 
+connections with SSH public-private key encryption and password based authentication. The way 
+that you provision users into it is that you copy the SSH public key into a file in the configuration 
+folder for SCP and then that user will be allowed to make the connection to whichever SCP share 
+that you have created for them. The SCP container can be used to copy a QGIS project file from your 
+desktop up to the server with all the QGIS resources that it needs such as shapefiles. The QGIS 
+Server instance can then be used to access the project from the OGC web services.
+
+
+**Project Website:**
+
+**Project Source Repository:**
+
+**Project Project Technical Documentation:**
+
+**Docker Repository:**
+
+**Docker Source Repository:**
+
+
+## Configuration
+
+## Deployment
+
+## Enabling
+
+## Disabling
+
+## Accessing the running services
+
+## Additional Notes
+
+
+
+## SCP File Drop Shares
 
 This is a container intended for users to upload files for publication on the
 server. It runs on port 2222 so we need to expose that through the firewall:

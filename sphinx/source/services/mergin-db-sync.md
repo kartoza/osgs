@@ -1,14 +1,39 @@
-# Working with Mergin projects
+# Mergin-db-sync
 
 There are two modalities in which you can work with Mergin projects:
 
-1. **mergin-db-sync**: A Mergin project which is synchronised into a PostgreSQL
+1. **mergin-db-sync (covered here)**: A Mergin project which is synchronised into a PostgreSQL
    database and supports bidirectional syncing and editing.
-2. **mergin-client:** A folder containing multiple mergin projects (all of the
+2. **[mergin-client.md](mergin-client):** A folder containing multiple mergin projects (all of the
    projects shared with a mergin user). These projects are synchronised into
    the filesystem and published via QGIS Server as web mapping services.
 
-## Mergin-db-sync
+
+Short description
+
+**Project Website:**
+
+**Project Source Repository:**
+
+**Project Project Technical Documentation:**
+
+**Docker Repository:**
+
+**Docker Source Repository:**
+
+
+## Configuration
+
+## Deployment
+
+## Enabling
+
+## Disabling
+
+## Accessing the running services
+
+## Additional Notes
+
 
 In the .env file you should specify these options:
 
@@ -47,29 +72,3 @@ following keys in the .env file:
 
 * POSTGRES_USER
 * POSTGRES_PASSWORD
-
-## Mergin-client
-
-In the second situation, you use the Mergin client to clone one of more Mergin 
-projects to the host running docker-compose and these projects are made available
-through QGIS Server.
-
-One critical note is that the Project directory and the Project File names must be
-the same, otherwise QGIS Server will not recognise the project as being valid. For
-example:
-
-* Valid: ``FooProject/FooProject.qgz``
-* Not Valid: ``FooProject/BarProject.qgz``
-
-Once published in this way, valid projects will be accessible from any OGC compliant
-client (e.g. QGIS Desktop, OpenLayers, Leaflet) using the following URL Scheme:
-
-``https://yourhost.com/ogc/yourproject``
-
-For example, here is one we published for a client (domain name changed):
-
-``https://example.org/ogc/Elevation``
-
-You can read more about the mergin-client at the separate git repo here:
-
-https://github.com/kartoza/mergin-client

@@ -27,7 +27,7 @@ cd OpenSource-GIS-Stack
 
 ## Fetching Docker Images
 
-![Overview Diagram](./img/docker-images.png)
+![Overview Diagram](../img/docker-images.png)
 
 
 

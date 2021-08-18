@@ -14,19 +14,8 @@ OSGS
    services/index.rst
    installation/index.rst
    utilities/index.rst
-   server_preparation
-   initial_configuration
-   production_stack
-   scp
-   postgis
-   postgresql_workflows
-   qgis_server
-   qgis_server_scaling
-   geoserver
-   mergin_projects
+   workflows/index.rst
    osm
-   fonts
-   building_docs
 
 
 Indices and tables

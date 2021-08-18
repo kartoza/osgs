@@ -10,9 +10,12 @@ Services
    hugo-watcher
    lizmap
    mergin-server
+   mergin-client
+   mergin-db-sync
    nginx
    postgrest
    qgis-server
+   scp
 
 
 Indices and tables

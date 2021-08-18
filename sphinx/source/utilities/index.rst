@@ -5,7 +5,7 @@ Utilities
    :maxdepth: 2
    :caption: Contents:
 
-
+   building_docs
 
 Indices and tables
 ==================
