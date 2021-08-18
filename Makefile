@@ -166,13 +166,38 @@ disable-qgis-server:
 
 #----------------- Mapproxy --------------------------
 
-deploy-mapproxy: enable-mapproxy
+deploy-mapproxy: enable-mapproxy configure-mapproxy
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting Mapproxy"
 	@echo "------------------------------------------------------------------"
 	@docker-compose --profile=mapproxy up -d 
 	@docker-compose restart nginx
+
+reinitialise-mapproxy:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting Mapproxy and clearing its cache"
+	@echo "------------------------------------------------------------------"
+	@docker-compose kill mapproxy
+	@docker-compose rm mapproxy
+	@rm -rf conf/mapproxy_conf/cache_data/*
+	@docker-compose up -d mapproxy
+	@docker-compose logs -f mapproxy
+
+
+configure-mapproxy:
+	@echo "=========================:"
+	@echo "Mapproxy configurations:"
+	@echo "=========================:"
+	@cp conf/mapproxy_conf/mapproxy.yaml.example conf/mapproxy_conf/mapproxy.yaml 
+	@cp conf/mapproxy_conf/seed.yaml.example conf/mapproxy_conf/seed.yaml 
+	@echo "We have created template mapproxy.yaml and seed.yaml"
+	@echo "configuration files in conf/mapproxy_conf."
+	@echo "You will need to hand edit those files and then "
+	@echo "restart mapproxy for those edits to take effect."
+	@echo "see: make reinitialise-mapproxy"	
+
 
 enable-mapproxy:
 	-@cd conf/nginx_conf/locations; ln -s mapproxy.conf.available mapproxy.conf
@@ -266,18 +291,6 @@ configure-postgrest:
 	@export PASSWD=$$(pwgen 20 1); \
 		rpl PGRST_JWT_SECRET=foobarxxxyyyzzz PGRST_JWT_SECRET=$$PASSWD .env; \
 		echo "PostGREST JWT token set to $$PASSWD"
-
-configure-mapproxy:
-	@echo "=========================:"
-	@echo "Mapproxy specific updates:"
-	@echo "=========================:"
-	@cp conf/mapproxy_conf/mapproxy.yaml.example conf/mapproxy_conf/mapproxy.yaml 
-	@cp conf/mapproxy_conf/seed.yaml.example conf/mapproxy_conf/seed.yaml 
-	@echo "We have created template mapproxy.yaml and seed.yaml"
-	@echo "configuration files in conf/mapproxy_conf."
-	@echo "You will need to hand edit those files and then "
-	@echo "restart mapproxy for those edits to take effect."
-	@echo "see: make reinitialise-mapproxy"	
 
 configure-mergin-client:
 	@echo "=========================:"
@@ -385,17 +398,6 @@ db-backup-mergin-base-schema:
 	@docker cp osgisstack_db_1:/tmp/mergin-base-schema.dmp .
 	@docker-compose exec -u postgres db rm /tmp/mergin-base-schema.dmp
 	@ls -lah mergin-base-schema.dmp
-
-reinitialise-mapproxy:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restarting Mapproxy and clearing its cache"
-	@echo "------------------------------------------------------------------"
-	@docker-compose kill mapproxy
-	@docker-compose rm mapproxy
-	@rm -rf conf/mapproxy_conf/cache_data/*
-	@docker-compose up -d mapproxy
-	@docker-compose logs -f mapproxy
 
 
 reinitialise-qgis-server:
