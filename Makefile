@@ -9,7 +9,7 @@ docs:
 	@echo "Making sphinx docs"
 	@echo "------------------------------------------------------------------"
 	$(MAKE) -C sphinx html
-	@cp -r  sphinx/build/html docs
+	@cp -r  sphinx/build/html/* docs
 	$(MAKE) -C sphinx latexpdf
 	@cp sphinx/build/latex/osgs.pdf osgs-manual.pdf
 
