@@ -11,6 +11,9 @@ OSGS
    :caption: Contents:
 
    introduction
+   services/index.rst
+   installation/index.rst
+   utilities/index.rst
    server_preparation
    initial_configuration
    production_stack
