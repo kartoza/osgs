@@ -57,6 +57,7 @@ disable-all-services:
 	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
 	@find ./conf/nginx_conf/locations -maxdepth 1 -type l -delete
 	@find ./conf/nginx_conf/upstreams -maxdepth 1 -type l -delete
+	@echo "" > enabled-profiles
 
 
 prepare-templates: 
@@ -135,18 +136,23 @@ site-config:
 
 enable-hugo:
 	-@cd conf/nginx_conf/locations; ln -s hugo.conf.available hugo.conf
+	@echo "hugo" >> enabled-profiles
 
 disable-hugo:
 	@cd conf/nginx_conf/locations; rm hugo.conf
+	# Remove from enabled-profiles
+	@sed -i '/hugo/d' enabled-profiles
 
 enable-docs:
 	-@cd conf/nginx_conf/locations; ln -s docs.conf.available docs.conf
+	@echo "docs" >> enabled-profiles
 
 disable-docs:
 	@cd conf/nginx_conf/locations; rm docs.conf
 
 enable-files:
 	-@cd conf/nginx_conf/locations; ln -s files.conf.available files.conf
+	@echo "files" >> enabled-profiles
 
 disable-files:
 	@cd conf/nginx_conf/locations; rm files.conf
@@ -169,13 +175,16 @@ configure-geoserver-passwd:
 
 enable-geoserver:
 	-@cd conf/nginx_conf/locations; ln -s geoserver.conf.available geoserver.conf
+	@echo "geoserver" >> enabled-profiles
 
 disable-geoserver:
 	@cd conf/nginx_conf/locations; rm geoserver.conf
 
 #----------------- QGIS Server --------------------------
 
-deploy-qgis-server: enable-qgis-server
+deploy-qgis-server: enable-qgis-server start-qgis-server
+
+start-qgis-server:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting QGIS Server"
@@ -186,10 +195,27 @@ deploy-qgis-server: enable-qgis-server
 enable-qgis-server:
 	-@cd conf/nginx_conf/locations; ln -s qgis-server.conf.available qgis-server.conf
 	-@cd conf/nginx_conf/upstreams; ln -s qgis-server.conf.available qgis-server.conf
+	@echo "qgis-server" >> enabled-profiles
 
 disable-qgis-server:
 	@cd conf/nginx_conf/locations; rm qgis-server.conf
 	@cd conf/nginx_conf/upstreams; rm qgis-server.conf
+
+reinitialise-qgis-server: rm-qgis-server start-qgis-server
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting QGIS Server and Nginx"
+	@echo "------------------------------------------------------------------"
+	@docker-compose restart nginx
+	@docker-compose logs -f qgis-server 
+
+rm-qgis-server:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping QGIS Server and Nginx"
+	@echo "------------------------------------------------------------------"
+	@docker-compose kill qgis-server
+	@docker-compose rm qgis-server
 
 #----------------- Mapproxy --------------------------
 
@@ -227,6 +253,7 @@ configure-mapproxy:
 
 enable-mapproxy:
 	-@cd conf/nginx_conf/locations; ln -s mapproxy.conf.available mapproxy.conf
+	@echo "mapproxy" >> enabled-profiles
 
 disable-mapproxy:
 	@cd conf/nginx_conf/locations; rm mapproxy.conf
@@ -260,7 +287,7 @@ configure-postgres: configure-timezone
 		echo "Postgres password set to $$PASSWD"
 
 enable-postgres:
-	@echo "This is currently a stub"	
+	@echo "db" >> enabled-profiles
 
 disable-postgres:
 	@echo "This is currently a stub"	
@@ -345,34 +372,10 @@ configure-scp:
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/odm_data
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/general_data
 
+enable-scp:
+	@echo "scp" >> enabled-profiles
 
-site-reset:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Reset site configuration to default values"
-	@echo "This will replace any local configuration changes you have made"
-	@echo "------------------------------------------------------------------"
-	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
-	@cp ./conf/hugo_conf/config.yaml.example ./conf/hugo_conf/config.yaml
-
-
-
-init-letsencrypt:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Getting an SSL cert from letsencypt"
-	@echo "------------------------------------------------------------------"
-	@./init-letsencrypt.sh	
-	@docker-compose --profile=certbot-init kill
-	@docker-compose --profile=certbot-init rm
-	@make build-pbf
-
-
-
-
-################################################
-##  End of initial site config targets
-################################################
+#----------------- Postgrest --------------------------
 
 
 configure-postgrest:
@@ -382,6 +385,11 @@ configure-postgrest:
 	@export PASSWD=$$(pwgen 20 1); \
 		rpl PGRST_JWT_SECRET=foobarxxxyyyzzz PGRST_JWT_SECRET=$$PASSWD .env; \
 		echo "PostGREST JWT token set to $$PASSWD"
+enable-postgrest:
+	@echo "postgrest" >> enabled-profiles
+
+
+
 
 configure-mergin-client:
 	@echo "=========================:"
@@ -409,6 +417,36 @@ configure-osm-mirror:
 	@read -p "Press enter to continue" CONFIRM;
 
 
+
+
+
+
+#######################################################
+#   General Utilities
+#######################################################
+
+site-reset:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Reset site configuration to default values"
+	@echo "This will replace any local configuration changes you have made"
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@cp ./conf/hugo_conf/config.yaml.example ./conf/hugo_conf/config.yaml
+
+
+
+init-letsencrypt:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Getting an SSL cert from letsencypt"
+	@echo "------------------------------------------------------------------"
+	@./init-letsencrypt.sh	
+	@docker-compose --profile=certbot-init kill
+	@docker-compose --profile=certbot-init rm
+	@make build-pbf
+
+
 restart:
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -431,17 +469,6 @@ nginx-shell:
 	@echo "------------------------------------------------------------------"
 	@docker-compose exec nginx /bin/bash
 
-
-reinitialise-qgis-server:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restarting QGIS Server and Nginx"
-	@echo "------------------------------------------------------------------"
-	@docker-compose kill qgis-server
-	@docker-compose rm qgis-server
-	@docker-compose up -d qgis-server
-	@docker-compose restart nginx
-	@docker-compose logs -f qgis-server 
 
 build-bpf:
 	@echo
