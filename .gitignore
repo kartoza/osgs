@@ -56,4 +56,5 @@ conf/nginx_conf/htpasswd
 conf/nginx_conf/servername.conf
 conf/nginx_conf/ssl/*.conf
 
-
+docs/.doctrees/
+sphinx/source/_build/
