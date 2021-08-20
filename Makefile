@@ -20,7 +20,7 @@ ps:
 	@echo "------------------------------------------------------------------"
 	@docker-compose ps
 
-configure: disable-all-services prepare-templates site-config enable-hugo setup-scp configure-htpasswd deploy
+configure: disable-all-services prepare-templates site-config enable-hugo configure-scp configure-htpasswd deploy
 
 disable-all-services:
 	@echo
@@ -160,9 +160,11 @@ deploy-qgis-server: enable-qgis-server
 
 enable-qgis-server:
 	-@cd conf/nginx_conf/locations; ln -s qgis-server.conf.available qgis-server.conf
+	-@cd conf/nginx_conf/upstreams; ln -s qgis-server.conf.available qgis-server.conf
 
 disable-qgis-server:
 	@cd conf/nginx_conf/locations; rm qgis-server.conf
+	@cd conf/nginx_conf/upstreams; rm qgis-server.conf
 
 #----------------- Mapproxy --------------------------
 
@@ -198,16 +200,7 @@ configure-mapproxy:
 	@echo "restart mapproxy for those edits to take effect."
 	@echo "see: make reinitialise-mapproxy"	
 
-
-enable-mapproxy:
-	-@cd conf/nginx_conf/locations; ln -s mapproxy.conf.available mapproxy.conf
-
-disable-mapproxy:
-	@cd conf/nginx_conf/locations; rm mapproxy.conf
-
-
-
-setup-scp:
+configure-scp:
 	@echo "------------------------------------------------------------------"
 	@echo "Copying .ssh/authorized keys to all scp shares."
 	@echo "------------------------------------------------------------------"
@@ -218,6 +211,16 @@ setup-scp:
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/hugo_data
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/odm_data
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/general_data
+
+
+enable-mapproxy:
+	-@cd conf/nginx_conf/locations; ln -s mapproxy.conf.available mapproxy.conf
+
+disable-mapproxy:
+	@cd conf/nginx_conf/locations; rm mapproxy.conf
+
+
+
 
 deploy:
 	@echo
