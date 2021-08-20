@@ -55,5 +55,6 @@ conf/hugo_conf/config.yaml
 conf/nginx_conf/htpasswd
 conf/nginx_conf/servername.conf
 conf/nginx_conf/ssl/*.conf
+docs/.doctrees/
+sphinx/source/_build/
 conf/nginx_conf/upstreams/*.conf
-
