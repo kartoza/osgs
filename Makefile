@@ -20,7 +20,32 @@ ps:
 	@echo "------------------------------------------------------------------"
 	@docker-compose ps
 
-configure: disable-all-services prepare-templates site-config enable-hugo setup-scp configure-htpasswd deploy
+configure: disable-all-services prepare-templates site-config enable-hugo configure-scp configure-htpasswd deploy
+
+deploy:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting basic nginx site"
+	@echo "------------------------------------------------------------------"
+	@docker-compose up -d
+	@docker-compose logs -f
+
+configure-htpasswd:
+	@echo "------------------------------------------------------------------"
+	@echo "Configuring password controlled file sharing are for your site"
+	@echo "Accessible at /files/"
+	@echo "Access credentials will be stored in .env"
+	@echo "------------------------------------------------------------------"
+	# bcrypt encrypted pwd, be sure to usie nginx:alpine nginx image
+	@export PASSWD=$$(pwgen 20 1); \
+	       	htpasswd -cbB conf/nginx_conf/htpasswd web $$PASSWD; \
+		echo "#User account for protected areas of the site using httpauth" >> .env; \
+		echo "#You can add more accounts to conf/nginx_conf/htpasswd using the htpasswd tool" >> .env; \
+		echo $$PASSWD >> .env; \
+		echo "Files sharing htpasswd set to $$PASSWD"
+	@make enable-files
+
+
 
 disable-all-services:
 	@echo
@@ -160,9 +185,11 @@ deploy-qgis-server: enable-qgis-server
 
 enable-qgis-server:
 	-@cd conf/nginx_conf/locations; ln -s qgis-server.conf.available qgis-server.conf
+	-@cd conf/nginx_conf/upstreams; ln -s qgis-server.conf.available qgis-server.conf
 
 disable-qgis-server:
 	@cd conf/nginx_conf/locations; rm qgis-server.conf
+	@cd conf/nginx_conf/upstreams; rm qgis-server.conf
 
 #----------------- Mapproxy --------------------------
 
@@ -198,84 +225,45 @@ configure-mapproxy:
 	@echo "restart mapproxy for those edits to take effect."
 	@echo "see: make reinitialise-mapproxy"	
 
-
 enable-mapproxy:
 	-@cd conf/nginx_conf/locations; ln -s mapproxy.conf.available mapproxy.conf
 
 disable-mapproxy:
 	@cd conf/nginx_conf/locations; rm mapproxy.conf
 
+#----------------- Postgres --------------------------
 
-
-setup-scp:
-	@echo "------------------------------------------------------------------"
-	@echo "Copying .ssh/authorized keys to all scp shares."
-	@echo "------------------------------------------------------------------"
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/geoserver_data
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_projects
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_fonts
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_svg
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/hugo_data
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/odm_data
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/general_data
-
-deploy:
+deploy-postgres: enable-postgres configure-postgres
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Starting basic nginx site"
+	@echo "Starting Postgres"
 	@echo "------------------------------------------------------------------"
-	@docker-compose up -d
-	@docker-compose logs -f
+	@docker-compose --profile=db up -d 
 
-configure-htpasswd:
-	@echo "------------------------------------------------------------------"
-	@echo "Configuring password controlled file sharing are for your site"
-	@echo "Accessible at /files/"
-	@echo "Access credentials will be stored in .env"
-	@echo "------------------------------------------------------------------"
-	# bcrypt encrypted pwd, be sure to usie nginx:alpine nginx image
-	@export PASSWD=$$(pwgen 20 1); \
-	       	htpasswd -cbB conf/nginx_conf/htpasswd web $$PASSWD; \
-		echo "#User account for protected areas of the site using httpauth" >> .env; \
-		echo "#You can add more accounts to conf/nginx_conf/htpasswd using the htpasswd tool" >> .env; \
-		echo $$PASSWD >> .env; \
-		echo "Files sharing htpasswd set to $$PASSWD"
-	@make enable-files
-
-
-
-################################################
-##  End of initial site config targets
-################################################
-
-site-reset:
+reinitialise-postgres:
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Reset site configuration to default values"
-	@echo "This will replace any local configuration changes you have made"
+	@echo "Restarting postgres"
 	@echo "------------------------------------------------------------------"
-	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
-	@cp ./conf/hugo_conf/config.yaml.example ./conf/hugo_conf/config.yaml
+	@docker-compose kill db
+	@docker-compose rm db
+	@docker-compose up -d db
+	@docker-compose logs -f db
 
 
-
-init-letsencrypt:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Getting an SSL cert from letsencypt"
-	@echo "------------------------------------------------------------------"
-	@./init-letsencrypt.sh	
-	@docker-compose --profile=certbot-init kill
-	@docker-compose --profile=certbot-init rm
-	@make build-pbf
-
-
-
-configure-pgpasswd:
+configure-postgres: configure-timezone 
+	@echo "=========================:"
+	@echo "Postgres configuration:"
+	@echo "=========================:"
 	@export PASSWD=$$(pwgen 20 1); \
 		rpl POSTGRES_PASSWORD=docker POSTGRES_PASSWORD=$$PASSWD .env; \
 		echo "Postgres password set to $$PASSWD"
 
+enable-postgres:
+	@echo "This is currently a stub"	
+
+disable-postgres:
+	@echo "This is currently a stub"	
 
 configure-timezone:
 	@echo "Please enter the timezone for your server"
@@ -283,62 +271,6 @@ configure-timezone:
 	@echo "Follow exactly the format of the TZ Database Name column"
 	@read -p "Server Time Zone (e.g. Etc/UTC):" TZ; \
 	   rpl TIMEZONE=Etc/UTC TIMEZONE=$$TZ .env
-
-configure-postgrest:
-	@echo "=========================:"
-	@echo "PostgREST specific updates:"
-	@echo "=========================:"
-	@export PASSWD=$$(pwgen 20 1); \
-		rpl PGRST_JWT_SECRET=foobarxxxyyyzzz PGRST_JWT_SECRET=$$PASSWD .env; \
-		echo "PostGREST JWT token set to $$PASSWD"
-
-configure-mergin-client:
-	@echo "=========================:"
-	@echo "Mergin related configs:"
-	@echo "=========================:"
-	@read -p "Mergin User (not email address): " USER; \
-	   rpl mergin_username $$USER .env
-	@read -p "Mergin Password: " PASSWORD; \
-	   rpl mergin_password $$PASSWORD .env
-	@read -p "Mergin Project (without username part): " PROJECT; \
-	   rpl mergin_project $$PROJECT .env
-	@read -p "Mergin Project GeoPackage: " PACKAGE; \
-	   rpl mergin_project_geopackage.gpkg $$PACKAGE .env
-	@read -p "Mergin Database Schema to hold mirror of geopackage): " SCHEMA; \
-	   rpl schematoreceivemergindata $$SCHEMA .env
-
-configure-osm-mirror:
-	@echo "=========================:"
-	@echo "OSM Mirror specific updates:"
-	@echo "=========================:"
-	@echo "I have prepared my clip area (optional) and"
-	@echo "saved it as conf/osm_config/clip.geojson."
-	@echo "You can easily create such a clip document"
-	@echo "at https://geojson.io or by using QGIS"
-	@read -p "Press enter to continue" CONFIRM;
-
-
-restart:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restarting all containers"
-	@echo "------------------------------------------------------------------"
-	@docker-compose restart
-	@docker-compose logs -f
-
-logs:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Tailing logs"
-	@echo "------------------------------------------------------------------"
-	@docker-compose logs -f
-
-nginx-shell:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Creating nginx shell"
-	@echo "------------------------------------------------------------------"
-	@docker-compose exec nginx /bin/bash
 
 db-shell:
 	@echo
@@ -398,6 +330,106 @@ db-backup-mergin-base-schema:
 	@docker cp osgisstack_db_1:/tmp/mergin-base-schema.dmp .
 	@docker-compose exec -u postgres db rm /tmp/mergin-base-schema.dmp
 	@ls -lah mergin-base-schema.dmp
+
+#----------------- SCP --------------------------
+
+configure-scp:
+	@echo "------------------------------------------------------------------"
+	@echo "Copying .ssh/authorized keys to all scp shares."
+	@echo "------------------------------------------------------------------"
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/geoserver_data
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_projects
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_fonts
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_svg
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/hugo_data
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/odm_data
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/general_data
+
+
+site-reset:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Reset site configuration to default values"
+	@echo "This will replace any local configuration changes you have made"
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@cp ./conf/hugo_conf/config.yaml.example ./conf/hugo_conf/config.yaml
+
+
+
+init-letsencrypt:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Getting an SSL cert from letsencypt"
+	@echo "------------------------------------------------------------------"
+	@./init-letsencrypt.sh	
+	@docker-compose --profile=certbot-init kill
+	@docker-compose --profile=certbot-init rm
+	@make build-pbf
+
+
+
+
+################################################
+##  End of initial site config targets
+################################################
+
+
+configure-postgrest:
+	@echo "=========================:"
+	@echo "PostgREST specific updates:"
+	@echo "=========================:"
+	@export PASSWD=$$(pwgen 20 1); \
+		rpl PGRST_JWT_SECRET=foobarxxxyyyzzz PGRST_JWT_SECRET=$$PASSWD .env; \
+		echo "PostGREST JWT token set to $$PASSWD"
+
+configure-mergin-client:
+	@echo "=========================:"
+	@echo "Mergin related configs:"
+	@echo "=========================:"
+	@read -p "Mergin User (not email address): " USER; \
+	   rpl mergin_username $$USER .env
+	@read -p "Mergin Password: " PASSWORD; \
+	   rpl mergin_password $$PASSWORD .env
+	@read -p "Mergin Project (without username part): " PROJECT; \
+	   rpl mergin_project $$PROJECT .env
+	@read -p "Mergin Project GeoPackage: " PACKAGE; \
+	   rpl mergin_project_geopackage.gpkg $$PACKAGE .env
+	@read -p "Mergin Database Schema to hold mirror of geopackage): " SCHEMA; \
+	   rpl schematoreceivemergindata $$SCHEMA .env
+
+configure-osm-mirror:
+	@echo "=========================:"
+	@echo "OSM Mirror specific updates:"
+	@echo "=========================:"
+	@echo "I have prepared my clip area (optional) and"
+	@echo "saved it as conf/osm_config/clip.geojson."
+	@echo "You can easily create such a clip document"
+	@echo "at https://geojson.io or by using QGIS"
+	@read -p "Press enter to continue" CONFIRM;
+
+
+restart:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting all containers"
+	@echo "------------------------------------------------------------------"
+	@docker-compose restart
+	@docker-compose logs -f
+
+logs:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Tailing logs"
+	@echo "------------------------------------------------------------------"
+	@docker-compose logs -f
+
+nginx-shell:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating nginx shell"
+	@echo "------------------------------------------------------------------"
+	@docker-compose exec nginx /bin/bash
 
 
 reinitialise-qgis-server:
