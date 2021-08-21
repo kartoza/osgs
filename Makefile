@@ -179,6 +179,8 @@ enable-geoserver:
 
 disable-geoserver:
 	@cd conf/nginx_conf/locations; rm geoserver.conf
+	# Remove from enabled-profiles
+	@sed -i '/geoserver/d' enabled-profiles
 
 #----------------- QGIS Server --------------------------
 
@@ -200,6 +202,8 @@ enable-qgis-server:
 disable-qgis-server:
 	@cd conf/nginx_conf/locations; rm qgis-server.conf
 	@cd conf/nginx_conf/upstreams; rm qgis-server.conf
+	# Remove from enabled-profiles
+	@sed -i '/qgis/d' enabled-profiles
 
 reinitialise-qgis-server: rm-qgis-server start-qgis-server
 	@echo
@@ -257,6 +261,8 @@ enable-mapproxy:
 
 disable-mapproxy:
 	@cd conf/nginx_conf/locations; rm mapproxy.conf
+	# Remove from enabled-profiles
+	@sed -i '/mapproxy/d' enabled-profiles
 
 #----------------- Postgres --------------------------
 
@@ -291,6 +297,8 @@ enable-postgres:
 
 disable-postgres:
 	@echo "This is currently a stub"	
+	# Remove from enabled-profiles
+	@sed -i '/db/d' enabled-profiles
 
 configure-timezone:
 	@echo "Please enter the timezone for your server"
@@ -375,8 +383,10 @@ configure-scp:
 enable-scp:
 	@echo "scp" >> enabled-profiles
 
+disable-scp:
+	# Remove from enabled-profiles
+	@sed -i '/db/d' enabled-profiles
 #----------------- Postgrest --------------------------
-
 
 configure-postgrest:
 	@echo "=========================:"
@@ -388,8 +398,9 @@ configure-postgrest:
 enable-postgrest:
 	@echo "postgrest" >> enabled-profiles
 
-
-
+disable-postgrest:
+	# Remove from enabled-profiles
+	@sed -i '/postgrest/d' enabled-profiles
 
 configure-mergin-client:
 	@echo "=========================:"
@@ -657,8 +668,19 @@ rm: kill
 nuke: rm
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Nuking Everything!
+	@echo "Nuking Everything!"
 	@echo "------------------------------------------------------------------"
 	@sudo docker volume prune
 	@sudo rm -rf certbot/certbot
 
+#######################################################
+#  Manage COMPOSE_PROFILES and add it to .bashrc
+#######################################################
+
+setup-compose-profile:
+	# First remove any existing
+	@sed -i '/COMPOSE_PROFILES/d' ~/.bashrc
+	# Write the env var to the user's shell
+	@echo "export COMPOSE_PROFILES=$$(paste -sd, enabled-profiles)" >> ~/.bashrc
+	# Make sure the env var is loaded in their session
+	@source enabled-profiles
