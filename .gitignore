@@ -31,9 +31,9 @@ nginx_conf/ssl/ssl.conf
 nginx_conf/servername.conf
 init-letsencrypt.sh
 setup.sql
-mapproxy_conf/mapproxy.yaml
+conf/mapproxy_conf/mapproxy.yaml
 # Todo investigate and fix file extension naming inconsistency
-mapproxy_conf/seed.yml
+conf/mapproxy_conf/seed.yml
 pbf_fetcher/Dockerfile
 .env-geonode
 osm_conf/clip.geojson
@@ -42,9 +42,9 @@ hugo.exe
 site_data/config.yaml
 site_data/*.cmd
 site_data/public/
-mapproxy_conf/clip/*
-mapproxy_conf/seed.yaml
-nginx_conf/htpasswd
+conf/mapproxy_conf/clip/*
+conf/mapproxy_conf/seed.yaml
+conf/nginx_conf/htpasswd
 docs/build
 nginx_conf/locations/hugo.conf
 hugo_conf/config.yaml
@@ -55,6 +55,7 @@ conf/hugo_conf/config.yaml
 conf/nginx_conf/htpasswd
 conf/nginx_conf/servername.conf
 conf/nginx_conf/ssl/*.conf
-
 docs/.doctrees/
 sphinx/source/_build/
+conf/nginx_conf/upstreams/*.conf
+enabled-profiles
