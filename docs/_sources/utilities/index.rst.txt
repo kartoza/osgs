@@ -8,6 +8,7 @@ Utilities
    make-ps
    make-kill
    make-nuke
+   make-docs
    building_docs
 
 

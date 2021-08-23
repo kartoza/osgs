@@ -52,7 +52,8 @@ volumes:
   odm_cutline:
   odm_datasets:
   mergin-projects:
-  redis:
+  # used by lizmap and mergin web server and perhaps others
+  redis_data:
   cache:
   generated_hugo_data:
   #
@@ -273,13 +274,11 @@ services:
         test: "exit 0"
 
   lizmap:
+    # This is not WORKING YET!
     # Need to resolve an issue with lizmap home still......
     image: *lizmap-image
     profiles:
-        - all
-        - nginx
         - lizmap
-        - dev
     command: 
       - php-fpm
     env_file: .env
@@ -298,8 +297,21 @@ services:
       - lizmap-db:/www/lizmap/var/db
       - lizmap-www:/www/lizmap/www
       - lizmap-log:/www/lizmap/var/log
+      - ./lizmap:/srv/lizmap
     networks:
       - os-gis-stack
+
+  # used by lizmap and mergin web server and perhaps others
+  redis:
+    image: redis:5-alpine
+    profiles:
+      - lizmap    
+    volumes:
+      - redis_data:/data
+    ports:
+      - 6379   
+    networks:
+      - os-gis-stack  
 
   # Geoserver backend specifically supporting GeoNode
   # that includes the GeoNode plugins
@@ -593,9 +605,7 @@ services:
   mergin-sync:
     image: *mergin-db-sync-image
     profiles: 
-      - all
       - mergin
-      - dev
     volumes:
       # We do this so we can easily inspect what is being pulled
       # down from mergin, flush the working dir when needed etc
@@ -852,19 +862,10 @@ services:
       - 5000
     depends_on:
       - db
-      - mergin-redis
+      - redis
     networks:
       - os-gis-stack   
-
-  mergin-redis:
-    image: redis
-    profiles: 
-      - all
-      - mergin-server
-    ports:
-      - 6379   
-    networks:
-      - os-gis-stack        
+      
 
   ############################################################
   #
