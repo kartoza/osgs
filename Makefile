@@ -1,5 +1,14 @@
 SHELL := /bin/bash
 
+
+help:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Please visit https://kartoza.github.io/osgs/introduction.html"
+	@echo "for detailed help."
+	@echo "------------------------------------------------------------------"
+
+
 # We need to declare phony here since the docs dir exists
 # otherwise make tries to execute the docs file directly
 .PHONY: docs
@@ -44,8 +53,6 @@ configure-htpasswd:
 		echo $$PASSWD >> .env; \
 		echo "Files sharing htpasswd set to $$PASSWD"
 	@make enable-files
-
-
 
 disable-all-services:
 	@echo
@@ -145,14 +152,14 @@ disable-hugo:
 
 enable-docs:
 	-@cd conf/nginx_conf/locations; ln -s docs.conf.available docs.conf
-	@echo "docs" >> enabled-profiles
+	#@echo "docs" >> enabled-profiles
 
 disable-docs:
 	@cd conf/nginx_conf/locations; rm docs.conf
 
 enable-files:
 	-@cd conf/nginx_conf/locations; ln -s files.conf.available files.conf
-	@echo "files" >> enabled-profiles
+	#@echo "files" >> enabled-profiles
 
 disable-files:
 	@cd conf/nginx_conf/locations; rm files.conf
@@ -200,6 +207,8 @@ enable-qgis-server:
 	@echo "qgis-server" >> enabled-profiles
 
 disable-qgis-server:
+	@docker-compose kill qgis-server
+	@docker-compose rm qgis-server
 	@cd conf/nginx_conf/locations; rm qgis-server.conf
 	@cd conf/nginx_conf/upstreams; rm qgis-server.conf
 	# Remove from enabled-profiles
