@@ -1,17 +1,18 @@
 # GeoServer
 
+**Service name:** geoserver
+
+**Project Website:** [GeoServer](http://geoserver.org/)
+
+**Project Source Repository:** [geoserver / geoserver](https://github.com/geoserver/geoserver)
+
+**Project Technical Documentation:** [GeoServer Documentation](https://docs.geoserver.org/)
+
+**Docker Repository:** [kartoza/geoserver](https://hub.docker.com/r/kartoza/geoserver)
+
+**Docker Source Repository:** [kartoza / docker-geoserver](https://github.com/kartoza/docker-geoserver)
+
 Short description
-
-**Project Website:**
-
-**Project Source Repository:**
-
-**Project Project Technical Documentation:**
-
-**Docker Repository:**
-
-**Docker Source Repository:**
-
 
 ## Configuration
 

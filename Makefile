@@ -665,13 +665,20 @@ rm: kill
 	@echo "------------------------------------------------------------------"
 	@docker-compose rm
 
-nuke: rm
+nuke:
 	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Disabling services"
+	@echo "This command will delete all your configuration and data permanently."
+	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@echo -n "Please type CONFIRM to proceed " && read ans && [ $${ans:-N} = CONFIRM ]
 	@echo "------------------------------------------------------------------"
 	@echo "Nuking Everything!"
 	@echo "------------------------------------------------------------------"
-	@sudo docker volume prune
+	@docker-compose rm -v -f -s
 	@sudo rm -rf certbot/certbot
+	@make site-reset
+	@make disable-all-services
 
 #######################################################
 #  Manage COMPOSE_PROFILES and add it to .bashrc
