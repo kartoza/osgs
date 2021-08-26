@@ -4,22 +4,22 @@ This tool will synchronise a Mergin cloud project into a PostgreSQL project.
 
 There are two modalities in which you can work with Mergin projects:
 
-1. **[mergin-db-sync](mergin-db-sync.md]**: A Mergin project which is synchronised into a PostgreSQL
+1. **[mergin-db-sync](mergin-db-sync.md)**: A Mergin project which is synchronised into a PostgreSQL
    database and supports bidirectional syncing and editing.
-2. **mergin-client.md:** A folder containing multiple mergin projects (all of the
-   projects shared with a mergin user). These projects are synchronised into
-   the filesystem and published via QGIS Server as web mapping services.
+2. **[mergin-client](mergin-client.md):** A folder containing multiple mergin projects (all of the projects shared with a mergin user). These projects are synchronised into the filesystem and published via QGIS Server as web mapping services.
 
-**Project Website:** [Mergin-db-sync](https://github.com/lutraconsulting/mergin-db-sync)
+**Service name:** mergin-client
 
-**Project Source Repository:**
+**Project Website:** [Mergin - Developers](https://help.cloudmergin.com/developers)
 
-**Project Project Technical Documentation:**
+**Project Source Repository:** [lutraconsulting
+/ mergin-py-client](https://github.com/lutraconsulting/mergin-py-client)
 
-**Docker Repository:**
+**Project Technical Documentation:** [Mergin Python Client](https://github.com/lutraconsulting/mergin-py-client#readme)
 
-**Docker Source Repository:**
+**Docker Repository:** [kartoza/mergin-client](https://hub.docker.com/r/kartoza/mergin-client)
 
+**Docker Source Repository:** [kartoza /mergin-client](https://github.com/kartoza/mergin-client)
 
 ## Configuration
 
@@ -33,19 +33,14 @@ There are two modalities in which you can work with Mergin projects:
 
 ## Additional Notes
 
-Field data collection and project synchronisation support:
-    1. The [Mergin](https://public.cloudmergin.com/#) platform for cloud storage of projects
-    2. The [INPUT](https://inputapp.io/en/) mobile data collection platform
+For field data collection and project synchronisation support see the following:
 
+1. The [Mergin](https://public.cloudmergin.com/#) platform for cloud storage of projects
+2. The [INPUT](https://inputapp.io/en/) mobile data collection platform
 
+You use the Mergin client to clone one or more Mergin projects to the host running  docker-compose and these projects are made available through QGIS Server.
 
-You use the Mergin client to clone one of more Mergin 
-projects to the host running docker-compose and these projects are made available
-through QGIS Server.
-
-One critical note is that the Project directory and the Project File names must be
-the same, otherwise QGIS Server will not recognise the project as being valid. For
-example:
+One critical note is that the Project directory and the Project File names must be the same, otherwise QGIS Server will not recognize the project as being valid. For example:
 
 * Valid: ``FooProject/FooProject.qgz``
 * Not Valid: ``FooProject/BarProject.qgz``
@@ -59,6 +54,4 @@ For example, here is one we published for a client (domain name changed):
 
 ``https://example.org/ogc/Elevation``
 
-You can read more about the mergin-client at the separate git repo here:
-
-https://github.com/kartoza/mergin-client
+You can read more about the mergin-client at the separate git repo [here](https://github.com/kartoza/mergin-client).
