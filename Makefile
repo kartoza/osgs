@@ -1,5 +1,14 @@
 SHELL := /bin/bash
 
+
+help:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Please visit https://kartoza.github.io/osgs/introduction.html"
+	@echo "for detailed help."
+	@echo "------------------------------------------------------------------"
+
+
 # We need to declare phony here since the docs dir exists
 # otherwise make tries to execute the docs file directly
 .PHONY: docs
@@ -44,8 +53,6 @@ configure-htpasswd:
 		echo $$PASSWD >> .env; \
 		echo "Files sharing htpasswd set to $$PASSWD"
 	@make enable-files
-
-
 
 disable-all-services:
 	@echo
@@ -134,33 +141,47 @@ site-config:
 	  LOGOURL=$${result:-"img/Circle-icons-stack.svg"} && \
 	  rpl -q {{logoURL}} "$$LOGOURL" $(shell pwd)/conf/hugo_conf/config.yaml
 
+#----------------- Hugo --------------------------
+
 enable-hugo:
 	-@cd conf/nginx_conf/locations; ln -s hugo.conf.available hugo.conf
 	@echo "hugo" >> enabled-profiles
+
+start-hugo:
+	@docker-compose up -d
 
 disable-hugo:
 	@cd conf/nginx_conf/locations; rm hugo.conf
 	# Remove from enabled-profiles
 	@sed -i '/hugo/d' enabled-profiles
 
+hugo-logs:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling hugo logs"
+	@echo "------------------------------------------------------------------"
+	@docker-compose logs -f hugo
+
+
+#----------------- Docs --------------------------
+
 enable-docs:
 	-@cd conf/nginx_conf/locations; ln -s docs.conf.available docs.conf
-	@echo "docs" >> enabled-profiles
 
 disable-docs:
 	@cd conf/nginx_conf/locations; rm docs.conf
 
 enable-files:
 	-@cd conf/nginx_conf/locations; ln -s files.conf.available files.conf
-	@echo "files" >> enabled-profiles
 
 disable-files:
 	@cd conf/nginx_conf/locations; rm files.conf
 
-
 #----------------- GeoServer --------------------------
 
-deploy-geoserver: enable-geoserver configure-geoserver-passwd
+deploy-geoserver: enable-geoserver configure-geoserver-passwd start-geoserver
+
+start-geoserver:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting GeoServer"
@@ -176,11 +197,20 @@ configure-geoserver-passwd:
 enable-geoserver:
 	-@cd conf/nginx_conf/locations; ln -s geoserver.conf.available geoserver.conf
 	@echo "geoserver" >> enabled-profiles
+	@make setup-compose-profile
 
 disable-geoserver:
 	@cd conf/nginx_conf/locations; rm geoserver.conf
 	# Remove from enabled-profiles
 	@sed -i '/geoserver/d' enabled-profiles
+	@make setup-compose-profile
+
+geoserver-logs:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling Geoserver logs"
+	@echo "------------------------------------------------------------------"
+	@docker-compose logs -f geoserver
 
 #----------------- QGIS Server --------------------------
 
@@ -198,12 +228,16 @@ enable-qgis-server:
 	-@cd conf/nginx_conf/locations; ln -s qgis-server.conf.available qgis-server.conf
 	-@cd conf/nginx_conf/upstreams; ln -s qgis-server.conf.available qgis-server.conf
 	@echo "qgis-server" >> enabled-profiles
+	@make setup-compose-profile
 
 disable-qgis-server:
+	@docker-compose kill qgis-server
+	@docker-compose rm qgis-server
 	@cd conf/nginx_conf/locations; rm qgis-server.conf
 	@cd conf/nginx_conf/upstreams; rm qgis-server.conf
 	# Remove from enabled-profiles
 	@sed -i '/qgis/d' enabled-profiles
+	@make setup-compose-profile
 
 reinitialise-qgis-server: rm-qgis-server start-qgis-server
 	@echo
@@ -221,9 +255,18 @@ rm-qgis-server:
 	@docker-compose kill qgis-server
 	@docker-compose rm qgis-server
 
+qgis-logs:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling QGIS Server logs"
+	@echo "------------------------------------------------------------------"
+	@docker-compose logs -f qgis-server
+
 #----------------- Mapproxy --------------------------
 
-deploy-mapproxy: enable-mapproxy configure-mapproxy
+deploy-mapproxy: enable-mapproxy configure-mapproxy start-mapproxy
+
+start-mapproxy:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting Mapproxy"
@@ -242,7 +285,6 @@ reinitialise-mapproxy:
 	@docker-compose up -d mapproxy
 	@docker-compose logs -f mapproxy
 
-
 configure-mapproxy:
 	@echo "=========================:"
 	@echo "Mapproxy configurations:"
@@ -258,15 +300,19 @@ configure-mapproxy:
 enable-mapproxy:
 	-@cd conf/nginx_conf/locations; ln -s mapproxy.conf.available mapproxy.conf
 	@echo "mapproxy" >> enabled-profiles
+	@make setup-compose-profile
 
 disable-mapproxy:
 	@cd conf/nginx_conf/locations; rm mapproxy.conf
 	# Remove from enabled-profiles
 	@sed -i '/mapproxy/d' enabled-profiles
+	@make setup-compose-profile
 
 #----------------- Postgres --------------------------
 
-deploy-postgres: enable-postgres configure-postgres
+deploy-postgres: enable-postgres configure-postgres start-postgres
+
+start-postgres:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting Postgres"
@@ -283,7 +329,6 @@ reinitialise-postgres:
 	@docker-compose up -d db
 	@docker-compose logs -f db
 
-
 configure-postgres: configure-timezone 
 	@echo "=========================:"
 	@echo "Postgres configuration:"
@@ -294,11 +339,13 @@ configure-postgres: configure-timezone
 
 enable-postgres:
 	@echo "db" >> enabled-profiles
+	@make setup-compose-profile
 
 disable-postgres:
 	@echo "This is currently a stub"	
 	# Remove from enabled-profiles
 	@sed -i '/db/d' enabled-profiles
+	@make setup-compose-profile
 
 configure-timezone:
 	@echo "Please enter the timezone for your server"
@@ -368,7 +415,7 @@ db-backup-mergin-base-schema:
 
 #----------------- SCP --------------------------
 
-configure-scp:
+configure-scp: start-scp
 	@echo "------------------------------------------------------------------"
 	@echo "Copying .ssh/authorized keys to all scp shares."
 	@echo "------------------------------------------------------------------"
@@ -380,21 +427,31 @@ configure-scp:
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/odm_data
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/general_data
 
+start-scp:
+	@docker-compose up -d scp	
+
 enable-scp:
 	@echo "scp" >> enabled-profiles
+	@make setup-compose-profile
 
 disable-scp:
 	# Remove from enabled-profiles
 	@sed -i '/db/d' enabled-profiles
+	@make setup-compose-profile	
+
 #----------------- Postgrest --------------------------
 
-configure-postgrest:
+configure-postgrest: start-postgrest
 	@echo "=========================:"
 	@echo "PostgREST specific updates:"
 	@echo "=========================:"
 	@export PASSWD=$$(pwgen 20 1); \
 		rpl PGRST_JWT_SECRET=foobarxxxyyyzzz PGRST_JWT_SECRET=$$PASSWD .env; \
 		echo "PostGREST JWT token set to $$PASSWD"
+
+start-postgrest:
+	@docker-compose up -d postgrest
+
 enable-postgrest:
 	@echo "postgrest" >> enabled-profiles
 
@@ -428,9 +485,32 @@ configure-osm-mirror:
 	@read -p "Press enter to continue" CONFIRM;
 
 
+#----------------- LizMap --------------------------
+
+# LIZMAP IS NOT WORKING YET.....
 
 
+deploy-lizmap: configure-lizmap enable-lizmap start-lizmap
 
+start-lizmap:
+	@docker-compose up -d lizmap
+
+configure-lizmap:
+	@echo "=========================:"
+	@echo "Configuring lizmap:"
+	@echo "=========================:"
+	@docker-compose --profile=lizmap up -d 
+	@docker-compose restart nginx
+
+enable-lizmap:
+	-@cd conf/nginx_conf/locations; ln -s lizmap.conf.available lizmap.conf
+	@echo "lizmap" >> enabled-profiles
+
+
+disable-lizmap:
+	@cd conf/nginx_conf/locations; rm lizmap.conf
+	# Remove from enabled-profiles
+	@sed -i '/lizmap/d' enabled-profiles
 
 #######################################################
 #   General Utilities
@@ -445,8 +525,6 @@ site-reset:
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
 	@cp ./conf/hugo_conf/config.yaml.example ./conf/hugo_conf/config.yaml
 
-
-
 init-letsencrypt:
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -456,7 +534,6 @@ init-letsencrypt:
 	@docker-compose --profile=certbot-init kill
 	@docker-compose --profile=certbot-init rm
 	@make build-pbf
-
 
 restart:
 	@echo
@@ -479,7 +556,6 @@ nginx-shell:
 	@echo "Creating nginx shell"
 	@echo "------------------------------------------------------------------"
 	@docker-compose exec nginx /bin/bash
-
 
 build-bpf:
 	@echo
@@ -513,7 +589,6 @@ kill-osm:
 	-@docker-compose exec -u postgres db psql -c "drop schema osm cascade;" gis 
 	-@docker-compose exec -u postgres db psql -c "drop schema osm_backup cascade;" gis 
 	-@docker-compose exec -u postgres db psql -c "drop schema osm_import cascade;" gis 
-
 
 reinitialise-osm: kill-osm
 	@echo
@@ -591,14 +666,6 @@ get-fonts:
 	@cd fonts;find . -name "*.ttf" -exec mv -t . {} +
 
 
-qgis-logs:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Polling QGIS Server logs"
-	@echo "------------------------------------------------------------------"
-	@docker-compose logs -f qgis-server
-
-
 odm-clean:
 	@echo "------------------------------------------------------------------"
 	@echo "Note that the odm_datasets directory should be considered mutable as this script "
@@ -651,6 +718,13 @@ vrt-styles:
 	@echo "------------------------------------------------------------------"
 	@git clone git@github.com:lutraconsulting/qgis-vectortiles-styles.git
 
+up:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting all configured services"
+	@echo "------------------------------------------------------------------"
+	@source ~/.bashrc; docker-compose up
+
 kill:
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -665,13 +739,23 @@ rm: kill
 	@echo "------------------------------------------------------------------"
 	@docker-compose rm
 
-nuke: rm
+nuke:
 	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Disabling services"
+	@echo "This command will delete all your configuration and data permanently."
+	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@echo -n "Please type CONFIRM to proceed " && read ans && [ $${ans:-N} = CONFIRM ]
 	@echo "------------------------------------------------------------------"
 	@echo "Nuking Everything!"
 	@echo "------------------------------------------------------------------"
-	@sudo docker volume prune
+	@docker-compose rm -v -f -s
+	@rm .env
+	@rm enabled-profiles
+	@make site-reset
+	@make disable-all-services
 	@sudo rm -rf certbot/certbot
+	
 
 #######################################################
 #  Manage COMPOSE_PROFILES and add it to .bashrc
@@ -683,4 +767,10 @@ setup-compose-profile:
 	# Write the env var to the user's shell
 	@echo "export COMPOSE_PROFILES=$$(paste -sd, enabled-profiles)" >> ~/.bashrc
 	# Make sure the env var is loaded in their session
-	@source enabled-profiles
+	@source ~/.bashrc
+
+remove-compose-profile:
+	# First remove any existing
+	@sed -i '/COMPOSE_PROFILES/d' ~/.bashrc
+	# Make sure the env var is loaded in their session
+	@source ~/.bashrc

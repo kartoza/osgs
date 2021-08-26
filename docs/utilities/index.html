@@ -39,7 +39,7 @@
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
 <link rel="search" title="Search" href="../search.html" />
-<link rel="next" title="Building Documentation" href="building_docs.html" />
+<link rel="next" title="make ps" href="make-ps.html" />
 <link rel="prev" title="Production Stack" href="../installation/production_stack.html" />
 
 </head>
@@ -90,7 +90,7 @@
       </div>
     
       <div class="pull-right">
-        <a class="btn btn-default next" href="building_docs.html" title="Next chapter (Building Documentation)"><span class="btn-text">Building Documentation</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
+        <a class="btn btn-default next" href="make-ps.html" title="Next chapter (make ps)"><span class="btn-text">make ps</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
       </div>
     </div>
   
@@ -109,7 +109,7 @@
         <a href="../genindex.html"><i class="fa fa-list mr-8"></i></a>
 
 
-        <a href="building_docs.html"><i class="fa fa-chevron-right"></i></a>
+        <a href="make-ps.html"><i class="fa fa-chevron-right"></i></a>
 
       </div>
     </div>
@@ -174,11 +174,13 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../services/geoserver.html">GeoServer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../services/geoserver.html#geoserver">GeoServer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../services/geoserver.html#configuration">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../services/geoserver.html#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../services/geoserver.html#enabling">Enabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../services/geoserver.html#disabling">Disabling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../services/geoserver.html#starting">Starting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../services/geoserver.html#logs">Logs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../services/geoserver.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../services/geoserver.html#additional-notes">Additional Notes</a></li>
 </ul>
@@ -309,6 +311,30 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#utilities">Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="make-ps.html">make ps</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="make-ps.html#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="make-ps.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="make-ps.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="make-kill.html">make kill</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="make-kill.html#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="make-kill.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="make-kill.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="make-nuke.html">make nuke</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="make-nuke.html#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="make-nuke.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="make-nuke.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="make-docs.html">make docs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="make-docs.html#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="make-docs.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="make-docs.html#notes">Notes</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="building_docs.html">Building Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="building_docs.html#html-docs">HTML Docs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="building_docs.html#pdf-docs">PDF Docs</a></li>
@@ -371,11 +397,13 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../services/geoserver.html">GeoServer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../services/geoserver.html#geoserver">GeoServer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../services/geoserver.html#configuration">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../services/geoserver.html#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../services/geoserver.html#enabling">Enabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../services/geoserver.html#disabling">Disabling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../services/geoserver.html#starting">Starting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../services/geoserver.html#logs">Logs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../services/geoserver.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../services/geoserver.html#additional-notes">Additional Notes</a></li>
 </ul>
@@ -506,6 +534,30 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#utilities">Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="make-ps.html">make ps</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="make-ps.html#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="make-ps.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="make-ps.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="make-kill.html">make kill</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="make-kill.html#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="make-kill.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="make-kill.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="make-nuke.html">make nuke</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="make-nuke.html#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="make-nuke.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="make-nuke.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="make-docs.html">make docs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="make-docs.html#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="make-docs.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="make-docs.html#notes">Notes</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="building_docs.html">Building Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="building_docs.html#html-docs">HTML Docs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="building_docs.html#pdf-docs">PDF Docs</a></li>
@@ -539,6 +591,10 @@
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="make-ps.html">make ps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="make-kill.html">make kill</a></li>
+<li class="toctree-l1"><a class="reference internal" href="make-nuke.html">make nuke</a></li>
+<li class="toctree-l1"><a class="reference internal" href="make-docs.html">make docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="building_docs.html">Building Documentation</a></li>
 </ul>
 </div>
