@@ -6,7 +6,7 @@ There are two modalities in which you can work with Mergin projects:
 
 1. **[mergin-db-sync](mergin-db-sync.md)**: A Mergin project which is synchronised into a PostgreSQL
    database and supports bidirectional syncing and editing.
-2. **[mergin-client](mergin-client.md):** A folder containing multiple mergin projects (all of the projects shared with a mergin user). These projects are synchronised into the filesystem and published via QGIS Server as web mapping services.
+2. **[mergin-client](mergin-client.md) (covered here):** A folder containing multiple mergin projects (all of the projects shared with a mergin user). These projects are synchronised into the filesystem and published via QGIS Server as web mapping services.
 
 **Service name:** mergin-client
 
