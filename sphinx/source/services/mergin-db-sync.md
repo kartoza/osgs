@@ -2,25 +2,20 @@
 
 There are two modalities in which you can work with Mergin projects:
 
-1. **mergin-db-sync (covered here)**: A Mergin project which is synchronised into a PostgreSQL
-   database and supports bidirectional syncing and editing.
-2. **[mergin-client.md](mergin-client):** A folder containing multiple mergin projects (all of the
-   projects shared with a mergin user). These projects are synchronised into
-   the filesystem and published via QGIS Server as web mapping services.
+1. **[mergin-db-sync](mergin-db-sync.md) (covered here)**: A Mergin project which is synchronised into a PostgreSQL database and supports bidirectional syncing and editing.
+2. **[mergin-client](mergin-client.md):** A folder containing multiple mergin projects (all of the projects shared with a mergin user). These projects are synchronised into the filesystem and published via QGIS Server as web mapping services.
 
+**Service name:** mergin-sync
 
-Short description
+**Project Website:** [Mergin](https://public.cloudmergin.com/)
 
-**Project Website:**
+**Project Source Repository:** [lutraconsulting / mergin-db-sync](https://github.com/lutraconsulting/mergin-db-sync)
 
-**Project Source Repository:**
+**Project Technical Documentation:** [DB Sync Script](https://github.com/lutraconsulting/mergin-db-sync#readme)
 
-**Project Project Technical Documentation:**
+**Docker Repository:** [lutraconsulting/mergin-db-sync](https://hub.docker.com/r/lutraconsulting/mergin-db-sync)
 
-**Docker Repository:**
-
-**Docker Source Repository:**
-
+**Docker Source Repository:** [lutraconsulting / mergin-db-sync](https://github.com/lutraconsulting/mergin-db-sync)
 
 ## Configuration
 
@@ -34,9 +29,7 @@ Short description
 
 ## Additional Notes
 
-
 In the .env file you should specify these options:
-
 
 * **MERGIN_USER:** This is the user account that will be used to log in and
   pull/push updates to the Mergin project.
@@ -63,7 +56,6 @@ In the .env file you should specify these options:
   hosted. By default it would be "https://public.cloudmergin.com" unless 
   you are self hosting the Mergin backend, or using an alternative hosted
   instance.
-
 
 Note that in the docker-compose file, the assumption is made that the database 
 being used for Mergin syncing is called 'gis' and the hostname (in the private
