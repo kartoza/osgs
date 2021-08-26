@@ -27,4 +27,4 @@ Lizmap is an open source software designed by 3Liz that allows QGIS® Desktop to
 
 ## References
 
-<a id="1">[1]</a> Lizmap. (n.d.). 3Liz. Retrieved August 26, 2021, from https://www.3liz.com/en/lizmap.html
+<a id="1">[1]</a> 3Liz. (n.d.). Lizmap. Retrieved August 26, 2021, from https://www.3liz.com/en/lizmap.html
