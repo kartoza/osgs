@@ -10,7 +10,7 @@ There are two modalities in which you can work with Mergin projects:
 
 **Service name:** mergin-client
 
-**Project Website:** [Mergin Help Center- Developers](https://help.cloudmergin.com/developers)
+**Project Website:** [Mergin](https://public.cloudmergin.com/)
 
 **Project Source Repository:** [lutraconsulting
 / mergin-py-client](https://github.com/lutraconsulting/mergin-py-client)
