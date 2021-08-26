@@ -30,4 +30,4 @@ The Hugo Watcher service watches for changes in the static content source files 
 
 ## References
 
-<a id="1">[1]</a> What is. (2020, June 3). Hugo. https://gohugo.io/about/what-is-hugo/
+<a id="1">[1]</a> Hugo Authors. (2020, June 3). About Hugo. Hugo. https://gohugo.io/about/what-is-hugo/
