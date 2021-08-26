@@ -112,8 +112,8 @@ Note that there was no need to supply any credentials other than the service fil
 
 ## References
 
-<a id="1">[1]</a> PostgreSQL: About. (n.d.). The PostgreSQL Global Development Group. Retrieved August 22, 2021, from https://www.postgresql.org/about/
+<a id="1">[1]</a> The PostgreSQL Global Development Group. (n.d.). PostgreSQL: About. PostgreSQL: The World’s Most Advanced Open Source Relational Database. Retrieved August 22, 2021, from https://www.postgresql.org/about/
 
-<a id="2">[2]</a> 1. What Is PostgreSQL? (2021, August 12). PostgreSQL Documentation. https://www.postgresql.org/docs/current/intro-whatis.html
+<a id="2">[2]</a> The PostgreSQL Global Development Group. (2021, August 12). 1. What Is PostgreSQL? PostgreSQL Documentation. https://www.postgresql.org/docs/current/intro-whatis.html
 
-<a id="3">[3]</a> PostGIS 3.1.4dev Manual. (2021, August 20). PostGIS - Documentation. https://postgis.net/docs/manual-3.1/
+<a id="3">[3]</a> The PostGIS Development Group. (2021, August 20). PostGIS 3.1.4dev Manual. PostGIS - Documentation. https://postgis.net/docs/manual-3.1/
