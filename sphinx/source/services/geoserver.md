@@ -64,4 +64,4 @@ https://docs.geoserver.geo-solutions.it/edu/en/security/security_overview.html#t
 
 ## References
 
-<a id="1">[1]</a> About - GeoServer. (n.d.). GeoServer. Retrieved August 21, 2021, from http://geoserver.org/about/
+<a id="1">[1]</a> Open Source Geospatial Foundation. (n.d.). About - GeoServer. GeoServer. Retrieved August 21, 2021, from http://geoserver.org/about/
