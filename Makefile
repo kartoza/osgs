@@ -439,6 +439,31 @@ disable-scp:
 	@sed -i '/db/d' enabled-profiles
 	@make setup-compose-profile	
 
+#----------------- OSM Mirror --------------------------
+
+configure-osm-mirror: 
+	@echo "=========================:"
+	@echo "OSM Mirror specific updates:"
+	@echo "=========================:"
+	@echo "I have prepared my clip area (optional) and"
+	@echo "saved it as conf/osm_config/clip.geojson."
+	@echo "You can easily create such a clip document"
+	@echo "at https://geojson.io or by using QGIS"
+	@read -p "Press enter to continue" CONFIRM;
+	@make start-osm-mirror
+
+start-osm-mirror:
+	@docker-compose --profile=osm up -d 
+
+enable-osm-mirror:
+	@echo "osm" >> enabled-profiles
+	@make setup-compose-profile
+
+disable-osm-mirror:
+	# Remove from enabled-profiles
+	@sed -i '/osm/d' enabled-profiles
+	@make setup-compose-profile	
+
 #----------------- Postgrest --------------------------
 
 configure-postgrest: start-postgrest
@@ -473,17 +498,6 @@ configure-mergin-client:
 	   rpl mergin_project_geopackage.gpkg $$PACKAGE .env
 	@read -p "Mergin Database Schema to hold mirror of geopackage): " SCHEMA; \
 	   rpl schematoreceivemergindata $$SCHEMA .env
-
-configure-osm-mirror:
-	@echo "=========================:"
-	@echo "OSM Mirror specific updates:"
-	@echo "=========================:"
-	@echo "I have prepared my clip area (optional) and"
-	@echo "saved it as conf/osm_config/clip.geojson."
-	@echo "You can easily create such a clip document"
-	@echo "at https://geojson.io or by using QGIS"
-	@read -p "Press enter to continue" CONFIRM;
-
 
 #----------------- LizMap --------------------------
 
@@ -723,7 +737,7 @@ up:
 	@echo "------------------------------------------------------------------"
 	@echo "Starting all configured services"
 	@echo "------------------------------------------------------------------"
-	@source ~/.bashrc; docker-compose up
+	@source ~/.bashrc; docker-compose up -d
 
 kill:
 	@echo

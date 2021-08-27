@@ -319,8 +319,6 @@ services:
   geoserver:
     image: *geoserver-image
     profiles: 
-        - all
-        - nginx
         - geoserver
     healthcheck:
       test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8080/geoserver"
@@ -358,7 +356,6 @@ services:
   qgis-server:
     image: *qgis-server-image
     profiles: 
-      -  all 
       -  qgis-server 
     env_file: .env
     environment:
@@ -452,8 +449,6 @@ services:
   mapproxy:
     image: *mapproxy-image
     profiles: 
-      - all
-      - nginx
       - mapproxy
     env_file: .env
     environment:
@@ -667,9 +662,7 @@ services:
   pbf:
     image: pbf:stable
     profiles: 
-      - all
       - osm
-      - dev
     build:
       context: pbf_fetcher
       dockerfile: Dockerfile
@@ -681,9 +674,7 @@ services:
   imposm:
     image: *imposm-image
     profiles: 
-      - all
       - osm
-      - dev
     volumes:
       # These are sharable to other containers
       - ./conf/osm_conf:/home/settings
@@ -732,10 +723,7 @@ services:
   osmupdate:
     image: *osm-update-image
     profiles: 
-      - all
       - osm
-      - dev
-  
     volumes:
       # These are sharable to other containers
       - ./conf/osm_conf:/home/settings
@@ -774,12 +762,11 @@ services:
       # import from the PBF
       - TIME=120
 
+  # This server updates user and date of osm edits in the mirror
   osmenrich:
     image: *osm-enrich-image
     profiles: 
-      - all
-      - osm
-      - dev 
+      - osm-enrich
     volumes:
       # These are sharable to other containers
       - ./conf/osm_conf:/home/settings
