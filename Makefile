@@ -441,16 +441,29 @@ disable-scp:
 
 #----------------- OSM Mirror --------------------------
 
+deploy-osm-mirror: enable-osm-mirror configure-osm-mirror start-osm-mirror
+
 configure-osm-mirror: 
 	@echo "=========================:"
 	@echo "OSM Mirror specific updates:"
 	@echo "=========================:"
 	@echo "I have prepared my clip area (optional) and"
-	@echo "saved it as conf/osm_config/clip.geojson."
+	@echo "saved it as conf/osm_conf/clip.geojson."
 	@echo "You can easily create such a clip document"
 	@echo "at https://geojson.io or by using QGIS"
 	@read -p "Press enter to continue" CONFIRM;
-	@make start-osm-mirror
+	@make get-pbf
+
+get-pbf:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Fetching pbf if not cached and then copying to settings dir"
+	@echo "You can download PBF files from GeoFabrik here:"
+	@echo "https://download.geofabrik.de/"
+	@echo "e.g. https://download.geofabrik.de/europe/portugal-latest.osm.pbf"
+	@echo "------------------------------------------------------------------"
+	@read -p "URL For Country PBF File: " URL; \
+	   wget -c -N -O conf/osm_conf/country.pbf $$URL;
 
 start-osm-mirror:
 	@docker-compose --profile=osm up -d 
@@ -570,20 +583,6 @@ nginx-shell:
 	@echo "Creating nginx shell"
 	@echo "------------------------------------------------------------------"
 	@docker-compose exec nginx /bin/bash
-
-build-bpf:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Fetching pbf if not cached and then copying to settings dir"
-	@echo "You can download PBF files from GeoFabrik here:"
-	@echo "https://download.geofabrik.de/"
-	@echo "------------------------------------------------------------------"
-	@read -p "URL For Country PBF File: " URL; \
-	   cp pbf_fetcher/Dockerfile.example pbf_fetcher/Dockerfile; \
-	   rpl PBF_URL $$URL pbf_fetcher/Dockerfile
-	@docker-compose build pbf
-	@docker-compose run pbf
-	@docker-compose rm -f pbf
 
 kill-osm:
 	@echo
