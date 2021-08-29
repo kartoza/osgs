@@ -771,6 +771,7 @@ services:
       - POSTGRES_DBNAME=gis
       - POSTGRES_PORT=${POSTGRES_PUBLIC_PORT}
       - POSTGRES_HOST=db
+      - SSL_MODE=require
       # These are all currently the defaults but listed here for
       # your convenience if you want to change them.
       # folder for diff which hasn't been imported yet

@@ -162,6 +162,25 @@ hugo-logs:
 	@echo "------------------------------------------------------------------"
 	@docker-compose logs -f hugo
 
+backup-hugo:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating a backup of hugo"
+	@echo "------------------------------------------------------------------"
+	-@mkdir -p backups
+	@docker-compose run --rm -v ${PWD}/backups:/backups nginx tar cvfz /backups/hugo-backup.tar.gz /hugo
+	@cp ./backups/hugo-backup.tar.gz ./backups/
+
+restore-hugo:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restore last backup of hugo from /backups/hugo-backup.tar.gz"
+	@echo "If you wist to restore an older backup, first copy it to /backups/hugo-backup.tar.gz"
+	@echo "Note: Restoring will OVERWRITE all data currently in your hugo content dir."
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	-@mkdir -p backups
+	@docker-compose run --rm -v ${PWD}/backups:/backups nginx sh -c "cd /hugo && tar xvfz /backups/hugo-backup.tar.gz --strip 1"
 
 #----------------- Docs --------------------------
 
