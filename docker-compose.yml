@@ -319,8 +319,6 @@ services:
   geoserver:
     image: *geoserver-image
     profiles: 
-        - all
-        - nginx
         - geoserver
     healthcheck:
       test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null http://127.0.0.1:8080/geoserver"
@@ -358,7 +356,6 @@ services:
   qgis-server:
     image: *qgis-server-image
     profiles: 
-      -  all 
       -  qgis-server 
     env_file: .env
     environment:
@@ -452,8 +449,6 @@ services:
   mapproxy:
     image: *mapproxy-image
     profiles: 
-      - all
-      - nginx
       - mapproxy
     env_file: .env
     environment:
@@ -662,28 +657,10 @@ services:
   #
   ############################################################
 
-
-  # This is a storage container for the country pbf
-  pbf:
-    image: pbf:stable
-    profiles: 
-      - all
-      - osm
-      - dev
-    build:
-      context: pbf_fetcher
-      dockerfile: Dockerfile
-    entrypoint: /bin/cp
-    command: "/settings/country.pbf /home/settings/country.pbf"
-    volumes:
-      - ./conf/osm_conf:/home/settings
-
   imposm:
     image: *imposm-image
     profiles: 
-      - all
       - osm
-      - dev
     volumes:
       # These are sharable to other containers
       - ./conf/osm_conf:/home/settings
@@ -701,6 +678,7 @@ services:
       - POSTGRES_DBNAME=gis
       - POSTGRES_PORT=${POSTGRES_PUBLIC_PORT}
       - POSTGRES_HOST=db
+      - SSL_MODE=require
       # seconds between 2 executions of the script if 0, then no
       # update will be done, only the first initial import from the
       # PBF
@@ -732,10 +710,7 @@ services:
   osmupdate:
     image: *osm-update-image
     profiles: 
-      - all
       - osm
-      - dev
-  
     volumes:
       # These are sharable to other containers
       - ./conf/osm_conf:/home/settings
@@ -774,12 +749,11 @@ services:
       # import from the PBF
       - TIME=120
 
+  # This server updates user and date of osm edits in the mirror
   osmenrich:
     image: *osm-enrich-image
     profiles: 
-      - all
-      - osm
-      - dev 
+      - osm-enrich
     volumes:
       # These are sharable to other containers
       - ./conf/osm_conf:/home/settings
@@ -797,6 +771,7 @@ services:
       - POSTGRES_DBNAME=gis
       - POSTGRES_PORT=${POSTGRES_PUBLIC_PORT}
       - POSTGRES_HOST=db
+      - SSL_MODE=require
       # These are all currently the defaults but listed here for
       # your convenience if you want to change them.
       # folder for diff which hasn't been imported yet

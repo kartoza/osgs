@@ -1,17 +1,20 @@
 # Hugo Watcher
 
-Short description
+Hugo is a static site generator. Hugo builds pages when you create or update your content. Since websites are viewed far more often than they are edited, Hugo is designed to provide an optimal viewing experience for the website’s end users and an ideal writing experience for website authors. [[1]](#1)
 
-**Project Website:**
+The Hugo Watcher service watches for changes in the static content source files of the hugo site and rebuilds the site whenever a source file is changed.
 
-**Project Source Repository:**
+**Service name:** hugo-watcher
 
-**Project Project Technical Documentation:**
+**Project Website:** [HUGO](https://gohugo.io/)
 
-**Docker Repository:**
+**Project Source Repository:**  [gohugoio / hugo](https://github.com/gohugoio/hugo)
 
-**Docker Source Repository:**
+**Project Project Technical Documentation:** [Hugo Documentation](https://gohugo.io/documentation/)
 
+**Docker Repository:** [kartoza/hugo-watcher](https://hub.docker.com/r/kartoza/hugo-watcher)
+
+**Docker Source Repository:** [kartoza / hugo-watcher](https://github.com/kartoza/hugo-watcher)
 
 ## Configuration
 
@@ -24,3 +27,7 @@ Short description
 ## Accessing the running services
 
 ## Additional Notes
+
+## References
+
+<a id="1">[1]</a> Hugo Authors. (2020, June 3). About Hugo. Hugo. https://gohugo.io/about/what-is-hugo/

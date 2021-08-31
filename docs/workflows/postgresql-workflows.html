@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>OSGS - make ps</title>
+<title>OSGS - PostgreSQL Workflows</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous"/>
@@ -36,8 +36,8 @@
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
 <link rel="search" title="Search" href="../search.html" />
-<link rel="next" title="make kill" href="make-kill.html" />
-<link rel="prev" title="Utilities" href="index.html" />
+<link rel="next" title="OSM Mirror" href="../osm.html" />
+<link rel="prev" title="Workflows" href="index.html" />
 
 </head>
 <body class="full-height test">
@@ -56,8 +56,8 @@
 
       </div>
       <div id="hdr-centre" class="text-center stretch">
-        <h3 title="make ps">make ps</h3>
-        <h6>make ps</h6>
+        <h3 title="PostgreSQL Workflows">PostgreSQL Workflows</h3>
+        <h6>PostgreSQL Workflows</h6>
       </div>
       <div id="hdr-search">
         
@@ -74,7 +74,7 @@
       </div>
 
       <div id="hdr-source">
-        <a href="../_sources/utilities/make-ps.md.txt" class="btn btn-default" title="See the source for this page"><i class="fa fa-code"></i></a>
+        <a href="../_sources/workflows/postgresql-workflows.md.txt" class="btn btn-default" title="See the source for this page"><i class="fa fa-code"></i></a>
       </div>
 
       <div id="hdr-right">
@@ -83,11 +83,11 @@
   <div class="prev-next">
     
       <div class="pull-left">
-        <a class="btn btn-default prev" href="index.html" title="Previous chapter (Utilities)"><i class="fa fa-chevron-left mr-1em" aria-hidden="true"></i><span class="btn-text">Utilities</span></a>
+        <a class="btn btn-default prev" href="index.html" title="Previous chapter (Workflows)"><i class="fa fa-chevron-left mr-1em" aria-hidden="true"></i><span class="btn-text">Workflows</span></a>
       </div>
     
       <div class="pull-right">
-        <a class="btn btn-default next" href="make-kill.html" title="Next chapter (make kill)"><span class="btn-text">make kill</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
+        <a class="btn btn-default next" href="../osm.html" title="Next chapter (OSM Mirror)"><span class="btn-text">OSM Mirror</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
       </div>
     </div>
   
@@ -106,7 +106,7 @@
         <a href="../genindex.html"><i class="fa fa-list mr-8"></i></a>
 
 
-        <a href="make-kill.html"><i class="fa fa-chevron-right"></i></a>
+        <a href="../osm.html"><i class="fa fa-chevron-right"></i></a>
 
       </div>
     </div>
@@ -306,47 +306,47 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Utilities</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#make-ps">make ps</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#synopsis">Synopsis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#notes">Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#utilities">Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../utilities/make-ps.html#make-ps">make ps</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-ps.html#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-ps.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-ps.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="make-kill.html">make kill</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="make-kill.html#synopsis">Synopsis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="make-kill.html#usage">Usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="make-kill.html#notes">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities/make-kill.html#make-kill">make kill</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-kill.html#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-kill.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-kill.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="make-nuke.html">make nuke</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="make-nuke.html#synopsis">Synopsis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="make-nuke.html#usage">Usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="make-nuke.html#notes">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities/make-nuke.html#make-nuke">make nuke</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-nuke.html#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-nuke.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-nuke.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="make-docs.html">make docs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="make-docs.html#synopsis">Synopsis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="make-docs.html#usage">Usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="make-docs.html#notes">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities/make-docs.html#make-docs">make docs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="building_docs.html">Building Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="building_docs.html#html-docs">HTML Docs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="building_docs.html#pdf-docs">PDF Docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities/building_docs.html#building-documentation">Building Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/building_docs.html#html-docs">HTML Docs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/building_docs.html#pdf-docs">PDF Docs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#indices-and-tables">Indices and tables</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Workflows</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#postgresql-workflows">PostgreSQL Workflows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#direct-connection">Direct connection</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../workflows/postgresql-workflows.html">PostgreSQL Workflows</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../workflows/postgresql-workflows.html#direct-connection">Direct connection</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../osm.html#osm-mirror">OSM Mirror</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../osm.html#pbf-container">PBF Container</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../osm.html#clip-area">Clip Area</a></li>
@@ -532,47 +532,47 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Utilities</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#make-ps">make ps</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#synopsis">Synopsis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#notes">Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#utilities">Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../utilities/make-ps.html#make-ps">make ps</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-ps.html#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-ps.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-ps.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="make-kill.html">make kill</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="make-kill.html#synopsis">Synopsis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="make-kill.html#usage">Usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="make-kill.html#notes">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities/make-kill.html#make-kill">make kill</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-kill.html#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-kill.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-kill.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="make-nuke.html">make nuke</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="make-nuke.html#synopsis">Synopsis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="make-nuke.html#usage">Usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="make-nuke.html#notes">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities/make-nuke.html#make-nuke">make nuke</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-nuke.html#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-nuke.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-nuke.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="make-docs.html">make docs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="make-docs.html#synopsis">Synopsis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="make-docs.html#usage">Usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="make-docs.html#notes">Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities/make-docs.html#make-docs">make docs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#synopsis">Synopsis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#usage">Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="building_docs.html">Building Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="building_docs.html#html-docs">HTML Docs</a></li>
-<li class="toctree-l3"><a class="reference internal" href="building_docs.html#pdf-docs">PDF Docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../utilities/building_docs.html#building-documentation">Building Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/building_docs.html#html-docs">HTML Docs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utilities/building_docs.html#pdf-docs">PDF Docs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#indices-and-tables">Indices and tables</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Workflows</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#postgresql-workflows">PostgreSQL Workflows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#direct-connection">Direct connection</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../workflows/postgresql-workflows.html">PostgreSQL Workflows</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../workflows/postgresql-workflows.html#direct-connection">Direct connection</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../osm.html#osm-mirror">OSM Mirror</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../osm.html#pbf-container">PBF Container</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../osm.html#clip-area">Clip Area</a></li>
@@ -589,34 +589,31 @@
           </div>
           <div class="body">
             
-  <div class="tex2jax_ignore mathjax_ignore section" id="make-ps">
-<h1>make ps<a class="headerlink" href="#make-ps" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="synopsis">
-<h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
-<p>Displays the actively running services in the OSGS platform.</p>
-</div>
-<div class="section" id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<p><strong>Make Target:</strong> ps</p>
-<p><strong>Arguments:</strong> none</p>
-<p><strong>Example usage:</strong> <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">ps</span></code></p>
-<p><strong>Example output:</strong></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">------------------------------------------------------------------</span>
-<span class="n">Current</span> <span class="n">status</span>
-<span class="o">------------------------------------------------------------------</span>
-          <span class="n">Name</span>                         <span class="n">Command</span>                  <span class="n">State</span>                                       <span class="n">Ports</span>                                 
-<span class="o">--------------------------------------------------------------------------------------------------------------------------------------------------</span>
-<span class="n">osgisstack_db_1</span>             <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span> <span class="o">-</span><span class="n">c</span> <span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">docker</span> <span class="o">...</span>   <span class="n">Up</span> <span class="p">(</span><span class="n">healthy</span><span class="p">)</span>   <span class="mf">0.0</span><span class="o">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">5432</span><span class="o">-&gt;</span><span class="mi">5432</span><span class="o">/</span><span class="n">tcp</span><span class="p">,:::</span><span class="mi">5432</span><span class="o">-&gt;</span><span class="mi">5432</span><span class="o">/</span><span class="n">tcp</span>                              
-<span class="n">osgisstack_hugo</span><span class="o">-</span><span class="n">watcher_1</span>   <span class="n">python3</span> <span class="o">/</span><span class="n">hugo_watcher</span><span class="o">.</span><span class="n">py</span>         <span class="n">Up</span>             <span class="mi">1313</span><span class="o">/</span><span class="n">tcp</span>                                                              
-<span class="n">osgisstack_nginx_1</span>          <span class="o">/</span><span class="n">docker</span><span class="o">-</span><span class="n">entrypoint</span><span class="o">.</span><span class="n">sh</span> <span class="o">/</span><span class="nb">bin</span> <span class="o">...</span>   <span class="n">Up</span>             <span class="mf">0.0</span><span class="o">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">443</span><span class="o">-&gt;</span><span class="mi">443</span><span class="o">/</span><span class="n">tcp</span><span class="p">,:::</span><span class="mi">443</span><span class="o">-&gt;</span><span class="mi">443</span><span class="o">/</span><span class="n">tcp</span><span class="p">,</span> <span class="mf">0.0</span><span class="o">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">80</span><span class="o">-&gt;</span><span class="mi">80</span><span class="o">/</span><span class="n">tcp</span><span class="p">,:::</span><span class="mi">80</span><span class="o">-&gt;</span><span class="mi">80</span><span class="o">/</span><span class="n">tcp</span>
-<span class="n">osgisstack_scp_1</span>            <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sh</span> <span class="o">-</span><span class="n">c</span> <span class="o">/</span><span class="n">run</span><span class="o">.</span><span class="n">sh</span>               <span class="n">Up</span>             <span class="mf">0.0</span><span class="o">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">2222</span><span class="o">-&gt;</span><span class="mi">22</span><span class="o">/</span><span class="n">tcp</span><span class="p">,:::</span><span class="mi">2222</span><span class="o">-&gt;</span><span class="mi">22</span><span class="o">/</span><span class="n">tcp</span>  
-
-</pre></div>
-</div>
-</div>
-<div class="section" id="notes">
-<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
-<p>Make ps only shows active containers.</p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="postgresql-workflows">
+<h1>PostgreSQL Workflows<a class="headerlink" href="#postgresql-workflows" title="Permalink to this headline">¶</a></h1>
+<p>There are a number of different workflows we will explore here:</p>
+<ul class="simple">
+<li>Connecting to the PostgreSQL database from your QGIS Desktop application</li>
+<li>Connecting to the PostgreSQL database from QGIS Server</li>
+<li>Connecting to the PostgreSQL database from GeoServer</li>
+<li>Connecting from other applications</li>
+</ul>
+<p>Before we dive into the details here, let us quickly examine some basic use cases:</p>
+<ul class="simple">
+<li>You collect data in the field using Input and use the mergin-db-sync workflow to synchronised field collected data into the database, then publish maps for this data in QGIS Server.</li>
+<li>You want to publish a layer in GeoServer, so you connect to the database from your desktop, drag and drop a local file system layer into the database using QGIS, then publish the layer from GeoServer.</li>
+<li>You want to create a project in QGIS desktop that uses PostgreSQL for data storage, then publish that data as a QGIS Project.</li>
+</ul>
+<p>There are many other workflows that the Open GIS Stack supports, it is really up to your imagination! What is key to understand are the mechanisms that you can use to connect to the database in different contexts. And so we will focus this section on the different connection modalities.</p>
+<div class="section" id="direct-connection">
+<h2>Direct connection<a class="headerlink" href="#direct-connection" title="Permalink to this headline">¶</a></h2>
+<p>Direct connection to the server over the standard PostgreSQL port exposed to the public internet is probably the least secure but most convenient approach. We do not recommend this approach, and if you do follow it be sure to use the option to force remote clients to connect using SSL (and expect a performance penalty in the process).</p>
+<p>Note also that connecting to a PostgreSQL database using QGIS from a remote host may often be slow and irritating to use on a daily basis, especially if your internet connection is not very fast and your datasets are large.</p>
+<p>By default the docker-compose.yaml</p>
+<p>Publishing with QGIS Server</p>
+<p>The workflows described in this section apply equally to any database hosted</p>
+<p>Further reading for understanding authentication with PostgreSQL using cert based authentication here:</p>
+<p>https://joelonsql.com/2013/04/27/securing-postgresql-using-hostssl-cert-clientcert1/</p>
 </div>
 </div>
 

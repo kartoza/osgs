@@ -1,17 +1,18 @@
 # PostgREST
 
-Short description
+PostgREST is a standalone web server that turns your PostgreSQL database directly into a RESTful API. The structural constraints and permissions in the database determine the API endpoints and operations. [[1]](#1) The PostgREST service ion the OSGS platform is used for pushing readings from IoT devices to our database.
 
-**Project Website:**
+**Service name**: postgrest
 
-**Project Source Repository:**
+**Project Website:** [PostgREST Documentation](https://postgrest.org/en/v8.0/)
 
-**Project Project Technical Documentation:**
+**Project Source Repository:** [PostgREST / postgrest](https://github.com/PostgREST/postgrest)
 
-**Docker Repository:**
+**Project Technical Documentation:** [PostgREST Documentation](https://postgrest.org/en/v8.0/)
 
-**Docker Source Repository:**
+**Docker Repository:** [postgrest/postgrest](https://hub.docker.com/r/postgrest/postgrest)
 
+**Docker Source Repository:** [PostgREST / postgrest](https://github.com/PostgREST/postgrest)
 
 ## Configuration
 
@@ -24,3 +25,7 @@ Short description
 ## Accessing the running services
 
 ## Additional Notes
+
+## References
+
+<a id="1">[1]</a> Nelson, J., & Chavez, S. (n.d.). PostgREST Documentation — PostgREST 8.0.0 documentation. PostgREST Documentation. Retrieved August 26, 2021, from https://postgrest.org/en/v8.0/
