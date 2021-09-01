@@ -597,7 +597,7 @@ services:
     environment:
       - TZ=${TIMEZONE}
     ports:
-      - 1880:1880
+      - 1880
     networks:
       - os-gis-stack  
     volumes:
@@ -692,7 +692,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - POSTGRES_DBNAME=gis
-      - POSTGRES_PORT=${POSTGRES_PUBLIC_PORT}
+      - POSTGRES_PORT=${POSTGRES_PRIVATE_PORT}
       - POSTGRES_HOST=db
       - SSL_MODE=require
       # seconds between 2 executions of the script if 0, then no
