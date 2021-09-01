@@ -8,7 +8,6 @@ Services
    postgres
    geoserver
    hugo-watcher
-   docker-osm
    lizmap
    mergin-server
    mergin-client

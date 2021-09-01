@@ -1,17 +1,17 @@
 # Lizmap
 
-Lizmap is an open source software designed by 3Liz that allows QGIS® Desktop to create Web map applications. [[1]](#1)  
+Short description
 
-**Project Website:** [Lizmap](https://www.3liz.com/opensource.html#lizmap)
+**Project Website:**
 
-**Project Source Repository:** [3liz / lizmap-web-client](https://github.com/3liz/lizmap-web-client)
+**Project Source Repository:**
 
-**Project Technical Documentation:** [Lizmap - Documentation](https://docs.lizmap.com/current/en/)
+**Project Project Technical Documentation:**
 
-**Docker Repository:** [3liz/lizmap-web-client](https://hub.docker.com/r/3liz/lizmap-web-client)
+**Docker Repository:**
 
 **Docker Source Repository:**
-[3liz / docker-lizmap-web-client](https://github.com/3liz/lizmap-web-client/tree/master/docker)
+
 
 ## Configuration
 
@@ -24,7 +24,3 @@ Lizmap is an open source software designed by 3Liz that allows QGIS® Desktop to
 ## Accessing the running services
 
 ## Additional Notes
-
-## References
-
-<a id="1">[1]</a> 3Liz. (n.d.). Lizmap. Retrieved August 26, 2021, from https://www.3liz.com/en/lizmap.html

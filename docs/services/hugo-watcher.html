@@ -16,6 +16,8 @@
 
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -32,6 +34,7 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
+    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
@@ -142,7 +145,7 @@
       
         
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#what-is-the-open-source-gis-stack"><strong>What is the Open Source GIS Stack?</strong></a></li>
@@ -151,18 +154,24 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Services</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="postgres.html">Postgres and PostGIS</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="postgres.html#configuration">Configuration</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="postgres.html#database-password">Database password:</a></li>
-<li class="toctree-l4"><a class="reference internal" href="postgres.html#service-file-configuration">Service file configuration:</a></li>
-<li class="toctree-l4"><a class="reference internal" href="postgres.html#deployment">Deployment</a></li>
-<li class="toctree-l4"><a class="reference internal" href="postgres.html#validation">Validation</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="postgres.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="postgres.html#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="postgres.html#enabling">Enabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="postgres.html#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="postgres.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="postgres.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="postgres.html#references">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="postgres.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="postgres.html#id1">Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="postgres.html#database-password">Database password:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="postgres.html#service-file-configuration">Service file configuration:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="postgres.html#id2">Deployment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="postgres.html#validation">Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="postgres.html#postgresql-workflows">PostgreSQL Workflows</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="postgres.html#direct-connection">Direct connection</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="geoserver.html">GeoServer</a><ul>
@@ -170,11 +179,8 @@
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#enabling">Enabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#disabling">Disabling</a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoserver.html#starting">Starting</a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoserver.html#logs">Logs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoserver.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#hugo-watcher">Hugo Watcher</a><ul>
@@ -184,7 +190,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="lizmap.html">Lizmap</a><ul>
@@ -194,7 +199,6 @@
 <li class="toctree-l3"><a class="reference internal" href="lizmap.html#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lizmap.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lizmap.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="lizmap.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mergin-server.html">Mergin Server</a><ul>
@@ -204,7 +208,6 @@
 <li class="toctree-l3"><a class="reference internal" href="mergin-server.html#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mergin-server.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mergin-server.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mergin-server.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mergin-client.html">Mergin Client</a><ul>
@@ -241,7 +244,6 @@
 <li class="toctree-l3"><a class="reference internal" href="postgrest.html#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="postgrest.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="postgrest.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="postgrest.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="qgis-server.html">QGIS Server</a><ul>
@@ -325,12 +327,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../utilities/make-nuke.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../utilities/make-docs.html">make docs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#synopsis">Synopsis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#usage">Usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#notes">Notes</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="../utilities/building_docs.html">Building Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../utilities/building_docs.html#html-docs">HTML Docs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../utilities/building_docs.html#pdf-docs">PDF Docs</a></li>
@@ -339,11 +335,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../workflows/postgresql-workflows.html">PostgreSQL Workflows</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../workflows/postgresql-workflows.html#direct-connection">Direct connection</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workdlows</a><ul class="simple">
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html#indices-and-tables">Indices and tables</a></li>
@@ -368,7 +360,7 @@
           <div id="mnav">
             
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#what-is-the-open-source-gis-stack"><strong>What is the Open Source GIS Stack?</strong></a></li>
@@ -377,18 +369,24 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Services</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="postgres.html">Postgres and PostGIS</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="postgres.html#configuration">Configuration</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="postgres.html#database-password">Database password:</a></li>
-<li class="toctree-l4"><a class="reference internal" href="postgres.html#service-file-configuration">Service file configuration:</a></li>
-<li class="toctree-l4"><a class="reference internal" href="postgres.html#deployment">Deployment</a></li>
-<li class="toctree-l4"><a class="reference internal" href="postgres.html#validation">Validation</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="postgres.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="postgres.html#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="postgres.html#enabling">Enabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="postgres.html#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="postgres.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="postgres.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="postgres.html#references">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="postgres.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="postgres.html#id1">Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="postgres.html#database-password">Database password:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="postgres.html#service-file-configuration">Service file configuration:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="postgres.html#id2">Deployment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="postgres.html#validation">Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="postgres.html#postgresql-workflows">PostgreSQL Workflows</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="postgres.html#direct-connection">Direct connection</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="geoserver.html">GeoServer</a><ul>
@@ -396,11 +394,8 @@
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#enabling">Enabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#disabling">Disabling</a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoserver.html#starting">Starting</a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoserver.html#logs">Logs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoserver.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#hugo-watcher">Hugo Watcher</a><ul>
@@ -410,7 +405,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="lizmap.html">Lizmap</a><ul>
@@ -420,7 +414,6 @@
 <li class="toctree-l3"><a class="reference internal" href="lizmap.html#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lizmap.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lizmap.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="lizmap.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mergin-server.html">Mergin Server</a><ul>
@@ -430,7 +423,6 @@
 <li class="toctree-l3"><a class="reference internal" href="mergin-server.html#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mergin-server.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mergin-server.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mergin-server.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mergin-client.html">Mergin Client</a><ul>
@@ -467,7 +459,6 @@
 <li class="toctree-l3"><a class="reference internal" href="postgrest.html#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="postgrest.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="postgrest.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="postgrest.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="qgis-server.html">QGIS Server</a><ul>
@@ -551,12 +542,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../utilities/make-nuke.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../utilities/make-docs.html">make docs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#synopsis">Synopsis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#usage">Usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#notes">Notes</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="../utilities/building_docs.html">Building Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../utilities/building_docs.html#html-docs">HTML Docs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../utilities/building_docs.html#pdf-docs">PDF Docs</a></li>
@@ -565,11 +550,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../workflows/postgresql-workflows.html">PostgreSQL Workflows</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../workflows/postgresql-workflows.html#direct-connection">Direct connection</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workdlows</a><ul class="simple">
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html#indices-and-tables">Indices and tables</a></li>
@@ -591,14 +572,12 @@
             
   <div class="tex2jax_ignore mathjax_ignore section" id="hugo-watcher">
 <h1>Hugo Watcher<a class="headerlink" href="#hugo-watcher" title="Permalink to this headline">¶</a></h1>
-<p>Hugo is a static site generator. Hugo builds pages when you create or update your content. Since websites are viewed far more often than they are edited, Hugo is designed to provide an optimal viewing experience for the website’s end users and an ideal writing experience for website authors. <a class="reference external" href="#1">[1]</a></p>
-<p>The Hugo Watcher service watches for changes in the static content source files of the hugo site and rebuilds the site whenever a source file is changed.</p>
-<p><strong>Service name:</strong> hugo-watcher</p>
-<p><strong>Project Website:</strong> <a class="reference external" href="https://gohugo.io/">HUGO</a></p>
-<p><strong>Project Source Repository:</strong>  <a class="reference external" href="https://github.com/gohugoio/hugo">gohugoio / hugo</a></p>
-<p><strong>Project Project Technical Documentation:</strong> <a class="reference external" href="https://gohugo.io/documentation/">Hugo Documentation</a></p>
-<p><strong>Docker Repository:</strong> <a class="reference external" href="https://hub.docker.com/r/kartoza/hugo-watcher">kartoza/hugo-watcher</a></p>
-<p><strong>Docker Source Repository:</strong> <a class="reference external" href="https://github.com/kartoza/hugo-watcher">kartoza / hugo-watcher</a></p>
+<p>Short description</p>
+<p><strong>Project Website:</strong></p>
+<p><strong>Project Source Repository:</strong></p>
+<p><strong>Project Project Technical Documentation:</strong></p>
+<p><strong>Docker Repository:</strong></p>
+<p><strong>Docker Source Repository:</strong></p>
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
 </div>
@@ -617,10 +596,6 @@
 <div class="section" id="additional-notes">
 <h2>Additional Notes<a class="headerlink" href="#additional-notes" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
-<p><a id="1">[1]</a> Hugo Authors. (2020, June 3). About Hugo. Hugo. https://gohugo.io/about/what-is-hugo/</p>
-</div>
 </div>
 
 
@@ -633,7 +608,7 @@
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"

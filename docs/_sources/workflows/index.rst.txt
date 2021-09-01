@@ -1,11 +1,9 @@
-Workflows
+Workdlows
 ==============================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
-   postgresql-workflows
 
 
 

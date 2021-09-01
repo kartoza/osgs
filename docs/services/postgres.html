@@ -16,6 +16,8 @@
 
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -32,6 +34,7 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
+    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
@@ -142,7 +145,7 @@
       
         
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#what-is-the-open-source-gis-stack"><strong>What is the Open Source GIS Stack?</strong></a></li>
@@ -151,18 +154,24 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Services</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#postgres-and-postgis">Postgres and PostGIS</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#database-password">Database password:</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#service-file-configuration">Service file configuration:</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#deployment">Deployment</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#validation">Validation</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#enabling">Enabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#database-password">Database password:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#service-file-configuration">Service file configuration:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Deployment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#validation">Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#postgresql-workflows">PostgreSQL Workflows</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#direct-connection">Direct connection</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="geoserver.html">GeoServer</a><ul>
@@ -170,11 +179,8 @@
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#enabling">Enabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#disabling">Disabling</a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoserver.html#starting">Starting</a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoserver.html#logs">Logs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoserver.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="hugo-watcher.html">Hugo Watcher</a><ul>
@@ -184,7 +190,6 @@
 <li class="toctree-l3"><a class="reference internal" href="hugo-watcher.html#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hugo-watcher.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hugo-watcher.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="hugo-watcher.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="lizmap.html">Lizmap</a><ul>
@@ -194,7 +199,6 @@
 <li class="toctree-l3"><a class="reference internal" href="lizmap.html#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lizmap.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lizmap.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="lizmap.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mergin-server.html">Mergin Server</a><ul>
@@ -204,7 +208,6 @@
 <li class="toctree-l3"><a class="reference internal" href="mergin-server.html#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mergin-server.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mergin-server.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mergin-server.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mergin-client.html">Mergin Client</a><ul>
@@ -241,7 +244,6 @@
 <li class="toctree-l3"><a class="reference internal" href="postgrest.html#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="postgrest.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="postgrest.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="postgrest.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="qgis-server.html">QGIS Server</a><ul>
@@ -325,12 +327,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../utilities/make-nuke.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../utilities/make-docs.html">make docs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#synopsis">Synopsis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#usage">Usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#notes">Notes</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="../utilities/building_docs.html">Building Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../utilities/building_docs.html#html-docs">HTML Docs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../utilities/building_docs.html#pdf-docs">PDF Docs</a></li>
@@ -339,11 +335,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../workflows/postgresql-workflows.html">PostgreSQL Workflows</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../workflows/postgresql-workflows.html#direct-connection">Direct connection</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workdlows</a><ul class="simple">
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html#indices-and-tables">Indices and tables</a></li>
@@ -368,7 +360,7 @@
           <div id="mnav">
             
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#what-is-the-open-source-gis-stack"><strong>What is the Open Source GIS Stack?</strong></a></li>
@@ -377,18 +369,24 @@
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Services</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#postgres-and-postgis">Postgres and PostGIS</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#database-password">Database password:</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#service-file-configuration">Service file configuration:</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#deployment">Deployment</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#validation">Validation</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#enabling">Enabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#database-password">Database password:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#service-file-configuration">Service file configuration:</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Deployment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#validation">Validation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#postgresql-workflows">PostgreSQL Workflows</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#direct-connection">Direct connection</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="geoserver.html">GeoServer</a><ul>
@@ -396,11 +394,8 @@
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#enabling">Enabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#disabling">Disabling</a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoserver.html#starting">Starting</a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoserver.html#logs">Logs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoserver.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoserver.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="hugo-watcher.html">Hugo Watcher</a><ul>
@@ -410,7 +405,6 @@
 <li class="toctree-l3"><a class="reference internal" href="hugo-watcher.html#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hugo-watcher.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="hugo-watcher.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="hugo-watcher.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="lizmap.html">Lizmap</a><ul>
@@ -420,7 +414,6 @@
 <li class="toctree-l3"><a class="reference internal" href="lizmap.html#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lizmap.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="lizmap.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="lizmap.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mergin-server.html">Mergin Server</a><ul>
@@ -430,7 +423,6 @@
 <li class="toctree-l3"><a class="reference internal" href="mergin-server.html#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mergin-server.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="mergin-server.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="mergin-server.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="mergin-client.html">Mergin Client</a><ul>
@@ -467,7 +459,6 @@
 <li class="toctree-l3"><a class="reference internal" href="postgrest.html#disabling">Disabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="postgrest.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="postgrest.html#additional-notes">Additional Notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="postgrest.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="qgis-server.html">QGIS Server</a><ul>
@@ -551,12 +542,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../utilities/make-nuke.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../utilities/make-docs.html">make docs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#synopsis">Synopsis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#usage">Usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../utilities/make-docs.html#notes">Notes</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="../utilities/building_docs.html">Building Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../utilities/building_docs.html#html-docs">HTML Docs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../utilities/building_docs.html#pdf-docs">PDF Docs</a></li>
@@ -565,11 +550,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../workflows/postgresql-workflows.html">PostgreSQL Workflows</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../workflows/postgresql-workflows.html#direct-connection">Direct connection</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workdlows</a><ul class="simple">
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html#indices-and-tables">Indices and tables</a></li>
@@ -591,23 +572,60 @@
             
   <div class="tex2jax_ignore mathjax_ignore section" id="postgres-and-postgis">
 <h1>Postgres and PostGIS<a class="headerlink" href="#postgres-and-postgis" title="Permalink to this headline">¶</a></h1>
-<p>PostgreSQL is a powerful, open source object-relational database management system  (ORDBMS) that uses and extends the SQL language combined with many features that safely store and scale the most complicated data workloads.<a class="reference external" href="#1">[1]</a><a class="reference external" href="#2">[2]</a></p>
-<p>PostGIS is a spatial extension to  for PostgreSQL object-relational database. This allows for GIS (Geographic Information Systems) objects to be stored in the database.<a class="reference external" href="#3">[3]</a></p>
-<p>The heart of any stack like the OpenSource GIS Stack would be PostGIS and PostgreSQL. This is because many of the other tools provided in the OSGS stack, for example Goeserver, QGIS Server and Mergin, all rely or can make use of PostGIS as a data storage platform and in some cases as a data anlysis platform. The OSGS stack provides  PostgreSQL version 13 along with PostGIS which are provided by the the Kartoza PostGIS Docker container. There are a few considerations that were made when deploying this container. One, which is actually a  general design consideration of the OSGS stack, is to try and make everything as secure as possible out of the box, rather than leaving security as an afterthought. To fulfill this consideration, what the OSGS stack does, is it spins up a PostgreSQL instance with PostGIS deployed in it and creates a separate user account for connecting to this instance. It also enables SSL encription by default, as required to the PostgreSQL database. This is so that if you choose to open the port as a public service, firstly, we are not using some well documented default password and username combination and secondly, all the traffic between your client application and the server is encrypted.</p>
-<p><strong>Service name:</strong> db</p>
+<p>Short description</p>
 <p><strong>Project Website:</strong> <a class="reference external" href="https://postgresql.org">PostgreSQL</a> and <a class="reference external" href="https://postgis.net/">PostGIS</a></p>
-<p><strong>Project Source Repository:</strong> <a class="reference external" href="https://github.com/postgres/postgres">postgres / postgres</a> and <a class="reference external" href="https://git.osgeo.org/gitea/postgis/postgis">postgis / postgis</a></p>
-<p><strong>Project Technical Documentation:</strong> <a class="reference external" href="https://www.postgresql.org/docs/current/">PostgreSQL Documentation</a> and <a class="reference external" href="https://postgis.net/docs/">PostGIS Documentation</a></p>
-<p><strong>Docker Repository:</strong> <a class="reference external" href="https://hub.docker.com/r/kartoza/postgis">kartoza/postgis</a></p>
-<p><strong>Docker Source Repository:</strong> <a class="reference external" href="https://github.com/kartoza/docker-postgis">kartoza / docker-postgis</a></p>
+<p><strong>Project Source Repository:</strong></p>
+<p><strong>Project Project Technical Documentation:</strong></p>
+<p><strong>Docker Repository:</strong></p>
+<p><strong>Docker Source Repository:</strong></p>
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
-<p>The project includes detailed documentation so this section only contains details relevant to the Open Source GIS Stack configuration.</p>
+</div>
+<div class="section" id="deployment">
+<h2>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="enabling">
+<h2>Enabling<a class="headerlink" href="#enabling" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="disabling">
+<h2>Disabling<a class="headerlink" href="#disabling" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="accessing-the-running-services">
+<h2>Accessing the running services<a class="headerlink" href="#accessing-the-running-services" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="additional-notes">
+<h2>Additional Notes<a class="headerlink" href="#additional-notes" title="Permalink to this headline">¶</a></h2>
+<p>The heart of any stack like this would be PostGIS and PostgreSQL. This is because many
+of the other tools provided in the OSGS stack, for example Goeserver, QGIS Server and
+Mergin, all rely or can make use of PostGIS as a data storage platform and in some cases
+as a data anlysis platform. The OSGS stack provides  PostgreSQL version 13 along with
+PostGIS which are provided by the the Kartoza PostGIS Docker container. There are a few
+considerations that were made when deploying this container. One, which is actually a
+general design consideration of the OSGS stack, is to try and make everything as secure
+as possible out of the box, rather than leaving security as an afterthought. To fulfill
+this consideration, what the OSGS stack does, is it spins up a PostgreSQL instance with
+PostGIS deployed in it and creates a separate user account for connecting to this instance.
+It also enables SSL encription by default, as required to the PostgreSQL database. This
+is so that if you choose to open the port as a public service, firstly, we are not using
+some well documented default password and username combination and secondly, all the traffic
+between your client application and the server is encrypted.</p>
+</div>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>We use the Kartoza PostGIS docker image available here:
+https://hub.docker.com/r/kartoza/postgis/</p>
+<p>The project home page is here: https://github.com/kartoza/docker-postgis</p>
+<p>The project includes detailed documentation so this section only contains
+details relevant to the Open Source GIS Stack configuration.</p>
+</div>
+<div class="section" id="id1">
+<h2>Configuration<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="database-password">
 <h3>Database password:<a class="headerlink" href="#database-password" title="Permalink to this headline">¶</a></h3>
 <p>Generate a strong password:</p>
 <p><code class="docutils literal notranslate"><span class="pre">pwgen</span> <span class="pre">20</span>&#160; <span class="pre">1</span></code></p>
-<p>Replace the default docker password for the postgres user with the strong password:</p>
+<p>Replace the default docker password for the postgres user with the strong
+password:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>rpl “POSTGRES_PASSWORD=docker” “POSTGRES_PASSWORD=&lt;strong password&gt;” .env
 </pre></div>
 </div>
@@ -616,31 +634,50 @@
 <h3>Service file configuration:<a class="headerlink" href="#service-file-configuration" title="Permalink to this headline">¶</a></h3>
 <p>Service files entries serve two scenarios:</p>
 <ol class="simple">
-<li>They are needed for opening QGIS projects stored in postgres with PG connection URI because at the project URI you cannot use QGIS authdb. If you prefer to store your projects on the file system, you should rather remove    these lines (whole nginx section) since the authentication from pg_conf/pg_service.conf can be done more securely by QGIS authdb.</li>
-<li>Used by your QGIS Server projects to connect to the database once the project is opened from either the file system of the database. You can either specify your password and username in service file or for more advanced configuration you can store user / password credentials in a QGIS authdb file.  Refer to the authdb section and in qgis_conf/qgis-auth.db and the readme in
+<li>They are needed for opening QGIS projects stored in postgres with PG
+connection URI because at the project URI you cannot use QGIS authdb. If you
+prefer to store your projects on the file system, you should rather remove
+these lines (whole nginx section) since the authentication from
+pg_conf/pg_service.conf can be done more securely by QGIS authdb.</li>
+<li>Used by your QGIS Server projects to connect to the database once the
+project is opened from either the file system of the database.  You can
+either specify your password and username in service file or for more advanced
+configuration you can store user / password credentials in a QGIS authdb file.
+Refer to the authdb section and in qgis_conf/qgis-auth.db and the readme in
 that folder.</li>
 </ol>
-<p>On your local machine you should create your own service file with the same service name but connection details that make sense when using the database from your local machine. When you upload your projects into the stack they will connect using the settings from the server hosted service file below assuming you used the same service name.</p>
-<p>To carry out the service file configuration, copy, rename then edit the pg_service file in pg_config as per the example below (note that we also substitute in the database password created in the steps above).</p>
+<p>On your local machine you should create your own service file with the same
+service name but connection details that make sense when using the database
+from your local machine. When you upload your projects into the stack they will
+connect using the settings from the server hosted service file below assuming
+you used the same service name.</p>
+<p>To carry out the service file configuration, copy, rename then edit the
+pg_service file in pg_config as per the example below (note that we also
+substitute in the database password created in the steps above).</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cp</span> <span class="n">pg_conf</span><span class="o">/</span><span class="n">pg_service</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">example</span> \ <span class="n">pg_conf</span><span class="o">/</span><span class="n">pg_service</span><span class="o">.</span><span class="n">confpassword</span><span class="o">=</span><span class="n">docker</span> 
 <span class="n">rpl</span> <span class="n">password</span><span class="o">=&lt;</span><span class="n">your</span> <span class="n">password</span><span class="o">&gt;</span> <span class="n">pg_conf</span><span class="o">/</span><span class="n">pg_service</span><span class="o">.</span><span class="n">conf</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="deployment">
-<h3>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h3>Deployment<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span><span class="o">-</span><span class="n">compose</span> <span class="o">--</span><span class="n">profile</span><span class="o">=</span><span class="n">postgres</span> <span class="n">up</span> <span class="o">-</span><span class="n">d</span>
 </pre></div>
 </div>
-<p>Note that the default configuration opens the postgresql service to all hosts. This is a potential security hole. If you open the port on the firewall e.g.</p>
+<p>Note that the default configuration opens the postgresql service to all hosts.
+This is a potential security hole. If you open the port on the firewall e.g.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="mi">5432</span> <span class="n">tcp</span>
 </pre></div>
 </div>
-<p>Then be sure to connect from pg clients like psql or QGIS with SSL enabled so that passwords and data are not transmitted in clear text.</p>
+<p>Then be sure to connect from pg clients like psql or QGIS with SSL enabled so
+that passwords and data are not transmitted in clear text.</p>
 </div>
 <div class="section" id="validation">
 <h3>Validation<a class="headerlink" href="#validation" title="Permalink to this headline">¶</a></h3>
-<p>Create a local pg_service.conf file like the example below and save it in <code class="docutils literal notranslate"><span class="pre">~/.pg_service.conf</span></code> or similar as appropriate to your operating system (see https://www.postgresql.org/docs/12/libpq-pgservice.html for details on configuration options).</p>
+<p>Create a local pg_service.conf file like the example below and save it in
+<code class="docutils literal notranslate"><span class="pre">~/.pg_service.conf</span></code> or similar as appropriate to your operating system (see
+https://www.postgresql.org/docs/12/libpq-pgservice.html for details on
+configuration options).</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">os</span><span class="o">-</span><span class="n">gis</span><span class="o">-</span><span class="n">stack</span><span class="p">]</span>
 <span class="n">dbname</span><span class="o">=</span><span class="n">gis</span>
 <span class="n">port</span><span class="o">=</span><span class="mi">5432</span>
@@ -649,7 +686,8 @@ that folder.</li>
 <span class="n">password</span><span class="o">=</span><span class="n">docker</span>
 </pre></div>
 </div>
-<p>Now pass the server parameter to psql and list the databases as per the example below:</p>
+<p>Now pass the server parameter to psql and list the databases as per the example
+below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[timlinux@fedora ~]$ psql service=os-gis-stack -l
 List of databases
 </pre></div>
@@ -701,23 +739,32 @@ List of databases
 <p>Note that there was no need to supply any credentials other than the service file name.</p>
 </div>
 </div>
-<div class="section" id="enabling">
-<h2>Enabling<a class="headerlink" href="#enabling" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="postgresql-workflows">
+<h2>PostgreSQL Workflows<a class="headerlink" href="#postgresql-workflows" title="Permalink to this headline">¶</a></h2>
+<p>There are a number of different workflows we will explore here:</p>
+<ul class="simple">
+<li>Connecting to the PostgreSQL database from your QGIS Desktop application</li>
+<li>Connecting to the PostgreSQL database from QGIS Server</li>
+<li>Connecting to the PostgreSQL database from GeoServer</li>
+<li>Connecting from other applications</li>
+</ul>
+<p>Before we dive into the details here, let us quickly examine some basic use cases:</p>
+<ul class="simple">
+<li>You collect data in the field using Input and use the mergin-db-sync workflow to synchronised field collected data into the database, then publish maps for this data in QGIS Server.</li>
+<li>You want to publish a layer in GeoServer, so you connect to the database from your desktop, drag and drop a local file system layer into the database using QGIS, then publish the layer from GeoServer.</li>
+<li>You want to create a project in QGIS desktop that uses PostgreSQL for data storage, then publish that data as a QGIS Project.</li>
+</ul>
+<p>There are many other workflows that the Open GIS Stack supports, it is really up to your imagination! What is key to understand are the mechanisms that you can use to connect to the database in different contexts. And so we will focus this section on the different connection modalities.</p>
+<div class="section" id="direct-connection">
+<h3>Direct connection<a class="headerlink" href="#direct-connection" title="Permalink to this headline">¶</a></h3>
+<p>Direct connection to the server over the standard PostgreSQL port exposed to the public internet is probably the least secure but most convenient approach. We do not recommend this approach, and if you do follow it be sure to use the option to force remote clients to connect using SSL (and expect a performance penalty in the process).</p>
+<p>Note also that connecting to a PostgreSQL database using QGIS from a remote host may often be slow and irritating to use on a daily basis, especially if your internet connection is not very fast and your datasets are large.</p>
+<p>By default the docker-compose.yaml</p>
+<p>Publishing with QGIS Server</p>
+<p>The workflows described in this section apply equally to any database hosted</p>
+<p>Further reading for understanding authentication with PostgreSQL using cert based authentication here:</p>
+<p>https://joelonsql.com/2013/04/27/securing-postgresql-using-hostssl-cert-clientcert1/</p>
 </div>
-<div class="section" id="disabling">
-<h2>Disabling<a class="headerlink" href="#disabling" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="accessing-the-running-services">
-<h2>Accessing the running services<a class="headerlink" href="#accessing-the-running-services" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="additional-notes">
-<h2>Additional Notes<a class="headerlink" href="#additional-notes" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
-<p><a id="1">[1]</a> The PostgreSQL Global Development Group. (n.d.). PostgreSQL: About. PostgreSQL: The World’s Most Advanced Open Source Relational Database. Retrieved August 22, 2021, from https://www.postgresql.org/about/</p>
-<p><a id="2">[2]</a> The PostgreSQL Global Development Group. (2021, August 12). 1. What Is PostgreSQL? PostgreSQL Documentation. https://www.postgresql.org/docs/current/intro-whatis.html</p>
-<p><a id="3">[3]</a> The PostGIS Development Group. (2021, August 20). PostGIS 3.1.4dev Manual. PostGIS - Documentation. https://postgis.net/docs/manual-3.1/</p>
 </div>
 </div>
 
@@ -731,7 +778,7 @@ List of databases
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"

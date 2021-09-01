@@ -1,0 +1,10 @@
+# This image is intended to be used as a storage
+# only container
+
+FROM byrnedo/alpine-curl
+MAINTAINER Tim Sutton <tim@kartoza.com>
+
+RUN mkdir /settings
+# Replace PBF_URL with a link to a PBF e.g.
+# https://download.geofabrik.de/europe/portugal-latest.osm.pbf
+RUN wget PBF_URL -O /settings/country.pbf

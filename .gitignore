@@ -3,10 +3,9 @@ certbot/certbot
 postgis_data/
 mergin_sync_data/
 *.pbf
-conf/osm_conf/clip.geojson
-conf/osm_conf/last.state.txt
-conf/osm_conf/timestamp.txt
-conf/osm_conf/importer.lock
+osm_conf/last.state.txt
+osm_conf/importer.lock
+osm_conf/timestamp.txt
 geoserver_data/
 mapproxy_conf/cache_data
 *.swp
