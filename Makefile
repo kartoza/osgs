@@ -45,12 +45,17 @@ configure-htpasswd:
 	@echo "Accessible at /files/"
 	@echo "Access credentials will be stored in .env"
 	@echo "------------------------------------------------------------------"
-	# bcrypt encrypted pwd, be sure to usie nginx:alpine nginx image
+	#Sometimes docker will make a directory if the pwd file does not 
+	#exist when it starts
+	@if [ -d "conf/nginx_conf/htpasswd" ]; then rm -rf conf/nginx_conf/htpasswd; fi
+	@if [ -f "conf/nginx_conf/htpasswd" ]; then echo "htpasswd file already exists, skipping"; exit 0; fi
+	# bcrypt encrypted pwd, be sure to use nginx:alpine nginx image
 	@export PASSWD=$$(pwgen 20 1); \
 	       	htpasswd -cbB conf/nginx_conf/htpasswd web $$PASSWD; \
 		echo "#User account for protected areas of the site using httpauth" >> .env; \
 		echo "#You can add more accounts to conf/nginx_conf/htpasswd using the htpasswd tool" >> .env; \
-		echo $$PASSWD >> .env; \
+		echo "NGINX_AUTH_USER=web" >> .env; \
+		echo "NGINX_AUTH_PWD=$$PASSWD" >> .env; \
 		echo "Files sharing htpasswd set to $$PASSWD"
 	@make enable-files
 
@@ -372,6 +377,8 @@ configure-timezone:
 	@echo "Follow exactly the format of the TZ Database Name column"
 	@read -p "Server Time Zone (e.g. Etc/UTC):" TZ; \
 	   rpl TIMEZONE=Etc/UTC TIMEZONE=$$TZ .env
+	@sed -i '/#TIMEZONE CONFIGURED/d' enabled-profiles
+	@echo "#TIMEZONE CONFIGURED" >> .env
 
 db-shell:
 	@echo
@@ -498,10 +505,12 @@ disable-osm-mirror:
 
 #----------------- Postgrest --------------------------
 
+deploy-postgrest: configure-postgrest enable-postgrest start-postgrest
+
 configure-postgrest: start-postgrest
-	@echo "=========================:"
-	@echo "PostgREST specific updates:"
-	@echo "=========================:"
+	@echo "========================="
+	@echo "PostgREST specific updates"
+	@echo "========================="
 	@export PASSWD=$$(pwgen 20 1); \
 		rpl PGRST_JWT_SECRET=foobarxxxyyyzzz PGRST_JWT_SECRET=$$PASSWD .env; \
 		echo "PostGREST JWT token set to $$PASSWD"
@@ -516,20 +525,35 @@ disable-postgrest:
 	# Remove from enabled-profiles
 	@sed -i '/postgrest/d' enabled-profiles
 
-configure-mergin-client:
-	@echo "=========================:"
-	@echo "Mergin related configs:"
-	@echo "=========================:"
-	@read -p "Mergin User (not email address): " USER; \
-	   rpl mergin_username $$USER .env
-	@read -p "Mergin Password: " PASSWORD; \
-	   rpl mergin_password $$PASSWORD .env
-	@read -p "Mergin Project (without username part): " PROJECT; \
-	   rpl mergin_project $$PROJECT .env
-	@read -p "Mergin Project GeoPackage: " PACKAGE; \
-	   rpl mergin_project_geopackage.gpkg $$PACKAGE .env
-	@read -p "Mergin Database Schema to hold mirror of geopackage): " SCHEMA; \
-	   rpl schematoreceivemergindata $$SCHEMA .env
+#----------------- NodeRed --------------------------
+# The node red location will be locked with the htpasswd
+
+deploy-node-red: configure-node-red configure-htpasswd enable-node-red start-node-red
+
+configure-node-red:
+	@echo "========================="
+	@echo "Node Red configured"
+	@echo "========================="
+	@make configure-timezone
+
+start-node-red:
+	@docker-compose --profile=node-red up -d
+	@docker-compose restart nginx
+
+enable-node-red:
+	-@cd conf/nginx_conf/locations; ln -s node-red.conf.available node-red.conf
+	#-@cd conf/nginx_conf/upstreams; ln -s node-red.conf.available node-red.conf
+	@echo "node-red" >> enabled-profiles
+	@make setup-compose-profile
+
+disable-node-red:
+	@cd conf/nginx_conf/locations; rm node-red.conf
+	#@cd conf/nginx_conf/upstreams; rm nore-red.conf
+	# Remove from enabled-profiles
+	@sed -i '/node-red/d' enabled-profiles
+	@make setup-compose-profile
+	@docker-compose restart nginx
+
 
 #----------------- LizMap --------------------------
 
@@ -601,7 +625,15 @@ nginx-shell:
 	@echo "------------------------------------------------------------------"
 	@echo "Creating nginx shell"
 	@echo "------------------------------------------------------------------"
-	@docker-compose exec nginx /bin/bash
+	@docker-compose exec nginx /bin/sh
+
+nginx-logs:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Tailing logs of nginx"
+	@echo "------------------------------------------------------------------"
+	@docker-compose logs -f nginx
+
 
 kill-osm:
 	@echo
@@ -668,6 +700,22 @@ reinitialise-mergin-client:
 	-@docker-compose exec -u postgres db psql -c "drop schema mergin_sync_base_do_not_touch cascade;" gis 	
 	@docker-compose --profile=mergin up -d mergin-sync
 	@docker-compose --profile=mergin logs -f mergin-sync
+
+configure-mergin-client:
+	@echo "=========================:"
+	@echo "Mergin related configs:"
+	@echo "=========================:"
+	@read -p "Mergin User (not email address): " USER; \
+	   rpl mergin_username $$USER .env
+	@read -p "Mergin Password: " PASSWORD; \
+	   rpl mergin_password $$PASSWORD .env
+	@read -p "Mergin Project (without username part): " PROJECT; \
+	   rpl mergin_project $$PROJECT .env
+	@read -p "Mergin Project GeoPackage: " PACKAGE; \
+	   rpl mergin_project_geopackage.gpkg $$PACKAGE .env
+	@read -p "Mergin Database Schema to hold mirror of geopackage): " SCHEMA; \
+	   rpl schematoreceivemergindata $$SCHEMA .env
+
 
 mergin-dbsycn-start:
 	@echo

@@ -29,6 +29,7 @@ x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
 x-hugo-image: &hugo-image kartoza/hugo-watcher:latest
+x-node-red-image: &node-red-image nodered/node-red:latest
 
 # 
 # VOLUMES
@@ -80,6 +81,8 @@ volumes:
   lizmap-db:
   lizmap-www:
   lizmap-log:
+  # For node red
+  node-red-data:
 
 #
 # SERVICES
@@ -524,9 +527,7 @@ services:
   swagger:
     image: *swagger-image
     profiles: 
-      - all 
       - postgrest 
-      - dev
     ports:
       - "8080"
     volumes:
@@ -586,6 +587,21 @@ services:
       - scp_general_data:/data/general_data
     networks:
       - os-gis-stack  
+
+
+  node-red:
+    image: *node-red-image
+    profiles: 
+      - node-red
+    env_file: .env
+    environment:
+      - TZ=${TIMEZONE}
+    ports:
+      - 1880:1880
+    networks:
+      - os-gis-stack  
+    volumes:
+      - node-red-data:/data
 
   ############################################################
   #
