@@ -4,7 +4,13 @@ With the QGIS Server service you can publish one or more QGIS projects including
     1. Projects stored in-database in PostgreSQL
     2. Projects stored in the file system
 
+For the QGIS Server, we have chosen the OpenQuake build of QGIS Server because it has a few interesting characteristics. One, is that you can deploy QGIS server-side extensions easily with it and two, is that it supports things like the QGIS Authentication System. The QGIS Authentication System is an authentication database that provides more advanced security options, provides pg_service support, and provides some special features for URL rerouting so that your project paths are hidden away from the user (which is both a security and a convenience concern).  
 
+The OpenQuake QGIS Server is used for the QGIS Server instance. The OSGS also provides a couple of sample plugins like a demonstrater plugin and a plugin for handling atlas reports. The demonstrater plugin is a modified version of the GetFeatureInfo handler and will return some html back and some nicely formatted table. The plugin for handling atlas reports, written by Lizmap extends the QGIS getPrint support to allow you to request a specific page from an atlas print. This is pretty handy if you, for example, click on a feature and you want to get then from an atlas report the one page for that feature in the atlas.
+
+Another feature that Docker provides for applications such as QGIS Server is the ability to horizontally scale them. Our platform has some key configuration examples showing you how you can, for example, scale up the QGIS Server instance to have ten concurrently running instances. This is useful for handling increased or high load on the server. Scaling will create a round robin request handler, so that as the requests come in, it will pass each successive request over to the next running instance, and those requests will be handled by that instance, passed back and then that instance will stand by and wait for the next request to come in.
+
+The QGIS Server works in orchestration with many of the other containers, including the PostGIS container. It also works pretty well in conjunction with the SCP (secure copy) container which allows the users of the OSGS architecture to easily move data from their local machine onto the server, either manually by copying and pasting files using an application such as Onescp or using built into Linux file browsers. For example, if you are one the GNOME desktop it has built into SFTP support.
 
 **Project Website:** [QGIS.org](https://qgis.org)
 
@@ -12,11 +18,9 @@ With the QGIS Server service you can publish one or more QGIS projects including
 
 **Project Project Technical Documentation:** [QGIS on GitHub](https://docs.qgis.org/3.16/en/docs/server_manual/index.html)
 
-**Docker Repository:** 
+**Docker Repository:** [openquake/qgis-server:stable](https://hub.docker.com/r/openquake/qgis-server)
 
-**Docker Source Repository:** [QGIS Server Docker Image](https://github.com/gem/oq-qgis-server) from OpenQuake.
-
-
+**Docker Source Repository:** [gem / oq-qgis-server](https://github.com/gem/oq-qgis-server) 
 
 ## Configuration
 
@@ -32,13 +36,7 @@ Every project you publish will be available at ```/ogc/project_name``` which mak
 
 ## Additional Notes
 
-For the QGIS Server, we have chosen the OpenQuake build of QGIS Server because it has a few interesting characteristics. One, is that you can deploy QGIS Server side extensions easily with it and two, is that it supports things like the QGIS Authentication System. The QGIS Authentication System is an authentication database that provides more advanced securty options, provides Pg service support, and provides some special features for url rerouting so that your project paths are hidden away from the user (which is both a security and a convenience concern).  
 
-The OpenQuake QGIS Server is deployed as a QGIS Server instance. The OSGS stack also provides a couple of sample plugins like a demonstrater plugin and a plugin for handling atlas reports. The demonstrater plugin is a modified version of the Git feature info handler and will return some html back and some nicely formatted table. The plugin for handling atlas reports, written by Lizmap and (?) as a QGIS propriety extension to the WMS service protocol, allows you to request a specific page of an altas, a QGIS composed atlas, as the report. This is pretty handy if you, for example, click on a feature and you want to get then from an atlas report the one page that that feauture is covered in the atlas.
-
-Another feature that Docker provides for applications such as QGIS Server is the ability to horizontally scale them. Our platform has some key configuration examples showing you how you can, for example, scale up the QGIS Server instance to have ten concurrently running instances. This is useful for handling increased or high load on the server. It will do like a ram rob(?) and server handler, so that as the requests come in, it will pass each successive request over to the next running instance, and those requests will be handled by that instance, passed back and then that instance will stand by and wait for the next request to come in.
-
-The QGIS Server works in orchestration with many of the other containers, including the PostGIS container. It also works pretty well in conjuction with the SCP (secure copy) container which allows the users of the OSGS architecture to easily move data from their local machine onto the server, either manually by copying and pasting files using an application such as Onescp or using built into Linux file browsers. For example, if you are one the GNOME desktop it has built into SFTP support.
 
 ## Further Reading
 
