@@ -22,7 +22,8 @@ docs:
 	$(MAKE) -C sphinx latexpdf
 	@cp sphinx/build/latex/osgs.pdf osgs-manual.pdf
 
-ps:
+ps: 
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Current status"
@@ -31,7 +32,7 @@ ps:
 
 configure: disable-all-services prepare-templates site-config enable-hugo configure-scp configure-htpasswd deploy
 
-deploy:
+deploy: configure
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting basic nginx site"
@@ -40,6 +41,7 @@ deploy:
 	@docker-compose logs -f
 
 configure-htpasswd:
+	@make check-env
 	@echo "------------------------------------------------------------------"
 	@echo "Configuring password controlled file sharing are for your site"
 	@echo "Accessible at /files/"
@@ -60,6 +62,7 @@ configure-htpasswd:
 	@make enable-files
 
 disable-all-services:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Disabling services"
@@ -102,6 +105,7 @@ configure-ssl-self-signed:
 	#@rpl "END PRIVATE KEY" "TRUSTED CERTIFICATE" ./certbot/certbot/conf/nginx-selfsigned.key
 
 configure-letsencrypt-ssl:
+	@make check-env
 	@echo "Do you want to set up SSL using letsencrypt?"
 	@echo "This is recommended for production!"
 	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
@@ -153,6 +157,7 @@ enable-hugo:
 	@echo "hugo" >> enabled-profiles
 
 start-hugo:
+	@make check-env
 	@docker-compose up -d
 
 disable-hugo:
@@ -161,6 +166,7 @@ disable-hugo:
 	@sed -i '/hugo/d' enabled-profiles
 
 hugo-logs:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Polling hugo logs"
@@ -168,6 +174,7 @@ hugo-logs:
 	@docker-compose logs -f hugo
 
 backup-hugo:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Creating a backup of hugo"
@@ -177,6 +184,7 @@ backup-hugo:
 	@cp ./backups/hugo-backup.tar.gz ./backups/
 
 restore-hugo:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restore last backup of hugo from /backups/hugo-backup.tar.gz"
@@ -206,6 +214,7 @@ disable-files:
 deploy-geoserver: enable-geoserver configure-geoserver-passwd start-geoserver
 
 start-geoserver:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting GeoServer"
@@ -214,22 +223,26 @@ start-geoserver:
 	@docker-compose restart nginx
 
 configure-geoserver-passwd:
+	@make check-env
 	@export PASSWD=$$(pwgen 20 1); \
 		rpl GEOSERVER_ADMIN_PASSWORD=myawesomegeoserver GEOSERVER_ADMIN_PASSWORD=$$PASSWD .env; \
 		echo "GeoServer password set to $$PASSWD"
 
 enable-geoserver:
+	@make check-env
 	-@cd conf/nginx_conf/locations; ln -s geoserver.conf.available geoserver.conf
 	@echo "geoserver" >> enabled-profiles
 	@make setup-compose-profile
 
 disable-geoserver:
+	@make check-env
 	@cd conf/nginx_conf/locations; rm geoserver.conf
 	# Remove from enabled-profiles
 	@sed -i '/geoserver/d' enabled-profiles
 	@make setup-compose-profile
 
 geoserver-logs:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Polling Geoserver logs"
@@ -238,9 +251,10 @@ geoserver-logs:
 
 #----------------- QGIS Server --------------------------
 
-deploy-qgis-server: enable-qgis-server start-qgis-server
+deploy-qgis-server: -qgis-server start-qgis-server
 
 start-qgis-server:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting QGIS Server"
@@ -249,12 +263,14 @@ start-qgis-server:
 	@docker-compose restart nginx
 
 enable-qgis-server:
+	@make check-env
 	-@cd conf/nginx_conf/locations; ln -s qgis-server.conf.available qgis-server.conf
 	-@cd conf/nginx_conf/upstreams; ln -s qgis-server.conf.available qgis-server.conf
 	@echo "qgis-server" >> enabled-profiles
 	@make setup-compose-profile
 
 disable-qgis-server:
+	@make check-env
 	@docker-compose kill qgis-server
 	@docker-compose rm qgis-server
 	@cd conf/nginx_conf/locations; rm qgis-server.conf
@@ -263,7 +279,8 @@ disable-qgis-server:
 	@sed -i '/qgis/d' enabled-profiles
 	@make setup-compose-profile
 
-reinitialise-qgis-server: rm-qgis-server start-qgis-server
+reinitialise-qgis-server:rm-qgis-server start-qgis-server
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restarting QGIS Server and Nginx"
@@ -272,6 +289,7 @@ reinitialise-qgis-server: rm-qgis-server start-qgis-server
 	@docker-compose logs -f qgis-server 
 
 rm-qgis-server:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Stopping QGIS Server and Nginx"
@@ -280,6 +298,7 @@ rm-qgis-server:
 	@docker-compose rm qgis-server
 
 qgis-logs:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Polling QGIS Server logs"
@@ -291,6 +310,7 @@ qgis-logs:
 deploy-mapproxy: enable-mapproxy configure-mapproxy start-mapproxy
 
 start-mapproxy:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting Mapproxy"
@@ -299,6 +319,7 @@ start-mapproxy:
 	@docker-compose restart nginx
 
 reinitialise-mapproxy:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restarting Mapproxy and clearing its cache"
@@ -310,6 +331,7 @@ reinitialise-mapproxy:
 	@docker-compose logs -f mapproxy
 
 configure-mapproxy:
+	@make check-env
 	@echo "=========================:"
 	@echo "Mapproxy configurations:"
 	@echo "=========================:"
@@ -322,11 +344,13 @@ configure-mapproxy:
 	@echo "see: make reinitialise-mapproxy"	
 
 enable-mapproxy:
+	@make check-env
 	-@cd conf/nginx_conf/locations; ln -s mapproxy.conf.available mapproxy.conf
 	@echo "mapproxy" >> enabled-profiles
 	@make setup-compose-profile
 
 disable-mapproxy:
+	@make check-env
 	@cd conf/nginx_conf/locations; rm mapproxy.conf
 	# Remove from enabled-profiles
 	@sed -i '/mapproxy/d' enabled-profiles
@@ -334,9 +358,10 @@ disable-mapproxy:
 
 #----------------- Postgres --------------------------
 
-deploy-postgres: enable-postgres configure-postgres start-postgres
+deploy-postgres:enable-postgres configure-postgres start-postgres
 
 start-postgres:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting Postgres"
@@ -344,6 +369,7 @@ start-postgres:
 	@docker-compose --profile=db up -d 
 
 reinitialise-postgres:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restarting postgres"
@@ -353,7 +379,8 @@ reinitialise-postgres:
 	@docker-compose up -d db
 	@docker-compose logs -f db
 
-configure-postgres: configure-timezone 
+configure-postgres:configure-timezone 
+	@make check-env
 	@echo "=========================:"
 	@echo "Postgres configuration:"
 	@echo "=========================:"
@@ -362,16 +389,19 @@ configure-postgres: configure-timezone
 		echo "Postgres password set to $$PASSWD"
 
 enable-postgres:
+	@make check-env
 	@echo "db" >> enabled-profiles
 	@make setup-compose-profile
 
 disable-postgres:
+	@make check-env
 	@echo "This is currently a stub"	
 	# Remove from enabled-profiles
 	@sed -i '/db/d' enabled-profiles
 	@make setup-compose-profile
 
 configure-timezone:
+	@make check-env
 	@echo "Please enter the timezone for your server"
 	@echo "See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
 	@echo "Follow exactly the format of the TZ Database Name column"
@@ -381,6 +411,7 @@ configure-timezone:
 	@echo "#TIMEZONE CONFIGURED" >> .env
 
 db-shell:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Creating db shell"
@@ -388,6 +419,7 @@ db-shell:
 	@docker-compose exec -u postgres db psql gis
 
 db-qgis-project-backup:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Backing up QGIS project stored in db"
@@ -398,6 +430,7 @@ db-qgis-project-backup:
 	@ls -lah QGISProject.sql
 
 db-qgis-project-restore:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restoring QGIS project to db"
@@ -410,6 +443,7 @@ db-qgis-project-restore:
 	@docker-compose exec -u postgres db psql -c "select name from qgis_projects;" gis 
 
 db-backup:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Backing up entire GIS postgres db"
@@ -420,6 +454,7 @@ db-backup:
 	@ls -lah osgisstack-database.dmp
 
 db-backupall:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Backing up all postgres databases"
@@ -430,6 +465,7 @@ db-backupall:
 	@ls -lah osgisstack-all-databases.dmp
 
 db-backup-mergin-base-schema:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Backing up mergin base schema from  postgres db"
@@ -441,7 +477,8 @@ db-backup-mergin-base-schema:
 
 #----------------- SCP --------------------------
 
-configure-scp: start-scp
+configure-scp:
+	@make check-env
 	@echo "------------------------------------------------------------------"
 	@echo "Copying .ssh/authorized keys to all scp shares."
 	@echo "------------------------------------------------------------------"
@@ -454,9 +491,11 @@ configure-scp: start-scp
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/general_data
 
 start-scp:
+	@make check-env
 	@docker-compose up -d scp	
 
 enable-scp:
+	@make check-env
 	@echo "scp" >> enabled-profiles
 	@make setup-compose-profile
 
@@ -469,7 +508,7 @@ disable-scp:
 
 deploy-osm-mirror: enable-osm-mirror configure-osm-mirror start-osm-mirror
 
-configure-osm-mirror: 
+configure-osm-mirror:
 	@echo "=========================:"
 	@echo "OSM Mirror specific updates:"
 	@echo "=========================:"
@@ -492,13 +531,16 @@ get-pbf:
 	   wget -c -N -O conf/osm_conf/country.pbf $$URL;
 
 start-osm-mirror:
+	@make check-env
 	@docker-compose --profile=osm up -d 
 
 enable-osm-mirror:
+	@make check-env
 	@echo "osm" >> enabled-profiles
 	@make setup-compose-profile
 
 disable-osm-mirror:
+	@make check-env
 	# Remove from enabled-profiles
 	@sed -i '/osm/d' enabled-profiles
 	@make setup-compose-profile	
@@ -516,6 +558,7 @@ configure-postgrest: start-postgrest
 		echo "PostGREST JWT token set to $$PASSWD"
 
 start-postgrest:
+	@make check-env
 	@docker-compose up -d postgrest
 
 enable-postgrest:
@@ -537,6 +580,7 @@ configure-node-red:
 	@make configure-timezone
 
 start-node-red:
+	@make check-env
 	@docker-compose --profile=node-red up -d
 	@docker-compose restart nginx
 
@@ -547,6 +591,7 @@ enable-node-red:
 	@make setup-compose-profile
 
 disable-node-red:
+	@make check-env
 	@cd conf/nginx_conf/locations; rm node-red.conf
 	#@cd conf/nginx_conf/upstreams; rm nore-red.conf
 	# Remove from enabled-profiles
@@ -563,9 +608,11 @@ disable-node-red:
 deploy-lizmap: configure-lizmap enable-lizmap start-lizmap
 
 start-lizmap:
+	@make check-env
 	@docker-compose up -d lizmap
 
 configure-lizmap:
+	@make check-env
 	@echo "=========================:"
 	@echo "Configuring lizmap:"
 	@echo "=========================:"
@@ -573,11 +620,13 @@ configure-lizmap:
 	@docker-compose restart nginx
 
 enable-lizmap:
+	@make check-env
 	-@cd conf/nginx_conf/locations; ln -s lizmap.conf.available lizmap.conf
 	@echo "lizmap" >> enabled-profiles
 
 
 disable-lizmap:
+	@make check-env
 	@cd conf/nginx_conf/locations; rm lizmap.conf
 	# Remove from enabled-profiles
 	@sed -i '/lizmap/d' enabled-profiles
@@ -587,6 +636,7 @@ disable-lizmap:
 #######################################################
 
 site-reset:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Reset site configuration to default values"
@@ -596,6 +646,7 @@ site-reset:
 	@cp ./conf/hugo_conf/config.yaml.example ./conf/hugo_conf/config.yaml
 
 init-letsencrypt:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Getting an SSL cert from letsencypt"
@@ -606,6 +657,7 @@ init-letsencrypt:
 	@make build-pbf
 
 restart:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restarting all containers"
@@ -614,6 +666,7 @@ restart:
 	@docker-compose logs -f
 
 logs:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Tailing logs"
@@ -621,6 +674,7 @@ logs:
 	@docker-compose logs -f
 
 nginx-shell:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Creating nginx shell"
@@ -628,6 +682,7 @@ nginx-shell:
 	@docker-compose exec nginx /bin/sh
 
 nginx-logs:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Tailing logs of nginx"
@@ -636,6 +691,7 @@ nginx-logs:
 
 
 kill-osm:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Deleting all imported OSM data and killing containers"
@@ -655,6 +711,7 @@ kill-osm:
 	-@docker-compose exec -u postgres db psql -c "drop schema osm_import cascade;" gis 
 
 reinitialise-osm: kill-osm
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Deleting all imported OSM data and reloading"
@@ -663,6 +720,7 @@ reinitialise-osm: kill-osm
 	@docker-compose logs -f imposm osmupdate osmenrich
 
 osm-to-mbtiles:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Creating a vector tiles store from the docker osm schema"
@@ -672,6 +730,7 @@ osm-to-mbtiles:
 	@ogr2ogr -f MBTILES osm.mbtiles PG:"dbname='gis' host='localhost' port='15432' user='docker' password='docker' SCHEMAS=osm" -dsco "MAXZOOM=10 BOUNDS=-7.389126,39.410085,-7.381439,39.415144"
 	
 redeploy-mergin-client:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Stopping merging container, rebuilding the image, then restarting mergin db sync"
@@ -686,6 +745,7 @@ redeploy-mergin-client:
 	@docker-compose --profile=mergin logs -f mergin-sync
 
 reinitialise-mergin-client:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Deleting mergin database schemas and removing local sync files"
@@ -702,6 +762,7 @@ reinitialise-mergin-client:
 	@docker-compose --profile=mergin logs -f mergin-sync
 
 configure-mergin-client:
+	@make check-env
 	@echo "=========================:"
 	@echo "Mergin related configs:"
 	@echo "=========================:"
@@ -718,6 +779,7 @@ configure-mergin-client:
 
 
 mergin-dbsycn-start:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting mergin-db-sync service"
@@ -726,6 +788,7 @@ mergin-dbsycn-start:
 	@docker-compose --profile=mergin logs -f mergin-sync
 
 mergin-dbsync-logs:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Polling mergin-db-sync logs"
@@ -733,6 +796,7 @@ mergin-dbsync-logs:
 	@docker-compose --profile=mergin logs -f mergin-sync
 
 get-fonts:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Getting Google apache license and gnu free fonts"
@@ -747,6 +811,7 @@ get-fonts:
 
 
 odm-clean:
+	@make check-env
 	@echo "------------------------------------------------------------------"
 	@echo "Note that the odm_datasets directory should be considered mutable as this script "
 	@echo "cleans out all other files"
@@ -759,6 +824,7 @@ odm-clean:
 	@sudo rm -rf odm_datasets/osgisstack/images.json
 
 odm-run: odm-clean
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Generating ODM Ortho, DEM, DSM then clipping it and loading it into postgis"
@@ -770,6 +836,7 @@ odm-run: odm-clean
 	@docker-compose run odm
 
 odm-clip:
+	@make check-env
 	@echo "------------------------------------------------------------------"
 	@echo "Clippint Ortho, DEM, DSM"
 	@echo "------------------------------------------------------------------"
@@ -777,8 +844,11 @@ odm-clip:
 	@docker-compose run odm-dsm-clip
 	@docker-compose run odm-dtm-clip
 
+# This is how you pass an env var to 
 odm-pgraster: export PGPASSWORD = docker
+# a makefile target
 odm-pgraster:
+	@make check-env
 	@echo "------------------------------------------------------------------"
 	@echo "Loading ODM products into postgis"
 	@echo "------------------------------------------------------------------"
@@ -799,6 +869,7 @@ vrt-styles:
 	@git clone git@github.com:lutraconsulting/qgis-vectortiles-styles.git
 
 up:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting all configured services"
@@ -806,6 +877,7 @@ up:
 	@source ~/.bashrc; docker-compose up -d
 
 kill:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Killing all containers"
@@ -813,6 +885,7 @@ kill:
 	@docker-compose kill
 
 rm: kill
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Removing all containers"
@@ -820,6 +893,7 @@ rm: kill
 	@docker-compose rm
 
 nuke:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Disabling services"
@@ -834,14 +908,27 @@ nuke:
 	@rm enabled-profiles
 	@make site-reset
 	@make disable-all-services
+	@echo -n "Deleting volumes will remove all previous application state!!"
+	@echo -n "Please type DELETE to proceed " && read ans && [ $${ans:-N} = DELETE ]
+	@docker volume rm $(docker volume ls | grep osgisstack | awk '{print $2}' )
 	@sudo rm -rf certbot/certbot
 	
+check-env: 
+	@echo "Checking env"
+	@if [ ! -f ".env" ]; then \
+		echo "--------------------------------------------------"; \
+	       	echo ""; echo ""; echo ".env does not exist yet."; echo ""; \
+		echo "Run make deploy to set up your stack!"; echo ""; \
+		echo "--------------------------------------------------"; \
+	       	exit 1; \
+	fi
 
 #######################################################
 #  Manage COMPOSE_PROFILES and add it to .bashrc
 #######################################################
 
 setup-compose-profile:
+	@make check-env
 	# First remove any existing
 	@sed -i '/COMPOSE_PROFILES/d' ~/.bashrc
 	# Write the env var to the user's shell
@@ -850,6 +937,7 @@ setup-compose-profile:
 	@source ~/.bashrc
 
 remove-compose-profile:
+	@make check-env
 	# First remove any existing
 	@sed -i '/COMPOSE_PROFILES/d' ~/.bashrc
 	# Make sure the env var is loaded in their session

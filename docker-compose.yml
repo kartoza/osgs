@@ -597,7 +597,7 @@ services:
     environment:
       - TZ=${TIMEZONE}
     ports:
-      - 1880
+      - 1880:1880
     networks:
       - os-gis-stack  
     volumes:
