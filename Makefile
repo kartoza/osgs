@@ -395,13 +395,14 @@ disable-postgres:
 
 configure-timezone:
 	@make check-env
-	@echo "Please enter the timezone for your server"
-	@echo "See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
-	@echo "Follow exactly the format of the TZ Database Name column"
-	@read -p "Server Time Zone (e.g. Etc/UTC):" TZ; \
-	   rpl TIMEZONE=Etc/UTC TIMEZONE=$$TZ .env
-	@sed -i '/#TIMEZONE CONFIGURED/d' enabled-profiles
-	@echo "#TIMEZONE CONFIGURED" >> .env
+	@if grep "#TIMEZONE CONFIGURED" .env; then echo "Timezone already configured";  exit 0; else \
+	echo "Please enter the timezone for your server"; \
+	echo "See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"; \
+	echo "Follow exactly the format of the TZ Database Name column"; \
+	read -p "Server Time Zone (e.g. Etc/UTC):" TZ; \
+	   rpl TIMEZONE=Etc/UTC TIMEZONE=$$TZ .env; \
+	echo "#TIMEZONE CONFIGURED" >> .env; \
+	fi
 
 db-shell:
 	@make check-env
