@@ -11,8 +11,8 @@ OSGS
    :caption: Contents:
 
    introduction
-   services/index.rst
    installation/index.rst
+   services/index.rst
    utilities/index.rst
    workflows/index.rst
    osm

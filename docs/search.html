@@ -16,6 +16,8 @@
 
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/css/sizzle.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -33,6 +35,7 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
+    <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/searchtools.js"></script>
     <script src="_static/language_data.js"></script>
@@ -124,13 +127,47 @@
       
         
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html#introduction">Introduction</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="introduction.html#what-is-the-open-source-gis-stack"><strong>What is the Open Source GIS Stack?</strong></a></li>
 <li class="toctree-l2"><a class="reference internal" href="introduction.html#overview-diagram">Overview Diagram</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/server_preparation.html">Preparing the server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/server_preparation.html#basic-security">Basic Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#unattended-upgrades">Unattended upgrades</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#ssh">ssh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#crowdsec">Crowdsec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#fail2ban">Fail2ban</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#firewall">Firewall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#status-monitoring">Status monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="installation/server_preparation.html#additional-software">Additional Software</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#docker">Docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#git-rpl-pwgen-and-make-openssl">Git, rpl, pwgen and Make. openssl</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation/initial_configuration.html">Initial Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#user-group">User Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#project-checkout">Project Checkout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation/fonts.html">Obtaining free fonts for your projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/production_stack.html">Production Stack</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/production_stack.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation/production_stack.html#configuration">Configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="services/index.html#services">Services</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="services/postgres.html#postgres-and-postgis">Postgres and PostGIS</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="services/postgres.html#configuration">Configuration</a><ul>
@@ -167,6 +204,18 @@
 <li class="toctree-l3"><a class="reference internal" href="services/hugo-watcher.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="services/hugo-watcher.html#additional-notes">Additional Notes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="services/hugo-watcher.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="services/docker-osm.html#docker-osm">Docker-osm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#deployment">Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#enabling">Enabling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#disabling">Disabling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#starting">Starting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#logs">Logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#accessing-the-running-services">Accessing the running services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#additional-notes">Additional Notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="services/lizmap.html#lizmap">Lizmap</a><ul>
@@ -226,7 +275,7 @@
 <li class="toctree-l3"><a class="reference internal" href="services/postgrest.html#references">References</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="services/qgis-server.html#qgis-server">QGIS Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="services/qgis-server.html">QGIS Server</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="services/qgis-server.html#configuration">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="services/qgis-server.html#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="services/qgis-server.html#enabling">Enabling</a></li>
@@ -238,7 +287,7 @@
 <li class="toctree-l3"><a class="reference internal" href="services/qgis-server.html#qgis-server-scaling">QGIS Server Scaling</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="services/scp.html#scp">SCP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="services/scp.html">SCP</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="services/scp.html#configuration">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="services/scp.html#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="services/scp.html#enabling">Enabling</a></li>
@@ -254,66 +303,32 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="services/index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation/index.html#installation">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation/server_preparation.html#preparing-the-server">Preparing the server</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="installation/server_preparation.html#basic-security">Basic Security</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#unattended-upgrades">Unattended upgrades</a></li>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#ssh">ssh</a></li>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#crowdsec">Crowdsec</a></li>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#fail2ban">Fail2ban</a></li>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#firewall">Firewall</a></li>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#status-monitoring">Status monitoring</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="installation/server_preparation.html#additional-software">Additional Software</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#docker">Docker</a></li>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#git-rpl-pwgen-and-make-openssl">Git, rpl, pwgen and Make. openssl</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="installation/initial_configuration.html#initial-configuration">Initial Configuration</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#user-group">User Group</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#project-checkout">Project Checkout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#configuration">Configuration</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="installation/fonts.html#obtaining-free-fonts-for-your-projects">Obtaining free fonts for your projects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation/production_stack.html#production-stack">Production Stack</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="installation/production_stack.html#overview">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installation/production_stack.html#configuration">Configuration</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="installation/index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utilities/index.html#utilities">Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="utilities/make-ps.html#make-ps">make ps</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="utilities/index.html">Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utilities/make-ps.html">make ps</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-ps.html#synopsis">Synopsis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-ps.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-ps.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="utilities/make-kill.html#make-kill">make kill</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utilities/make-kill.html">make kill</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-kill.html#synopsis">Synopsis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-kill.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-kill.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="utilities/make-nuke.html#make-nuke">make nuke</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utilities/make-nuke.html">make nuke</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-nuke.html#synopsis">Synopsis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-nuke.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-nuke.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="utilities/make-docs.html#make-docs">make docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utilities/make-docs.html">make docs</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-docs.html#synopsis">Synopsis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-docs.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-docs.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="utilities/building_docs.html#building-documentation">Building Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utilities/building_docs.html">Building Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="utilities/building_docs.html#html-docs">HTML Docs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/building_docs.html#pdf-docs">PDF Docs</a></li>
 </ul>
@@ -329,7 +344,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="workflows/index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="osm.html#osm-mirror">OSM Mirror</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="osm.html">OSM Mirror</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="osm.html#pbf-container">PBF Container</a></li>
 <li class="toctree-l2"><a class="reference internal" href="osm.html#clip-area">Clip Area</a></li>
 <li class="toctree-l2"><a class="reference internal" href="osm.html#mappings">Mappings</a></li>
@@ -350,13 +365,47 @@
           <div id="mnav">
             
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html#introduction">Introduction</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="introduction.html#what-is-the-open-source-gis-stack"><strong>What is the Open Source GIS Stack?</strong></a></li>
 <li class="toctree-l2"><a class="reference internal" href="introduction.html#overview-diagram">Overview Diagram</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/server_preparation.html">Preparing the server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/server_preparation.html#basic-security">Basic Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#unattended-upgrades">Unattended upgrades</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#ssh">ssh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#crowdsec">Crowdsec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#fail2ban">Fail2ban</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#firewall">Firewall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#status-monitoring">Status monitoring</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="installation/server_preparation.html#additional-software">Additional Software</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#docker">Docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#git-rpl-pwgen-and-make-openssl">Git, rpl, pwgen and Make. openssl</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation/initial_configuration.html">Initial Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#user-group">User Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#project-checkout">Project Checkout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation/fonts.html">Obtaining free fonts for your projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/production_stack.html">Production Stack</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/production_stack.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation/production_stack.html#configuration">Configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="services/index.html#services">Services</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="services/postgres.html#postgres-and-postgis">Postgres and PostGIS</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="services/postgres.html#configuration">Configuration</a><ul>
@@ -393,6 +442,18 @@
 <li class="toctree-l3"><a class="reference internal" href="services/hugo-watcher.html#accessing-the-running-services">Accessing the running services</a></li>
 <li class="toctree-l3"><a class="reference internal" href="services/hugo-watcher.html#additional-notes">Additional Notes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="services/hugo-watcher.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="services/docker-osm.html#docker-osm">Docker-osm</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#deployment">Deployment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#enabling">Enabling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#disabling">Disabling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#starting">Starting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#logs">Logs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#accessing-the-running-services">Accessing the running services</a></li>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#additional-notes">Additional Notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#references">References</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="services/lizmap.html#lizmap">Lizmap</a><ul>
@@ -452,7 +513,7 @@
 <li class="toctree-l3"><a class="reference internal" href="services/postgrest.html#references">References</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="services/qgis-server.html#qgis-server">QGIS Server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="services/qgis-server.html">QGIS Server</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="services/qgis-server.html#configuration">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="services/qgis-server.html#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="services/qgis-server.html#enabling">Enabling</a></li>
@@ -464,7 +525,7 @@
 <li class="toctree-l3"><a class="reference internal" href="services/qgis-server.html#qgis-server-scaling">QGIS Server Scaling</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="services/scp.html#scp">SCP</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="services/scp.html">SCP</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="services/scp.html#configuration">Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="services/scp.html#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="services/scp.html#enabling">Enabling</a></li>
@@ -480,66 +541,32 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="services/index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation/index.html#installation">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation/server_preparation.html#preparing-the-server">Preparing the server</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="installation/server_preparation.html#basic-security">Basic Security</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#unattended-upgrades">Unattended upgrades</a></li>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#ssh">ssh</a></li>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#crowdsec">Crowdsec</a></li>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#fail2ban">Fail2ban</a></li>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#firewall">Firewall</a></li>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#status-monitoring">Status monitoring</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="installation/server_preparation.html#additional-software">Additional Software</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#docker">Docker</a></li>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#git-rpl-pwgen-and-make-openssl">Git, rpl, pwgen and Make. openssl</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="installation/initial_configuration.html#initial-configuration">Initial Configuration</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#user-group">User Group</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#project-checkout">Project Checkout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#configuration">Configuration</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="installation/fonts.html#obtaining-free-fonts-for-your-projects">Obtaining free fonts for your projects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation/production_stack.html#production-stack">Production Stack</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="installation/production_stack.html#overview">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installation/production_stack.html#configuration">Configuration</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="installation/index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utilities/index.html#utilities">Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="utilities/make-ps.html#make-ps">make ps</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="utilities/index.html">Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utilities/make-ps.html">make ps</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-ps.html#synopsis">Synopsis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-ps.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-ps.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="utilities/make-kill.html#make-kill">make kill</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utilities/make-kill.html">make kill</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-kill.html#synopsis">Synopsis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-kill.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-kill.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="utilities/make-nuke.html#make-nuke">make nuke</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utilities/make-nuke.html">make nuke</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-nuke.html#synopsis">Synopsis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-nuke.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-nuke.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="utilities/make-docs.html#make-docs">make docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utilities/make-docs.html">make docs</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-docs.html#synopsis">Synopsis</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-docs.html#usage">Usage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/make-docs.html#notes">Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="utilities/building_docs.html#building-documentation">Building Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utilities/building_docs.html">Building Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="utilities/building_docs.html#html-docs">HTML Docs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utilities/building_docs.html#pdf-docs">PDF Docs</a></li>
 </ul>
@@ -555,7 +582,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="workflows/index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="osm.html#osm-mirror">OSM Mirror</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="osm.html">OSM Mirror</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="osm.html#pbf-container">PBF Container</a></li>
 <li class="toctree-l2"><a class="reference internal" href="osm.html#clip-area">Clip Area</a></li>
 <li class="toctree-l2"><a class="reference internal" href="osm.html#mappings">Mappings</a></li>
@@ -623,7 +650,7 @@
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"
