@@ -394,9 +394,11 @@ configure-postgres: configure-timezone
 	@echo "internally between docker containers and from an external client. So be sure"
 	@echo "to set your client SSL mode to 'REQUIRE' (e.g. in QGIS  / GeoServer / Node-Red etc.)."
 	@echo
-	@echo -n "Do you want to enable access to postgres? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@echo "Do you want to enable access to postgres?"
+	@echo "Just hit enter to leave the public port blank and disable access from the host."
+	@echo
 	@read -p "Postgis Public Port (e.g. 5432):" PORT; \
-	   rpl POSTGRES_PUBLIC_PORT=5432 POSTGRES_PUBLIC_PORT=$$PORT .env; 
+	   rpl POSTGRES_PUBLIC_PORT= POSTGRES_PUBLIC_PORT=$$PORT .env; 
 
 enable-postgres:
 	@make check-env
@@ -587,6 +589,8 @@ configure-node-red:
 start-node-red:
 	@make check-env
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
+	@echo "Deploying Tim's fork of postgres-multi since upstream is broken"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -w /data node-red npm install git+https://github.com/kartoza/node-red-contrib-postgres-multi.git
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
 enable-node-red:

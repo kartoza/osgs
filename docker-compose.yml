@@ -507,7 +507,7 @@ services:
       - dev
     env_file: .env
     environment:
-      PGRST_DB_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PUBLIC_PORT}/gis
+      PGRST_DB_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PRIVATE_PORT}/gis
       PGRST_DB_SCHEMA: ${PGRST_DB_SCHEMA}
       # In production this role should not be the same as the one used for the connection
       # depends_on
@@ -785,7 +785,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - POSTGRES_DBNAME=gis
-      - POSTGRES_PORT=${POSTGRES_PUBLIC_PORT}
+      - POSTGRES_PORT=${POSTGRES_PRIVATE_PORT}
       - POSTGRES_HOST=db
       - SSL_MODE=require
       # These are all currently the defaults but listed here for
@@ -836,7 +836,7 @@ services:
       - DB_USER=${POSTGRES_USER}
       - DB_PASSWORD=${POSTGRES_PASSWORD}
       - DB_HOST=db
-      - DB_PORT=${POSTGRES_PUBLIC_PORT}
+      - DB_PORT=${POSTGRES_PRIVATE_PORT}
       # Check if this is the db name?
       - DB_APPLICATION_NAME=mergin-server
       - MAIL_SUPPRESS_SEND=${MERGIN_SERVER_MAIL_SUPPRESS_SEND}
