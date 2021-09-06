@@ -374,7 +374,7 @@ reinitialise-postgres:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d db
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f db
 
-configure-postgres:configure-timezone 
+configure-postgres: configure-timezone 
 	@make check-env
 	@echo "=========================:"
 	@echo "Postgres configuration:"
@@ -382,6 +382,21 @@ configure-postgres:configure-timezone
 	@export PASSWD=$$(pwgen 20 1); \
 		rpl POSTGRES_PASSWORD=docker POSTGRES_PASSWORD=$$PASSWD .env; \
 		echo "Postgres password set to $$PASSWD"
+	@echo "Do you want to enable access to Postgres on your host?"
+	@echo "Typically you would do this when you want to access the database"
+	@echo "from software such as QGIS that can directly connect to a Postgres"
+	@echo "database. There are some security implications to running on "
+	@echo "a publicly accessible port. People with credentials to access your "
+	@echo "database may use those credentials to launch arbitrary applications "
+	@echo "inside the database container if you do not manage the permissions carefully."
+	@echo "Note that if you enable this, the database is configured to require"
+	@echo "SSL secure encryption on all connections to the database. This includes"
+	@echo "internally between docker containers and from an external client. So be sure"
+	@echo "to set your client SSL mode to 'REQUIRE' (e.g. in QGIS  / GeoServer / Node-Red etc.)."
+	@echo
+	@echo -n "Do you want to enable access to postgres? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@read -p "Postgis Public Port (e.g. 5432):" PORT; \
+	   rpl POSTGRES_PUBLIC_PORT=5432 POSTGRES_PUBLIC_PORT=$$PORT .env; 
 
 enable-postgres:
 	@make check-env
