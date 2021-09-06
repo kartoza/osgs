@@ -859,8 +859,7 @@ up:
 	@echo "------------------------------------------------------------------"
 	@echo "Starting all configured services"
 	@echo "------------------------------------------------------------------"
-	@$(shell grep DOMAIN .env| sed 's/DOMAIN=//') nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh; 
-	@source ~/.bashrc; docker-compose up -d
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
 
 kill:
 	@make check-env
