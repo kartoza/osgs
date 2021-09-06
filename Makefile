@@ -215,6 +215,14 @@ start-geoserver:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
+stop-geoserver:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping GeoServer"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill geoserver
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm geoserver
+
 configure-geoserver-passwd:
 	@make check-env
 	@export PASSWD=$$(pwgen 20 1); \
