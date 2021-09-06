@@ -28,7 +28,7 @@ ps:
 	@echo "------------------------------------------------------------------"
 	@echo "Current status"
 	@echo "------------------------------------------------------------------"
-	@docker-compose ps
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose ps
 
 configure: disable-all-services prepare-templates site-config enable-hugo configure-scp configure-htpasswd deploy
 
@@ -37,8 +37,8 @@ deploy: configure
 	@echo "------------------------------------------------------------------"
 	@echo "Starting basic nginx site"
 	@echo "------------------------------------------------------------------"
-	@docker-compose up -d
-	@docker-compose logs -f
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
 
 configure-htpasswd:
 	@make check-env
@@ -62,7 +62,6 @@ configure-htpasswd:
 	@make enable-files
 
 disable-all-services:
-	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Disabling services"
@@ -109,10 +108,7 @@ configure-letsencrypt-ssl:
 	@echo "Do you want to set up SSL using letsencrypt?"
 	@echo "This is recommended for production!"
 	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
-	@echo "Please enter your valid domain name for the SSL certificate."
-	@echo "e.g. example.org or subdomain.example.org:"
-	@read -p "Domain name: " DOMAIN; \
-		rpl example.org $$DOMAIN nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh; 
+	@rpl example.org $(shell grep DOMAIN .env| sed 's/DOMAIN=//') nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh; 
 	@cp nginx_certbot_init_conf/nginx.conf.example nginx_certbot_init_conf/nginx.conf
 	@cp init-letsencrypt.sh.example init-letsencrypt.sh
 	@cp conf/nginx_conf/ssl/ssl.conf.example conf/nginx_conf/ssl/ssl.conf
@@ -128,10 +124,7 @@ site-config:
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
 	@cp ./conf/hugo_conf/config.yaml.example ./conf/hugo_conf/config.yaml
-	@echo "Please enter the site domain name (default 'example.com')"
-	@read -p "Domain name: " result; \
-	  DOMAINNAME=$${result:-"example.com"} && \
-	  rpl -q {{siteDomain}} "$$DOMAINNAME" $(shell pwd)/conf/hugo_conf/config.yaml
+	@rpl -q {{siteDomain}} $(shell grep DOMAIN .env| sed 's/DOMAIN=//') $(shell pwd)/conf/hugo_conf/config.yaml
 	@echo "Please enter the title of your website (default 'Geoservices')"
 	@read -p "Site Title: " result; \
 	  SITETITLE=$${result:-"Geoservices"} && \
@@ -158,7 +151,7 @@ enable-hugo:
 
 start-hugo:
 	@make check-env
-	@docker-compose up -d
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
 
 disable-hugo:
 	@cd conf/nginx_conf/locations; rm hugo.conf
@@ -171,7 +164,7 @@ hugo-logs:
 	@echo "------------------------------------------------------------------"
 	@echo "Polling hugo logs"
 	@echo "------------------------------------------------------------------"
-	@docker-compose logs -f hugo
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f hugo
 
 backup-hugo:
 	@make check-env
@@ -180,7 +173,7 @@ backup-hugo:
 	@echo "Creating a backup of hugo"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@docker-compose run --rm -v ${PWD}/backups:/backups nginx tar cvfz /backups/hugo-backup.tar.gz /hugo
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --rm -v ${PWD}/backups:/backups nginx tar cvfz /backups/hugo-backup.tar.gz /hugo
 	@cp ./backups/hugo-backup.tar.gz ./backups/
 
 restore-hugo:
@@ -193,7 +186,7 @@ restore-hugo:
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
 	-@mkdir -p backups
-	@docker-compose run --rm -v ${PWD}/backups:/backups nginx sh -c "cd /hugo && tar xvfz /backups/hugo-backup.tar.gz --strip 1"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --rm -v ${PWD}/backups:/backups nginx sh -c "cd /hugo && tar xvfz /backups/hugo-backup.tar.gz --strip 1"
 
 #----------------- Docs --------------------------
 
@@ -219,8 +212,8 @@ start-geoserver:
 	@echo "------------------------------------------------------------------"
 	@echo "Starting GeoServer"
 	@echo "------------------------------------------------------------------"
-	@docker-compose --profile=geoserver up -d
-	@docker-compose restart nginx
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
 configure-geoserver-passwd:
 	@make check-env
@@ -232,14 +225,12 @@ enable-geoserver:
 	@make check-env
 	-@cd conf/nginx_conf/locations; ln -s geoserver.conf.available geoserver.conf
 	@echo "geoserver" >> enabled-profiles
-	@make setup-compose-profile
 
 disable-geoserver:
 	@make check-env
 	@cd conf/nginx_conf/locations; rm geoserver.conf
 	# Remove from enabled-profiles
 	@sed -i '/geoserver/d' enabled-profiles
-	@make setup-compose-profile
 
 geoserver-logs:
 	@make check-env
@@ -247,7 +238,7 @@ geoserver-logs:
 	@echo "------------------------------------------------------------------"
 	@echo "Polling Geoserver logs"
 	@echo "------------------------------------------------------------------"
-	@docker-compose logs -f geoserver
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f geoserver
 
 #----------------- QGIS Server --------------------------
 
@@ -259,25 +250,23 @@ start-qgis-server:
 	@echo "------------------------------------------------------------------"
 	@echo "Starting QGIS Server"
 	@echo "------------------------------------------------------------------"
-	@docker-compose --profile=qgis-server up -d --scale qgis-server=10 --remove-orphans
-	@docker-compose restart nginx
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d --scale qgis-server=10 --remove-orphans
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
 enable-qgis-server:
 	@make check-env
 	-@cd conf/nginx_conf/locations; ln -s qgis-server.conf.available qgis-server.conf
 	-@cd conf/nginx_conf/upstreams; ln -s qgis-server.conf.available qgis-server.conf
 	@echo "qgis-server" >> enabled-profiles
-	@make setup-compose-profile
 
 disable-qgis-server:
 	@make check-env
-	@docker-compose kill qgis-server
-	@docker-compose rm qgis-server
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill qgis-server
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm qgis-server
 	@cd conf/nginx_conf/locations; rm qgis-server.conf
 	@cd conf/nginx_conf/upstreams; rm qgis-server.conf
 	# Remove from enabled-profiles
 	@sed -i '/qgis/d' enabled-profiles
-	@make setup-compose-profile
 
 reinitialise-qgis-server:rm-qgis-server start-qgis-server
 	@make check-env
@@ -285,8 +274,8 @@ reinitialise-qgis-server:rm-qgis-server start-qgis-server
 	@echo "------------------------------------------------------------------"
 	@echo "Restarting QGIS Server and Nginx"
 	@echo "------------------------------------------------------------------"
-	@docker-compose restart nginx
-	@docker-compose logs -f qgis-server 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-server 
 
 rm-qgis-server:
 	@make check-env
@@ -294,8 +283,8 @@ rm-qgis-server:
 	@echo "------------------------------------------------------------------"
 	@echo "Stopping QGIS Server and Nginx"
 	@echo "------------------------------------------------------------------"
-	@docker-compose kill qgis-server
-	@docker-compose rm qgis-server
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill qgis-server
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm qgis-server
 
 qgis-logs:
 	@make check-env
@@ -303,7 +292,7 @@ qgis-logs:
 	@echo "------------------------------------------------------------------"
 	@echo "Polling QGIS Server logs"
 	@echo "------------------------------------------------------------------"
-	@docker-compose logs -f qgis-server
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-server
 
 #----------------- Mapproxy --------------------------
 
@@ -315,8 +304,8 @@ start-mapproxy:
 	@echo "------------------------------------------------------------------"
 	@echo "Starting Mapproxy"
 	@echo "------------------------------------------------------------------"
-	@docker-compose --profile=mapproxy up -d 
-	@docker-compose restart nginx
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose -up -d 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
 reinitialise-mapproxy:
 	@make check-env
@@ -324,11 +313,11 @@ reinitialise-mapproxy:
 	@echo "------------------------------------------------------------------"
 	@echo "Restarting Mapproxy and clearing its cache"
 	@echo "------------------------------------------------------------------"
-	@docker-compose kill mapproxy
-	@docker-compose rm mapproxy
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mapproxy
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mapproxy
 	@rm -rf conf/mapproxy_conf/cache_data/*
-	@docker-compose up -d mapproxy
-	@docker-compose logs -f mapproxy
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mapproxy
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mapproxy
 
 configure-mapproxy:
 	@make check-env
@@ -347,14 +336,12 @@ enable-mapproxy:
 	@make check-env
 	-@cd conf/nginx_conf/locations; ln -s mapproxy.conf.available mapproxy.conf
 	@echo "mapproxy" >> enabled-profiles
-	@make setup-compose-profile
 
 disable-mapproxy:
 	@make check-env
 	@cd conf/nginx_conf/locations; rm mapproxy.conf
 	# Remove from enabled-profiles
 	@sed -i '/mapproxy/d' enabled-profiles
-	@make setup-compose-profile
 
 #----------------- Postgres --------------------------
 
@@ -366,7 +353,7 @@ start-postgres:
 	@echo "------------------------------------------------------------------"
 	@echo "Starting Postgres"
 	@echo "------------------------------------------------------------------"
-	@docker-compose --profile=db up -d 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
 
 reinitialise-postgres:
 	@make check-env
@@ -374,10 +361,10 @@ reinitialise-postgres:
 	@echo "------------------------------------------------------------------"
 	@echo "Restarting postgres"
 	@echo "------------------------------------------------------------------"
-	@docker-compose kill db
-	@docker-compose rm db
-	@docker-compose up -d db
-	@docker-compose logs -f db
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill db
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm db
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d db
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f db
 
 configure-postgres:configure-timezone 
 	@make check-env
@@ -391,14 +378,12 @@ configure-postgres:configure-timezone
 enable-postgres:
 	@make check-env
 	@echo "db" >> enabled-profiles
-	@make setup-compose-profile
 
 disable-postgres:
 	@make check-env
 	@echo "This is currently a stub"	
 	# Remove from enabled-profiles
 	@sed -i '/db/d' enabled-profiles
-	@make setup-compose-profile
 
 configure-timezone:
 	@make check-env
@@ -416,7 +401,7 @@ db-shell:
 	@echo "------------------------------------------------------------------"
 	@echo "Creating db shell"
 	@echo "------------------------------------------------------------------"
-	@docker-compose exec -u postgres db psql gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql gis
 
 db-qgis-project-backup:
 	@make check-env
@@ -424,9 +409,9 @@ db-qgis-project-backup:
 	@echo "------------------------------------------------------------------"
 	@echo "Backing up QGIS project stored in db"
 	@echo "------------------------------------------------------------------"
-	@docker-compose exec -u postgres db pg_dump -f /tmp/QGISProject.sql -t qgis_projects gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -f /tmp/QGISProject.sql -t qgis_projects gis
 	@docker cp osgisstack_db_1:/tmp/QGISProject.sql .
-	@docker-compose exec -u postgres db rm /tmp/QGISProject.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/QGISProject.sql
 	@ls -lah QGISProject.sql
 
 db-qgis-project-restore:
@@ -437,10 +422,10 @@ db-qgis-project-restore:
 	@echo "------------------------------------------------------------------"
 	@docker cp QGISProject.sql osgisstack_db_1:/tmp/ 
 	# - at start of next line means error will be ignored (in case QGIS project table isnt already there)
-	-@docker-compose exec -u postgres db psql -c "drop table qgis_projects;" gis 
-	@docker-compose exec -u postgres db psql -f /tmp/QGISProject.sql -d gis
-	@docker-compose exec db rm /tmp/QGISProject.sql
-	@docker-compose exec -u postgres db psql -c "select name from qgis_projects;" gis 
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop table qgis_projects;" gis 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/QGISProject.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/QGISProject.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from qgis_projects;" gis 
 
 db-backup:
 	@make check-env
@@ -448,9 +433,9 @@ db-backup:
 	@echo "------------------------------------------------------------------"
 	@echo "Backing up entire GIS postgres db"
 	@echo "------------------------------------------------------------------"
-	@docker-compose exec -u postgres db pg_dump -Fc -f /tmp/osgisstack-database.dmp gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -Fc -f /tmp/osgisstack-database.dmp gis
 	@docker cp osgisstack_db_1:/tmp/osgisstack-database.dmp .
-	@docker-compose exec -u postgres db rm /tmp/osgisstack-database.dmp
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-database.dmp
 	@ls -lah osgisstack-database.dmp
 
 db-backupall:
@@ -459,9 +444,9 @@ db-backupall:
 	@echo "------------------------------------------------------------------"
 	@echo "Backing up all postgres databases"
 	@echo "------------------------------------------------------------------"
-	@docker-compose exec -u postgres db pg_dumpall -f /tmp/osgisstack-all-databases.dmp
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dumpall -f /tmp/osgisstack-all-databases.dmp
 	@docker cp osgisstack_db_1:/tmp/osgisstack-all-databases.dmp .
-	@docker-compose exec -u postgres db rm /tmp/osgisstack-all-databases.dmp
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-all-databases.dmp
 	@ls -lah osgisstack-all-databases.dmp
 
 db-backup-mergin-base-schema:
@@ -470,9 +455,9 @@ db-backup-mergin-base-schema:
 	@echo "------------------------------------------------------------------"
 	@echo "Backing up mergin base schema from  postgres db"
 	@echo "------------------------------------------------------------------"
-	@docker-compose exec -u postgres db pg_dump -Fc -f /tmp/mergin-base-schema.dmp -n mergin_sync_base_do_not_touch gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -Fc -f /tmp/mergin-base-schema.dmp -n mergin_sync_base_do_not_touch gis
 	@docker cp osgisstack_db_1:/tmp/mergin-base-schema.dmp .
-	@docker-compose exec -u postgres db rm /tmp/mergin-base-schema.dmp
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/mergin-base-schema.dmp
 	@ls -lah mergin-base-schema.dmp
 
 #----------------- SCP --------------------------
@@ -492,17 +477,15 @@ configure-scp:
 
 start-scp:
 	@make check-env
-	@docker-compose up -d scp	
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d scp	
 
 enable-scp:
 	@make check-env
 	@echo "scp" >> enabled-profiles
-	@make setup-compose-profile
 
 disable-scp:
 	# Remove from enabled-profiles
 	@sed -i '/db/d' enabled-profiles
-	@make setup-compose-profile	
 
 #----------------- OSM Mirror --------------------------
 
@@ -532,18 +515,16 @@ get-pbf:
 
 start-osm-mirror:
 	@make check-env
-	@docker-compose --profile=osm up -d 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
 
 enable-osm-mirror:
 	@make check-env
 	@echo "osm" >> enabled-profiles
-	@make setup-compose-profile
 
 disable-osm-mirror:
 	@make check-env
 	# Remove from enabled-profiles
 	@sed -i '/osm/d' enabled-profiles
-	@make setup-compose-profile	
 
 #----------------- Postgrest --------------------------
 
@@ -559,7 +540,7 @@ configure-postgrest: start-postgrest
 
 start-postgrest:
 	@make check-env
-	@docker-compose up -d postgrest
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d postgrest
 
 enable-postgrest:
 	@echo "postgrest" >> enabled-profiles
@@ -581,14 +562,13 @@ configure-node-red:
 
 start-node-red:
 	@make check-env
-	@docker-compose --profile=node-red up -d
-	@docker-compose restart nginx
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
 enable-node-red:
 	-@cd conf/nginx_conf/locations; ln -s node-red.conf.available node-red.conf
 	#-@cd conf/nginx_conf/upstreams; ln -s node-red.conf.available node-red.conf
 	@echo "node-red" >> enabled-profiles
-	@make setup-compose-profile
 
 disable-node-red:
 	@make check-env
@@ -596,8 +576,7 @@ disable-node-red:
 	#@cd conf/nginx_conf/upstreams; rm nore-red.conf
 	# Remove from enabled-profiles
 	@sed -i '/node-red/d' enabled-profiles
-	@make setup-compose-profile
-	@docker-compose restart nginx
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
 
 #----------------- LizMap --------------------------
@@ -609,15 +588,15 @@ deploy-lizmap: configure-lizmap enable-lizmap start-lizmap
 
 start-lizmap:
 	@make check-env
-	@docker-compose up -d lizmap
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d lizmap
 
 configure-lizmap:
 	@make check-env
 	@echo "=========================:"
 	@echo "Configuring lizmap:"
 	@echo "=========================:"
-	@docker-compose --profile=lizmap up -d 
-	@docker-compose restart nginx
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
 enable-lizmap:
 	@make check-env
@@ -636,7 +615,6 @@ disable-lizmap:
 #######################################################
 
 site-reset:
-	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Reset site configuration to default values"
@@ -654,7 +632,6 @@ init-letsencrypt:
 	@./init-letsencrypt.sh	
 	@docker-compose --profile=certbot-init kill
 	@docker-compose --profile=certbot-init rm
-	@make build-pbf
 
 restart:
 	@make check-env
@@ -662,8 +639,8 @@ restart:
 	@echo "------------------------------------------------------------------"
 	@echo "Restarting all containers"
 	@echo "------------------------------------------------------------------"
-	@docker-compose restart
-	@docker-compose logs -f
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
 
 logs:
 	@make check-env
@@ -671,7 +648,7 @@ logs:
 	@echo "------------------------------------------------------------------"
 	@echo "Tailing logs"
 	@echo "------------------------------------------------------------------"
-	@docker-compose logs -f
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
 
 nginx-shell:
 	@make check-env
@@ -679,7 +656,7 @@ nginx-shell:
 	@echo "------------------------------------------------------------------"
 	@echo "Creating nginx shell"
 	@echo "------------------------------------------------------------------"
-	@docker-compose exec nginx /bin/sh
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec nginx /bin/sh
 
 nginx-logs:
 	@make check-env
@@ -687,7 +664,7 @@ nginx-logs:
 	@echo "------------------------------------------------------------------"
 	@echo "Tailing logs of nginx"
 	@echo "------------------------------------------------------------------"
-	@docker-compose logs -f nginx
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f nginx
 
 
 kill-osm:
@@ -696,19 +673,19 @@ kill-osm:
 	@echo "------------------------------------------------------------------"
 	@echo "Deleting all imported OSM data and killing containers"
 	@echo "------------------------------------------------------------------"
-	@docker-compose kill imposm
-	@docker-compose kill osmupdate
-	@docker-compose kill osmenrich
-	@docker-compose rm imposm
-	@docker-compose rm osmupdate
-	@docker-compose rm osmenrich
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill imposm
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill osmupdate
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill osmenrich
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm imposm
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm osmupdate
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm osmenrich
 	# Next commands have - in front as they as non compulsory to succeed
 	-@sudo rm conf/osm_conf/timestamp.txt
 	-@sudo rm conf/osm_conf/last.state.txt
 	-@sudo rm conf/osm_conf/importer.lock
-	-@docker-compose exec -u postgres db psql -c "drop schema osm cascade;" gis 
-	-@docker-compose exec -u postgres db psql -c "drop schema osm_backup cascade;" gis 
-	-@docker-compose exec -u postgres db psql -c "drop schema osm_import cascade;" gis 
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema osm cascade;" gis 
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema osm_backup cascade;" gis 
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema osm_import cascade;" gis 
 
 reinitialise-osm: kill-osm
 	@make check-env
@@ -716,8 +693,8 @@ reinitialise-osm: kill-osm
 	@echo "------------------------------------------------------------------"
 	@echo "Deleting all imported OSM data and reloading"
 	@echo "------------------------------------------------------------------"
-	@docker-compose up -d imposm osmupdate osmenrich 
-	@docker-compose logs -f imposm osmupdate osmenrich
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d imposm osmupdate osmenrich 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f imposm osmupdate osmenrich
 
 osm-to-mbtiles:
 	@make check-env
@@ -725,7 +702,7 @@ osm-to-mbtiles:
 	@echo "------------------------------------------------------------------"
 	@echo "Creating a vector tiles store from the docker osm schema"
 	@echo "------------------------------------------------------------------"
-        #@docker-compose run osm-to-mbtiles
+        #@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run osm-to-mbtiles
 	@echo "we use below for now because the container aproach doesnt have a new enough gdal (2.x vs >=3.1 needed)"
 	@ogr2ogr -f MBTILES osm.mbtiles PG:"dbname='gis' host='localhost' port='15432' user='docker' password='docker' SCHEMAS=osm" -dsco "MAXZOOM=10 BOUNDS=-7.389126,39.410085,-7.381439,39.415144"
 	
@@ -735,14 +712,14 @@ redeploy-mergin-client:
 	@echo "------------------------------------------------------------------"
 	@echo "Stopping merging container, rebuilding the image, then restarting mergin db sync"
 	@echo "------------------------------------------------------------------"
-	-@docker-compose kill mergin-sync
-	-@docker-compose rm mergin-sync
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-sync
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-sync
 	-@docker rmi mergin_db_sync
 	@git clone git@github.com:lutraconsulting/mergin-db-sync.git --depth=1
 	@cd mergin-db-sync; docker build --no-cache -t mergin_db_sync .; cd ..
 	@rm -rf mergin-db-sync
-	@docker-compose --profile=mergin up -d mergin-sync
-	@docker-compose --profile=mergin logs -f mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
 
 reinitialise-mergin-client:
 	@make check-env
@@ -751,15 +728,15 @@ reinitialise-mergin-client:
 	@echo "Deleting mergin database schemas and removing local sync files"
 	@echo "Then restarting the mergin sync service"
 	@echo "------------------------------------------------------------------"
-	@docker-compose kill mergin-sync
-	@docker-compose rm mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-sync
 	@sudo rm -rf mergin_sync_data/*
 	# Next line allowed to fail
-	-@docker-compose exec -u postgres db psql -c "drop schema qgis_demo cascade;" gis 
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema qgis_demo cascade;" gis 
 	# Next line allowed to fail
-	-@docker-compose exec -u postgres db psql -c "drop schema mergin_sync_base_do_not_touch cascade;" gis 	
-	@docker-compose --profile=mergin up -d mergin-sync
-	@docker-compose --profile=mergin logs -f mergin-sync
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema mergin_sync_base_do_not_touch cascade;" gis 	
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
 
 configure-mergin-client:
 	@make check-env
@@ -784,8 +761,8 @@ mergin-dbsycn-start:
 	@echo "------------------------------------------------------------------"
 	@echo "Starting mergin-db-sync service"
 	@echo "------------------------------------------------------------------"
-	@docker-compose --profile=mergin up mergin-sync
-	@docker-compose --profile=mergin logs -f mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
 
 mergin-dbsync-logs:
 	@make check-env
@@ -793,7 +770,7 @@ mergin-dbsync-logs:
 	@echo "------------------------------------------------------------------"
 	@echo "Polling mergin-db-sync logs"
 	@echo "------------------------------------------------------------------"
-	@docker-compose --profile=mergin logs -f mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
 
 get-fonts:
 	@make check-env
@@ -833,16 +810,16 @@ odm-run: odm-clean
 	@echo "Note that the odm_datasets directory should be considered mutable as this script "
 	@echo "cleans out all other files"
 	@echo "------------------------------------------------------------------"
-	@docker-compose run odm
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run odm
 
 odm-clip:
 	@make check-env
 	@echo "------------------------------------------------------------------"
 	@echo "Clippint Ortho, DEM, DSM"
 	@echo "------------------------------------------------------------------"
-	@docker-compose run odm-ortho-clip
-	@docker-compose run odm-dsm-clip
-	@docker-compose run odm-dtm-clip
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run odm-ortho-clip
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run odm-dsm-clip
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run odm-dtm-clip
 
 # This is how you pass an env var to 
 odm-pgraster: export PGPASSWORD = docker
@@ -874,6 +851,7 @@ up:
 	@echo "------------------------------------------------------------------"
 	@echo "Starting all configured services"
 	@echo "------------------------------------------------------------------"
+	@$(shell grep DOMAIN .env| sed 's/DOMAIN=//') nginx_certbot_init_conf/nginx.conf init-letsencrypt.sh; 
 	@source ~/.bashrc; docker-compose up -d
 
 kill:
@@ -882,7 +860,7 @@ kill:
 	@echo "------------------------------------------------------------------"
 	@echo "Killing all containers"
 	@echo "------------------------------------------------------------------"
-	@docker-compose kill
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill
 
 rm: kill
 	@make check-env
@@ -890,7 +868,7 @@ rm: kill
 	@echo "------------------------------------------------------------------"
 	@echo "Removing all containers"
 	@echo "------------------------------------------------------------------"
-	@docker-compose rm
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm
 
 nuke:
 	@make check-env
@@ -903,14 +881,14 @@ nuke:
 	@echo "------------------------------------------------------------------"
 	@echo "Nuking Everything!"
 	@echo "------------------------------------------------------------------"
-	@docker-compose rm -v -f -s
-	@rm .env
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm -v -f -s
 	@rm enabled-profiles
 	@make site-reset
 	@make disable-all-services
 	@echo -n "Deleting volumes will remove all previous application state!!"
 	@echo -n "Please type DELETE to proceed " && read ans && [ $${ans:-N} = DELETE ]
-	@docker volume rm $(docker volume ls | grep osgisstack | awk '{print $2}' )
+	-@docker volume rm $(shell docker volume ls | grep osgisstack | awk '{print $2}')
+	@rm .env
 	@sudo rm -rf certbot/certbot
 	
 check-env: 
@@ -923,22 +901,3 @@ check-env:
 	       	exit 1; \
 	fi
 
-#######################################################
-#  Manage COMPOSE_PROFILES and add it to .bashrc
-#######################################################
-
-setup-compose-profile:
-	@make check-env
-	# First remove any existing
-	@sed -i '/COMPOSE_PROFILES/d' ~/.bashrc
-	# Write the env var to the user's shell
-	@echo "export COMPOSE_PROFILES=$$(paste -sd, enabled-profiles)" >> ~/.bashrc
-	# Make sure the env var is loaded in their session
-	@source ~/.bashrc
-
-remove-compose-profile:
-	@make check-env
-	# First remove any existing
-	@sed -i '/COMPOSE_PROFILES/d' ~/.bashrc
-	# Make sure the env var is loaded in their session
-	@source ~/.bashrc
