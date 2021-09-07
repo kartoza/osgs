@@ -21,6 +21,7 @@ redis/
 .vscode
 conf/scp_conf/general_data
 conf/scp_conf/geoserver_data
+conf/scp_conf/hugo_static
 conf/scp_conf/hugo_data
 conf/scp_conf/odm_data
 conf/scp_conf/qgis_fonts
