@@ -164,7 +164,7 @@ hugo-logs:
 	@echo "------------------------------------------------------------------"
 	@echo "Polling hugo logs"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f hugo
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f hugo-watcher
 
 backup-hugo:
 	@make check-env
