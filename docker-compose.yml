@@ -69,7 +69,9 @@ volumes:
   scp_qgis_fonts:
   # Mounted in SCP and to QGIS Server for serving QGIS svgs
   scp_qgis_svg:
-  # Mounted in SCP and to Hugo for rendering static pages
+  # Mounted in SCP and to Hugo for static content (js/css/img)
+  scp_hugo_static:
+  # Mounted in SCP and to Hugo for content (markdown)
   scp_hugo_data:
   # Mounted in SCP and to ODM for processing uploaded images
   scp_odm_data:
@@ -204,6 +206,12 @@ services:
       # This is not user editable, generated static html
       # will be placed here.
       - generated_hugo_data:/src/public
+      # Mounted in SCP and to Hugo for static content (js/css/img)
+      # If empty, the folder will be pre-populated with the hugo docker
+      # image's static_template folder
+      # If empty, the folder will be pre-populated with the hugo docker
+      # image's static_template folder
+      - scp_hugo_static:/src/static
       # Only raw markdown should be put in here
       - scp_hugo_data:/src/content
       # config from host mounted volume
@@ -579,6 +587,8 @@ services:
       - scp_qgis_fonts:/data/qgis_fonts
       # Mounted in SCP and to QGIS Server for serving QGIS svgs
       - scp_qgis_svg:/data/qgis_svg
+      # Mounted in SCP and to Hugo for static content (js/css/img)
+      - scp_hugo_static:/data/hugo_static
       # Mounted in SCP and to Hugo for rendering static pages
       - scp_hugo_data:/data/hugo_data
       # Mounted in SCP and to ODM for processing uploaded images

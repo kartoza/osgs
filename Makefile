@@ -188,6 +188,13 @@ restore-hugo:
 	-@mkdir -p backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --rm -v ${PWD}/backups:/backups nginx sh -c "cd /hugo && tar xvfz /backups/hugo-backup.tar.gz --strip 1"
 
+hugo-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating hugo shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec hugo-watcher bash
 #----------------- Docs --------------------------
 
 enable-docs:
@@ -382,23 +389,26 @@ configure-postgres: configure-timezone
 	@export PASSWD=$$(pwgen 20 1); \
 		rpl POSTGRES_PASSWORD=docker POSTGRES_PASSWORD=$$PASSWD .env; \
 		echo "Postgres password set to $$PASSWD"
-	@echo "Do you want to enable access to Postgres on your host?"
+	@echo "We are going to enable access to Postgres on your host."
 	@echo "Typically you would do this when you want to access the database"
 	@echo "from software such as QGIS that can directly connect to a Postgres"
 	@echo "database. There are some security implications to running on "
 	@echo "a publicly accessible port. People with credentials to access your "
 	@echo "database may use those credentials to launch arbitrary applications "
 	@echo "inside the database container if you do not manage the permissions carefully."
-	@echo "Note that if you enable this, the database is configured to require"
+	@echo "Note that the database is configured to require"
 	@echo "SSL secure encryption on all connections to the database. This includes"
 	@echo "internally between docker containers and from an external client. So be sure"
 	@echo "to set your client SSL mode to 'REQUIRE' (e.g. in QGIS  / GeoServer / Node-Red etc.)."
+	@echo 
+	@echo "If you want to allow/disallow access to this service from other hosts, please use"
+	@echo "firewall software such as ufw (uncomplicated firewall) to allow traffic on"
+	@echo "your chosen public port."
 	@echo
-	@echo "Do you want to enable access to postgres?"
-	@echo "Just hit enter to leave the public port blank and disable access from the host."
+	@echo "Enter to the public port to access PG from the host."
 	@echo
 	@read -p "Postgis Public Port (e.g. 5432):" PORT; \
-	   rpl POSTGRES_PUBLIC_PORT= POSTGRES_PUBLIC_PORT=$$PORT .env; 
+	   rpl POSTGRES_PUBLIC_PORT=5432 POSTGRES_PUBLIC_PORT=$$PORT .env; 
 
 enable-postgres:
 	@make check-env
@@ -497,6 +507,7 @@ configure-scp:
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_projects
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_fonts
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_svg
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/hugo_static
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/hugo_data
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/odm_data
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/general_data
