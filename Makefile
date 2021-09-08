@@ -348,7 +348,7 @@ start-qgis-server:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d --scale qgis-server=10 --remove-orphans
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
-rm-qgis-server:
+stop-qgis-server:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
