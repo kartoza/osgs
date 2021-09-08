@@ -40,6 +40,10 @@ deploy: configure
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
 
+# Used by configure-htpasswd to see if we have already set a password...
+HTUSERCONFIGURED = $(shell cat .env | grep -o 'NGINX_AUTH_USER')
+HTPASSWDCONFIGURED = $(shell cat .env | grep 'NGINX_AUTH_PWD')
+
 configure-htpasswd:
 	@make check-env
 	@echo "------------------------------------------------------------------"
@@ -52,13 +56,20 @@ configure-htpasswd:
 	@if [ -d "conf/nginx_conf/htpasswd" ]; then rm -rf conf/nginx_conf/htpasswd; fi
 	@if [ -f "conf/nginx_conf/htpasswd" ]; then echo "htpasswd file already exists, skipping"; exit 0; fi
 	# bcrypt encrypted pwd, be sure to use nginx:alpine nginx image
+# keep unindented or make will treat ifeq as bash rather than make cmd and fail
+ifeq ($(HTUSERCONFIGURED),NGINX_AUTH_USER)
+	@echo "Web user password is already configured. Please see .env"
+	@echo "Current password for web user is:"
+	@echo $(HTPASSWDCONFIGURED)
+else
 	@export PASSWD=$$(pwgen 20 1); \
-	       	htpasswd -cbB conf/nginx_conf/htpasswd web $$PASSWD; \
+		htpasswd -cbB conf/nginx_conf/htpasswd web $$PASSWD; \
 		echo "#User account for protected areas of the site using httpauth" >> .env; \
 		echo "#You can add more accounts to conf/nginx_conf/htpasswd using the htpasswd tool" >> .env; \
 		echo "NGINX_AUTH_USER=web" >> .env; \
 		echo "NGINX_AUTH_PWD=$$PASSWD" >> .env; \
-		echo "Files sharing htpasswd set to $$PASSWD"
+		echo "File sharing htpasswd set to $$PASSWD" 
+endif
 	@make enable-files
 
 disable-all-services:
@@ -204,7 +215,11 @@ disable-docs:
 	@cd conf/nginx_conf/locations; rm docs.conf
 
 enable-files:
-	-@cd conf/nginx_conf/locations; ln -s files.conf.available files.conf
+	@if [ ! -f "conf/nginx_conf/locations/files.conf" ]; then \
+		cd conf/nginx_conf/locations; \
+		ln -s files.conf.available files.conf; \
+	       	exit 0; \
+	fi
 
 disable-files:
 	@cd conf/nginx_conf/locations; rm files.conf
@@ -616,6 +631,22 @@ disable-node-red:
 	# Remove from enabled-profiles
 	@sed -i '/node-red/d' enabled-profiles
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
+
+stop-node-red:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping Node-Red"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill node-red
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm node-red
+
+node-red-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating node red shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec node-red bash
 
 
 #----------------- LizMap --------------------------
