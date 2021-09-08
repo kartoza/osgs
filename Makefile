@@ -396,26 +396,10 @@ reinitialise-qgis-server:rm-qgis-server start-qgis-server
 
 deploy-mapproxy: enable-mapproxy configure-mapproxy start-mapproxy
 
-start-mapproxy:
+enable-mapproxy:
 	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Starting Mapproxy"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose -up -d 
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
-
-reinitialise-mapproxy:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restarting Mapproxy and clearing its cache"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mapproxy
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mapproxy
-	@rm -rf conf/mapproxy_conf/cache_data/*
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mapproxy
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mapproxy
+	-@cd conf/nginx_conf/locations; ln -s mapproxy.conf.available mapproxy.conf
+	@echo "mapproxy" >> enabled-profiles
 
 configure-mapproxy:
 	@make check-env
@@ -430,16 +414,33 @@ configure-mapproxy:
 	@echo "restart mapproxy for those edits to take effect."
 	@echo "see: make reinitialise-mapproxy"	
 
-enable-mapproxy:
+start-mapproxy:
 	@make check-env
-	-@cd conf/nginx_conf/locations; ln -s mapproxy.conf.available mapproxy.conf
-	@echo "mapproxy" >> enabled-profiles
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting Mapproxy"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose -up -d 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
 disable-mapproxy:
 	@make check-env
 	@cd conf/nginx_conf/locations; rm mapproxy.conf
 	# Remove from enabled-profiles
 	@sed -i '/mapproxy/d' enabled-profiles
+
+reinitialise-mapproxy:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting Mapproxy and clearing its cache"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mapproxy
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mapproxy
+	@rm -rf conf/mapproxy_conf/cache_data/*
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mapproxy
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mapproxy
+
 
 #----------------- Postgres --------------------------
 
