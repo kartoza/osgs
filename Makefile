@@ -226,6 +226,10 @@ restore-hugo:
 
 #----------------- SCP --------------------------
 
+enable-scp:
+	@make check-env
+	@echo "scp" >> enabled-profiles
+
 configure-scp:
 	@make check-env
 	@echo "------------------------------------------------------------------"
@@ -244,15 +248,9 @@ start-scp:
 	@make check-env
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d scp	
 
-enable-scp:
-	@make check-env
-	@echo "scp" >> enabled-profiles
-
 disable-scp:
 	# Remove from enabled-profiles
 	@sed -i '/db/d' enabled-profiles
-
-
 
 
 #----------------- GeoServer --------------------------
