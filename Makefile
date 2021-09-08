@@ -30,7 +30,7 @@ ps:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose ps
 
-configure: disable-all-services prepare-templates site-config enable-hugo configure-scp configure-htpasswd deploy
+
 
 deploy: configure
 	@echo
@@ -40,37 +40,7 @@ deploy: configure
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
 
-# Used by configure-htpasswd to see if we have already set a password...
-HTUSERCONFIGURED = $(shell cat .env | grep -o 'NGINX_AUTH_USER')
-HTPASSWDCONFIGURED = $(shell cat .env | grep 'NGINX_AUTH_PWD')
-
-configure-htpasswd:
-	@make check-env
-	@echo "------------------------------------------------------------------"
-	@echo "Configuring password controlled file sharing are for your site"
-	@echo "Accessible at /files/"
-	@echo "Access credentials will be stored in .env"
-	@echo "------------------------------------------------------------------"
-	#Sometimes docker will make a directory if the pwd file does not 
-	#exist when it starts
-	@if [ -d "conf/nginx_conf/htpasswd" ]; then rm -rf conf/nginx_conf/htpasswd; fi
-	@if [ -f "conf/nginx_conf/htpasswd" ]; then echo "htpasswd file already exists, skipping"; exit 0; fi
-	# bcrypt encrypted pwd, be sure to use nginx:alpine nginx image
-# keep unindented or make will treat ifeq as bash rather than make cmd and fail
-ifeq ($(HTUSERCONFIGURED),NGINX_AUTH_USER)
-	@echo "Web user password is already configured. Please see .env"
-	@echo "Current password for web user is:"
-	@echo $(HTPASSWDCONFIGURED)
-else
-	@export PASSWD=$$(pwgen 20 1); \
-		htpasswd -cbB conf/nginx_conf/htpasswd web $$PASSWD; \
-		echo "#User account for protected areas of the site using httpauth" >> .env; \
-		echo "#You can add more accounts to conf/nginx_conf/htpasswd using the htpasswd tool" >> .env; \
-		echo "NGINX_AUTH_USER=web" >> .env; \
-		echo "NGINX_AUTH_PWD=$$PASSWD" >> .env; \
-		echo "File sharing htpasswd set to $$PASSWD" 
-endif
-	@make enable-files
+configure: disable-all-services prepare-templates site-config enable-hugo configure-scp configure-htpasswd deploy
 
 disable-all-services:
 	@echo
@@ -83,7 +53,6 @@ disable-all-services:
 	@find ./conf/nginx_conf/locations -maxdepth 1 -type l -delete
 	@find ./conf/nginx_conf/upstreams -maxdepth 1 -type l -delete
 	@echo "" > enabled-profiles
-
 
 prepare-templates: 
 	@echo
@@ -153,6 +122,47 @@ site-config:
 	@read -p "Logo URL: " result; \
 	  LOGOURL=$${result:-"img/Circle-icons-stack.svg"} && \
 	  rpl -q {{logoURL}} "$$LOGOURL" $(shell pwd)/conf/hugo_conf/config.yaml
+
+# Used by configure-htpasswd to see if we have already set a password...
+HTUSERCONFIGURED = $(shell cat .env | grep -o 'NGINX_AUTH_USER')
+HTPASSWDCONFIGURED = $(shell cat .env | grep 'NGINX_AUTH_PWD')
+
+configure-htpasswd:
+	@make check-env
+	@echo "------------------------------------------------------------------"
+	@echo "Configuring password controlled file sharing are for your site"
+	@echo "Accessible at /files/"
+	@echo "Access credentials will be stored in .env"
+	@echo "------------------------------------------------------------------"
+	#Sometimes docker will make a directory if the pwd file does not 
+	#exist when it starts
+	@if [ -d "conf/nginx_conf/htpasswd" ]; then rm -rf conf/nginx_conf/htpasswd; fi
+	@if [ -f "conf/nginx_conf/htpasswd" ]; then echo "htpasswd file already exists, skipping"; exit 0; fi
+	# bcrypt encrypted pwd, be sure to use nginx:alpine nginx image
+# keep unindented or make will treat ifeq as bash rather than make cmd and fail
+ifeq ($(HTUSERCONFIGURED),NGINX_AUTH_USER)
+	@echo "Web user password is already configured. Please see .env"
+	@echo "Current password for web user is:"
+	@echo $(HTPASSWDCONFIGURED)
+else
+	@export PASSWD=$$(pwgen 20 1); \
+		htpasswd -cbB conf/nginx_conf/htpasswd web $$PASSWD; \
+		echo "#User account for protected areas of the site using httpauth" >> .env; \
+		echo "#You can add more accounts to conf/nginx_conf/htpasswd using the htpasswd tool" >> .env; \
+		echo "NGINX_AUTH_USER=web" >> .env; \
+		echo "NGINX_AUTH_PWD=$$PASSWD" >> .env; \
+		echo "File sharing htpasswd set to $$PASSWD" 
+endif
+	@make enable-files
+
+
+
+
+
+
+
+
+
 
 #----------------- Hugo --------------------------
 
