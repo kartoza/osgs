@@ -331,7 +331,13 @@ geoserver-shell:
 
 #----------------- QGIS Server --------------------------
 
-deploy-qgis-server: -qgis-server start-qgis-server
+deploy-qgis-server: enable-qgis-server start-qgis-server
+
+enable-qgis-server:
+	@make check-env
+	-@cd conf/nginx_conf/locations; ln -s qgis-server.conf.available qgis-server.conf
+	-@cd conf/nginx_conf/upstreams; ln -s qgis-server.conf.available qgis-server.conf
+	@echo "qgis-server" >> enabled-profiles
 
 start-qgis-server:
 	@make check-env
@@ -342,11 +348,14 @@ start-qgis-server:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d --scale qgis-server=10 --remove-orphans
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
-enable-qgis-server:
+rm-qgis-server:
 	@make check-env
-	-@cd conf/nginx_conf/locations; ln -s qgis-server.conf.available qgis-server.conf
-	-@cd conf/nginx_conf/upstreams; ln -s qgis-server.conf.available qgis-server.conf
-	@echo "qgis-server" >> enabled-profiles
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping QGIS Server and Nginx"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill qgis-server
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm qgis-server
 
 disable-qgis-server:
 	@make check-env
@@ -366,15 +375,6 @@ reinitialise-qgis-server:rm-qgis-server start-qgis-server
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-server 
 
-rm-qgis-server:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Stopping QGIS Server and Nginx"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill qgis-server
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm qgis-server
-
 qgis-logs:
 	@make check-env
 	@echo
@@ -382,6 +382,7 @@ qgis-logs:
 	@echo "Polling QGIS Server logs"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-server
+
 
 #----------------- Mapproxy --------------------------
 
