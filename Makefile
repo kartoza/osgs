@@ -423,6 +423,14 @@ start-mapproxy:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose -up -d 
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
+stop-mapproxy:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping Mapproxy"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mapproxy
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mapproxy
+
 disable-mapproxy:
 	@make check-env
 	@cd conf/nginx_conf/locations; rm mapproxy.conf
