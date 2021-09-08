@@ -22,6 +22,7 @@ docs:
 	$(MAKE) -C sphinx latexpdf
 	@cp sphinx/build/latex/osgs.pdf osgs-manual.pdf
 
+
 ps: 
 	@make check-env
 	@echo
@@ -29,7 +30,6 @@ ps:
 	@echo "Current status"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose ps
-
 
 
 deploy: configure
@@ -156,14 +156,6 @@ endif
 	@make enable-files
 
 
-
-
-
-
-
-
-
-
 #----------------- Hugo --------------------------
 
 enable-hugo:
@@ -216,6 +208,36 @@ hugo-shell:
 	@echo "Creating hugo shell"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec hugo-watcher bash
+
+#----------------- SCP --------------------------
+
+configure-scp:
+	@make check-env
+	@echo "------------------------------------------------------------------"
+	@echo "Copying .ssh/authorized keys to all scp shares."
+	@echo "------------------------------------------------------------------"
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/geoserver_data
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_projects
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_fonts
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_svg
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/hugo_static
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/hugo_data
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/odm_data
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/general_data
+
+start-scp:
+	@make check-env
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d scp	
+
+enable-scp:
+	@make check-env
+	@echo "scp" >> enabled-profiles
+
+disable-scp:
+	# Remove from enabled-profiles
+	@sed -i '/db/d' enabled-profiles
+	
+
 #----------------- Docs --------------------------
 
 enable-docs:
@@ -521,33 +543,7 @@ db-backup-mergin-base-schema:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/mergin-base-schema.dmp
 	@ls -lah mergin-base-schema.dmp
 
-#----------------- SCP --------------------------
 
-configure-scp:
-	@make check-env
-	@echo "------------------------------------------------------------------"
-	@echo "Copying .ssh/authorized keys to all scp shares."
-	@echo "------------------------------------------------------------------"
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/geoserver_data
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_projects
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_fonts
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_svg
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/hugo_static
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/hugo_data
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/odm_data
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/general_data
-
-start-scp:
-	@make check-env
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d scp	
-
-enable-scp:
-	@make check-env
-	@echo "scp" >> enabled-profiles
-
-disable-scp:
-	# Remove from enabled-profiles
-	@sed -i '/db/d' enabled-profiles
 
 #----------------- OSM Mirror --------------------------
 
