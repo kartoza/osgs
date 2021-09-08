@@ -366,6 +366,22 @@ disable-qgis-server:
 	# Remove from enabled-profiles
 	@sed -i '/qgis/d' enabled-profiles
 
+qgis-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling QGIS Server logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-server
+
+qgis-server-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating QGIS Server shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec qgis-server bash
+
 reinitialise-qgis-server:rm-qgis-server start-qgis-server
 	@make check-env
 	@echo
@@ -374,14 +390,6 @@ reinitialise-qgis-server:rm-qgis-server start-qgis-server
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-server 
-
-qgis-logs:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Polling QGIS Server logs"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-server
 
 
 #----------------- Mapproxy --------------------------
