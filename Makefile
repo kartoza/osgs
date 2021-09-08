@@ -605,7 +605,8 @@ disable-postgrest:
 #----------------- NodeRed --------------------------
 # The node red location will be locked with the htpasswd
 
-deploy-node-red: configure-node-red configure-htpasswd enable-node-red start-node-red
+#stop-node-red start-node-red repeated at the end of the line below is a nasty hack to make pg and ssl work
+deploy-node-red: configure-node-red configure-htpasswd enable-node-red start-node-red stop-node-red start-node-red
 
 configure-node-red:
 	@echo "========================="
@@ -661,6 +662,17 @@ node-red-logs:
 	@echo "Logging node red"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f node-red
+
+backup-node-red:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Backing up node/red data to ./backups"
+	@echo "------------------------------------------------------------------"
+	-@mkdir backups
+	@docker cp osgisstack_node-red_1:/data .; tar cfz backups/node-red-data.tar.gz data; rm -rf data
+
+
 
 #----------------- LizMap --------------------------
 
