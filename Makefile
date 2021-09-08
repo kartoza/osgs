@@ -246,8 +246,19 @@ configure-scp:
 
 start-scp:
 	@make check-env
+	@echo "------------------------------------------------------------------"
+	@echo "Starting SCP"
+	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d scp	
 
+stop-scp:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping SCP"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill scp
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm scp
+	
 disable-scp:
 	# Remove from enabled-profiles
 	@sed -i '/db/d' enabled-profiles
