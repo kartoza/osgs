@@ -236,25 +236,9 @@ enable-scp:
 disable-scp:
 	# Remove from enabled-profiles
 	@sed -i '/db/d' enabled-profiles
-	
 
-#----------------- Docs --------------------------
 
-enable-docs:
-	-@cd conf/nginx_conf/locations; ln -s docs.conf.available docs.conf
 
-disable-docs:
-	@cd conf/nginx_conf/locations; rm docs.conf
-
-enable-files:
-	@if [ ! -f "conf/nginx_conf/locations/files.conf" ]; then \
-		cd conf/nginx_conf/locations; \
-		ln -s files.conf.available files.conf; \
-	       	exit 0; \
-	fi
-
-disable-files:
-	@cd conf/nginx_conf/locations; rm files.conf
 
 #----------------- GeoServer --------------------------
 
@@ -692,6 +676,26 @@ disable-lizmap:
 	@cd conf/nginx_conf/locations; rm lizmap.conf
 	# Remove from enabled-profiles
 	@sed -i '/lizmap/d' enabled-profiles
+
+
+#----------------- Docs --------------------------
+
+enable-docs:
+	-@cd conf/nginx_conf/locations; ln -s docs.conf.available docs.conf
+
+disable-docs:
+	@cd conf/nginx_conf/locations; rm docs.conf
+
+enable-files:
+	@if [ ! -f "conf/nginx_conf/locations/files.conf" ]; then \
+		cd conf/nginx_conf/locations; \
+		ln -s files.conf.available files.conf; \
+	       	exit 0; \
+	fi
+
+disable-files:
+	@cd conf/nginx_conf/locations; rm files.conf
+
 
 #######################################################
 #   General Utilities
