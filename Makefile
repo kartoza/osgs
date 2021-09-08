@@ -164,7 +164,19 @@ enable-hugo:
 
 start-hugo:
 	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting Hugo"
+	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
+
+stop-hugo:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping Hugo"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill hugo-watcher
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm hugo-watcher
 
 disable-hugo:
 	@cd conf/nginx_conf/locations; rm hugo.conf
@@ -208,6 +220,7 @@ hugo-shell:
 	@echo "Creating hugo shell"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec hugo-watcher bash
+
 
 #----------------- SCP --------------------------
 
