@@ -366,7 +366,7 @@ disable-qgis-server:
 	# Remove from enabled-profiles
 	@sed -i '/qgis/d' enabled-profiles
 
-qgis-logs:
+qgis-server-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
