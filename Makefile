@@ -648,6 +648,13 @@ node-red-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec node-red bash
 
+node-red-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Logging node red"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f node-red
 
 #----------------- LizMap --------------------------
 
@@ -938,6 +945,18 @@ rm: kill
 	@echo "Removing all containers"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm
+
+pull:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping, removing, updating and restarting all containers"
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose pull
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
 
 nuke:
 	@make check-env
