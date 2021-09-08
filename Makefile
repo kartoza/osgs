@@ -226,6 +226,8 @@ restore-hugo:
 
 #----------------- SCP --------------------------
 
+deploy-scp: enable-scp configure-scp start-scp 
+
 enable-scp:
 	@make check-env
 	@echo "scp" >> enabled-profiles
@@ -258,7 +260,7 @@ stop-scp:
 	@echo "------------------------------------------------------------------"
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill scp
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm scp
-	
+
 disable-scp:
 	# Remove from enabled-profiles
 	@sed -i '/db/d' enabled-profiles
