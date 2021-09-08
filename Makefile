@@ -437,6 +437,22 @@ disable-mapproxy:
 	# Remove from enabled-profiles
 	@sed -i '/mapproxy/d' enabled-profiles
 
+mapproxy-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling Mapproxy logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mapproxy
+
+mapproxy-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating Mapproxy shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec mapproxy bash
+
 reinitialise-mapproxy:
 	@make check-env
 	@echo
