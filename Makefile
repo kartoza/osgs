@@ -278,6 +278,17 @@ scp-logs:
 
 deploy-geoserver: enable-geoserver configure-geoserver-passwd start-geoserver
 
+enable-geoserver:
+	@make check-env
+	-@cd conf/nginx_conf/locations; ln -s geoserver.conf.available geoserver.conf
+	@echo "geoserver" >> enabled-profiles
+
+configure-geoserver-passwd:
+	@make check-env
+	@export PASSWD=$$(pwgen 20 1); \
+		rpl GEOSERVER_ADMIN_PASSWORD=myawesomegeoserver GEOSERVER_ADMIN_PASSWORD=$$PASSWD .env; \
+		echo "GeoServer password set to $$PASSWD"
+
 start-geoserver:
 	@make check-env
 	@echo
@@ -295,17 +306,6 @@ stop-geoserver:
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill geoserver
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm geoserver
 
-configure-geoserver-passwd:
-	@make check-env
-	@export PASSWD=$$(pwgen 20 1); \
-		rpl GEOSERVER_ADMIN_PASSWORD=myawesomegeoserver GEOSERVER_ADMIN_PASSWORD=$$PASSWD .env; \
-		echo "GeoServer password set to $$PASSWD"
-
-enable-geoserver:
-	@make check-env
-	-@cd conf/nginx_conf/locations; ln -s geoserver.conf.available geoserver.conf
-	@echo "geoserver" >> enabled-profiles
-
 disable-geoserver:
 	@make check-env
 	@cd conf/nginx_conf/locations; rm geoserver.conf
@@ -319,6 +319,7 @@ geoserver-logs:
 	@echo "Polling Geoserver logs"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f geoserver
+
 
 #----------------- QGIS Server --------------------------
 
