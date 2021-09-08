@@ -265,6 +265,14 @@ disable-scp:
 	# Remove from enabled-profiles
 	@sed -i '/db/d' enabled-profiles
 
+scp-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling SCP logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f scp
+
 
 #----------------- GeoServer --------------------------
 
