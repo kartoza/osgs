@@ -158,6 +158,8 @@ endif
 
 #----------------- Hugo --------------------------
 
+deploy-hugo: enable-hugo start-hugo
+
 enable-hugo:
 	-@cd conf/nginx_conf/locations; ln -s hugo.conf.available hugo.conf
 	@echo "hugo" >> enabled-profiles
