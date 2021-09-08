@@ -193,6 +193,14 @@ hugo-logs:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f hugo-watcher
 
+hugo-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating hugo shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec hugo-watcher bash
+
 backup-hugo:
 	@make check-env
 	@echo
@@ -214,14 +222,6 @@ restore-hugo:
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
 	-@mkdir -p backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --rm -v ${PWD}/backups:/backups nginx sh -c "cd /hugo && tar xvfz /backups/hugo-backup.tar.gz --strip 1"
-
-hugo-shell:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Creating hugo shell"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec hugo-watcher bash
 
 
 #----------------- SCP --------------------------
