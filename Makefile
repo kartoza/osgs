@@ -562,6 +562,7 @@ get-pbf:
 	@echo "https://download.geofabrik.de/"
 	@echo "e.g. https://download.geofabrik.de/europe/portugal-latest.osm.pbf"
 	@echo "------------------------------------------------------------------"
+	-@rm conf/osm_conf/country.pbf 
 	@read -p "URL For Country PBF File: " URL; \
 	   wget -c -N -O conf/osm_conf/country.pbf $$URL;
 
@@ -646,7 +647,8 @@ node-red-shell:
 	@echo "------------------------------------------------------------------"
 	@echo "Creating node red shell"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec node-red bash
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -w /data node-red bash
+
 
 node-red-logs:
 	@make check-env
