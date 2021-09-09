@@ -701,7 +701,10 @@ osm-mirror-osmupdate-shell:
 
 #----------------- Postgrest --------------------------
 
-deploy-postgrest: configure-postgrest enable-postgrest start-postgrest
+deploy-postgrest:  enable-postgrest configure-postgrest start-postgrest
+
+enable-postgrest:
+	@echo "postgrest" >> enabled-profiles
 
 configure-postgrest: start-postgrest
 	@echo "========================="
@@ -715,12 +718,10 @@ start-postgrest:
 	@make check-env
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d postgrest
 
-enable-postgrest:
-	@echo "postgrest" >> enabled-profiles
-
 disable-postgrest:
 	# Remove from enabled-profiles
 	@sed -i '/postgrest/d' enabled-profiles
+
 
 #----------------- NodeRed --------------------------
 # The node red location will be locked with the htpasswd
