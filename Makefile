@@ -853,6 +853,14 @@ start-lizmap:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d lizmap
 
+stop-lizmap:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping Lizmap"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill lizmap
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm lizmap
+
 disable-lizmap:
 	@make check-env
 	@cd conf/nginx_conf/locations; rm lizmap.conf
