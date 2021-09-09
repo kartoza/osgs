@@ -867,6 +867,22 @@ disable-lizmap:
 	# Remove from enabled-profiles
 	@sed -i '/lizmap/d' enabled-profiles
 
+lizmap-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling Lizmap logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f lizmap
+
+lizmap-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating Lizmap shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec lizmap sh
+
 
 #----------------- Docs --------------------------
 
