@@ -470,24 +470,20 @@ reinitialise-mapproxy:
 
 deploy-postgres:enable-postgres configure-postgres start-postgres
 
-start-postgres:
+enable-postgres:
 	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Starting Postgres"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
+	@echo "db" >> enabled-profiles
 
-reinitialise-postgres:
+configure-timezone:
 	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restarting postgres"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill db
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm db
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d db
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f db
+	@if grep "#TIMEZONE CONFIGURED" .env; then echo "Timezone already configured";  exit 0; else \
+	echo "Please enter the timezone for your server"; \
+	echo "See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"; \
+	echo "Follow exactly the format of the TZ Database Name column"; \
+	read -p "Server Time Zone (e.g. Etc/UTC):" TZ; \
+	   rpl TIMEZONE=Etc/UTC TIMEZONE=$$TZ .env; \
+	echo "#TIMEZONE CONFIGURED" >> .env; \
+	fi
 
 configure-postgres: configure-timezone 
 	@make check-env
@@ -518,26 +514,19 @@ configure-postgres: configure-timezone
 	@read -p "Postgis Public Port (e.g. 5432):" PORT; \
 	   rpl POSTGRES_PUBLIC_PORT=5432 POSTGRES_PUBLIC_PORT=$$PORT .env; 
 
-enable-postgres:
+start-postgres:
 	@make check-env
-	@echo "db" >> enabled-profiles
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting Postgres"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
 
 disable-postgres:
 	@make check-env
 	@echo "This is currently a stub"	
 	# Remove from enabled-profiles
 	@sed -i '/db/d' enabled-profiles
-
-configure-timezone:
-	@make check-env
-	@if grep "#TIMEZONE CONFIGURED" .env; then echo "Timezone already configured";  exit 0; else \
-	echo "Please enter the timezone for your server"; \
-	echo "See https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"; \
-	echo "Follow exactly the format of the TZ Database Name column"; \
-	read -p "Server Time Zone (e.g. Etc/UTC):" TZ; \
-	   rpl TIMEZONE=Etc/UTC TIMEZONE=$$TZ .env; \
-	echo "#TIMEZONE CONFIGURED" >> .env; \
-	fi
 
 db-shell:
 	@make check-env
@@ -546,6 +535,17 @@ db-shell:
 	@echo "Creating db shell"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql gis
+
+reinitialise-postgres:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting postgres"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill db
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm db
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d db
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f db
 
 db-qgis-project-backup:
 	@make check-env
@@ -603,7 +603,6 @@ db-backup-mergin-base-schema:
 	@docker cp osgisstack_db_1:/tmp/mergin-base-schema.dmp .
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/mergin-base-schema.dmp
 	@ls -lah mergin-base-schema.dmp
-
 
 
 #----------------- OSM Mirror --------------------------
