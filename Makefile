@@ -716,7 +716,18 @@ configure-postgrest: start-postgrest
 
 start-postgrest:
 	@make check-env
+	@echo "------------------------------------------------------------------"
+	@echo "Starting PostgREST"
+	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d postgrest
+
+stop-postgrest:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping PostgREST"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill postgrest
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm postgrest
 
 disable-postgrest:
 	# Remove from enabled-profiles
