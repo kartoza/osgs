@@ -753,8 +753,7 @@ postgrest-shell:
 #----------------- NodeRed --------------------------
 # The node red location will be locked with the htpasswd
 
-#restart-node-red repeated at the end of the line below is a nasty hack to make pg and ssl work
-deploy-node-red: enable-node-red configure-node-red configure-htpasswd start-node-red restart-node-red
+deploy-node-red: enable-node-red configure-node-red configure-htpasswd start-node-red restart
 
 enable-node-red:
 	-@cd conf/nginx_conf/locations; ln -s node-red.conf.available node-red.conf
@@ -776,14 +775,7 @@ start-node-red:
 	@echo "Starting Node-Red"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
-	@echo "Deploying Tim's fork of postgres-multi since upstream is broken"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -w /data node-red npm install git+https://github.com/kartoza/node-red-contrib-postgres-multi.git
-	# Hacky thing here because ssl require is broken in node pg for self signed certs
-	# need to make an upstream fix then remove this next line
-	@docker cp patches/node-red/connection-parameters.js osgisstack_node-red_1:/data/node_modules/pg/lib/connection-parameters.js
-	# Now restart nginx
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
-
+	
 stop-node-red:
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -798,6 +790,17 @@ disable-node-red:
 	#@cd conf/nginx_conf/upstreams; rm nore-red.conf
 	# Remove from enabled-profiles
 	@sed -i '/node-red/d' enabled-profiles
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
+
+deploy-node-red-patch:
+	# This is needed because the node package does not
+	# work with SSL connections
+	@echo "Deploying Tim's fork of postgres-multi since upstream is broken"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -w /data node-red npm install git+https://github.com/kartoza/node-red-contrib-postgres-multi.git
+	# Hacky thing here because ssl require is broken in node pg for self signed certs
+	# need to make an upstream fix then remove this next line
+	@docker cp patches/node-red/connection-parameters.js osgisstack_node-red_1:/data/node_modules/pg/lib/connection-parameters.js
+	# Now restart nginx
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
 node-red-logs:
