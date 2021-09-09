@@ -830,11 +830,12 @@ backup-node-red:
 # LIZMAP IS NOT WORKING YET.....
 
 
-deploy-lizmap: configure-lizmap enable-lizmap start-lizmap
+deploy-lizmap: enable-lizmap configure-lizmap  start-lizmap
 
-start-lizmap:
+enable-lizmap:
 	@make check-env
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d lizmap
+	-@cd conf/nginx_conf/locations; ln -s lizmap.conf.available lizmap.conf
+	@echo "lizmap" >> enabled-profiles
 
 configure-lizmap:
 	@make check-env
@@ -844,11 +845,13 @@ configure-lizmap:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
-enable-lizmap:
+start-lizmap:
 	@make check-env
-	-@cd conf/nginx_conf/locations; ln -s lizmap.conf.available lizmap.conf
-	@echo "lizmap" >> enabled-profiles
-
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting Lizmap"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d lizmap
 
 disable-lizmap:
 	@make check-env
