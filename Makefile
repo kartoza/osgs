@@ -741,29 +741,39 @@ postgrest-logs:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f postgrest
 
+# not working at the moment 
 postgrest-shell:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Creating PostgREST shell"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec postgrest sh
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec postgrest bash
 
 
 #----------------- NodeRed --------------------------
 # The node red location will be locked with the htpasswd
 
 #stop-node-red start-node-red repeated at the end of the line below is a nasty hack to make pg and ssl work
-deploy-node-red: configure-node-red configure-htpasswd enable-node-red start-node-red stop-node-red start-node-red
+deploy-node-red: enable-node-red configure-node-red configure-htpasswd  start-node-red stop-node-red start-node-red
+
+enable-node-red:
+	-@cd conf/nginx_conf/locations; ln -s node-red.conf.available node-red.conf
+	#-@cd conf/nginx_conf/upstreams; ln -s node-red.conf.available node-red.conf
+	@echo "node-red" >> enabled-profiles
 
 configure-node-red:
 	@echo "========================="
-	@echo "Node Red configured"
+	@echo "Node-Red configured"
 	@echo "========================="
 	@make configure-timezone
 
 start-node-red:
 	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting Node-Red"
+	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
 	@echo "Deploying Tim's fork of postgres-multi since upstream is broken"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -w /data node-red npm install git+https://github.com/kartoza/node-red-contrib-postgres-multi.git
@@ -771,19 +781,6 @@ start-node-red:
 	# need to make an upstream fix then remove this next line
 	@docker cp patches/node-red/connection-parameters.js osgisstack_node-red_1:/data/node_modules/pg/lib/connection-parameters.js
 	# Now restart nginx
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
-
-enable-node-red:
-	-@cd conf/nginx_conf/locations; ln -s node-red.conf.available node-red.conf
-	#-@cd conf/nginx_conf/upstreams; ln -s node-red.conf.available node-red.conf
-	@echo "node-red" >> enabled-profiles
-
-disable-node-red:
-	@make check-env
-	@cd conf/nginx_conf/locations; rm node-red.conf
-	#@cd conf/nginx_conf/upstreams; rm nore-red.conf
-	# Remove from enabled-profiles
-	@sed -i '/node-red/d' enabled-profiles
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
 stop-node-red:
@@ -794,22 +791,29 @@ stop-node-red:
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill node-red
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm node-red
 
-node-red-shell:
+disable-node-red:
 	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Creating node red shell"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -w /data node-red bash
-
+	@cd conf/nginx_conf/locations; rm node-red.conf
+	#@cd conf/nginx_conf/upstreams; rm nore-red.conf
+	# Remove from enabled-profiles
+	@sed -i '/node-red/d' enabled-profiles
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
 node-red-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Logging node red"
+	@echo "Logging Node-Red"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f node-red
+
+node-red-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating Node-Red shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -w /data node-red bash
 
 backup-node-red:
 	@make check-env
@@ -819,7 +823,6 @@ backup-node-red:
 	@echo "------------------------------------------------------------------"
 	-@mkdir backups
 	@docker cp osgisstack_node-red_1:/data .; tar cfz backups/node-red-data.tar.gz data; rm -rf data
-
 
 
 #----------------- LizMap --------------------------
