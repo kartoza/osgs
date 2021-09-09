@@ -522,6 +522,14 @@ start-postgres:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
 
+stop-postgres:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping Postgres"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill db
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm db
+
 disable-postgres:
 	@make check-env
 	@echo "This is currently a stub"	
