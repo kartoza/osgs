@@ -273,6 +273,13 @@ scp-logs:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f scp
 
+scp-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating SCP shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec scp bash 
 
 #----------------- GeoServer --------------------------
 
@@ -654,7 +661,18 @@ get-pbf:
 
 start-osm-mirror:
 	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting OSM Mirror"
+	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
+stop-osm-mirror:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping OSM Mirror"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill imposm osmupdate
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm imposm osmupdate
 
 disable-osm-mirror:
 	@make check-env
