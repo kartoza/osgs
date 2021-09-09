@@ -755,7 +755,7 @@ postgrest-shell:
 # The node red location will be locked with the htpasswd
 
 #stop-node-red start-node-red repeated at the end of the line below is a nasty hack to make pg and ssl work
-deploy-node-red: enable-node-red configure-node-red configure-htpasswd  start-node-red stop-node-red start-node-red
+deploy-node-red: enable-node-red configure-node-red configure-htpasswd start-node-red stop-node-red start-node-red
 
 enable-node-red:
 	-@cd conf/nginx_conf/locations; ln -s node-red.conf.available node-red.conf
@@ -764,7 +764,7 @@ enable-node-red:
 
 configure-node-red:
 	@echo "========================="
-	@echo "Node-Red configured"
+	@echo "Node Red configured"
 	@echo "========================="
 	@make configure-timezone
 
@@ -803,7 +803,7 @@ node-red-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Logging Node-Red"
+	@echo "Logging node red"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f node-red
 
@@ -811,7 +811,7 @@ node-red-shell:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Creating Node-Red shell"
+	@echo "Creating node red shell"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -w /data node-red bash
 
