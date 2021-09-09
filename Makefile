@@ -666,6 +666,7 @@ start-osm-mirror:
 	@echo "Starting OSM Mirror"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
+
 stop-osm-mirror:
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -678,6 +679,25 @@ disable-osm-mirror:
 	@make check-env
 	# Remove from enabled-profiles
 	@sed -i '/osm/d' enabled-profiles
+
+osm-mirror-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling OSM Mirror logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f imposm osmupdate
+
+# The OSM mirror profile: osm, runs two services: imposm and osmupdate so the # shells will be separate for each service, 
+
+osm-mirror-osmupdate-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating OSM Mirror osmupdate shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec osmupdate bash 
+
 
 #----------------- Postgrest --------------------------
 
