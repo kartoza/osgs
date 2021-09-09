@@ -184,8 +184,7 @@ backup-hugo:
 	@echo "Creating a backup of hugo"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --rm -v ${PWD}/backups:/backups nginx tar cvfz /backups/hugo-backup.tar.gz /hugo
-	@cp ./backups/hugo-backup.tar.gz ./backups/
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --rm -v ${PWD}/backups:/backups nginx sh -c "tar cvfz /backups/hugo-backup.tar.gz /hugo"
 
 restore-hugo:
 	@make check-env
@@ -605,14 +604,16 @@ disable-postgrest:
 #----------------- NodeRed --------------------------
 # The node red location will be locked with the htpasswd
 
-#stop-node-red start-node-red repeated at the end of the line below is a nasty hack to make pg and ssl work
-deploy-node-red: configure-node-red configure-htpasswd enable-node-red start-node-red stop-node-red start-node-red
+#restart-node-red repeated at the end of the line below is a nasty hack to make pg and ssl work
+deploy-node-red: configure-node-red configure-htpasswd enable-node-red start-node-red restart-node-red
 
 configure-node-red:
 	@echo "========================="
 	@echo "Node Red configured"
 	@echo "========================="
 	@make configure-timezone
+
+restart-node-red: stop-node-red start-node-red
 
 start-node-red:
 	@make check-env
@@ -669,9 +670,21 @@ backup-node-red:
 	@echo "------------------------------------------------------------------"
 	@echo "Backing up node/red data to ./backups"
 	@echo "------------------------------------------------------------------"
-	-@mkdir backups
-	@docker cp osgisstack_node-red_1:/data .; tar cfz backups/node-red-data.tar.gz data; rm -rf data
+	-@mkdir -p backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups node-red -c "/bin/tar cvfz /backups/node-red-backup.tar.gz /data"
 
+restore-node-red:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restore last backup of node-red from /backups/node-red-backup.tar.gz"
+	@echo "If you wist to restore an older backup, first copy it to /backups/node-red-backup.tar.gz"
+	@echo "Note: Restoring will OVERWRITE all data currently in your node-red content dir."
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / node-red -c "rm -rf /data/*"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups node-red -c "cd /data && tar xvfz /backups/node-red-backup.tar.gz --strip 1"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
 
 #----------------- LizMap --------------------------
