@@ -536,6 +536,14 @@ disable-postgres:
 	# Remove from enabled-profiles
 	@sed -i '/db/d' enabled-profiles
 
+db-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling db logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f db
+
 db-shell:
 	@make check-env
 	@echo
