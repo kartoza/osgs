@@ -733,6 +733,22 @@ disable-postgrest:
 	# Remove from enabled-profiles
 	@sed -i '/postgrest/d' enabled-profiles
 
+postgrest-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling PostgREST logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f postgrest
+
+postgrest-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating PostgREST shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec postgrest sh
+
 
 #----------------- NodeRed --------------------------
 # The node red location will be locked with the htpasswd
