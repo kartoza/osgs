@@ -625,6 +625,10 @@ db-backup-mergin-base-schema:
 
 deploy-osm-mirror: enable-osm-mirror configure-osm-mirror start-osm-mirror
 
+enable-osm-mirror:
+	@make check-env
+	@echo "osm" >> enabled-profiles
+
 configure-osm-mirror:
 	@echo "=========================:"
 	@echo "OSM Mirror specific updates:"
@@ -651,10 +655,6 @@ get-pbf:
 start-osm-mirror:
 	@make check-env
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
-
-enable-osm-mirror:
-	@make check-env
-	@echo "osm" >> enabled-profiles
 
 disable-osm-mirror:
 	@make check-env
