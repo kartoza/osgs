@@ -227,7 +227,6 @@ services:
   db:
     image: *postgres-image
     profiles:
-        - all
         - db
         - postgres
         - osm
@@ -318,6 +317,7 @@ services:
     image: redis:5-alpine
     profiles:
       - lizmap    
+      - mergin-server
     volumes:
       - redis_data:/data
     ports:
@@ -820,7 +820,6 @@ services:
   mergin-server:
     image: lutraconsulting/mergin
     profiles:
-      - all
       - mergin-server
     volumes:
       - mergin-projects:/data  # map data dir to host
@@ -857,8 +856,8 @@ services:
       - MERGIN_LOGO_URL=${MERGIN_SERVER_MERGIN_LOGO_URL}
       - CONTACT_EMAIL=${MERGIN_SERVER_CONTACT_EMAIL}
       - SLACK_HOOK_URL=${MERGIN_SERVER_SLACK_HOOK_URL}
-      - CELERY_BROKER_URL=redis://mergin-redis:6379/0
-      - CELERY_RESULT_BACKEND=redis://mergin-redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
     ports:
       - 5000
     depends_on:
