@@ -999,6 +999,78 @@ redeploy-mergin-client:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-sync
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
 
+mergin-dbsycn-start:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting mergin-db-sync service"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
+
+mergin-dbsync-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling mergin-db-sync logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
+
+
+#----------------- ODM ----------------------
+
+odm-clean:
+	@make check-env
+	@echo "------------------------------------------------------------------"
+	@echo "Note that the odm_datasets directory should be considered mutable as this script "
+	@echo "cleans out all other files"
+	@echo "------------------------------------------------------------------"
+	@sudo rm -rf odm_datasets/osgisstack/odm*
+	@sudo rm -rf odm_datasets/osgisstack/cameras.json
+	@sudo rm -rf odm_datasets/osgisstack/img_list.txt
+	@sudo rm -rf odm_datasets/osgisstack/cameras.json
+	@sudo rm -rf odm_datasets/osgisstack/opensfm
+	@sudo rm -rf odm_datasets/osgisstack/images.json
+
+odm-run: odm-clean
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Generating ODM Ortho, DEM, DSM then clipping it and loading it into postgis"
+	@echo "Before running please remove any old images from odm_datasets/osgisstack/images"
+	@echo "and copy the images that need to be mosaicked into it."
+	@echo "Note that the odm_datasets directory should be considered mutable as this script "
+	@echo "cleans out all other files"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run odm
+
+odm-clip:
+	@make check-env
+	@echo "------------------------------------------------------------------"
+	@echo "Clippint Ortho, DEM, DSM"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run odm-ortho-clip
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run odm-dsm-clip
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run odm-dtm-clip
+
+# This is how you pass an env var to 
+odm-pgraster: export PGPASSWORD = docker
+# a makefile target
+odm-pgraster:
+	@make check-env
+	@echo "------------------------------------------------------------------"
+	@echo "Loading ODM products into postgis"
+	@echo "------------------------------------------------------------------"
+	# Todo - run in docker rather than localhost, currently requires pgraster installed locally
+	-@echo "drop schema raster cascade;" | psql -h localhost -p 15432 -U docker gis
+	@echo "create schema raster;" | psql -h localhost -p 15432 -U docker gis
+	@raster2pgsql -s 32629 -t 256x256 -C -l 4,8,16,32,64,128,256,512 -P -F -I ./odm_datasets/orthophoto.tif raster.orthophoto | psql -h localhost -p 15432 -U docker gis
+	@raster2pgsql -s 32629 -t 256x256 -C -l 4,8,16,32,64,128,256,512 -d -P -F -I ./odm_datasets/dtm.tif raster.dtm | psql -h localhost -p 15432 -U docker gis
+	@raster2pgsql -s 32629 -t 256x256 -C -l 4,8,16,32,64,128,256,512 -d -P -F -I ./odm_datasets/dsm.tif raster.dsm | psql -h localhost -p 15432 -U docker gis
+
+# Runs above 3 tasks all in one go
+odm: odm-run odm-clip odm-pgraster
+
 
 #----------------- Docs --------------------------
 
@@ -1059,24 +1131,6 @@ logs:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
 
-
-mergin-dbsycn-start:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Starting mergin-db-sync service"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up mergin-sync
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
-
-mergin-dbsync-logs:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Polling mergin-db-sync logs"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
-
 get-fonts:
 	@make check-env
 	@echo
@@ -1090,59 +1144,6 @@ get-fonts:
 	@cd fonts;wget http://ftp.gnu.org/gnu/freefont/freefont-ttf-20120503.zip
 	@cd fonts;unzip freefont-ttf-20120503.zip; rm freefont-ttf-20120503.zip
 	@cd fonts;find . -name "*.ttf" -exec mv -t . {} +
-
-
-odm-clean:
-	@make check-env
-	@echo "------------------------------------------------------------------"
-	@echo "Note that the odm_datasets directory should be considered mutable as this script "
-	@echo "cleans out all other files"
-	@echo "------------------------------------------------------------------"
-	@sudo rm -rf odm_datasets/osgisstack/odm*
-	@sudo rm -rf odm_datasets/osgisstack/cameras.json
-	@sudo rm -rf odm_datasets/osgisstack/img_list.txt
-	@sudo rm -rf odm_datasets/osgisstack/cameras.json
-	@sudo rm -rf odm_datasets/osgisstack/opensfm
-	@sudo rm -rf odm_datasets/osgisstack/images.json
-
-odm-run: odm-clean
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Generating ODM Ortho, DEM, DSM then clipping it and loading it into postgis"
-	@echo "Before running please remove any old images from odm_datasets/osgisstack/images"
-	@echo "and copy the images that need to be mosaicked into it."
-	@echo "Note that the odm_datasets directory should be considered mutable as this script "
-	@echo "cleans out all other files"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run odm
-
-odm-clip:
-	@make check-env
-	@echo "------------------------------------------------------------------"
-	@echo "Clippint Ortho, DEM, DSM"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run odm-ortho-clip
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run odm-dsm-clip
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run odm-dtm-clip
-
-# This is how you pass an env var to 
-odm-pgraster: export PGPASSWORD = docker
-# a makefile target
-odm-pgraster:
-	@make check-env
-	@echo "------------------------------------------------------------------"
-	@echo "Loading ODM products into postgis"
-	@echo "------------------------------------------------------------------"
-	# Todo - run in docker rather than localhost, currently requires pgraster installed locally
-	-@echo "drop schema raster cascade;" | psql -h localhost -p 15432 -U docker gis
-	@echo "create schema raster;" | psql -h localhost -p 15432 -U docker gis
-	@raster2pgsql -s 32629 -t 256x256 -C -l 4,8,16,32,64,128,256,512 -P -F -I ./odm_datasets/orthophoto.tif raster.orthophoto | psql -h localhost -p 15432 -U docker gis
-	@raster2pgsql -s 32629 -t 256x256 -C -l 4,8,16,32,64,128,256,512 -d -P -F -I ./odm_datasets/dtm.tif raster.dtm | psql -h localhost -p 15432 -U docker gis
-	@raster2pgsql -s 32629 -t 256x256 -C -l 4,8,16,32,64,128,256,512 -d -P -F -I ./odm_datasets/dsm.tif raster.dsm | psql -h localhost -p 15432 -U docker gis
-
-# Runs above 3 tasks all in one go
-odm: odm-run odm-clip odm-pgraster
 
 vrt-styles:
 	@echo "------------------------------------------------------------------"
