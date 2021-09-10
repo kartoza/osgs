@@ -155,6 +155,24 @@ else
 endif
 	@make enable-files
 
+#------------------ Nginx ------------------------
+
+nginx-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating nginx shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec nginx /bin/sh
+
+nginx-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Tailing logs of nginx"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f nginx
+
 
 #----------------- Hugo --------------------------
 
@@ -959,21 +977,7 @@ logs:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
 
-nginx-shell:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Creating nginx shell"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec nginx /bin/sh
 
-nginx-logs:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Tailing logs of nginx"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f nginx
 
 
 kill-osm:
