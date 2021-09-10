@@ -278,7 +278,7 @@ scp-shell:
 	@echo "------------------------------------------------------------------"
 	@echo "Creating SCP shell"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec scp bash 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec scp sh 
 
 #----------------- GeoServer --------------------------
 
