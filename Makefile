@@ -685,12 +685,24 @@ start-osm-mirror:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
 
 stop-osm-mirror:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Stopping OSM Mirror"
+	@echo "Deleting all imported OSM data and killing containers"
 	@echo "------------------------------------------------------------------"
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill imposm osmupdate
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm imposm osmupdate
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill imposm
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill osmupdate
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill osmenrich
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm imposm
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm osmupdate
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm osmenrich
+	# Next commands have - in front as they as non compulsory to succeed
+	-@sudo rm conf/osm_conf/timestamp.txt
+	-@sudo rm conf/osm_conf/last.state.txt
+	-@sudo rm conf/osm_conf/importer.lock
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema osm cascade;" gis 
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema osm_backup cascade;" gis 
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema osm_import cascade;" gis 
 
 disable-osm-mirror:
 	@make check-env
@@ -980,25 +992,7 @@ logs:
 
 
 
-kill-osm:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Deleting all imported OSM data and killing containers"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill imposm
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill osmupdate
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill osmenrich
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm imposm
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm osmupdate
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm osmenrich
-	# Next commands have - in front as they as non compulsory to succeed
-	-@sudo rm conf/osm_conf/timestamp.txt
-	-@sudo rm conf/osm_conf/last.state.txt
-	-@sudo rm conf/osm_conf/importer.lock
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema osm cascade;" gis 
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema osm_backup cascade;" gis 
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema osm_import cascade;" gis 
+
 
 reinitialise-osm: kill-osm
 	@make check-env
