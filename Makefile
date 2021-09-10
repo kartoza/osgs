@@ -167,6 +167,24 @@ else
 endif
 	@make enable-files
 
+#------------------ Nginx ------------------------
+
+nginx-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating nginx shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec nginx /bin/sh
+
+nginx-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Tailing logs of nginx"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f nginx
+
 
 #----------------- Hugo --------------------------
 
@@ -679,17 +697,48 @@ start-osm-mirror:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
 
 stop-osm-mirror:
+	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Stopping OSM Mirror"
+	@echo "Deleting all imported OSM data and killing containers"
 	@echo "------------------------------------------------------------------"
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill imposm osmupdate
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm imposm osmupdate
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill imposm
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill osmupdate
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill osmenrich
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm imposm
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm osmupdate
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm osmenrich
+	# Next commands have - in front as they as non compulsory to succeed
+	-@sudo rm conf/osm_conf/timestamp.txt
+	-@sudo rm conf/osm_conf/last.state.txt
+	-@sudo rm conf/osm_conf/importer.lock
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema osm cascade;" gis 
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema osm_backup cascade;" gis 
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema osm_import cascade;" gis 
 
 disable-osm-mirror:
 	@make check-env
 	# Remove from enabled-profiles
 	@sed -i '/osm/d' enabled-profiles
+
+reinitialise-osm-mirror: stop-osm-mirror
+	@make check-env
+	@echo-----------------------------------------------------------"
+	@echo "Deleting
+	@echo "------- all imported OSM data and reloading"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d imposm osmupdate osmenrich 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f imposm osmupdate osmenrich
+
+osm-to-mbtiles:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating a vector tiles store from the docker osm schema"
+	@echo "------------------------------------------------------------------"
+        #@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run osm-to-mbtiles
+	@echo "we use below for now because the container aproach doesnt have a new enough gdal (2.x vs >=3.1 needed)"
+	@ogr2ogr -f MBTILES osm.mbtiles PG:"dbname='gis' host='localhost' port='15432' user='docker' password='docker' SCHEMAS=osm" -dsco "MAXZOOM=10 BOUNDS=-7.389126,39.410085,-7.381439,39.415144"
 
 osm-mirror-logs:
 	@make check-env
@@ -708,6 +757,14 @@ osm-mirror-osmupdate-shell:
 	@echo "Creating OSM Mirror osmupdate shell"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec osmupdate bash 
+
+osm-mirror-imposm-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating OSM Mirror imposm shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec imposm bash 
 
 
 #----------------- Postgrest --------------------------
@@ -927,135 +984,23 @@ lizmap-shell:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec lizmap sh
 
 
-#----------------- Docs --------------------------
+#----------------- Mergin Client ------------------
 
-enable-docs:
-	-@cd conf/nginx_conf/locations; ln -s docs.conf.available docs.conf
-
-disable-docs:
-	@cd conf/nginx_conf/locations; rm docs.conf
-
-enable-files:
-	@if [ ! -f "conf/nginx_conf/locations/files.conf" ]; then \
-		cd conf/nginx_conf/locations; \
-		ln -s files.conf.available files.conf; \
-	       	exit 0; \
-	fi
-
-disable-files:
-	@cd conf/nginx_conf/locations; rm files.conf
-
-
-#######################################################
-#   General Utilities
-#######################################################
-
-site-reset:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Reset site configuration to default values"
-	@echo "This will replace any local configuration changes you have made"
-	@echo "------------------------------------------------------------------"
-	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
-	@cp ./conf/hugo_conf/config.yaml.example ./conf/hugo_conf/config.yaml
-
-init-letsencrypt:
+configure-mergin-client:
 	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Getting an SSL cert from letsencypt"
-	@echo "------------------------------------------------------------------"
-	@./init-letsencrypt.sh	
-	@docker-compose --profile=certbot-init kill
-	@docker-compose --profile=certbot-init rm
-
-restart:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restarting all containers"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
-
-logs:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Tailing logs"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
-
-nginx-shell:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Creating nginx shell"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec nginx /bin/sh
-
-nginx-logs:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Tailing logs of nginx"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f nginx
-
-
-kill-osm:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Deleting all imported OSM data and killing containers"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill imposm
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill osmupdate
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill osmenrich
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm imposm
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm osmupdate
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm osmenrich
-	# Next commands have - in front as they as non compulsory to succeed
-	-@sudo rm conf/osm_conf/timestamp.txt
-	-@sudo rm conf/osm_conf/last.state.txt
-	-@sudo rm conf/osm_conf/importer.lock
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema osm cascade;" gis 
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema osm_backup cascade;" gis 
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema osm_import cascade;" gis 
-
-reinitialise-osm: kill-osm
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Deleting all imported OSM data and reloading"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d imposm osmupdate osmenrich 
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f imposm osmupdate osmenrich
-
-osm-to-mbtiles:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Creating a vector tiles store from the docker osm schema"
-	@echo "------------------------------------------------------------------"
-        #@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run osm-to-mbtiles
-	@echo "we use below for now because the container aproach doesnt have a new enough gdal (2.x vs >=3.1 needed)"
-	@ogr2ogr -f MBTILES osm.mbtiles PG:"dbname='gis' host='localhost' port='15432' user='docker' password='docker' SCHEMAS=osm" -dsco "MAXZOOM=10 BOUNDS=-7.389126,39.410085,-7.381439,39.415144"
-	
-redeploy-mergin-client:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Stopping merging container, rebuilding the image, then restarting mergin db sync"
-	@echo "------------------------------------------------------------------"
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-sync
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-sync
-	-@docker rmi mergin_db_sync
-	@git clone git@github.com:lutraconsulting/mergin-db-sync.git --depth=1
-	@cd mergin-db-sync; docker build --no-cache -t mergin_db_sync .; cd ..
-	@rm -rf mergin-db-sync
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-sync
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
+	@echo "=========================:"
+	@echo "Mergin related configs:"
+	@echo "=========================:"
+	@read -p "Mergin User (not email address): " USER; \
+	   rpl mergin_username $$USER .env
+	@read -p "Mergin Password: " PASSWORD; \
+	   rpl mergin_password $$PASSWORD .env
+	@read -p "Mergin Project (without username part): " PROJECT; \
+	   rpl mergin_project $$PROJECT .env
+	@read -p "Mergin Project GeoPackage: " PACKAGE; \
+	   rpl mergin_project_geopackage.gpkg $$PACKAGE .env
+	@read -p "Mergin Database Schema to hold mirror of geopackage): " SCHEMA; \
+	   rpl schematoreceivemergindata $$SCHEMA .env
 
 reinitialise-mergin-client:
 	@make check-env
@@ -1074,22 +1019,20 @@ reinitialise-mergin-client:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-sync
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
 
-configure-mergin-client:
+redeploy-mergin-client:
 	@make check-env
-	@echo "=========================:"
-	@echo "Mergin related configs:"
-	@echo "=========================:"
-	@read -p "Mergin User (not email address): " USER; \
-	   rpl mergin_username $$USER .env
-	@read -p "Mergin Password: " PASSWORD; \
-	   rpl mergin_password $$PASSWORD .env
-	@read -p "Mergin Project (without username part): " PROJECT; \
-	   rpl mergin_project $$PROJECT .env
-	@read -p "Mergin Project GeoPackage: " PACKAGE; \
-	   rpl mergin_project_geopackage.gpkg $$PACKAGE .env
-	@read -p "Mergin Database Schema to hold mirror of geopackage): " SCHEMA; \
-	   rpl schematoreceivemergindata $$SCHEMA .env
-
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping merging container, rebuilding the image, then restarting mergin db sync"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-sync
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-sync
+	-@docker rmi mergin_db_sync
+	@git clone git@github.com:lutraconsulting/mergin-db-sync.git --depth=1
+	@cd mergin-db-sync; docker build --no-cache -t mergin_db_sync .; cd ..
+	@rm -rf mergin-db-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
 
 mergin-dbsycn-start:
 	@make check-env
@@ -1108,20 +1051,8 @@ mergin-dbsync-logs:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
 
-get-fonts:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Getting Google apache license and gnu free fonts"
-	@echo "and placing them into the qgis_fonts volume" 
-	@echo "------------------------------------------------------------------"
-	-@mkdir fonts
-	@cd fonts;wget  https://github.com/google/fonts/archive/refs/heads/main.zip
-	@cd fonts;unzip main.zip; rm main.zip
-	@cd fonts;wget http://ftp.gnu.org/gnu/freefont/freefont-ttf-20120503.zip
-	@cd fonts;unzip freefont-ttf-20120503.zip; rm freefont-ttf-20120503.zip
-	@cd fonts;find . -name "*.ttf" -exec mv -t . {} +
 
+#----------------- ODM ----------------------
 
 odm-clean:
 	@make check-env
@@ -1175,6 +1106,73 @@ odm-pgraster:
 # Runs above 3 tasks all in one go
 odm: odm-run odm-clip odm-pgraster
 
+
+#----------------- Docs --------------------------
+
+enable-docs:
+	-@cd conf/nginx_conf/locations; ln -s docs.conf.available docs.conf
+
+disable-docs:
+	@cd conf/nginx_conf/locations; rm docs.conf
+
+enable-files:
+	@if [ ! -f "conf/nginx_conf/locations/files.conf" ]; then \
+		cd conf/nginx_conf/locations; \
+		ln -s files.conf.available files.conf; \
+	       	exit 0; \
+	fi
+
+disable-files:
+	@cd conf/nginx_conf/locations; rm files.conf
+
+
+#######################################################
+#   General Utilities
+#######################################################
+
+check-env: 
+	@echo "Checking env"
+	@if [ ! -f ".env" ]; then \
+		echo "--------------------------------------------------"; \
+	       	echo ""; echo ""; echo ".env does not exist yet."; echo ""; \
+		echo "Run make deploy to set up your stack!"; echo ""; \
+		echo "--------------------------------------------------"; \
+	       	exit 1; \
+	fi
+
+site-reset:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Reset site configuration to default values"
+	@echo "This will replace any local configuration changes you have made"
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@cp ./conf/hugo_conf/config.yaml.example ./conf/hugo_conf/config.yaml
+
+init-letsencrypt:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Getting an SSL cert from letsencypt"
+	@echo "------------------------------------------------------------------"
+	@./init-letsencrypt.sh	
+	@docker-compose --profile=certbot-init kill
+	@docker-compose --profile=certbot-init rm
+
+get-fonts:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Getting Google apache license and gnu free fonts"
+	@echo "and placing them into the qgis_fonts volume" 
+	@echo "------------------------------------------------------------------"
+	-@mkdir fonts
+	@cd fonts;wget  https://github.com/google/fonts/archive/refs/heads/main.zip
+	@cd fonts;unzip main.zip; rm main.zip
+	@cd fonts;wget http://ftp.gnu.org/gnu/freefont/freefont-ttf-20120503.zip
+	@cd fonts;unzip freefont-ttf-20120503.zip; rm freefont-ttf-20120503.zip
+	@cd fonts;find . -name "*.ttf" -exec mv -t . {} +
+
 vrt-styles:
 	@echo "------------------------------------------------------------------"
 	@echo "Checking out Vector Tiles QMLs to qgis-vector-tiles folder"
@@ -1204,6 +1202,15 @@ rm: kill
 	@echo "Removing all containers"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm
+
+restart:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting all containers"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
 
 pull:
 	@make check-env
@@ -1238,13 +1245,10 @@ nuke:
 	@rm .env
 	@sudo rm -rf certbot/certbot
 	
-check-env: 
-	@echo "Checking env"
-	@if [ ! -f ".env" ]; then \
-		echo "--------------------------------------------------"; \
-	       	echo ""; echo ""; echo ".env does not exist yet."; echo ""; \
-		echo "Run make deploy to set up your stack!"; echo ""; \
-		echo "--------------------------------------------------"; \
-	       	exit 1; \
-	fi
-
+logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Tailing logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
