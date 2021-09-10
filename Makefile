@@ -703,6 +703,10 @@ osm-mirror-osmupdate-shell:
 deploy-postgrest:  enable-postgrest configure-postgrest start-postgrest
 
 enable-postgrest:
+	-@cd conf/nginx_conf/locations; ln -s postgrest.conf.available postgrest.conf
+	-@cd conf/nginx_conf/locations; ln -s swagger.conf.available swagger.conf
+	-@cd conf/nginx_conf/upstreams; ln -s postgrest.conf.available postgrest.conf
+	-@cd conf/nginx_conf/upstreams; ln -s swagger.conf.available swagger.conf
 	@echo "postgrest" >> enabled-profiles
 
 configure-postgrest: start-postgrest
@@ -731,6 +735,11 @@ stop-postgrest:
 disable-postgrest:
 	# Remove from enabled-profiles
 	@sed -i '/postgrest/d' enabled-profiles
+	# Remove symlinks
+	@cd conf/nginx_conf/locations; rm postgrest.conf
+	@cd conf/nginx_conf/locations; rm swagger.conf
+	@cd conf/nginx_conf/upstreams; rm postgrest.conf
+	@cd conf/nginx_conf/upstreams; rm swagger.conf
 
 postgrest-logs:
 	@make check-env
@@ -749,6 +758,13 @@ postgrest-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec postgrest bash
 
+restore-postgrest-sql:
+	@echo "See https://www.compose.com/articles/authenticating-node-red-with-jsonwebtoken/"
+	@echo "For notes on how to use the JWT we are about to set up"
+	@docker cp setup.sql osgisstack_db_1:/tmp/ 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/setup.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/setup.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select * from api.monitoring;" gis 
 
 #----------------- NodeRed --------------------------
 # The node red location will be locked with the htpasswd
@@ -878,7 +894,6 @@ stop-lizmap:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm lizmap
 
 disable-lizmap:
-	@make check-env
 	@cd conf/nginx_conf/locations; rm lizmap.conf
 	# Remove from enabled-profiles
 	@sed -i '/lizmap/d' enabled-profiles

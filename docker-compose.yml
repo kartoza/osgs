@@ -511,9 +511,8 @@ services:
     #
     image: *postgrest-image
     profiles: 
-      - all
       - postgrest
-      - dev
+      - db
     env_file: .env
     environment:
       PGRST_DB_URI: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PRIVATE_PORT}/gis
@@ -608,7 +607,7 @@ services:
     environment:
       - TZ=${TIMEZONE}
     ports:
-      - 1880:1880
+      - 1880
     networks:
       - os-gis-stack  
     volumes:
