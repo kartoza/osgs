@@ -949,6 +949,57 @@ lizmap-shell:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec lizmap sh
 
 
+#----------------- Mergin Client ------------------
+
+configure-mergin-client:
+	@make check-env
+	@echo "=========================:"
+	@echo "Mergin related configs:"
+	@echo "=========================:"
+	@read -p "Mergin User (not email address): " USER; \
+	   rpl mergin_username $$USER .env
+	@read -p "Mergin Password: " PASSWORD; \
+	   rpl mergin_password $$PASSWORD .env
+	@read -p "Mergin Project (without username part): " PROJECT; \
+	   rpl mergin_project $$PROJECT .env
+	@read -p "Mergin Project GeoPackage: " PACKAGE; \
+	   rpl mergin_project_geopackage.gpkg $$PACKAGE .env
+	@read -p "Mergin Database Schema to hold mirror of geopackage): " SCHEMA; \
+	   rpl schematoreceivemergindata $$SCHEMA .env
+
+reinitialise-mergin-client:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Deleting mergin database schemas and removing local sync files"
+	@echo "Then restarting the mergin sync service"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-sync
+	@sudo rm -rf mergin_sync_data/*
+	# Next line allowed to fail
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema qgis_demo cascade;" gis 
+	# Next line allowed to fail
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema mergin_sync_base_do_not_touch cascade;" gis 	
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
+
+redeploy-mergin-client:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping merging container, rebuilding the image, then restarting mergin db sync"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-sync
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-sync
+	-@docker rmi mergin_db_sync
+	@git clone git@github.com:lutraconsulting/mergin-db-sync.git --depth=1
+	@cd mergin-db-sync; docker build --no-cache -t mergin_db_sync .; cd ..
+	@rm -rf mergin-db-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
+
+
 #----------------- Docs --------------------------
 
 enable-docs:
@@ -1007,56 +1058,6 @@ logs:
 	@echo "Tailing logs"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
-
-
-	
-redeploy-mergin-client:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Stopping merging container, rebuilding the image, then restarting mergin db sync"
-	@echo "------------------------------------------------------------------"
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-sync
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-sync
-	-@docker rmi mergin_db_sync
-	@git clone git@github.com:lutraconsulting/mergin-db-sync.git --depth=1
-	@cd mergin-db-sync; docker build --no-cache -t mergin_db_sync .; cd ..
-	@rm -rf mergin-db-sync
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-sync
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
-
-reinitialise-mergin-client:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Deleting mergin database schemas and removing local sync files"
-	@echo "Then restarting the mergin sync service"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-sync
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-sync
-	@sudo rm -rf mergin_sync_data/*
-	# Next line allowed to fail
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema qgis_demo cascade;" gis 
-	# Next line allowed to fail
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema mergin_sync_base_do_not_touch cascade;" gis 	
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-sync
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
-
-configure-mergin-client:
-	@make check-env
-	@echo "=========================:"
-	@echo "Mergin related configs:"
-	@echo "=========================:"
-	@read -p "Mergin User (not email address): " USER; \
-	   rpl mergin_username $$USER .env
-	@read -p "Mergin Password: " PASSWORD; \
-	   rpl mergin_password $$PASSWORD .env
-	@read -p "Mergin Project (without username part): " PROJECT; \
-	   rpl mergin_project $$PROJECT .env
-	@read -p "Mergin Project GeoPackage: " PACKAGE; \
-	   rpl mergin_project_geopackage.gpkg $$PACKAGE .env
-	@read -p "Mergin Database Schema to hold mirror of geopackage): " SCHEMA; \
-	   rpl schematoreceivemergindata $$SCHEMA .env
 
 
 mergin-dbsycn-start:
