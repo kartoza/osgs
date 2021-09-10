@@ -1,18 +1,30 @@
 SHELL := /bin/bash
 
 
+
 help:
+	@echo "  ___  ____   ____ ____"
+	@echo " / _ \/ ___| / ___/ ___|"
+	@echo "| | | \___ \| |  _\___ \ "
+	@echo "| |_| |___) | |_| |___) | "
+	@echo " \___/|____/ \____|____/ "
+	@echo 
+	@echo "Open Source GIS Stack"
+	@echo "Brought to you by Kartoza (Pty) Ltd."
+	@echo 
+	@echo "Help for using this Makefile"
+	@echo
+	@echo "For detailed help please visit:"
+	@echo "https://kartoza.github.io/osgs/introduction.html"
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Please visit https://kartoza.github.io/osgs/introduction.html"
-	@echo "for detailed help."
-	@echo "------------------------------------------------------------------"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort  | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m - %s\n", $$1, $$2}'
 
 
 # We need to declare phony here since the docs dir exists
 # otherwise make tries to execute the docs file directly
 .PHONY: docs
-docs:
+docs: ## Generate documentation and place results in docs folder.
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Making sphinx docs"
@@ -23,7 +35,7 @@ docs:
 	@cp sphinx/build/latex/osgs.pdf osgs-manual.pdf
 
 
-ps: 
+ps: ## List all running docker contains
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -32,7 +44,7 @@ ps:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose ps
 
 
-deploy: configure
+deploy: configure ## Deploy the initial stack including nginx, scp and hugo-watcher
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting basic nginx site"
@@ -40,9 +52,9 @@ deploy: configure
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
 
-configure: disable-all-services prepare-templates site-config enable-hugo configure-scp configure-htpasswd deploy
+configure: disable-all-services prepare-templates site-config enable-hugo configure-scp configure-htpasswd deploy ## Configure the initial stack including nginx, scp and hugo-watcher
 
-disable-all-services:
+disable-all-services: ## Disable all services - does not actually stop them
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Disabling services"
@@ -54,7 +66,7 @@ disable-all-services:
 	@find ./conf/nginx_conf/upstreams -maxdepth 1 -type l -delete
 	@echo "" > enabled-profiles
 
-prepare-templates: 
+prepare-templates: ## Prepare templates
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Preparing templates"
@@ -75,7 +87,7 @@ prepare-templates:
 	@echo "please run:"
 	@echo "make configure-letsencrypt-ssl"
 
-configure-ssl-self-signed:
+configure-ssl-self-signed: ## Create a self signed cert for local testing
 	@mkdir -p ./certbot/certbot/conf/
 	@openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./certbot/certbot/conf/nginx-selfsigned.key -out ./certbot/certbot/conf/nginx-selfsigned.crt
 	#@rpl "BEGIN CERTIFICATE" "BEGIN TRUSTED CERTIFICATE" ./certbot/certbot/conf/nginx-selfsigned.crt
