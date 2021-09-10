@@ -1095,6 +1095,16 @@ disable-files:
 #   General Utilities
 #######################################################
 
+check-env: 
+	@echo "Checking env"
+	@if [ ! -f ".env" ]; then \
+		echo "--------------------------------------------------"; \
+	       	echo ""; echo ""; echo ".env does not exist yet."; echo ""; \
+		echo "Run make deploy to set up your stack!"; echo ""; \
+		echo "--------------------------------------------------"; \
+	       	exit 1; \
+	fi
+
 site-reset:
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -1113,23 +1123,6 @@ init-letsencrypt:
 	@./init-letsencrypt.sh	
 	@docker-compose --profile=certbot-init kill
 	@docker-compose --profile=certbot-init rm
-
-restart:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restarting all containers"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
-
-logs:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Tailing logs"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
 
 get-fonts:
 	@make check-env
@@ -1175,6 +1168,15 @@ rm: kill
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm
 
+restart:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting all containers"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
+
 pull:
 	@make check-env
 	@echo
@@ -1208,13 +1210,10 @@ nuke:
 	@rm .env
 	@sudo rm -rf certbot/certbot
 	
-check-env: 
-	@echo "Checking env"
-	@if [ ! -f ".env" ]; then \
-		echo "--------------------------------------------------"; \
-	       	echo ""; echo ""; echo ".env does not exist yet."; echo ""; \
-		echo "Run make deploy to set up your stack!"; echo ""; \
-		echo "--------------------------------------------------"; \
-	       	exit 1; \
-	fi
-
+logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Tailing logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
