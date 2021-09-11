@@ -152,7 +152,7 @@ configure-htpasswd:
 	@if [ -f "conf/nginx_conf/htpasswd" ]; then echo "htpasswd file already exists, skipping"; exit 0; fi
 	# bcrypt encrypted pwd, be sure to use nginx:alpine nginx image
 # keep unindented or make will treat ifeq as bash rather than make cmd and fail
-ifeq ($(HTUSERCONFIGURED),NGINX_AUTH_USER)
+ifeq ($(HTUSERCONFIGURED),NGINX_AUTH_
 	@echo "Web user password is already configured. Please see .env"
 	@echo "Current password for web user is:"
 	@echo $(HTPASSWDCONFIGURED)
@@ -925,6 +925,91 @@ restore-node-red:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / node-red -c "rm -rf /data/*"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups node-red -c "cd /data && tar xvfz /backups/node-red-backup.tar.gz --strip 1"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
+
+#----------------- Mergin Server --------------------------
+
+deploy-mergin-server:  enable-mergin-server configure-mergin-server start-mergin-server
+
+enable-mergin-server:
+	-@cd conf/nginx_conf/locations; ln -s mergin-server.conf.available mergin-server.conf
+	-@cd conf/nginx_conf/upstreams; ln -s mergin-server.conf.available mergin-server.conf
+	@echo "mergin-server" >> enabled-profiles
+	#
+# Used to see if we have already set a password...
+MERGINSERVERUSERCONFIGURED = $(shell cat .env | grep -o 'MERGIN_SERVER_ADMIN')
+MERGINSERVERPASSWDCONFIGURED = $(shell cat .env | grep 'MERGIN_SERVER_PASSWORD')
+
+configure-mergin-server: start-mergin-server
+	@echo "========================="
+	@echo "Configuring mergin-server"
+	@echo "========================="
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-server
+ifeq ($(MERGINSERVERUSERCONFIGURED),MERGIN_SERVER_ADMIN)
+	@echo "Mergin admin user password is already configured. Please see .env"
+	@echo "Current password for admin user is:"
+	@echo $(MERGINPASSWDCONFIGURED)
+else
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec mergin-server flask init-db
+	@export PASSWD=$$(pwgen 20 1); \
+		COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec mergin-server bash -c "flask add-user admin $$PASSWD --is-admin --email $$EMAIL" \
+		COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec mergin-server bash -c "chown -R  901:999 ./projects/" \
+		COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec mergin-server bash -c "chown -R  901:999 ./projects/" \
+		COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec mergin-server bash -c "chmod g+s ./projects/"\
+		echo "MERGIN_SERVER_PASSWORD=$$PASSWD" >> .env \
+		echo "Mergin server credentials set to user: admin password: $$PASSWD"
+	@echo "MERGIN_SERVER_ADMIN=admin" >> .env
+	make stop-mergin-server
+endif
+
+start-mergin-server:
+	@make check-env
+	@echo "------------------------------------------------------------------"
+	@echo "Starting PostgREST"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-server
+
+stop-mergin-server:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping PostgREST"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-server
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-server
+
+disable-mergin-server:
+	# Remove from enabled-profiles
+	@sed -i '/mergin-server/d' enabled-profiles
+	# Remove symlinks
+	@cd conf/nginx_conf/locations; rm mergin-server.conf
+	@cd conf/nginx_conf/locations; rm swagger.conf
+	@cd conf/nginx_conf/upstreams; rm mergin-server.conf
+	@cd conf/nginx_conf/upstreams; rm swagger.conf
+
+mergin-server-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling PostgREST logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-server
+
+# not working at the moment 
+mergin-server-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating PostgREST shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec mergin-server bash
+
+restore-mergin-server-sql:
+	@echo "See https://www.compose.com/articles/authenticating-node-red-with-jsonwebtoken/"
+	@echo "For notes on how to use the JWT we are about to set up"
+	@docker cp setup.sql osgisstack_db_1:/tmp/ 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/setup.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/setup.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select * from api.monitoring;" gis 
+
 
 #----------------- LizMap --------------------------
 
