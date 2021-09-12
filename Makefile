@@ -152,7 +152,7 @@ configure-htpasswd:
 	@if [ -f "conf/nginx_conf/htpasswd" ]; then echo "htpasswd file already exists, skipping"; exit 0; fi
 	# bcrypt encrypted pwd, be sure to use nginx:alpine nginx image
 # keep unindented or make will treat ifeq as bash rather than make cmd and fail
-ifeq ($(HTUSERCONFIGURED),NGINX_AUTH_
+ifeq ($(HTUSERCONFIGURED),NGINX_AUTH_USER)
 	@echo "Web user password is already configured. Please see .env"
 	@echo "Current password for web user is:"
 	@echo $(HTPASSWDCONFIGURED)
@@ -426,6 +426,68 @@ reinitialise-qgis-server:rm-qgis-server start-qgis-server
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-server 
+
+#----------------- QGIS Desktop --------------------------
+
+deploy-qgis-desktop: enable-qgis-desktop start-qgis-desktop  ## Run QGIS Desktop in your web browser
+
+enable-qgis-desktop:
+	@make check-env
+	-@cd conf/nginx_conf/locations; ln -s qgis-desktop.conf.available qgis-desktop.conf
+	#-@cd conf/nginx_conf/upstreams; ln -s qgis-desktop.conf.available qgis-desktop.conf
+	@echo "qgis-desktop" >> enabled-profiles
+
+start-qgis-desktop:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting QGIS Server"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d qgis-desktop
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
+
+stop-qgis-desktop:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping QGIS Server and Nginx"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill qgis-desktop
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm qgis-desktop
+
+disable-qgis-desktop:
+	@make check-env
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill qgis-desktop
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm qgis-desktop
+	@cd conf/nginx_conf/locations; rm qgis-desktop.conf
+	#@cd conf/nginx_conf/upstreams; rm qgis-desktop.conf
+	# Remove from enabled-profiles
+	@sed -i '/qgis/d' enabled-profiles
+
+qgis-desktop-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling QGIS Desktop logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-desktop
+
+qgis-desktop-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating QGIS Desktop shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec qgis-desktop bash
+
+reinitialise-qgis-desktop:rm-qgis-desktop start-qgis-desktop
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting QGIS Desktop and Nginx"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-desktop 
 
 
 #----------------- Mapproxy --------------------------

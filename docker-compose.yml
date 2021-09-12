@@ -20,6 +20,7 @@ x-mergin-db-sync-image: &mergin-db-sync-image lutraconsulting/mergin-db-sync
 x-nginx-image: &nginx-image nginx:alpine
 x-certbot-image: &certbot-image certbot/certbot
 x-qgis-server-image: &qgis-server-image openquake/qgis-server:stable
+x-qgis-desktop-image: &qgis-desktop-image tswetnam/xpra-qgis:bionic
 x-mapproxy-image: &mapproxy-image kartoza/mapproxy
 x-postgrest-image: &postgrest-image postgrest/postgrest
 x-swagger-image: &swagger-image swaggerapi/swagger-ui
@@ -231,6 +232,7 @@ services:
         - postgres
         - osm
         - qgis-server
+        - qgis-desktop
         - mergin
         - mergin-server
         - dev
@@ -457,6 +459,48 @@ services:
      # - TODO for the future
      - mergin_sync_data:/mergin-data     
     restart: unless-stopped
+  
+  # QGIS Desktop running in a web browser via XPRA
+  # We will revers proxy it via nginx so no public port 
+  # open here.
+  qgis-desktop:
+    image: *qgis-desktop-image
+    profiles: 
+      -  qgis-desktop
+    networks:
+     - os-gis-stack
+    ports:
+      - "9876"
+    volumes:
+     # qgis-projects
+     # |
+     # |-- <project_name>
+     #   |-- <project_name>.qgs
+     # 
+     # The data dir is mounted in the SCP volume
+     # too so that you can upload your projects easily
+     # using SCP and then have them published
+     #
+     - qgis_projects:/qgis-projects
+     # 
+     # Custom fonts are loaded into /usr/share/fonts. fc-cache is
+     # run when container is started.
+     - scp_qgis_fonts:/usr/share/fonts
+     # Need to check this
+     - scp_qgis_svg:/var/lib/qgis/.local/share/QGIS/QGIS3/profiles/default/svg
+     # and this
+     - ./conf/qgis_conf/qgis-auth.db:/tmp/qgis-auth.db
+     # Working path for the pg_service file
+     - ./conf/pg_conf/pg_service.conf:/etc/postgresql-common/pg_service.conf:ro
+     # Mount the mergin db sync data into nginx so we can access
+     # images etc.
+     # Ideally we should only be mounting the image subfolders to
+     # avoid leaking our geopackage etc.
+     # To do that the mergin project needs to be set up accordingly
+     # - TODO for the future
+     - mergin_sync_data:/mergin-data     
+    restart: unless-stopped
+
 
   mapproxy:
     image: *mapproxy-image
