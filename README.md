@@ -25,10 +25,10 @@ Basic steps to get OSGS up and running.
 
 ### Prerequisites
 
-- gnu make
-- rpl
-- git
-- docker and docker compose
+- [make](https://www.gnu.org/software/make/)
+- [rpl](https://linux.die.net/man/1/rpl)
+- [git](https://git-scm.com/)
+- [docker compose](https://docs.docker.com/compose/)
 
 A more complete outline of server configuration is available in the documentation https://kartoza.github.io/osgs/installation/server_preparation.html
 
@@ -64,6 +64,17 @@ The OSGS attempts to resolve this by providing an opinionated platform with prec
 
 The advanced confugration management tools also provide a level of granular control for adminsitrators to define exactly which services are desired, with the entire stack designed with ease of use in mind for setup, deployment, and use.
 
+## Philosophy
+
+By being opinionated, the stack provides a mechanism for being a "one stop shop" for the vast majority of open source spatial system needs. In particular, the stack aims to:
+
+- Lower barriers to entry for advanced spatial data services
+- Provide a 'click-to-run' experience for supporting
+- Simplify configuration and management for complex solutions 
+- Promote the usage and adoption of FOSSGIS tools and platforms
+- Create meaningful blueprints for data lifecycle management and location intelligence solutions
+- Remain flexible while providing sensible default configurations
+
 ## Architecture
 
 The stack is designed for deployment with docker-compose, with planned support for k8s.
@@ -74,8 +85,8 @@ OSGS Provides support and integration for a wide variety of services, with a key
 
 - PostgreSQL with the PostGIS extension for spatial data storage and analysis
 - Docker-OSM for getting some starting data from OpenStreetMap within a defined area of interest
-- A Static Website built with hugo that automatically deploys changes and provides templates and shortcodes for web maps
-- QGIS Server for dynamic and WYSIWYG web map service provision
+- A Static Website built with hugo that automatically deploys changes and provides templates and shortcodes for web maps using the [osgs-hugo-watcher](https://github.com/kartoza/hugo-watcher) image
+- QGIS Server integration for dynamic spatial data services and WYSIWYG web map service provision
 - [Mergin](https://public.cloudmergin.com/)/ [Input](https://inputapp.io/) Integration for field mapping
 - SCP service for file access
 
@@ -85,6 +96,7 @@ A number of additional value added services are included as well, including, but
 
 - NodeRed
 - Browser Based QGIS Desktop
+- Geoserver
 
 ## Configuration
 
