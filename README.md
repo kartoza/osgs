@@ -77,30 +77,34 @@ By being opinionated, the stack provides a mechanism for being a "one stop shop"
 
 ## Architecture
 
-The stack is designed for deployment with docker-compose, with planned support for k8s.
+The stack is designed for deployment with docker-compose, with planned support for k8s. Service management is handled by an [Nginx](https://nginx.org/) proxy and web server service. The default configuration makes provisions for various configurations viadocker compose profiles, including some default load balancing and clustering operations.
 
 ### Key Services
 
 OSGS Provides support and integration for a wide variety of services, with a key focus being on:
 
-- PostgreSQL with the PostGIS extension for spatial data storage and analysis
-- Docker-OSM for getting some starting data from OpenStreetMap within a defined area of interest
-- A Static Website built with hugo that automatically deploys changes and provides templates and shortcodes for web maps using the [osgs-hugo-watcher](https://github.com/kartoza/hugo-watcher) image
-- QGIS Server integration for dynamic spatial data services and WYSIWYG web map service provision
-- [Mergin](https://public.cloudmergin.com/)/ [Input](https://inputapp.io/) Integration for field mapping
-- SCP service for file access
+- [PostgreSQL with the PostGIS](https://postgis.net/) extension for spatial data storage, analysis, and data services
+- [Docker-OSM](https://github.com/kartoza/docker-osm) for getting some enriched starting data from [OpenStreetMap](https://www.openstreetmap.org/about) within a defined area of interest
+- A static [website built with hugo](https://gohugo.io/) that automatically deploys changes and provides templates and shortcodes for web maps using the [osgs-hugo-watcher](https://github.com/kartoza/hugo-watcher) image
+- [QGIS Server](https://docs.qgis.org/latest/en/docs/server_manual/index.html) integration for dynamic spatial data services and WYSIWYG web map service provision
+- [MapProxy](https://mapproxy.org/) for providing metatiling, caching, and additional service provision
+- [Mergin](https://public.cloudmergin.com/) and [Input](https://inputapp.io/) integration for field mapping services
+- [SCP](https://en.wikipedia.org/wiki/Secure_copy_protocol) service for simple and user friendly flat file access that integrates neatly with services
+- [PostgREST](https://postgrest.org/) and [OpenAPI](https://swagger.io/specification/) endpoints to facilitate development
 
 ### Additional Services
 
 A number of additional value added services are included as well, including, but not limited to:
 
-- NodeRed
-- Browser Based QGIS Desktop
-- Geoserver
+- [QGIS Desktop](https://docs.qgis.org/3.16/en/docs/user_manual/index.html) (Integrated with stack and remotely access via browser based UI)
+- [Geoserver](http://geoserver.org/)
+- [LizMap](https://www.lizmap.com/)
+- [NodeRed](https://nodered.org/)
+- [OpenDroneMap](https://www.opendronemap.org/)
 
 ## Configuration
 
-Configuration is currently handled by make processes, with an admin UI in development.
+Configuration is currently handled by make processes, with an admin interface under development. It is possible to configure the services by editing the .env and docker-compose files directly, but due to the complexity involved with service configuration, this is not recommended.
 
 ## Key Considerations
 
@@ -112,11 +116,11 @@ How you manage and deploy your infrastructure is up to you, and identifying whic
 
 ### Authentication
 
-Currently authentication is mainly managed with [Basic access authentication](https://en.wikipedia.org/wiki/Basic_access_authentication)
+Currently authentication is mainly managed with [Basic access authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) to control access to particular services, with additional authentication and access control being provided by individual stack components.
 
 ### SSL
 
-The config wizard supports automatic letsencrypt certificate creation for production deployment. Provision of user managed or wildcard certificates planned for future release.
+The config wizard supports automatic letsencrypt certificate creation for production deployment and self signed certificates for local deployments and development. Provision of user supplied certificates planned for future release.
 
 ## Contributing
 
