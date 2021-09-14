@@ -21,8 +21,8 @@ cd /home
 sudo mkdir web
 sudo chown timlinux.timlinux web
 cd web
-git clone https://github.com/kartoza/OpenSource-GIS-Stack
-cd OpenSource-GIS-Stack
+git clone https://github.com/kartoza/osgs
+cd osgs
 ```
 
 ## Fetching Docker Images
