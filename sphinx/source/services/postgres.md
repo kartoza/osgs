@@ -187,6 +187,8 @@ make db-qgis-project-restore
 
 ## Accessing the running services
 
+The Postgres service can be accessed by creating a connection using the Postgres user and password provided in the .env file. 
+
 ## Additional Notes
 
 ## References
