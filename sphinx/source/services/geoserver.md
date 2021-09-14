@@ -68,7 +68,6 @@ The services can be accessed on /geoserver/ e.g. https://localhost/geoserver.
 
 Look in the .env file for the administrator password.
 
-
 ## Additional Notes
 
 After configuring, you should remember to set the master password as per

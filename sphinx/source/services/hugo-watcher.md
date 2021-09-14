@@ -16,13 +16,59 @@ The Hugo Watcher service watches for changes in the static content source files 
 
 **Docker Source Repository:** [kartoza / hugo-watcher](https://github.com/kartoza/hugo-watcher)
 
-## Configuration
-
 ## Deployment
+
+```
+make deploy-hugo
+```
 
 ## Enabling
 
+```
+make enable-hugo
+```
+
+## Starting
+
+```
+make start-hugo
+```
+
+## Stopping 
+
+```
+make stop-hugo
+```
+
 ## Disabling
+
+```
+make disable-hugo
+```
+
+## Logs
+
+```
+make hugo-logs
+```
+
+## Shell 
+
+```
+make hugo-shell
+```
+
+## Backing up data
+
+```
+make backup-hugo
+```
+
+## Restoring data
+
+```
+make restore-hugo
+```
 
 ## Accessing the running services
 
