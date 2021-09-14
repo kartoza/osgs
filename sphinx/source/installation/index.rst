@@ -5,6 +5,7 @@ Installation
    :maxdepth: 1
    :caption: Contents:
 
+   initial_configuration
    server_preparation
    initial_configuration
    fonts
