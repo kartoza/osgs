@@ -230,6 +230,7 @@ services:
     profiles:
         - db
         - postgres
+        - postgrest 
         - osm
         - qgis-server
         - qgis-desktop

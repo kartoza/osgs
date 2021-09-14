@@ -480,7 +480,7 @@ qgis-desktop-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec qgis-desktop bash
 
-reinitialise-qgis-desktop:rm-qgis-desktop start-qgis-desktop
+reinitialise-qgis-desktop:stop-qgis-desktop start-qgis-desktop
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -854,6 +854,7 @@ start-postgrest:
 	@echo "Starting PostgREST"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d postgrest
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d swagger
 
 stop-postgrest:
 	@echo
@@ -862,6 +863,8 @@ stop-postgrest:
 	@echo "------------------------------------------------------------------"
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill postgrest
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm postgrest
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill swagger
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm swagger
 
 disable-postgrest:
 	# Remove from enabled-profiles
@@ -878,7 +881,7 @@ postgrest-logs:
 	@echo "------------------------------------------------------------------"
 	@echo "Polling PostgREST logs"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f postgrest
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f postgrest swagger
 
 # not working at the moment 
 postgrest-shell:

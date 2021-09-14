@@ -1,4 +1,4 @@
-        location /qgis/ {
+        location /qgis-desktop/ {
                 proxy_pass http://qgis-desktop:9876/;
 
 		#Defines the HTTP protocol version for proxying
