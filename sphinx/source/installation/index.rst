@@ -5,11 +5,11 @@ Installation
    :maxdepth: 1
    :caption: Contents:
 
-   initial_configuration
    server_preparation
    initial_configuration
    fonts
    production_stack
+   instructions_for_windows_users
    
 
 Indices and tables
