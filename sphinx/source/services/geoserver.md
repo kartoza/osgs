@@ -14,21 +14,34 @@ GeoServer is a Java-based server, built on [GeoTools](https://geotools.org/),  t
 
 **Docker Source Repository:** [kartoza / docker-geoserver](https://github.com/kartoza/docker-geoserver)
 
+## Deployment
+
+```
+make deploy-geoserver
+```
+
+## Enabling
+
+```
+make enable-geoserver
+```
+
 ## Configuration
 
 ```
 make configure-geoserver-passwd
 ```
 
-## Deployment
+## Starting 
 
 ```
-make deploy-geoserver
+make start-geoserver
 ```
-## Enabling
+
+## Stopping 
 
 ```
-make enable-geoserver
+make stop-geoserver
 ```
 
 ## Disabling
@@ -37,16 +50,16 @@ make enable-geoserver
 make disable-geoserver
 ```
 
-## Starting
-
-```
-make start-geoserver
-```
-
 ## Logs
 
 ```
 make geoserver-logs
+```
+
+## Shell 
+
+```
+make geoserver-shell
 ```
 
 ## Accessing the running services
