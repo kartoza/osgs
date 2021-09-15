@@ -1,6 +1,6 @@
-# Docker-osm 
+# Docker-osm
 
-OpenStreetMap (OSM) is a digital map database of the world built through crowdsourced volunteered geographic information. The data from OSM is freely available for visualization, query, download, and modification under [open licenses](https://www.openstreetmap.org/copyright). [[1]](#1) OSM can also be described as a free, editable map of the whole world [[2]](#2). 
+OpenStreetMap (OSM) is a digital map database of the world built through crowdsourced volunteered geographic information. The data from OSM is freely available for visualization, query, download, and modification under [open licenses](https://www.openstreetmap.org/copyright). [[1]](#1) OSM can also be described as a free, editable map of the whole world [[2]](#2).
 
 The Docker-osm service is a docker compose project to setup an OSM PostGIS database with automatic updates from OSM periodically. The only files you need is a PBF file, geojson (if you intend to restrict data download to a smaller extent than the one specified by the PBF) and run the docker compose project.[[3]](#3)
 
@@ -16,28 +16,24 @@ The Docker-osm service is a docker compose project to setup an OSM PostGIS datab
 
 **Docker Source Repository:** [kartoza / docker-osm](https://github.com/kartoza/docker-osm)
 
-## Configuration
-
-```
-make configure-osm-mirror
-```
-
 ## Deployment
 
 ```
 make deploy-osm-mirror
 ```
+
 ## Enabling
 
 ```
 make enable-osm-mirror
 ```
 
-## Disabling
+## Configuration
 
 ```
-make ddisable-osm-mirror
+make configure-osm-mirror
 ```
+
 
 ## Starting
 
@@ -45,9 +41,42 @@ make ddisable-osm-mirror
 make start-osm-mirror   
 ```
 
+## Stopping
+
+```
+make stop-osm-mirror   
+```
+
+## Disabling
+
+```
+make disable-osm-mirror
+```
+
+## Reinitialising 
+
+```
+make reinitialise-osm-mirror
+```
+
+## Creating a vector tiles store from the docker osm schema
+
+``` 
+make osm-to-mbtiles
+```
+
 ## Logs
 
 ```
+make osm-mirror-logs
+```
+
+## Shell
+
+```
+make osm-mirror-osmupdate-shell
+
+make osm-mirror-imposm-shell
 ```
 
 ## Accessing the running services
