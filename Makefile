@@ -95,7 +95,7 @@ configure-ssl-self-signed: ## Create a self signed cert for local testing
 	#@rpl "BEGIN PRIVATE KEY" "TRUSTED CERTIFICATE" ./certbot/certbot/conf/nginx-selfsigned.key
 	#@rpl "END PRIVATE KEY" "TRUSTED CERTIFICATE" ./certbot/certbot/conf/nginx-selfsigned.key
 
-configure-letsencrypt-ssl:
+configure-letsencrypt-ssl: ## Create a certbot certificiate
 	@make check-env
 	@echo "Do you want to set up SSL using letsencrypt?"
 	@echo "This is recommended for production!"
@@ -107,7 +107,7 @@ configure-letsencrypt-ssl:
 	@read -p "Valid Contact Person Email Address: " EMAIL; \
 	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh .env
 
-site-config:
+site-config: ## Configure the hugo static site
 	@echo "------------------------------------------------------------------"
 	@echo "Configure your static site content management system"
 	@echo "You should only do this once per site deployment"
@@ -139,7 +139,7 @@ site-config:
 HTUSERCONFIGURED = $(shell cat .env | grep -o 'NGINX_AUTH_USER')
 HTPASSWDCONFIGURED = $(shell cat .env | grep 'NGINX_AUTH_PWD')
 
-configure-htpasswd:
+configure-htpasswd: ## Set up a password authentiation for password protected ares of the site
 	@make check-env
 	@echo "------------------------------------------------------------------"
 	@echo "Configuring password controlled file sharing are for your site"
@@ -169,7 +169,7 @@ endif
 
 #------------------ Nginx ------------------------
 
-nginx-shell:
+nginx-shell: ## Create an shell in the Nginx docker container for debugging.
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -177,7 +177,7 @@ nginx-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec nginx /bin/sh
 
-nginx-logs:
+nginx-logs: ## Display the logs of Nginx. Press Ctrl-C to exit.
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -190,11 +190,11 @@ nginx-logs:
 
 deploy-hugo: enable-hugo start-hugo
 
-enable-hugo:
+enable-hugo: ## Enable the Hugo static content management system.
 	-@cd conf/nginx_conf/locations; ln -s hugo.conf.available hugo.conf
 	@echo "hugo" >> enabled-profiles
 
-start-hugo:
+start-hugo: ## Start the Hugo static content management system.
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -202,7 +202,7 @@ start-hugo:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
 
-stop-hugo:
+stop-hugo: ## Stop the Hugo static content management system.
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Stopping Hugo"
@@ -210,12 +210,12 @@ stop-hugo:
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill hugo-watcher
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm hugo-watcher
 
-disable-hugo:
+disable-hugo: ## Disable the Hugo static content management system.
 	@cd conf/nginx_conf/locations; rm hugo.conf
 	# Remove from enabled-profiles
 	@sed -i '/hugo/d' enabled-profiles
 
-hugo-logs:
+hugo-logs: ## Display the logs of the hugo-watcher process-
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -223,7 +223,7 @@ hugo-logs:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f hugo-watcher
 
-hugo-shell:
+hugo-shell: ## Create a shell in the Hugo container for debugging.
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -231,7 +231,7 @@ hugo-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec hugo-watcher bash
 
-backup-hugo:
+backup-hugo: ## Create backups of the Hugo content folder.
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -240,7 +240,7 @@ backup-hugo:
 	-@mkdir -p backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --rm -v ${PWD}/backups:/backups nginx sh -c "tar cvfz /backups/hugo-backup.tar.gz /hugo"
 
-restore-hugo:
+restore-hugo: ## Restore the last backup of the Hugo content folder.
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -255,13 +255,13 @@ restore-hugo:
 
 #----------------- SCP --------------------------
 
-deploy-scp: enable-scp configure-scp start-scp 
+deploy-scp: enable-scp configure-scp start-scp ## Deploy the Secure Copy service.
 
-enable-scp:
+enable-scp: ## Enable the Secure Copy service.
 	@make check-env
 	@echo "scp" >> enabled-profiles
 
-configure-scp:
+configure-scp: ## Configure the Secure Copy service.
 	@make check-env
 	@echo "------------------------------------------------------------------"
 	@echo "Copying .ssh/authorized keys to all scp shares."
@@ -275,14 +275,14 @@ configure-scp:
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/odm_data
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/general_data
 
-start-scp:
+start-scp: ## Start the Secure Copy service.
 	@make check-env
 	@echo "------------------------------------------------------------------"
 	@echo "Starting SCP"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d scp	
 
-stop-scp:
+stop-scp: ## Stop the Secure Copy services.
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Stopping SCP"
@@ -290,11 +290,11 @@ stop-scp:
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill scp
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm scp
 
-disable-scp:
+disable-scp: ## Disable the Secure Copy service.
 	# Remove from enabled-profiles
 	@sed -i '/db/d' enabled-profiles
 
-scp-logs:
+scp-logs: ## Show the logs for the Secure Copy service.
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -302,7 +302,7 @@ scp-logs:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f scp
 
-scp-shell:
+scp-shell: ## Create a shell inside the Secure Copy container for debugging.
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -312,9 +312,9 @@ scp-shell:
 
 #----------------- GeoServer --------------------------
 
-deploy-geoserver: enable-geoserver configure-geoserver-passwd start-geoserver
+deploy-geoserver: enable-geoserver configure-geoserver-passwd start-geoserver ## Deploy the GeoServer service.
 
-enable-geoserver:
+enable-geoserver: ## Enable the Geoserver service.
 	@make check-env
 	-@cd conf/nginx_conf/locations; ln -s geoserver.conf.available geoserver.conf
 	@echo "geoserver" >> enabled-profiles
