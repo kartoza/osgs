@@ -1021,7 +1021,7 @@ else
 		COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec mergin-server bash -c "chown -R  901:999 ./projects/" \
 		COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec mergin-server bash -c "chmod g+s ./projects/"\
 		echo "MERGIN_SERVER_PASSWORD=$$PASSWD" >> .env \
-		echo "Mergin server credentials set to user: admin password: $$PASSWD"
+		echo "Mergin server credentials set to user: admin password: $$PASSWD" >> .env
 	@echo "MERGIN_SERVER_ADMIN=admin" >> .env
 	make stop-mergin-server
 endif
@@ -1050,11 +1050,11 @@ disable-mergin-server:
 	@cd conf/nginx_conf/upstreams; rm mergin-server.conf
 	@cd conf/nginx_conf/upstreams; rm swagger.conf
 
-mergin-server-logs:
+mergin-server-logs: ## Show the logs for mergin-server
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Polling PostgREST logs"
+	@echo "Polling Mergin Server logs"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-server
 
@@ -1074,6 +1074,14 @@ restore-mergin-server-sql:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/setup.sql -d gis
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/setup.sql
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select * from api.monitoring;" gis 
+
+redis-logs: ## Show the logs for the redis service
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling Redis Service logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f redis
 
 
 #----------------- LizMap --------------------------
