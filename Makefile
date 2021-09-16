@@ -1029,7 +1029,7 @@ endif
 start-mergin-server:
 	@make check-env
 	@echo "------------------------------------------------------------------"
-	@echo "Starting PostgREST"
+	@echo "Starting Mergin Server"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-server
 
@@ -1063,7 +1063,7 @@ mergin-server-shell:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Creating PostgREST shell"
+	@echo "Creating Mergin Server shell"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec mergin-server bash
 
