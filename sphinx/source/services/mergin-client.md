@@ -23,11 +23,21 @@ There are two modalities in which you can work with Mergin projects:
 
 ## Configuration
 
-## Deployment
+```
+make configure-mergin-client
+```
 
-## Enabling
+## Reinitialising
 
-## Disabling
+```
+make reinitialise-mergin-client
+```
+
+## Redeploying 
+
+```
+make redeploy-mergin-client
+```
 
 ## Accessing the running services
 

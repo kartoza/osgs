@@ -102,11 +102,92 @@ XXXXXXXXXXXXXX
 
 Note that there was no need to supply any credentials other than the service file name.
 
+## Deployment
+
+```
+make deploy-postgres
+````
+
 ## Enabling
+
+```
+make enable-postgres
+````
+
+## Configuration
+
+```
+make configure-postgres
+```
+
+## Starting
+
+```
+make start-postgres
+````
+
+## Stopping
+
+```
+make stop-postgres
+````
 
 ## Disabling
 
+```
+make  disable-postgres
+````
+
+## Polling the service logs
+
+```
+make db-logs
+```
+
+## Creating the service shell
+
+```
+make db-shell
+```
+
+## Reinitializing the service 
+
+```
+make reinitialise-postgres
+```
+
+## Backing up data
+
+To back up a QGIS project stored in db, run: 
+```
+make db-qgis-project-backup
+```
+
+To back up the entire GIS postgres db, run:  
+```
+make db-backup
+```
+
+To back up all postgres databases, run: 
+```
+make db-backupall
+```
+
+To back up the mergin base schema from postgres db, run: 
+```
+make db-backup-mergin-base-schema
+```
+
+## Restoring data 
+
+To restore a previously backed up QGIS project to db, run: 
+```
+make db-qgis-project-restore
+```
+
 ## Accessing the running services
+
+The Postgres service can be accessed by creating a connection using the Postgres user and password provided in the .env file. 
 
 ## Additional Notes
 
