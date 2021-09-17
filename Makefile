@@ -750,6 +750,15 @@ get-pbf:
 	@read -p "URL For Country PBF File: " URL; \
 	   wget -c -N -O conf/osm_conf/country.pbf $$URL;
 
+get-pbf-lint:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Fetching pbflint to validate PBF file"
+	@echo "------------------------------------------------------------------"
+	@wget -O pbflint https://github.com/missinglink/pbflint/blob/master/build/pbflint.linux.bin?raw=true
+	@chmod +x pbflint
+
+
 start-osm-mirror:
 	@make check-env
 	@echo
@@ -1192,14 +1201,27 @@ redeploy-mergin-client:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-sync
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
 
-mergin-dbsycn-start:
+
+#----------------- Mergin DB Sync ----------------------
+
+start-mergin-dbsync:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting mergin-db-sync service"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-sync
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
+
+stop-mergin-dbsync:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping mergin-db-sync service"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-sync
+
 
 mergin-dbsync-logs:
 	@make check-env
@@ -1209,6 +1231,13 @@ mergin-dbsync-logs:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
 
+mergin-dbsync-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Shelling into mergin db sync"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run mergin-sync bash
 
 #----------------- ODM ----------------------
 
@@ -1369,6 +1398,9 @@ restart:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
+	# Need to flush this completely for it to work on restart
+	make stop-qgis-desktop
+	make start-qgis-desktop
 
 pull:
 	@make check-env
