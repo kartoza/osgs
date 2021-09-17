@@ -169,6 +169,16 @@ endif
 
 #------------------ Nginx ------------------------
 
+restart-nginx: ## Restart the Nginx docker container.
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating nginx shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
+	make nginx-logs
+
+
 nginx-shell: ## Create an shell in the Nginx docker container for debugging.
 	@make check-env
 	@echo
@@ -181,7 +191,7 @@ nginx-logs: ## Display the logs of Nginx. Press Ctrl-C to exit.
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Tailing logs of nginx"
+	@echo "Tailing logs of nginx. Press Ctrl-c to exit."
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f nginx
 
