@@ -1010,6 +1010,80 @@ restore-node-red:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups node-red -c "cd /data && tar xvfz /backups/node-red-backup.tar.gz --strip 1"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
+#----------------- Mosquitto MQTT Broker --------------------------
+
+deploy-mosquitto: enable-mosquitto configure-mosquitto start-mosquitto 
+
+enable-mosquitto:
+	@echo "mosquitto" >> enabled-profiles
+
+configure-mosquitto:
+	@echo "========================="
+	@echo "Mosquitto configured"
+	@echo "========================="
+
+restart-mosquitto: stop-mosquitto start-mosquitto
+
+start-mosquitto:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting Mosquitto"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mosquitto
+	
+stop-mosquitto:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping Mosquitto"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mosquitto
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mosquitto
+
+disable-mosquitto:
+	@make check-env
+	# Remove from enabled-profiles
+	@sed -i '/mosquitto/d' enabled-profiles
+
+mosquitto-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Logging mosquitto"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mosquitto
+
+mosquitto-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating node mosquito shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec mosquitto bash
+
+backup-mosquitto:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Backing up mosquitto data to ./backups"
+	@echo "------------------------------------------------------------------"
+	-@mkdir -p backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups mosquitto -c "/bin/tar cvfz /backups/mosquitto-backup.tar.gz /mosquitto/data"
+
+restore-mosquitto:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restore last backup of mosquitto from /backups/mosquitto-backup.tar.gz"
+	@echo "If you wist to restore an older backup, first copy it to /backups/mosquitto-backup.tar.gz"
+	@echo "Note: Restoring will OVERWRITE all data currently in your mosquitto content dir."
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / mosquitto -c "rm -rf /mosquitto/data/*"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups mosquitto -c "cd /mosquitto/data && tar xvfz /backups/mosquitto-backup.tar.gz --strip 1"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart mosquitto
+
+
 #----------------- Mergin Server --------------------------
 
 deploy-mergin-server:  enable-mergin-server configure-mergin-server start-mergin-server

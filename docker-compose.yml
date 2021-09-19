@@ -32,6 +32,7 @@ x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
 # Auto builds on the main branch are tagged with :main
 x-hugo-image: &hugo-image kartoza/hugo-watcher:main
 x-node-red-image: &node-red-image nodered/node-red:latest
+x-mosquitto-image: &mosquitto-image eclipse-mosquitto
 
 # 
 # VOLUMES
@@ -87,6 +88,7 @@ volumes:
   lizmap-log:
   # For node red
   node-red-data:
+  mosquitto-data:
 
 #
 # SERVICES
@@ -657,6 +659,18 @@ services:
       - os-gis-stack  
     volumes:
       - node-red-data:/data
+
+  mosquitto:
+    image: *mosquitto-image
+    profiles: 
+      - mosquitto
+    ports:
+      - 1883:1883
+    networks:
+      - os-gis-stack  
+    volumes:
+      - mosquitto-data:/mosquitto/data
+      - ./conf/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf 
 
   ############################################################
   #
