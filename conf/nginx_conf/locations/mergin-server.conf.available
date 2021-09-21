@@ -1,47 +1,19 @@
         # Added by tim for mergin media
+        # This is not for mergin-server but for mergin sync when we want to expose assets to nginx
         location /mergin-data/ {
             root /;
         }
+
+	# These relate to mergin-server
         location /mergin/ {
                 proxy_pass http://mergin-server:5000/;
 
-		#Defines the HTTP protocol version for proxying
-		#by default it it set to 1.0.
-		#For Websockets and keepalive connections you need to use the version 1.1    
-		proxy_http_version  1.1;
-
-		#Sets conditions under which the response will not be taken from a cache.
-		proxy_cache_bypass  $http_upgrade;
-
-		#These header fields are required if your application is using Websockets
-		proxy_set_header Upgrade $http_upgrade;
-
-		#These header fields are required if your application is using Websockets    
-		proxy_set_header Connection "upgrade";
-
-		#The $host variable in the following order of precedence contains:
-		#hostname from the request line, or hostname from the Host request header field
-		#or the server name matching a request.    
-		proxy_set_header Host $host;
-
-		#Forwards the real visitor remote IP address to the proxied server
-		proxy_set_header X-Real-IP $remote_addr;
-
-		#A list containing the IP addresses of every server the client has been proxied through    
-		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-
-		#When used inside an HTTPS server block, each HTTP response from the proxied server is rewritten to HTTPS.    
-		proxy_set_header X-Forwarded-Proto $scheme;
-
-		#Defines the original host requested by the client.    
-		proxy_set_header X-Forwarded-Host $host;
-
-		#Defines the original port requested by the client.    
-		proxy_set_header X-Forwarded-Port $server_port;
-
-        }
-        location /assets/ {
-                proxy_pass http://mergin-server:5000/assets/;
+		# Rewrite any returned urls to have /mergin/ suffixed into the path
+		# see http://nginx.org/en/docs/http/ngx_http_sub_module.html
+		# This is fragile and wont help when urls are created client side
+		#sub_filter 'src="/' 'src="/mergin/';
+		#sub_filter 'href="/' 'href="/mergin/';
+		#sub_filter_once off;
 
 		#Defines the HTTP protocol version for proxying
 		#by default it it set to 1.0.
