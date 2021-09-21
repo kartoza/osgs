@@ -5,6 +5,7 @@ Workflows
    :maxdepth: 2
    :caption: Contents:
 
+   publishing-changes-to-static-website
    postgresql-workflows
 
 
