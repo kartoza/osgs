@@ -12,6 +12,7 @@ Workflows
    publishing-qgis-project
    publishing-layers-using-geoserver
    connecting-to-geoserver-and-qgisserver-in-hugo
+   qgis-desktop-as-web-service-client
    postgresql-workflows
 
 
