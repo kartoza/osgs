@@ -6,6 +6,7 @@ Workflows
    :caption: Contents:
 
    publishing-changes-to-static-website
+   uploading-qgis-project
    postgresql-workflows
 
 
