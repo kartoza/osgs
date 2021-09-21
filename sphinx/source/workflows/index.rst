@@ -9,6 +9,8 @@ Workflows
    uploading-qgis-project
    acessing-postgis-from-qgis-using-pg_service-file
    authentication-using-pg_service-and-qgisauthdb
+   publishing-qgis-project
+   publishing-layers-using-geoserver
    postgresql-workflows
 
 
