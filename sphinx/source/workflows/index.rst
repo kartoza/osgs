@@ -11,6 +11,7 @@ Workflows
    authentication-using-pg_service-and-qgisauthdb
    publishing-qgis-project
    publishing-layers-using-geoserver
+   connecting-to-geoserver-and-qgisserver-in-hugo
    postgresql-workflows
 
 
