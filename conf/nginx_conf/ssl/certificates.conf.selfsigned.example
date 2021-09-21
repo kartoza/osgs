@@ -1,2 +1,5 @@
-ssl_certificate_key /etc/letsencrypt/nginx-selfsigned.key;
-ssl_certificate /etc/letsencrypt/nginx-selfsigned.crt;
+        # This file will be copied over to ssl.conf if you run 
+	# make configure-ssl-self-signed
+
+	ssl_certificate_key /etc/letsencrypt/nginx-selfsigned.key;
+	ssl_certificate /etc/letsencrypt/nginx-selfsigned.crt;

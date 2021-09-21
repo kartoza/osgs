@@ -1,3 +1,6 @@
+        # This file will be copied over to ssl.conf if you run 
+	# make configure-letsencrypt-ssl       
+ 
         # Next 4 lines based on https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
         # You should use your own domain for the path in the next two lines
         ssl_certificate /etc/letsencrypt/live/example.org/fullchain.pem;
