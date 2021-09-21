@@ -7,6 +7,7 @@ Workflows
 
    publishing-changes-to-static-website
    uploading-qgis-project
+   acessing-postgis-from-qgis-using-pg_service-file
    postgresql-workflows
 
 
