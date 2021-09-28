@@ -52,8 +52,6 @@ deploy: configure ## Deploy the initial stack including nginx, scp and hugo-watc
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
 
-configure: disable-all-services prepare-templates site-config enable-hugo configure-scp configure-htpasswd deploy ## Configure the initial stack including nginx, scp and hugo-watcher
-
 disable-all-services: ## Disable all services - does not actually stop them
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -81,21 +79,25 @@ prepare-templates: ## Prepare templates
 	@read -p "Domain name: " DOMAIN; \
 		rpl example.org $$DOMAIN conf/nginx_conf/servername.conf .env; 
 	@echo "We are going to set up a self signed certificate now."
-	@make configure-ssl-self-signed
-	@cp conf/nginx_conf/ssl/certificates.conf.selfsigned.example conf/nginx_conf/ssl/ssl.conf
-	@echo "Afterwards if you want to put the server into production mode"
-	@echo "please run:"
-	@echo "make configure-letsencrypt-ssl"
 
-configure-ssl-self-signed: ## Create a self signed cert for local testing
+configure:
+	@echo "Please run either make configure-ssl-self-signed or make configure-letsencrypt-ssl"	
+
+configure-ssl-self-signed: disable-all-services prepare-templates ## Create a self signed cert for local testing
 	@mkdir -p ./certbot/certbot/conf/
 	@openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./certbot/certbot/conf/nginx-selfsigned.key -out ./certbot/certbot/conf/nginx-selfsigned.crt
+	@cp conf/nginx_conf/ssl/certificates.conf.selfsigned.example conf/nginx_conf/ssl/ssl.conf
+	make site-config 
+	make enable-hugo 
+	make configure-scp 
+	make configure-htpasswd 
+	make deploy 
 	#@rpl "BEGIN CERTIFICATE" "BEGIN TRUSTED CERTIFICATE" ./certbot/certbot/conf/nginx-selfsigned.crt
 	#@rpl "END CERTIFICATE" "END  TRUSTED CERTIFICATE" ./certbot/certbot/conf/nginx-selfsigned.crt
 	#@rpl "BEGIN PRIVATE KEY" "TRUSTED CERTIFICATE" ./certbot/certbot/conf/nginx-selfsigned.key
 	#@rpl "END PRIVATE KEY" "TRUSTED CERTIFICATE" ./certbot/certbot/conf/nginx-selfsigned.key
 
-configure-letsencrypt-ssl: ## Create a certbot certificiate
+configure-letsencrypt-ssl: disable-all-services prepare-templates ## Create a certbot SSL certificate for use in production
 	@make check-env
 	@echo "Do you want to set up SSL using letsencrypt?"
 	@echo "This is recommended for production!"
@@ -109,6 +111,11 @@ configure-letsencrypt-ssl: ## Create a certbot certificiate
 		init-letsencrypt.sh; 
 	@read -p "Valid Contact Person Email Address: " EMAIL; \
 	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh .env
+	make site-config 
+	make enable-hugo 
+	make configure-scp 
+	make configure-htpasswd 
+	make deploy 
 
 site-config: ## Configure the hugo static site
 	@echo "------------------------------------------------------------------"
@@ -252,6 +259,7 @@ backup-hugo: ## Create backups of the Hugo content folder.
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --rm -v ${PWD}/backups:/backups nginx sh -c "tar cvfz /backups/hugo-backup.tar.gz /hugo"
+	@cp backups/hugo-backup.tar.gz backups/hugo-backup-$$(date +%Y-%m-%d).tar.gz
 
 restore-hugo: ## Restore the last backup of the Hugo content folder.
 	@make check-env
@@ -683,6 +691,32 @@ reinitialise-postgres:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d db
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f db
 
+db-qgis-styles-backup: ## Backup QGIS Styles in the gis database
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Backing up QGIS styles stored in gis db"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -f /tmp/QGISStyles.sql -t layer_styles gis
+	@docker cp osgisstack_db_1:/tmp/QGISStyles.sql backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/QGISStyles.sql
+	@cp backups/QGISStyles.sql backups/QGISStyles-$$(date +%Y-%m-%d).sql
+	@ls -lah backups/*.sql
+
+db-qgis-styles-restore:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restoring QGIS styles to gis db"
+	@echo "------------------------------------------------------------------"
+	@docker cp backups/QGISStyles.sql osgisstack_db_1:/tmp/ 
+	# - at start of next line means error will be ignored (in case QGIS project table isnt already there)
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop table layer_styles;" gis 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/QGISStyles.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/QGISStyles.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from layer_styles;" gis 
+
+
 db-qgis-project-backup:
 	@make check-env
 	@echo
@@ -690,9 +724,10 @@ db-qgis-project-backup:
 	@echo "Backing up QGIS project stored in db"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -f /tmp/QGISProject.sql -t qgis_projects gis
-	@docker cp osgisstack_db_1:/tmp/QGISProject.sql .
+	@docker cp osgisstack_db_1:/tmp/QGISProject.sql backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/QGISProject.sql
-	@ls -lah QGISProject.sql
+	@cp backups/QGISProject.sql backups/QGISProject-$$(date +%Y-%m-%d).sql
+	@ls -lah backups/*.sql
 
 db-qgis-project-restore:
 	@make check-env
@@ -700,7 +735,7 @@ db-qgis-project-restore:
 	@echo "------------------------------------------------------------------"
 	@echo "Restoring QGIS project to db"
 	@echo "------------------------------------------------------------------"
-	@docker cp QGISProject.sql osgisstack_db_1:/tmp/ 
+	@docker cp backups/QGISProject.sql osgisstack_db_1:/tmp/ 
 	# - at start of next line means error will be ignored (in case QGIS project table isnt already there)
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop table qgis_projects;" gis 
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/QGISProject.sql -d gis
@@ -714,9 +749,10 @@ db-backup:
 	@echo "Backing up entire GIS postgres db"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -Fc -f /tmp/osgisstack-database.dmp gis
-	@docker cp osgisstack_db_1:/tmp/osgisstack-database.dmp .
+	@docker cp osgisstack_db_1:/tmp/osgisstack-database.dmp backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-database.dmp
-	@ls -lah osgisstack-database.dmp
+	@cp backups/osgisstack-database.dmp backups/osgisstack-database-$$(date +%Y-%m-%d).dmp
+	@ls -lah backups/*.dmp
 
 db-backupall:
 	@make check-env
@@ -727,7 +763,8 @@ db-backupall:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dumpall -f /tmp/osgisstack-all-databases.dmp
 	@docker cp osgisstack_db_1:/tmp/osgisstack-all-databases.dmp .
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-all-databases.dmp
-	@ls -lah osgisstack-all-databases.dmp
+	@cp backups/osgisstack-all-databases.dmp backups/osgisstack-all-databases-$$(date +%Y-%m-%d).dmp
+	@ls -lah backups/*.dmp
 
 db-backup-mergin-base-schema:
 	@make check-env
@@ -736,9 +773,10 @@ db-backup-mergin-base-schema:
 	@echo "Backing up mergin base schema from  postgres db"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -Fc -f /tmp/mergin-base-schema.dmp -n mergin_sync_base_do_not_touch gis
-	@docker cp osgisstack_db_1:/tmp/mergin-base-schema.dmp .
+	@docker cp osgisstack_db_1:/tmp/mergin-base-schema.dmp backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/mergin-base-schema.dmp
-	@ls -lah mergin-base-schema.dmp
+	@cp backups/mergin-base-schema.dmp backups/mergin-base-schema-$$(date +%Y-%m-%d).dmp
+	@ls -lah backups/*.dmp
 
 
 #----------------- OSM Mirror --------------------------
@@ -1008,6 +1046,8 @@ backup-node-red:
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups node-red -c "/bin/tar cvfz /backups/node-red-backup.tar.gz /data"
+	@cp backups/node-red-backup.tar.gz backups/node-red-backup-$$(date +%Y-%m-%d).tar.gz
+	@ls -lah backups/*.tar,gz
 
 restore-node-red:
 	@make check-env
@@ -1081,6 +1121,7 @@ backup-mosquitto:
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups mosquitto -c "/bin/tar cvfz /backups/mosquitto-backup.tar.gz /mosquitto/data"
+	@cp backups/mosquitto-backup.tar.gz backups/mosquitto-backup-$$(date +%Y-%m-%d).tar.gz
 
 restore-mosquitto:
 	@make check-env
