@@ -396,6 +396,17 @@ enable-qgis-server:
 	-@cd conf/nginx_conf/upstreams; ln -s qgis-server.conf.available qgis-server.conf
 	@echo "qgis-server" >> enabled-profiles
 
+restart-qgis-server:  ## Stop and restart the QGIS server containers
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting QGIS Server containers"
+	@echo "------------------------------------------------------------------"
+	# Need to flush this completely for it to work on restart
+	make stop-qgis-desktop
+	make start-qgis-desktop
+
+
 start-qgis-server:
 	@make check-env
 	@echo
@@ -691,7 +702,7 @@ reinitialise-postgres:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d db
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f db
 
-db-qgis-styles-backup: ## Backup QGIS Styles in the gis database
+backup-db-qgis-styles: ## Backup QGIS Styles in the gis database
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -703,7 +714,7 @@ db-qgis-styles-backup: ## Backup QGIS Styles in the gis database
 	@cp backups/QGISStyles.sql backups/QGISStyles-$$(date +%Y-%m-%d).sql
 	@ls -lah backups/*.sql
 
-db-qgis-styles-restore:
+restore-db-qgis-styles:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -717,7 +728,7 @@ db-qgis-styles-restore:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from layer_styles;" gis 
 
 
-db-qgis-project-backup:
+backup-db-qgis-project:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -729,7 +740,7 @@ db-qgis-project-backup:
 	@cp backups/QGISProject.sql backups/QGISProject-$$(date +%Y-%m-%d).sql
 	@ls -lah backups/*.sql
 
-db-qgis-project-restore:
+restore-db-qgis-project:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -742,19 +753,19 @@ db-qgis-project-restore:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/QGISProject.sql
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from qgis_projects;" gis 
 
-db-backup:
+backup-db: ## Backup the gis database
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Backing up entire GIS postgres db"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -Fc -f /tmp/osgisstack-database.dmp gis
-	@docker cp osgisstack_db_1:/tmp/osgisstack-database.dmp backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-database.dmp
-	@cp backups/osgisstack-database.dmp backups/osgisstack-database-$$(date +%Y-%m-%d).dmp
-	@ls -lah backups/*.dmp
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -Fc -f /tmp/osgisstack-gis-database.dmp gis
+	@docker cp osgisstack_db_1:/tmp/osgisstack-gis-database.dmp backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-gis-database.dmp
+	@cp backups/osgisstack-gis-database.dmp backups/osgisstack-gis-database-$$(date +%Y-%m-%d).dmp
+	@ls -lah backups/osgisstack-gis-database*
 
-db-backupall:
+backup-all-databases: ## Backup all postgresql databases
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -764,9 +775,9 @@ db-backupall:
 	@docker cp osgisstack_db_1:/tmp/osgisstack-all-databases.dmp .
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-all-databases.dmp
 	@cp backups/osgisstack-all-databases.dmp backups/osgisstack-all-databases-$$(date +%Y-%m-%d).dmp
-	@ls -lah backups/*.dmp
+	@ls -lah backups/osgisstack-all-databases*
 
-db-backup-mergin-base-schema:
+backup-mergin-base-db-schema:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -798,7 +809,7 @@ configure-osm-mirror:
 	@read -p "Press enter to continue" CONFIRM;
 	@make get-pbf
 
-get-pbf:
+get-pbf:  ## helper to download an osm country pbf file
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Fetching pbf if not cached and then copying to settings dir"
@@ -810,7 +821,7 @@ get-pbf:
 	@read -p "URL For Country PBF File: " URL; \
 	   wget -c -N -O conf/osm_conf/country.pbf $$URL;
 
-get-pbf-lint:
+get-pbf-lint: ## get the pbflint application which can be used to verify your country.pbf files.
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Fetching pbflint to validate PBF file"
@@ -1047,7 +1058,7 @@ backup-node-red:
 	-@mkdir -p backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups node-red -c "/bin/tar cvfz /backups/node-red-backup.tar.gz /data"
 	@cp backups/node-red-backup.tar.gz backups/node-red-backup-$$(date +%Y-%m-%d).tar.gz
-	@ls -lah backups/*.tar,gz
+	@ls -lah backups/*.tar.gz
 
 restore-node-red:
 	@make check-env
@@ -1122,6 +1133,7 @@ backup-mosquitto:
 	-@mkdir -p backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups mosquitto -c "/bin/tar cvfz /backups/mosquitto-backup.tar.gz /mosquitto/data"
 	@cp backups/mosquitto-backup.tar.gz backups/mosquitto-backup-$$(date +%Y-%m-%d).tar.gz
+	@ls backups/mosquitto-backup*
 
 restore-mosquitto:
 	@make check-env
@@ -1478,7 +1490,7 @@ init-letsencrypt:
 	@docker-compose --profile=certbot-init kill
 	@docker-compose --profile=certbot-init rm
 
-get-fonts:
+get-fonts: ## Download a whole bunch of free fonts so you can use them in your cartography
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -1491,6 +1503,7 @@ get-fonts:
 	@cd fonts;wget http://ftp.gnu.org/gnu/freefont/freefont-ttf-20120503.zip
 	@cd fonts;unzip freefont-ttf-20120503.zip; rm freefont-ttf-20120503.zip
 	@cd fonts;find . -name "*.ttf" -exec mv -t . {} +
+	@docker cp fonts osgisstack_scp_1:/home/qgis_fonts/
 
 vrt-styles:
 	@echo "------------------------------------------------------------------"
@@ -1529,10 +1542,10 @@ restart:
 	@echo "Restarting all containers"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
 	# Need to flush this completely for it to work on restart
 	make stop-qgis-desktop
 	make start-qgis-desktop
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
 
 pull:
 	@make check-env
