@@ -87,7 +87,6 @@ volumes:
   lizmap-www:
   lizmap-log:
   # For node red
-  node-red-data:
   mosquitto-data:
 
 #
@@ -647,8 +646,10 @@ services:
 
 
   node-red:
-    image: *node-red-image
-    profiles: 
+    build:
+      context: node_red
+      dockerfile: Dockerfile
+    profiles:
       - node-red
     env_file: .env
     environment:
@@ -656,9 +657,10 @@ services:
     ports:
       - 1880
     networks:
-      - os-gis-stack  
+      - os-gis-stack
     volumes:
-      - node-red-data:/data
+      - ./node_red/settings:/data
+    entrypoint: ["start.sh"]
 
   mosquitto:
     image: *mosquitto-image

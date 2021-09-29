@@ -1,0 +1,5 @@
+settings/.npm
+settings/.config*
+settings/package-lock.json
+settings/node_modules
+settings/lib

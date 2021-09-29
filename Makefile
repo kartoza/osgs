@@ -1011,17 +1011,6 @@ disable-node-red:
 	@sed -i '/node-red/d' enabled-profiles
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
-deploy-node-red-patch:
-	# This is needed because the node package does not
-	# work with SSL connections
-	@echo "Deploying Tim's fork of postgres-multi since upstream is broken"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -w /data node-red npm install git+https://github.com/kartoza/node-red-contrib-postgres-multi.git
-	# Hacky thing here because ssl require is broken in node pg for self signed certs
-	# need to make an upstream fix then remove this next line
-	@docker cp patches/node-red/connection-parameters.js osgisstack_node-red_1:/data/node_modules/pg/lib/connection-parameters.js
-	# Now restart nginx
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
-
 node-red-logs:
 	@make check-env
 	@echo

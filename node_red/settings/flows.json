@@ -1,0 +1,4686 @@
+[
+    {
+        "id": "6ed04a6f42d2ceef",
+        "type": "tab",
+        "label": "API Demo for Sensor",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "ed2794578498d767",
+        "type": "tab",
+        "label": "OSM Admin Table",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "1a03ac8d472e83f0",
+        "type": "tab",
+        "label": "GeoContext Query",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "5e576d22f85a604c",
+        "type": "tab",
+        "label": "Unicef Demo",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "f92940666bded4d5",
+        "type": "tab",
+        "label": "Bird Map Example",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "64ff0515589d46e7",
+        "type": "tab",
+        "label": "MQTT Example",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "421ae46dfa54e4d0",
+        "type": "tab",
+        "label": "Somalia Context Analysis",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "dd655d4df0c8302b",
+        "type": "tab",
+        "label": "UNHCR",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "2157259019d60ab7",
+        "type": "tab",
+        "label": "IPC",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "33dd0dbb8f924aeb",
+        "type": "tab",
+        "label": "Home",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "9f64afc9ea244d45",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "nginx-selfsigned.crt",
+        "keyname": "nginx-selfsigned.key",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "1840867a38e4b8a1",
+        "type": "ui_tab",
+        "name": "Sensor Data",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": true,
+        "hidden": true
+    },
+    {
+        "id": "612ae2607ff831ed",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Tim Playground",
+            "hideToolbar": "false",
+            "allowSwipe": "true",
+            "lockMenu": "true",
+            "allowTempTheme": "none",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "8749f7b6b2e52441",
+        "type": "ui_group",
+        "name": "GeoContext",
+        "tab": "0e9973a0545c020f",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "0e9973a0545c020f",
+        "type": "ui_tab",
+        "name": "Weather",
+        "icon": "wi-wu-sunny",
+        "order": 2,
+        "disabled": true,
+        "hidden": true
+    },
+    {
+        "id": "e79fb4e521483cf3",
+        "type": "ui_group",
+        "name": "Sensor API Demo",
+        "tab": "1840867a38e4b8a1",
+        "order": 1,
+        "disp": true,
+        "width": "10",
+        "collapse": false
+    },
+    {
+        "id": "ed9ebc0b484c96f3",
+        "type": "ui_tab",
+        "name": "Admin Maps",
+        "icon": "dashboard",
+        "order": 3,
+        "disabled": true,
+        "hidden": true
+    },
+    {
+        "id": "029aa2ec3f6d9626",
+        "type": "ui_group",
+        "name": "Table",
+        "tab": "ed9ebc0b484c96f3",
+        "order": 1,
+        "disp": true,
+        "width": "27",
+        "collapse": false
+    },
+    {
+        "id": "3822a1d93323b8e3",
+        "type": "ui_group",
+        "name": "Forms",
+        "tab": "1840867a38e4b8a1",
+        "order": 2,
+        "disp": true,
+        "width": "10",
+        "collapse": false
+    },
+    {
+        "id": "83417b5095a7f6ad",
+        "type": "ui_tab",
+        "name": "Unicef",
+        "icon": "fa-hospital-o",
+        "order": 6,
+        "disabled": true,
+        "hidden": true
+    },
+    {
+        "id": "4d181cc8366f6f34",
+        "type": "ui_group",
+        "name": "Food Prices",
+        "tab": "83417b5095a7f6ad",
+        "order": 2,
+        "disp": true,
+        "width": "10",
+        "collapse": false
+    },
+    {
+        "id": "c03f62fa4dfae8e1",
+        "type": "ui_group",
+        "name": "Covid",
+        "tab": "83417b5095a7f6ad",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "f7b9c0daad8aedc1",
+        "type": "ui_group",
+        "name": "Options",
+        "tab": "83417b5095a7f6ad",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "25653f3ca4b5d8fc",
+        "type": "ui_tab",
+        "name": "Bird Map",
+        "icon": "dashboard",
+        "order": 4,
+        "disabled": true,
+        "hidden": true
+    },
+    {
+        "id": "54902cbb53ac4010",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "25653f3ca4b5d8fc",
+        "order": 1,
+        "disp": true,
+        "width": "27",
+        "collapse": false
+    },
+    {
+        "id": "49adac9b78eb973e",
+        "type": "mqtt-broker",
+        "name": "mosquitto",
+        "broker": "mosquitto",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "251caf998f8aab2b",
+        "type": "ui_tab",
+        "name": "MQTT",
+        "icon": "dashboard",
+        "order": 5,
+        "disabled": true,
+        "hidden": true
+    },
+    {
+        "id": "893683a3b3c08571",
+        "type": "ui_group",
+        "name": "MQTT",
+        "tab": "251caf998f8aab2b",
+        "order": 1,
+        "disp": true,
+        "width": "28",
+        "collapse": false
+    },
+    {
+        "id": "74f6420db30e4964",
+        "type": "ui_spacer",
+        "z": "64ff0515589d46e7",
+        "name": "spacer",
+        "group": "893683a3b3c08571",
+        "order": 2,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "5ac1eb056e42e177",
+        "type": "ui_spacer",
+        "z": "64ff0515589d46e7",
+        "name": "spacer",
+        "group": "893683a3b3c08571",
+        "order": 4,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "5ecb141a21be1b39",
+        "type": "ui_spacer",
+        "z": "64ff0515589d46e7",
+        "name": "spacer",
+        "group": "893683a3b3c08571",
+        "order": 5,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "24b229a31abd0b56",
+        "type": "ui_spacer",
+        "z": "64ff0515589d46e7",
+        "name": "spacer",
+        "group": "893683a3b3c08571",
+        "order": 6,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "2be4bfb7f756a1a8",
+        "type": "ui_spacer",
+        "z": "64ff0515589d46e7",
+        "name": "spacer",
+        "group": "893683a3b3c08571",
+        "order": 7,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "41bf555ce25ec032",
+        "type": "ui_spacer",
+        "z": "64ff0515589d46e7",
+        "name": "spacer",
+        "group": "893683a3b3c08571",
+        "order": 8,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "9dabec6fb2b91d6d",
+        "type": "ui_spacer",
+        "z": "64ff0515589d46e7",
+        "name": "spacer",
+        "group": "893683a3b3c08571",
+        "order": 9,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "9eab12cbf4825190",
+        "type": "ui_spacer",
+        "z": "64ff0515589d46e7",
+        "name": "spacer",
+        "group": "893683a3b3c08571",
+        "order": 11,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "8fad25b3f0242ab9",
+        "type": "ui_spacer",
+        "z": "64ff0515589d46e7",
+        "name": "spacer",
+        "group": "893683a3b3c08571",
+        "order": 15,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "62aa1232ab3a7818",
+        "type": "ui_spacer",
+        "z": "64ff0515589d46e7",
+        "name": "spacer",
+        "group": "893683a3b3c08571",
+        "order": 16,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "02755388d542200a",
+        "type": "ui_spacer",
+        "z": "64ff0515589d46e7",
+        "name": "spacer",
+        "group": "893683a3b3c08571",
+        "order": 17,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "66fd601a56cb0e1c",
+        "type": "ui_spacer",
+        "z": "64ff0515589d46e7",
+        "name": "spacer",
+        "group": "893683a3b3c08571",
+        "order": 19,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "5b1657f3c881cbd7",
+        "type": "ui_spacer",
+        "z": "64ff0515589d46e7",
+        "name": "spacer",
+        "group": "893683a3b3c08571",
+        "order": 21,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "16bf957eab5da4f8",
+        "type": "ui_spacer",
+        "z": "64ff0515589d46e7",
+        "name": "spacer",
+        "group": "893683a3b3c08571",
+        "order": 22,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "a396584777aeea09",
+        "type": "ui_spacer",
+        "z": "64ff0515589d46e7",
+        "name": "spacer",
+        "group": "893683a3b3c08571",
+        "order": 23,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "67b26028b99d39e8",
+        "type": "postgresdb",
+        "hostname": "db",
+        "port": "5432",
+        "db": "gis",
+        "ssl": true
+    },
+    {
+        "id": "2a429de4f6428b88",
+        "type": "ui_tab",
+        "name": "Somalia Context Analysis",
+        "icon": "fa-hospital-o",
+        "order": 7,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "e78e6a4b7ce17e08",
+        "type": "ui_group",
+        "name": "Left Side",
+        "tab": "2a429de4f6428b88",
+        "order": 1,
+        "disp": false,
+        "width": "3",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "199d725bb9d69366",
+        "type": "ui_group",
+        "name": "Map",
+        "tab": "2a429de4f6428b88",
+        "order": 2,
+        "disp": false,
+        "width": 12,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "814f9d34667d8084",
+        "type": "ui_group",
+        "name": "Health Side",
+        "tab": "2a429de4f6428b88",
+        "order": 3,
+        "disp": false,
+        "width": 7,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "9ce283f0ce7d2f6c",
+        "type": "ui_tab",
+        "name": "Somalia Internal Displacement",
+        "icon": "fa-user",
+        "order": 8,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "18e03b8f08e9a886",
+        "type": "ui_group",
+        "name": "Rigth Side",
+        "tab": "9ce283f0ce7d2f6c",
+        "order": 3,
+        "disp": false,
+        "width": 10,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "2b8c708fd58b9d50",
+        "type": "ui_group",
+        "name": "Left Side",
+        "tab": "9ce283f0ce7d2f6c",
+        "order": 1,
+        "disp": false,
+        "width": 8,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "3595240346c5cd3d",
+        "type": "ui_group",
+        "name": "Middle Side",
+        "tab": "9ce283f0ce7d2f6c",
+        "order": 2,
+        "disp": false,
+        "width": "10",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4c1368d1be18c334",
+        "type": "ui_spacer",
+        "z": "dd655d4df0c8302b",
+        "name": "spacer",
+        "group": "18e03b8f08e9a886",
+        "order": 1,
+        "width": 10,
+        "height": "2",
+        "className": ""
+    },
+    {
+        "id": "df5b59df0f55fd77",
+        "type": "ui_tab",
+        "name": "Intrgrated Food Security Phase Classification",
+        "icon": "fa-cutlery",
+        "order": 9,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "5d51c77f4c626c7b",
+        "type": "ui_group",
+        "name": "Left Side",
+        "tab": "df5b59df0f55fd77",
+        "order": 1,
+        "disp": false,
+        "width": "26",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4103fcef0b95a1ac",
+        "type": "http request",
+        "z": "6ed04a6f42d2ceef",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://nginx/api/monitoring",
+        "tls": "9f64afc9ea244d45",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 510,
+        "y": 220,
+        "wires": [
+            [
+                "92e63570c65d4d4d",
+                "926f218cfd751eb6"
+            ]
+        ]
+    },
+    {
+        "id": "fdb849e7baa4f1e9",
+        "type": "ui_button",
+        "z": "6ed04a6f42d2ceef",
+        "name": "",
+        "group": "e79fb4e521483cf3",
+        "order": 1,
+        "width": 10,
+        "height": 1,
+        "passthru": false,
+        "label": "Get Sensor Readings",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 400,
+        "y": 100,
+        "wires": [
+            [
+                "4103fcef0b95a1ac"
+            ]
+        ]
+    },
+    {
+        "id": "92e63570c65d4d4d",
+        "type": "ui_table",
+        "z": "6ed04a6f42d2ceef",
+        "group": "e79fb4e521483cf3",
+        "name": "Sensor Readings Table",
+        "order": 2,
+        "width": 10,
+        "height": 4,
+        "columns": [],
+        "outputs": 1,
+        "cts": true,
+        "x": 750,
+        "y": 300,
+        "wires": [
+            [
+                "4065f6c7f5cd36c5",
+                "e2ddf71c1a5ac220"
+            ]
+        ]
+    },
+    {
+        "id": "1d8dc88dea558030",
+        "type": "ui_text",
+        "z": "6ed04a6f42d2ceef",
+        "group": "e79fb4e521483cf3",
+        "order": 3,
+        "width": 10,
+        "height": 6,
+        "name": "Temperature Info",
+        "label": "Temperature",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 1210,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "4065f6c7f5cd36c5",
+        "type": "function",
+        "z": "6ed04a6f42d2ceef",
+        "name": "",
+        "func": "msg.payload = msg.payload.reading_value\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1000,
+        "y": 300,
+        "wires": [
+            [
+                "1d8dc88dea558030"
+            ]
+        ]
+    },
+    {
+        "id": "e2ddf71c1a5ac220",
+        "type": "ui_form",
+        "z": "6ed04a6f42d2ceef",
+        "name": "Edit Reading",
+        "label": "Edit Reading",
+        "group": "3822a1d93323b8e3",
+        "order": 1,
+        "width": 9,
+        "height": 1,
+        "options": [
+            {
+                "label": "ID",
+                "value": "id",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Device",
+                "value": "device_id",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Type",
+                "value": "reading_type",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Unit",
+                "value": "reading_unit",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Value",
+                "value": "reading_value",
+                "type": "text",
+                "required": false,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "id": "",
+            "device_id": "",
+            "reading_type": "",
+            "reading_unit": "",
+            "reading_value": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "x": 770,
+        "y": 460,
+        "wires": [
+            [
+                "3cc324fa1febf1c6"
+            ]
+        ]
+    },
+    {
+        "id": "dae0e7c9ed3380ce",
+        "type": "http request",
+        "z": "6ed04a6f42d2ceef",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://nginx/api/monitoring",
+        "tls": "9f64afc9ea244d45",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1110,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3cc324fa1febf1c6",
+        "type": "json",
+        "z": "6ed04a6f42d2ceef",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 920,
+        "y": 560,
+        "wires": [
+            [
+                "dae0e7c9ed3380ce"
+            ]
+        ]
+    },
+    {
+        "id": "630e1ec76d773c90",
+        "type": "ui_form",
+        "z": "6ed04a6f42d2ceef",
+        "name": "Add Reading",
+        "label": "Add Reading",
+        "group": "3822a1d93323b8e3",
+        "order": 2,
+        "width": 9,
+        "height": 1,
+        "options": [
+            {
+                "label": "Device",
+                "value": "device_id",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Type",
+                "value": "reading_type",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Unit",
+                "value": "reading_unit",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Value",
+                "value": "reading_value",
+                "type": "text",
+                "required": false,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "device_id": "",
+            "reading_type": "",
+            "reading_unit": "",
+            "reading_value": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "x": 770,
+        "y": 660,
+        "wires": [
+            [
+                "3cc324fa1febf1c6"
+            ]
+        ]
+    },
+    {
+        "id": "1d5264ae32dee68b",
+        "type": "ui_chart",
+        "z": "6ed04a6f42d2ceef",
+        "name": "Sensor Readings Chart",
+        "group": "e79fb4e521483cf3",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "label": "Sensor Readings Chart",
+        "chartType": "horizontalBar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 1190,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "926f218cfd751eb6",
+        "type": "split",
+        "z": "6ed04a6f42d2ceef",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 690,
+        "y": 160,
+        "wires": [
+            [
+                "802e492be0ce16e1"
+            ]
+        ]
+    },
+    {
+        "id": "802e492be0ce16e1",
+        "type": "function",
+        "z": "6ed04a6f42d2ceef",
+        "name": "",
+        "func": "msg.label = msg.payload.device_id\nmsg.payload = msg.payload.reading_value\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 160,
+        "wires": [
+            [
+                "1d5264ae32dee68b"
+            ]
+        ]
+    },
+    {
+        "id": "8f717232dce756b5",
+        "type": "function",
+        "z": "ed2794578498d767",
+        "name": "",
+        "func": "msg.payload = [\n     {\n            query: 'select id, name from osm.osm_admin',\n            output: true,\n        }\n    \n    ]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d5aa4b87bdfc275e",
+        "type": "ui_table",
+        "z": "ed2794578498d767",
+        "group": "029aa2ec3f6d9626",
+        "name": "Admin Areas Table",
+        "order": 1,
+        "width": 15,
+        "height": 11,
+        "columns": [],
+        "outputs": 1,
+        "cts": true,
+        "x": 630,
+        "y": 320,
+        "wires": [
+            [
+                "54dc12424baf107b"
+            ]
+        ]
+    },
+    {
+        "id": "46eee551447f611a",
+        "type": "ui_button",
+        "z": "ed2794578498d767",
+        "name": "Get Admin",
+        "group": "029aa2ec3f6d9626",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Get Admin Areas",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 290,
+        "y": 60,
+        "wires": [
+            [
+                "8f717232dce756b5"
+            ]
+        ]
+    },
+    {
+        "id": "54dc12424baf107b",
+        "type": "template",
+        "z": "ed2794578498d767",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<div>\nSelected record is {{payload.name}}\n</div>\n<div>\nClick <a href=\"https://localhost/ogc/AtlasDemo?SERVICE=ATLAS&REQUEST=GetPrint&TEMPLATE=atlas-template&EXP_FILTER=id={{payload.id}}&CRS=EPSG:3857\" target=\"_blank\"> here for PDF</a>\n</div>\n\n",
+        "output": "str",
+        "x": 720,
+        "y": 420,
+        "wires": [
+            [
+                "619b3c99de17f4b2"
+            ]
+        ]
+    },
+    {
+        "id": "619b3c99de17f4b2",
+        "type": "ui_template",
+        "z": "ed2794578498d767",
+        "group": "029aa2ec3f6d9626",
+        "name": "Admin Area Details",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-bind-html=\"msg.payload\"></div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 950,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "07d10621cf347037",
+        "type": "http request",
+        "z": "1a03ac8d472e83f0",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "9f64afc9ea244d45",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 550,
+        "y": 140,
+        "wires": [
+            [
+                "b77c2c9a7e419a2f"
+            ]
+        ]
+    },
+    {
+        "id": "99585550417adf84",
+        "type": "function",
+        "z": "1a03ac8d472e83f0",
+        "name": "",
+        "func": "msg.payload = 'https://staging.geocontext.kartoza.com/api/v2/query?registry=group&key=monthly_average_temperature_group&x=24.78515625&y=-15.750443146557284&outformat=json';\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 220,
+        "wires": [
+            [
+                "07d10621cf347037"
+            ]
+        ]
+    },
+    {
+        "id": "b77c2c9a7e419a2f",
+        "type": "debug",
+        "z": "1a03ac8d472e83f0",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "2349fac5fff3f570",
+        "type": "ui_button",
+        "z": "1a03ac8d472e83f0",
+        "name": "",
+        "group": "8749f7b6b2e52441",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Get Context Data",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 210,
+        "y": 300,
+        "wires": [
+            [
+                "99585550417adf84"
+            ]
+        ]
+    },
+    {
+        "id": "beacef9fb860e3f4",
+        "type": "http request",
+        "z": "5e576d22f85a604c",
+        "name": "Unicef Covid Count",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://services3.arcgis.com/7J7WB6yJX0pYke9q/arcgis/rest/services/owid_covid_data/FeatureServer/0/query?f=json&where=(location%20%3D%20%27Somalia%27)%20AND%20(date%20BETWEEN%20timestamp%20%272021-09-01%2017%3A00%3A00%27%20AND%20CURRENT_TIMESTAMP)&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22new_cases%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&resultType=standard",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 350,
+        "y": 240,
+        "wires": [
+            [
+                "1ad971ebcf314981"
+            ]
+        ]
+    },
+    {
+        "id": "1ad971ebcf314981",
+        "type": "function",
+        "z": "5e576d22f85a604c",
+        "name": "",
+        "func": "msg.payload = msg.payload.features[0].attributes.value\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 240,
+        "wires": [
+            [
+                "370c4563e8732b5f"
+            ]
+        ]
+    },
+    {
+        "id": "370c4563e8732b5f",
+        "type": "ui_text",
+        "z": "5e576d22f85a604c",
+        "group": "c03f62fa4dfae8e1",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "Covid Label",
+        "label": "COVID CASES",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 730,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "6639300a1b42b3b1",
+        "type": "ui_button",
+        "z": "5e576d22f85a604c",
+        "name": "",
+        "group": "f7b9c0daad8aedc1",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Update",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 120,
+        "y": 240,
+        "wires": [
+            [
+                "beacef9fb860e3f4",
+                "023dcedaabdf77bd"
+            ]
+        ]
+    },
+    {
+        "id": "023dcedaabdf77bd",
+        "type": "http request",
+        "z": "5e576d22f85a604c",
+        "name": "Get Food Prices",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://dataviz.vam.wfp.org/api/GetFoodPrices?ac=226&k=210916",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 340,
+        "y": 300,
+        "wires": [
+            [
+                "d45b95889c7c5bce"
+            ]
+        ]
+    },
+    {
+        "id": "d45b95889c7c5bce",
+        "type": "split",
+        "z": "5e576d22f85a604c",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 530,
+        "y": 300,
+        "wires": [
+            [
+                "1fd95963591248b8",
+                "0e94d644216bdfff"
+            ]
+        ]
+    },
+    {
+        "id": "1fd95963591248b8",
+        "type": "function",
+        "z": "5e576d22f85a604c",
+        "name": "Get Food Name",
+        "func": "msg.payload = msg.payload.cmname\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 400,
+        "wires": [
+            [
+                "c9656a46eaa512bc"
+            ]
+        ]
+    },
+    {
+        "id": "c9656a46eaa512bc",
+        "type": "join",
+        "z": "5e576d22f85a604c",
+        "name": "",
+        "mode": "auto",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": true,
+        "timeout": "",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 530,
+        "y": 400,
+        "wires": [
+            [
+                "4ce7476807592e75"
+            ]
+        ]
+    },
+    {
+        "id": "4ce7476807592e75",
+        "type": "function",
+        "z": "5e576d22f85a604c",
+        "name": "Uniqe Food Types",
+        "func": "var newset = Array.from(new Set(msg.payload));\n// set the default item in the list according to the globa\n// food var\nmsg.payload = global.food\t;\nmsg.options = newset;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 400,
+        "wires": [
+            [
+                "f11594c8fe6ecd16"
+            ]
+        ]
+    },
+    {
+        "id": "f11594c8fe6ecd16",
+        "type": "ui_dropdown",
+        "z": "5e576d22f85a604c",
+        "name": "",
+        "label": "Select Food Type",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "f7b9c0daad8aedc1",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "",
+                "value": "",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 970,
+        "y": 400,
+        "wires": [
+            [
+                "64399c43c7701aa1"
+            ]
+        ]
+    },
+    {
+        "id": "64399c43c7701aa1",
+        "type": "function",
+        "z": "5e576d22f85a604c",
+        "name": "",
+        "func": "global.set(\"food\", msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1200,
+        "y": 400,
+        "wires": [
+            [
+                "bdc1152258ca0d2f"
+            ]
+        ]
+    },
+    {
+        "id": "83b74df7db723b75",
+        "type": "split",
+        "z": "5e576d22f85a604c",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 850,
+        "y": 640,
+        "wires": [
+            [
+                "17cc4b34a63e4961"
+            ]
+        ]
+    },
+    {
+        "id": "bdc1152258ca0d2f",
+        "type": "http request",
+        "z": "5e576d22f85a604c",
+        "name": "Get Food Prices",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://dataviz.vam.wfp.org/api/GetFoodPrices?ac=226&k=210916",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 600,
+        "y": 620,
+        "wires": [
+            [
+                "83b74df7db723b75"
+            ]
+        ]
+    },
+    {
+        "id": "17cc4b34a63e4961",
+        "type": "switch",
+        "z": "5e576d22f85a604c",
+        "name": "Filter for food type",
+        "property": "payload.cmname",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "food",
+                "vt": "global"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 690,
+        "y": 720,
+        "wires": [
+            [
+                "654e0475b604e9d1"
+            ]
+        ]
+    },
+    {
+        "id": "79a57d0714dc26cd",
+        "type": "debug",
+        "z": "5e576d22f85a604c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1290,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "e61e61b670ca273e",
+        "type": "ui_chart",
+        "z": "5e576d22f85a604c",
+        "name": "",
+        "group": "4d181cc8366f6f34",
+        "order": 0,
+        "width": "10",
+        "height": "9",
+        "label": "Food Prices",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "1000",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 1310,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0e94d644216bdfff",
+        "type": "function",
+        "z": "5e576d22f85a604c",
+        "name": "Get Market Name",
+        "func": "msg.payload = msg.payload.mktname\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 460,
+        "wires": [
+            [
+                "a3eec38692447ae2"
+            ]
+        ]
+    },
+    {
+        "id": "a3eec38692447ae2",
+        "type": "join",
+        "z": "5e576d22f85a604c",
+        "name": "",
+        "mode": "auto",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": true,
+        "timeout": "",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 530,
+        "y": 460,
+        "wires": [
+            [
+                "e42e8275cdc3ce27"
+            ]
+        ]
+    },
+    {
+        "id": "e42e8275cdc3ce27",
+        "type": "function",
+        "z": "5e576d22f85a604c",
+        "name": "Uniqe Market Names",
+        "func": "var newset = Array.from(new Set(msg.payload));\n// set the default item in the list according to the globa\n// food var\nmsg.payload = global.market\t;\nmsg.options = newset;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 460,
+        "wires": [
+            [
+                "0a4f1cd65ac299b1"
+            ]
+        ]
+    },
+    {
+        "id": "0a4f1cd65ac299b1",
+        "type": "ui_dropdown",
+        "z": "5e576d22f85a604c",
+        "name": "",
+        "label": "Select Market",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "f7b9c0daad8aedc1",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "",
+                "value": "",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 960,
+        "y": 460,
+        "wires": [
+            [
+                "79ba337501fceb63"
+            ]
+        ]
+    },
+    {
+        "id": "79ba337501fceb63",
+        "type": "function",
+        "z": "5e576d22f85a604c",
+        "name": "",
+        "func": "global.set(\"market\", msg.payload);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1200,
+        "y": 460,
+        "wires": [
+            [
+                "bdc1152258ca0d2f"
+            ]
+        ]
+    },
+    {
+        "id": "654e0475b604e9d1",
+        "type": "switch",
+        "z": "5e576d22f85a604c",
+        "name": "Filter for Market",
+        "property": "payload.mktname",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "market",
+                "vt": "global"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 900,
+        "y": 720,
+        "wires": [
+            [
+                "147eee37724e89f1"
+            ]
+        ]
+    },
+    {
+        "id": "147eee37724e89f1",
+        "type": "function",
+        "z": "5e576d22f85a604c",
+        "name": "",
+        "func": "msg.payload = msg.payload.mp_price\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1080,
+        "y": 660,
+        "wires": [
+            [
+                "7686aa89026dd53f"
+            ]
+        ]
+    },
+    {
+        "id": "7686aa89026dd53f",
+        "type": "split",
+        "z": "5e576d22f85a604c",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 1250,
+        "y": 700,
+        "wires": [
+            [
+                "e61e61b670ca273e",
+                "79a57d0714dc26cd"
+            ]
+        ]
+    },
+    {
+        "id": "e60869f841e2d29b",
+        "type": "function",
+        "z": "f92940666bded4d5",
+        "name": "",
+        "func": "msg.payload = [\n     {\n            query: `\n            SELECT jsonb_build_object(\n                'type',     'FeatureCollection',\n                'features', jsonb_agg(features.feature)\n            )\n            FROM (\n              SELECT jsonb_build_object(\n                'type',       'Feature',\n                'id',         fid,\n                'geometry',   ST_AsGeoJSON(ST_Transform(geom, 4326))::jsonb,\n                'properties', to_jsonb(inputs) - 'fid' - 'geom'\n              ) AS feature\n              FROM (SELECT * FROM birds.\"Survey_points\") inputs) features;\n            `,\n            output: true,\n        }\n    \n    ]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a379710feab2dc8a",
+        "type": "function",
+        "z": "f92940666bded4d5",
+        "name": "",
+        "func": "msg.payload = msg.payload[0].jsonb_build_object.features\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 380,
+        "wires": [
+            [
+                "5a774417b3d142d8"
+            ]
+        ]
+    },
+    {
+        "id": "5a774417b3d142d8",
+        "type": "split",
+        "z": "f92940666bded4d5",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 450,
+        "y": 480,
+        "wires": [
+            [
+                "f7072ad2f6eab332"
+            ]
+        ]
+    },
+    {
+        "id": "f7072ad2f6eab332",
+        "type": "function",
+        "z": "f92940666bded4d5",
+        "name": "",
+        "func": "var json = msg.payload;\nmsg.payload = {};\nmsg.payload.geojson = json;\nmsg.payload.name =  json.id;\nmsg.payload.style = {\n            \"stroke-width\": \"8\",\n            \"stroke\": \"#ff00ff\",\n            \"fill-color\": \"#808000\",\n            \"fill-opacity\": 0.2\n        };\nmsg.payload.layer = \"birds\";\nmsg.payload.icon = \"helicopter\";\nmsg.payload.popped = true;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4fb895358f68fdf4",
+        "type": "ui_button",
+        "z": "f92940666bded4d5",
+        "name": "Birds Button",
+        "group": "54902cbb53ac4010",
+        "order": 1,
+        "width": 27,
+        "height": 1,
+        "passthru": false,
+        "label": "Show Birds",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 450,
+        "y": 320,
+        "wires": [
+            [
+                "e60869f841e2d29b",
+                "bb8b6c24c11898b6"
+            ]
+        ]
+    },
+    {
+        "id": "9667c2ba5afe9f7b",
+        "type": "ui_table",
+        "z": "f92940666bded4d5",
+        "group": "54902cbb53ac4010",
+        "name": "Birds Table",
+        "order": 3,
+        "width": 11,
+        "height": 11,
+        "columns": [],
+        "outputs": 1,
+        "cts": true,
+        "x": 970,
+        "y": 260,
+        "wires": [
+            [
+                "7055abe6cf949a7e"
+            ]
+        ]
+    },
+    {
+        "id": "bb8b6c24c11898b6",
+        "type": "function",
+        "z": "f92940666bded4d5",
+        "name": "",
+        "func": "msg.payload = [\n     {\n            query: `\n            SELECT \n                fid as id,\n                ST_X(ST_Transform(geom, 4326)) as lon,\n                ST_Y(ST_Transform(geom, 4326)) as lat, \n                date, \n                notes, \n                photo \n            FROM birds.\"Survey_points\"\n            `,\n            output: true,\n        }\n    \n    ]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7055abe6cf949a7e",
+        "type": "function",
+        "z": "f92940666bded4d5",
+        "name": "",
+        "func": "msg.payload = {\"command\":{\n    \"lon\":msg.payload.lon, \n    \"lat\": msg.payload.lat,\n    \"zoom\": 15\n}};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1190,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ba1afe60f2841193",
+        "type": "ui_button",
+        "z": "f92940666bded4d5",
+        "name": "Show Minimap",
+        "group": "54902cbb53ac4010",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Show Minimap",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 1210,
+        "y": 620,
+        "wires": [
+            [
+                "7b047b6ae714df96"
+            ]
+        ]
+    },
+    {
+        "id": "7b047b6ae714df96",
+        "type": "function",
+        "z": "f92940666bded4d5",
+        "name": "",
+        "func": "msg.payload = {\n    \"command\":{\n        \"map\": {\n            minimap: \"OSM\",\n            opt: {\n\t\t\t    centerFixed: [0.0, 0.0],\n\t\t\t    zoomLevelFixed: 1,\n\t\t\t    toggleDisplay: true\n\t\t    }\n        }\n    }\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1190,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5c314559e75a9af6",
+        "type": "mqtt in",
+        "z": "64ff0515589d46e7",
+        "name": "Mosquitto",
+        "topic": "#",
+        "qos": "0",
+        "datatype": "utf8",
+        "broker": "49adac9b78eb973e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "x": 160,
+        "y": 400,
+        "wires": [
+            [
+                "df11fd56161e2a43"
+            ]
+        ]
+    },
+    {
+        "id": "027c98cbcd95d5b8",
+        "type": "function",
+        "z": "64ff0515589d46e7",
+        "name": "Add event row",
+        "func": "oldpayload = msg.payload;\n\nmsg.payload=\n{\ncommand: \"addRow\",\narguments: [\n    oldpayload, false\n],\nreturnPromise: true\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 260,
+        "wires": [
+            [
+                "136b90ab324f1982"
+            ]
+        ]
+    },
+    {
+        "id": "df11fd56161e2a43",
+        "type": "json",
+        "z": "64ff0515589d46e7",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 170,
+        "y": 480,
+        "wires": [
+            [
+                "98a7cde68ae590ce"
+            ]
+        ]
+    },
+    {
+        "id": "98a7cde68ae590ce",
+        "type": "switch",
+        "z": "64ff0515589d46e7",
+        "name": "",
+        "property": "payload._type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "location",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 170,
+        "y": 580,
+        "wires": [
+            [
+                "bd057ea9656b4cce"
+            ]
+        ]
+    },
+    {
+        "id": "136b90ab324f1982",
+        "type": "ui_table",
+        "z": "64ff0515589d46e7",
+        "group": "893683a3b3c08571",
+        "name": "Event Table",
+        "order": 3,
+        "width": 12,
+        "height": 7,
+        "columns": [
+            {
+                "field": "id",
+                "title": "ID",
+                "width": "",
+                "align": "left",
+                "formatter": "rownum",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "device",
+                "title": "Device",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "battery",
+                "title": "Battery",
+                "width": "",
+                "align": "left",
+                "formatter": "progress",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "datetime",
+                "title": "TimeStamp",
+                "width": "",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "lon",
+                "title": "Longitude",
+                "width": "0",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "lat",
+                "title": "Latitude",
+                "width": "0",
+                "align": "left",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 1,
+        "cts": true,
+        "x": 870,
+        "y": 260,
+        "wires": [
+            [
+                "41b6ec3f6ad50f17"
+            ]
+        ]
+    },
+    {
+        "id": "41b6ec3f6ad50f17",
+        "type": "function",
+        "z": "64ff0515589d46e7",
+        "name": "Zoom to clicked row",
+        "func": "msg.payload = {\"command\":{\n    \"lon\":msg.payload.lon, \n    \"lat\": msg.payload.lat,\n    \"zoom\": 15\n}};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bd057ea9656b4cce",
+        "type": "function",
+        "z": "64ff0515589d46e7",
+        "name": "Format Payload",
+        "func": "var newpayload = {};\nnewpayload.lat = msg.payload.lat;\nnewpayload.lon = msg.payload.lon;\nnewpayload.battery = msg.payload.batt;\nnewpayload.velocity = msg.payload.vel;\nnewpayload.device = msg.payload.tid;\nnewpayload.altitude = msg.payload.alt; \nnewpayload.datetime = Date.now();\nnewpayload.layer=\"OwnTracks\";\nnewpayload.name = msg.payload.tid;\n\nmsg.payload = newpayload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 580,
+        "wires": [
+            [
+                "027c98cbcd95d5b8",
+                "8b106cc62a0694b2",
+                "b55f91ff5e626fe2",
+                "9b5649efd302bd8f",
+                "f1c447c1198c0af5",
+                "028ac186682f2d1f"
+            ]
+        ]
+    },
+    {
+        "id": "4785ef6edc532d6f",
+        "type": "ui_gauge",
+        "z": "64ff0515589d46e7",
+        "name": "Battery",
+        "group": "893683a3b3c08571",
+        "order": 14,
+        "width": 4,
+        "height": 4,
+        "gtype": "gage",
+        "title": "Battery",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 860,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "8b106cc62a0694b2",
+        "type": "function",
+        "z": "64ff0515589d46e7",
+        "name": "Battery",
+        "func": "msg.payload = msg.payload.battery;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 480,
+        "wires": [
+            [
+                "4785ef6edc532d6f",
+                "f332031952eb37a5"
+            ]
+        ]
+    },
+    {
+        "id": "457fa82fc5faebf9",
+        "type": "ui_chart",
+        "z": "64ff0515589d46e7",
+        "name": "Velocity Chart",
+        "group": "893683a3b3c08571",
+        "order": 18,
+        "width": 15,
+        "height": 4,
+        "label": "Velocity Chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "linear",
+        "nodata": "Waiting for data...",
+        "dot": true,
+        "ymin": "0",
+        "ymax": "140",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 880,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b55f91ff5e626fe2",
+        "type": "function",
+        "z": "64ff0515589d46e7",
+        "name": "Velocity",
+        "func": "msg.payload = msg.payload.velocity;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 400,
+        "wires": [
+            [
+                "457fa82fc5faebf9",
+                "afeda46d220504f6"
+            ]
+        ]
+    },
+    {
+        "id": "1f6c9405677be058",
+        "type": "ui_chart",
+        "z": "64ff0515589d46e7",
+        "name": "Altitude Chart",
+        "group": "893683a3b3c08571",
+        "order": 10,
+        "width": 15,
+        "height": 4,
+        "label": "Altitude Chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "linear",
+        "nodata": "Waiting for data...",
+        "dot": true,
+        "ymin": "0",
+        "ymax": "1500",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 880,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9b5649efd302bd8f",
+        "type": "function",
+        "z": "64ff0515589d46e7",
+        "name": "Altitude",
+        "func": "msg.payload = msg.payload.altitude;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 320,
+        "wires": [
+            [
+                "1f6c9405677be058",
+                "db627710584e2e47"
+            ]
+        ]
+    },
+    {
+        "id": "f1c447c1198c0af5",
+        "type": "function",
+        "z": "64ff0515589d46e7",
+        "name": "",
+        "func": "var docDefinition = { content: 'This is an sample PDF printed with pdfMake' };\nmsg.payload = docDefinition;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7f9e2205d2e0bf21",
+        "type": "file",
+        "z": "64ff0515589d46e7",
+        "name": "report.pdf",
+        "filename": "/data/report.pdf",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 1120,
+        "y": 740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "afeda46d220504f6",
+        "type": "ui_gauge",
+        "z": "64ff0515589d46e7",
+        "name": "Velocity",
+        "group": "893683a3b3c08571",
+        "order": 13,
+        "width": 4,
+        "height": 4,
+        "gtype": "gage",
+        "title": "Velocity",
+        "label": "km/h",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "140",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 860,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "f332031952eb37a5",
+        "type": "ui_chart",
+        "z": "64ff0515589d46e7",
+        "name": "Battery Chart",
+        "group": "893683a3b3c08571",
+        "order": 20,
+        "width": 12,
+        "height": 4,
+        "label": "Battery Chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "dd HH:mm",
+        "interpolate": "linear",
+        "nodata": "Waiting for data...",
+        "dot": true,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 870,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "db627710584e2e47",
+        "type": "ui_gauge",
+        "z": "64ff0515589d46e7",
+        "name": "Altitude",
+        "group": "893683a3b3c08571",
+        "order": 12,
+        "width": 4,
+        "height": 4,
+        "gtype": "gage",
+        "title": "Altitude",
+        "label": "m",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1500",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 860,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "cb3fb494480882e2",
+        "type": "function",
+        "z": "64ff0515589d46e7",
+        "name": "Create owntracks.events table",
+        "func": "msg.payload = [\n     {\n            query: 'CREATE SCHEMA IF NOT EXISTS owntracks',\n            output: true,\n    },    \n    {\n            query: `\n            CREATE TABLE IF NOT EXISTS owntracks.event (\n                id serial not null, \n                geom geometry(Point, 4326),\n                battery int not null,\n                velocity float not null,\n                altitude float not null,\n                device varchar(2) not null,\n                datetime timestamp not null default now()\n            )\n            `,\n            output: true,\n    }\n    \n    ]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "204831527af2970d",
+        "type": "inject",
+        "z": "64ff0515589d46e7",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payloadType": "date",
+        "x": 220,
+        "y": 80,
+        "wires": [
+            [
+                "cb3fb494480882e2",
+                "e5fc08979c395ae5"
+            ]
+        ]
+    },
+    {
+        "id": "554ebf83abcd7f52",
+        "type": "debug",
+        "z": "64ff0515589d46e7",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1010,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "028ac186682f2d1f",
+        "type": "function",
+        "z": "64ff0515589d46e7",
+        "name": "Insert event",
+        "func": "msg.payload = [\n    {\n            query: `\n            INSERT INTO owntracks.event (\n                geom,\n                battery,\n                velocity,\n                altitude,\n                device\n            ) values (\n                ST_MakePoint($lon, $lat),\n                $battery,\n                $velocity,\n                $altitude,\n                $device\n            )`,\n            params: msg.payload,\n            output: true,\n    }\n]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9d6128459a8e550f",
+        "type": "comment",
+        "z": "64ff0515589d46e7",
+        "name": "Make sure at the start of the flow we have db tables created...",
+        "info": "",
+        "x": 350,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "e5fc08979c395ae5",
+        "type": "function",
+        "z": "64ff0515589d46e7",
+        "name": "Get Recent Events",
+        "func": "msg.payload = [\n    {\n            query: `\n            SELECT \n                ST_X(geom) as lon,\n                ST_Y(geom) as lat,\n                battery,\n                velocity,\n                altitude,\n                device,\n                -- for map point it needs a name\n                device as name, \n                'OwnTracks' as layer,\n                datetime\n            FROM owntracks.event`,\n            output: true,\n    }\n    \n    ]\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c76338c6490d765d",
+        "type": "worldmap",
+        "z": "6ed04a6f42d2ceef",
+        "name": "",
+        "lat": "",
+        "lon": "",
+        "zoom": "",
+        "layer": "Watercolor",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "hide",
+        "layers": "hide",
+        "panit": "false",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "true",
+        "coords": "none",
+        "showgrid": "false",
+        "allowFileDrop": "false",
+        "path": "/worldmap",
+        "x": 1200,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "d5a868ae8bd87644",
+        "type": "worldmap",
+        "z": "6ed04a6f42d2ceef",
+        "name": "",
+        "lat": "",
+        "lon": "",
+        "zoom": "",
+        "layer": "Watercolor",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "hide",
+        "layers": "show",
+        "panit": "false",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "true",
+        "coords": "none",
+        "showgrid": "false",
+        "allowFileDrop": "false",
+        "path": "/worldmap",
+        "x": 1280,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "bb2050fa7ad3b01a",
+        "type": "pdfmake",
+        "z": "6ed04a6f42d2ceef",
+        "name": "Make PDF Report",
+        "outputType": "base64",
+        "inputProperty": "payload",
+        "options": "{}",
+        "outputProperty": "payload",
+        "x": 890,
+        "y": 740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3424b7b4696465af",
+        "type": "ui_iframe",
+        "z": "6ed04a6f42d2ceef",
+        "group": "029aa2ec3f6d9626",
+        "name": "Embedded Map",
+        "order": 2,
+        "width": 12,
+        "height": 11,
+        "url": "https://localhost/worldmap/",
+        "origin": "*",
+        "scale": 100,
+        "x": 320,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "eb863ce76784518c",
+        "type": "ui_iframe",
+        "z": "6ed04a6f42d2ceef",
+        "group": "54902cbb53ac4010",
+        "name": "Embedded Map",
+        "order": 2,
+        "width": 16,
+        "height": 11,
+        "url": "https://localhost/worldmap/",
+        "origin": "*",
+        "scale": 100,
+        "x": 980,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d0d31043721f879a",
+        "type": "ui_iframe",
+        "z": "6ed04a6f42d2ceef",
+        "group": "893683a3b3c08571",
+        "name": "MQTT World Map",
+        "order": 1,
+        "width": 15,
+        "height": 7,
+        "url": "/worldmap/",
+        "origin": "*",
+        "scale": 100,
+        "x": 1230,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f5e9bac1da1158c7",
+        "type": "postgres",
+        "z": "6ed04a6f42d2ceef",
+        "postgresdb": "67b26028b99d39e8",
+        "name": "GIS DB",
+        "output": true,
+        "outputs": 1,
+        "x": 520,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b198754ca799f38b",
+        "type": "postgres",
+        "z": "6ed04a6f42d2ceef",
+        "postgresdb": "67b26028b99d39e8",
+        "name": "Birds",
+        "output": true,
+        "outputs": 1,
+        "x": 730,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d343f57f0de87081",
+        "type": "postgres",
+        "z": "6ed04a6f42d2ceef",
+        "postgresdb": "67b26028b99d39e8",
+        "name": "Birds",
+        "output": true,
+        "outputs": 1,
+        "x": 730,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "be0c4ec945d4a30c",
+        "type": "postgres",
+        "z": "6ed04a6f42d2ceef",
+        "postgresdb": "67b26028b99d39e8",
+        "name": "",
+        "output": true,
+        "outputs": 1,
+        "x": 720,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "60111c6faf28dfd0",
+        "type": "postgres",
+        "z": "6ed04a6f42d2ceef",
+        "postgresdb": "67b26028b99d39e8",
+        "name": "",
+        "output": true,
+        "outputs": 1,
+        "x": 860,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "58769f558414aa99",
+        "type": "postgres",
+        "z": "6ed04a6f42d2ceef",
+        "postgresdb": "67b26028b99d39e8",
+        "name": "",
+        "output": true,
+        "outputs": 1,
+        "x": 720,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fafa09682bbead89",
+        "type": "http request",
+        "z": "421ae46dfa54e4d0",
+        "name": "Unicef Airport Count",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://services6.arcgis.com/iEFoPS2vWoeRJSAA/arcgis/rest/services/Airport/FeatureServer/0/query?f=json&where=Status%3D%27Open%27&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22FID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&resultType=standard&cacheHint=true",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 360,
+        "y": 220,
+        "wires": [
+            [
+                "87b824bd3232dd1b"
+            ]
+        ]
+    },
+    {
+        "id": "87b824bd3232dd1b",
+        "type": "function",
+        "z": "421ae46dfa54e4d0",
+        "name": "",
+        "func": "msg.count = msg.payload.features[0].attributes.value\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 220,
+        "wires": [
+            [
+                "cdffadd9799e36dc"
+            ]
+        ]
+    },
+    {
+        "id": "cdffadd9799e36dc",
+        "type": "http request",
+        "z": "421ae46dfa54e4d0",
+        "name": "Unicef Open Airport Count",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://services6.arcgis.com/iEFoPS2vWoeRJSAA/arcgis/rest/services/Airport/FeatureServer/0/query?f=json&where=Status%3D%27Open%27&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22FID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&resultType=standard&cacheHint=true",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 770,
+        "y": 220,
+        "wires": [
+            [
+                "3a7410f33c9f3d36"
+            ]
+        ]
+    },
+    {
+        "id": "3a7410f33c9f3d36",
+        "type": "function",
+        "z": "421ae46dfa54e4d0",
+        "name": "",
+        "func": "msg.open = msg.payload.features[0].attributes.value\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1000,
+        "y": 220,
+        "wires": [
+            [
+                "29ebd53568247e5c"
+            ]
+        ]
+    },
+    {
+        "id": "86c055b28826bac9",
+        "type": "ui_button",
+        "z": "421ae46dfa54e4d0",
+        "name": "",
+        "group": "e78e6a4b7ce17e08",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Update",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 120,
+        "y": 220,
+        "wires": [
+            [
+                "fafa09682bbead89",
+                "9bab64f0fcf04c06",
+                "286b2318fa7927eb",
+                "391762298d9997f4"
+            ]
+        ]
+    },
+    {
+        "id": "29ebd53568247e5c",
+        "type": "ui_template",
+        "z": "421ae46dfa54e4d0",
+        "group": "e78e6a4b7ce17e08",
+        "name": "Airport",
+        "order": 2,
+        "width": 3,
+        "height": 4,
+        "format": "<div style=\"text-align:center; padding: 35px 0\">\n    <h1>Airport</h1>\n    <div>\n        <i class=\"fa fa-plane\" aria-hidden=\"true\"></i>\n        <span style=\"color:{{msg.open !== 0 ? 'green' : 'red'}}; font-weight:700; \">\n            {{msg.open}} out of\n        </span><br>\n        {{msg.count}} open\n    </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1170,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9bab64f0fcf04c06",
+        "type": "http request",
+        "z": "421ae46dfa54e4d0",
+        "name": "Unicef Port Count",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://services6.arcgis.com/iEFoPS2vWoeRJSAA/arcgis/rest/services/Sea_Ports/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22FID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&resultType=standard&cacheHint=true",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 350,
+        "y": 280,
+        "wires": [
+            [
+                "1534000468d358d8"
+            ]
+        ]
+    },
+    {
+        "id": "1534000468d358d8",
+        "type": "function",
+        "z": "421ae46dfa54e4d0",
+        "name": "",
+        "func": "msg.count = msg.payload.features[0].attributes.value\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 280,
+        "wires": [
+            [
+                "180bb7536a4af17e"
+            ]
+        ]
+    },
+    {
+        "id": "180bb7536a4af17e",
+        "type": "http request",
+        "z": "421ae46dfa54e4d0",
+        "name": "Unicef Open Port Count",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://services6.arcgis.com/iEFoPS2vWoeRJSAA/arcgis/rest/services/Sea_Ports/FeatureServer/0/query?f=json&where=status%3D%27Open%27&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22FID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&resultType=standard&cacheHint=true",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 770,
+        "y": 280,
+        "wires": [
+            [
+                "efe52e25a0c1a27e"
+            ]
+        ]
+    },
+    {
+        "id": "efe52e25a0c1a27e",
+        "type": "function",
+        "z": "421ae46dfa54e4d0",
+        "name": "",
+        "func": "msg.open = msg.payload.features[0].attributes.value\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1000,
+        "y": 280,
+        "wires": [
+            [
+                "97b756cc5f708c97"
+            ]
+        ]
+    },
+    {
+        "id": "97b756cc5f708c97",
+        "type": "ui_template",
+        "z": "421ae46dfa54e4d0",
+        "group": "e78e6a4b7ce17e08",
+        "name": "Port",
+        "order": 3,
+        "width": 3,
+        "height": 4,
+        "format": "<div style=\"text-align:center; padding: 35px 0\">\n    <h1>Port</h1>\n    <div>\n        <i class=\"fa fa-anchor\" aria-hidden=\"true\"></i>\n        <span style=\"color:{{msg.open !== 0 ? 'green' : 'red'}}; font-weight:700; \">\n            {{msg.open}} out of\n        </span><br>\n        {{msg.count}} open\n    </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1170,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "286b2318fa7927eb",
+        "type": "http request",
+        "z": "421ae46dfa54e4d0",
+        "name": "Unicef Border Count",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://services6.arcgis.com/iEFoPS2vWoeRJSAA/arcgis/rest/services/Entry_points/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22FID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&resultType=standard&cacheHint=true",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 360,
+        "y": 340,
+        "wires": [
+            [
+                "ec1a6cde1c9aa8e4"
+            ]
+        ]
+    },
+    {
+        "id": "ec1a6cde1c9aa8e4",
+        "type": "function",
+        "z": "421ae46dfa54e4d0",
+        "name": "",
+        "func": "msg.count = msg.payload.features[0].attributes.value\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 340,
+        "wires": [
+            [
+                "8c7b65376d15d920"
+            ]
+        ]
+    },
+    {
+        "id": "8c7b65376d15d920",
+        "type": "http request",
+        "z": "421ae46dfa54e4d0",
+        "name": "Unicef Border Port Count",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://services6.arcgis.com/iEFoPS2vWoeRJSAA/arcgis/rest/services/Entry_points/FeatureServer/0/query?f=json&where=status%3D%27Open%27&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22FID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&resultType=standard&cacheHint=true",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 770,
+        "y": 340,
+        "wires": [
+            [
+                "66ff54d0c3362cbb"
+            ]
+        ]
+    },
+    {
+        "id": "66ff54d0c3362cbb",
+        "type": "function",
+        "z": "421ae46dfa54e4d0",
+        "name": "",
+        "func": "msg.open = msg.payload.features[0].attributes.value\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1000,
+        "y": 340,
+        "wires": [
+            [
+                "1377f889e23c50a6"
+            ]
+        ]
+    },
+    {
+        "id": "1377f889e23c50a6",
+        "type": "ui_template",
+        "z": "421ae46dfa54e4d0",
+        "group": "e78e6a4b7ce17e08",
+        "name": "Border",
+        "order": 4,
+        "width": 3,
+        "height": 4,
+        "format": "<div style=\"text-align:center; padding: 35px 0\">\n    <h1>Border</h1>\n    <div>\n        <i class=\"fa fa-road\" aria-hidden=\"true\"></i>\n        <span style=\"color:{{msg.open !== 0 ? 'green' : 'red'}}; font-weight:700; \">\n            {{msg.open}} out of\n        </span><br>\n        {{msg.count}} open\n    </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1170,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d324c943c1c25707",
+        "type": "ui_template",
+        "z": "421ae46dfa54e4d0",
+        "group": "199d725bb9d69366",
+        "name": "Map",
+        "order": 1,
+        "width": 12,
+        "height": 10,
+        "format": "<div>\n    Here is map\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1170,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "00957b4ef3bdf6d7",
+        "type": "ui_template",
+        "z": "421ae46dfa54e4d0",
+        "group": "199d725bb9d69366",
+        "name": "Map Footer",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "format": "<div style=\"padding:20px\">\nSources: Incidents (ACLED), Locust (FAO), Refugees and IDPs (UNHCR), Access (OCHA), COVID (Our World in Data), IPC (IPCInfo/FSNAU)\n\n \n\nThe biweekly change on any given date measures the percentage changeover the last 14 days relative to the  the previous 14 days.\n\n \n\nThe intended use of this dashboard is not for operational decision making without furter qualitative analysis.\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": false,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1190,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ea58d4315529769b",
+        "type": "ui_template",
+        "z": "421ae46dfa54e4d0",
+        "group": "814f9d34667d8084",
+        "name": "Covid Cases",
+        "order": 1,
+        "width": 7,
+        "height": 4,
+        "format": "<div style=\"text-align:center; padding: 35px 0\">\n    <h1>COVID (last 2 weeks)</h1>\n    <div>\n        <h1 style=\"font-size:32px\">{{msg.current}}</h1>\n        {{msg.change}}% Biweekly change\n    </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1190,
+        "y": 500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "391762298d9997f4",
+        "type": "http request",
+        "z": "421ae46dfa54e4d0",
+        "name": "Unicef Covid Last Count",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://services3.arcgis.com/7J7WB6yJX0pYke9q/arcgis/rest/services/owid_covid_data/FeatureServer/0/query?f=json&where=(location%20%3D%20%27Somalia%27)%20AND%20(date%3C%3Dtimestamp%20%272021-09-06%2017%3A00%3A00%27%20AND%20date%20BETWEEN%20timestamp%20%272021-08-24%2017%3A00%3A00%27%20AND%20CURRENT_TIMESTAMP)&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22new_cases%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&resultType=standard",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 370,
+        "y": 500,
+        "wires": [
+            [
+                "42efe74c98087be6"
+            ]
+        ]
+    },
+    {
+        "id": "42efe74c98087be6",
+        "type": "function",
+        "z": "421ae46dfa54e4d0",
+        "name": "",
+        "func": "msg.last = msg.payload.features[0].attributes.value\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 500,
+        "wires": [
+            [
+                "4ccec5bf49a9daef"
+            ]
+        ]
+    },
+    {
+        "id": "4ccec5bf49a9daef",
+        "type": "http request",
+        "z": "421ae46dfa54e4d0",
+        "name": "Unicef Covid Current Count",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://services3.arcgis.com/7J7WB6yJX0pYke9q/arcgis/rest/services/owid_covid_data/FeatureServer/0/query?f=json&where=(location%20%3D%20%27Somalia%27)%20AND%20(date%20BETWEEN%20timestamp%20%272021-09-07%2017%3A00%3A00%27%20AND%20CURRENT_TIMESTAMP)&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22sum%22%2C%22onStatisticField%22%3A%22new_cases%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D&resultType=standard",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 780,
+        "y": 500,
+        "wires": [
+            [
+                "084327392244dd9f"
+            ]
+        ]
+    },
+    {
+        "id": "084327392244dd9f",
+        "type": "function",
+        "z": "421ae46dfa54e4d0",
+        "name": "",
+        "func": "msg.current = msg.payload.features[0].attributes.value;\nmsg.change = ((msg.current - msg.last)/msg.last * 100).toFixed(2);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1000,
+        "y": 500,
+        "wires": [
+            [
+                "ea58d4315529769b",
+                "4b842aa0d172c811"
+            ]
+        ]
+    },
+    {
+        "id": "4b842aa0d172c811",
+        "type": "debug",
+        "z": "421ae46dfa54e4d0",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "d99e816f9b8374c1",
+        "type": "ui_worldmap",
+        "z": "dd655d4df0c8302b",
+        "group": "18e03b8f08e9a886",
+        "order": 5,
+        "width": 10,
+        "height": 8,
+        "name": "Departure Districts",
+        "lat": "5.6247805",
+        "lon": "45.804684",
+        "zoom": "5.5",
+        "layer": "OSM grey",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "hide",
+        "layers": "hide",
+        "panit": "false",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "true",
+        "coords": "none",
+        "showgrid": "false",
+        "allowFileDrop": "false",
+        "path": "/departure-districts",
+        "x": 1170,
+        "y": 120,
+        "wires": [],
+        "info": "Departure Districts"
+    },
+    {
+        "id": "af8b1e619d1e52ce",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "Format Data",
+        "func": "const example = msg.payload;\nconst year = parseInt(msg.selected_year);\nconst rawRows = example.split('\\n');\nconst headers = rawRows[0].split(',');\n\nconst output = {\n    'list': [],\n    'byYear': {},\n    'byMonth': {},\n    'byWeek': {},\n    'byReason': {},\n    'byNeed': {},\n    'departureRegions': {},\n    'arrivalRegions': {},\n    'departureDistricts': {},\n    'arrivalDistricts': {},\n    'total': 0,\n};\nconst selectedYear = year;\nrawRows.forEach(function (rawRow, rawRowIdx) {\n    if (rawRowIdx !== 0) {\n        const row = rawRow.split(',');\n        const data = {};\n        headers.forEach(function (value, idx) {\n            if (value !== undefined && row[idx] !== undefined) {\n                data[value.replace('\\r', '')] = row[idx].replace('\\r', '')\n            }\n        });\n        output['list'].push(data);\n        const people = parseInt(data['tpeople']);\n        const yearData = parseInt(data['yr']);\n        if (isNaN(yearData)) {\n            return;\n        }\n\n        // format by year data\n        {\n            const dataKey = yearData;\n            const outputKey = 'byYear';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n        // format by week\n        {\n            const year = data['yr'];\n            const week = data['weeknum'];\n            const outputKey = 'byWeek';\n            if (output[outputKey][year] === undefined) {\n                output[outputKey][year] = {};\n            }\n            if (output[outputKey][year][week] === undefined) {\n                output[outputKey][year][week] = 0;\n            }\n            output[outputKey][year][week] += people;\n        }\n        if (yearData !== selectedYear) {\n            return\n        }\n        output['total'] += people;\n\n        // by month\n        {\n            const dataKey = data['monthname'] + ' ' + data['yr'];\n            const outputKey = 'byMonth';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n\n        // by reason\n        {\n            const dataKey = data['creason'];\n            const outputKey = 'byReason';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n\n        // by needs\n        {\n            const dataKey = data['cneed'];\n            const outputKey = 'byNeed';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n        // by Departure Regions\n        {\n            const dataKey = data['pregion'];\n            const outputKey = 'departureRegions';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n\n        // by Departure Regions\n        {\n            const dataKey = data['cregion'];\n            const outputKey = 'arrivalRegions';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n\n        // by Departure District\n        {\n            const dataKey = data['pdistrict'];\n            const outputKey = 'departureDistricts';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n\n        // by Departure District\n        {\n            const dataKey = data['cdistrict'];\n            const outputKey = 'arrivalDistricts';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n    }\n});\n\nmsg.payload = output;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 280,
+        "wires": [
+            [
+                "28b480d3f124bcf9",
+                "334ce6250dae51ad",
+                "e3b86ba3ebfdd79b",
+                "166fa878151c98d0",
+                "a903ab7029c8d260",
+                "8a0d3a8b5c02c4d5",
+                "1385b2cc66eff94c",
+                "0f6a569c0177c8ac",
+                "f4820cb32fd3707b",
+                "55d59204316867e8",
+                "f2fa2ef2012511c3"
+            ]
+        ]
+    },
+    {
+        "id": "57b5648504cf43ef",
+        "type": "ui_chart",
+        "z": "dd655d4df0c8302b",
+        "name": "",
+        "group": "2b8c708fd58b9d50",
+        "order": 3,
+        "width": 8,
+        "height": 4,
+        "label": "By Year",
+        "chartType": "bar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": true,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1140,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "28b480d3f124bcf9",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "Format Data By Year",
+        "func": "let chartData = {\n    \"series\": [\"Count\"],\n    \"data\": [[]],\n    \"labels\": []\n};\nfor (const [key, value] of Object.entries(msg.payload['byYear'])) {\n    if(key != undefined){\n        chartData['labels'].push(key);\n        chartData['data'][0].push(value)\n    }\n}\nmsg.payload = [chartData];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 280,
+        "wires": [
+            [
+                "57b5648504cf43ef"
+            ]
+        ]
+    },
+    {
+        "id": "334ce6250dae51ad",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "Get Departure Districts Payload",
+        "func": "\nlet max = 0;\nfor (const [key, value] of Object.entries(msg.payload['departureDistricts'])) {\n    if (max < value) max = value;\n}\nconst byDepartureDistrict = msg.payload['departureDistricts']\nconst administrative = JSON.parse(JSON.stringify(msg.administrative_2));\nadministrative.features.forEach(function (value, idx) {\n    const properties = value['properties'];\n    let adminValue = byDepartureDistrict[properties['admin2Name']];\n    value['properties'] = {};\n    value['properties'][properties['admin2Name']] = adminValue;\n    if(adminValue === undefined){\n        adminValue = 0\n    }\n    if (adminValue) {\n        value['style'] = {\n            'fill-color': \"red\",\n            'fill-opacity': adminValue / max,\n            'stroke-width': 1,\n            'stroke': '#fff'\n        }\n    } else {\n        value['style'] = {\n            'fill-color': \"grey\",\n            'fill-opacity': 0.5,\n            'stroke-width': 1,\n            'stroke': '#fff'\n        }\n    }\n});\nmsg.payload = administrative;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 120,
+        "wires": [
+            [
+                "d99e816f9b8374c1"
+            ]
+        ]
+    },
+    {
+        "id": "14bb9e3560f24c97",
+        "type": "http request",
+        "z": "dd655d4df0c8302b",
+        "name": "Somalia Administrative 2",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://unhcr.github.io/dataviz-somalia-prmn/data/Som_Admbnda_Adm2_UNDP.json",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 310,
+        "y": 80,
+        "wires": [
+            [
+                "ba7a7eacb8e101b8"
+            ]
+        ]
+    },
+    {
+        "id": "428784dcd332e263",
+        "type": "http request",
+        "z": "dd655d4df0c8302b",
+        "name": "Somalia Displacement Data",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://unhcr.github.io/dataviz-somalia-prmn/data/PRMNDataset.csv",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 180,
+        "y": 160,
+        "wires": [
+            [
+                "03a01d606dafe55b"
+            ]
+        ]
+    },
+    {
+        "id": "e3b86ba3ebfdd79b",
+        "type": "ui_template",
+        "z": "dd655d4df0c8302b",
+        "group": "3595240346c5cd3d",
+        "name": "New Displacement",
+        "order": 1,
+        "width": 10,
+        "height": 2,
+        "format": "<div style=\"padding:15px\">\n    <div>Displacement of {{msg.selected_year}}</div>\n    <h1>{{msg.payload['total']}}</h1>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 880,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "166fa878151c98d0",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "Get Arrival Districts Payload",
+        "func": "\nlet max = 0;\nfor (const [key, value] of Object.entries(msg.payload['arrivalDistricts'])) {\n    if (max < value) max = value;\n}\nconst byDepartureDistrict = msg.payload['arrivalDistricts']\nconst administrative = JSON.parse(JSON.stringify(msg.administrative_2));\nadministrative.features.forEach(function (value, idx) {\n    const properties = value['properties'];\n    let adminValue = byDepartureDistrict[properties['admin2Name']];\n    if(adminValue === undefined){\n        adminValue = 0;\n    }\n    value['properties'] = {};\n    value['properties'][properties['admin2Name']] = adminValue;\n    if (adminValue) {\n        value['style'] = {\n            'fill-color': \"blue\",\n            'fill-opacity': adminValue / max,\n            'stroke-width': 1,\n            'stroke': '#fff'\n        }\n    } else {\n        value['style'] = {\n            'fill-color': \"grey\",\n            'fill-opacity': 0.5,\n            'stroke-width': 1,\n            'stroke': '#fff'\n        }\n    }\n});\nmsg.payload = administrative;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 200,
+        "wires": [
+            [
+                "3430800e96d317d0"
+            ]
+        ]
+    },
+    {
+        "id": "3430800e96d317d0",
+        "type": "ui_worldmap",
+        "z": "dd655d4df0c8302b",
+        "group": "18e03b8f08e9a886",
+        "order": 7,
+        "width": 10,
+        "height": 8,
+        "name": "Arrival Districts",
+        "lat": "5.6247805",
+        "lon": "45.804684",
+        "zoom": "5.5",
+        "layer": "OSM grey",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "hide",
+        "layers": "hide",
+        "panit": "false",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "true",
+        "coords": "none",
+        "showgrid": "false",
+        "allowFileDrop": "false",
+        "path": "/arrival-districts",
+        "x": 1160,
+        "y": 200,
+        "wires": [],
+        "info": "Departure Districts"
+    },
+    {
+        "id": "5f9f1e9e9ad8c216",
+        "type": "worldmap",
+        "z": "dd655d4df0c8302b",
+        "name": "Arrival Districts",
+        "lat": "",
+        "lon": "",
+        "zoom": "",
+        "layer": "",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "hide",
+        "layers": "hide",
+        "panit": "false",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "false",
+        "coords": "none",
+        "showgrid": "false",
+        "allowFileDrop": "false",
+        "path": "/arrival-districts",
+        "x": 160,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "9df618f45727e77d",
+        "type": "worldmap",
+        "z": "dd655d4df0c8302b",
+        "name": "Departure Districts",
+        "lat": "",
+        "lon": "",
+        "zoom": "",
+        "layer": "",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "hide",
+        "layers": "hide",
+        "panit": "false",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "false",
+        "coords": "none",
+        "showgrid": "false",
+        "allowFileDrop": "false",
+        "path": "/departure-districts",
+        "x": 170,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "45a6a43671a132ee",
+        "type": "ui_chart",
+        "z": "dd655d4df0c8302b",
+        "name": "",
+        "group": "2b8c708fd58b9d50",
+        "order": 4,
+        "width": 8,
+        "height": 5,
+        "label": "Reasons",
+        "chartType": "horizontalBar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1140,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a903ab7029c8d260",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "Format Data By Reason",
+        "func": "let chartData = {\n    \"series\": [\"Count\"],\n    \"data\": [[]],\n    \"labels\": []\n};\n\nlet data = msg.payload['byReason'];\nvar items = Object.keys(data).map(function (key) {\n    return [key, data[key]];\n});\nitems.sort(function (first, second) {\n    return second[1] - first[1];\n});\nitems.forEach(function (item, idx) {\n    const key = item[0];\n    const value = item[1];\n    if (key !== undefined) {\n        chartData['labels'].push(key);\n        chartData['data'][0].push(value)\n    }\n\n})\nmsg.payload = [chartData];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 440,
+        "wires": [
+            [
+                "45a6a43671a132ee"
+            ]
+        ]
+    },
+    {
+        "id": "3ba9abf1469119fc",
+        "type": "ui_chart",
+        "z": "dd655d4df0c8302b",
+        "name": "",
+        "group": "2b8c708fd58b9d50",
+        "order": 5,
+        "width": 8,
+        "height": 5,
+        "label": "Needs",
+        "chartType": "horizontalBar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1130,
+        "y": 520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8a0d3a8b5c02c4d5",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "Format Data By Need",
+        "func": "let chartData = {\n    \"series\": [\"Count\"],\n    \"data\": [[]],\n    \"labels\": []\n};\n\nlet data = msg.payload['byNeed'];\nvar items = Object.keys(data).map(function (key) {\n    return [key, data[key]];\n});\nitems.sort(function (first, second) {\n    return second[1] - first[1];\n});\nitems.forEach(function (item, idx) {\n    const key = item[0];\n    const value = item[1];\n    if (key !== undefined) {\n        chartData['labels'].push(key);\n        chartData['data'][0].push(value)\n    }\n\n})\nmsg.payload = [chartData];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 520,
+        "wires": [
+            [
+                "3ba9abf1469119fc"
+            ]
+        ]
+    },
+    {
+        "id": "1385b2cc66eff94c",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "Format Data By Departure Regions",
+        "func": "let chartData = {\n    \"series\": [\"Count\"],\n    \"data\": [[]],\n    \"labels\": []\n};\n\nlet data = msg.payload['departureRegions'];\nvar items = Object.keys(data).map(function (key) {\n    return [key, data[key]];\n});\nitems.sort(function (first, second) {\n    return second[1] - first[1];\n});\nitems.forEach(function (item, idx) {\n    const key = item[0];\n    const value = item[1];\n    if (key !== undefined) {\n        chartData['labels'].push(key);\n        chartData['data'][0].push(value)\n    }\n\n})\nmsg.payload = [chartData];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 600,
+        "wires": [
+            [
+                "fd3fef9b06e52c5e"
+            ]
+        ]
+    },
+    {
+        "id": "fd3fef9b06e52c5e",
+        "type": "ui_chart",
+        "z": "dd655d4df0c8302b",
+        "name": "",
+        "group": "3595240346c5cd3d",
+        "order": 3,
+        "width": 5,
+        "height": 13,
+        "label": "By Departure Regions",
+        "chartType": "horizontalBar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1220,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0f6a569c0177c8ac",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "Format Data By Arrival Region",
+        "func": "let chartData = {\n    \"series\": [\"Count\"],\n    \"data\": [[]],\n    \"labels\": []\n};\n\nlet data = msg.payload['arrivalRegions'];\nvar items = Object.keys(data).map(function (key) {\n    return [key, data[key]];\n});\nitems.sort(function (first, second) {\n    return second[1] - first[1];\n});\nitems.forEach(function (item, idx) {\n    const key = item[0];\n    const value = item[1];\n    if (key !== undefined) {\n        chartData['labels'].push(key);\n        chartData['data'][0].push(value)\n    }\n\n})\nmsg.payload = [chartData];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 680,
+        "wires": [
+            [
+                "8b662eafd1e9f0f3"
+            ]
+        ]
+    },
+    {
+        "id": "8b662eafd1e9f0f3",
+        "type": "ui_chart",
+        "z": "dd655d4df0c8302b",
+        "name": "",
+        "group": "3595240346c5cd3d",
+        "order": 4,
+        "width": 5,
+        "height": 13,
+        "label": "By Arrival Regions",
+        "chartType": "horizontalBar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1210,
+        "y": 680,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "235f61152894521d",
+        "type": "ui_dropdown",
+        "z": "dd655d4df0c8302b",
+        "name": "Year Selection",
+        "label": "",
+        "tooltip": "",
+        "place": "Select Year",
+        "group": "2b8c708fd58b9d50",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "-----------",
+                "value": "null",
+                "type": "str"
+            },
+            {
+                "label": "2016",
+                "value": "2016",
+                "type": "str"
+            },
+            {
+                "label": "2017",
+                "value": "2017",
+                "type": "str"
+            },
+            {
+                "label": "2018",
+                "value": "2018",
+                "type": "str"
+            },
+            {
+                "label": "2019",
+                "value": "2019",
+                "type": "str"
+            },
+            {
+                "label": "2020",
+                "value": "2020",
+                "type": "str"
+            },
+            {
+                "label": "2021",
+                "value": "2021",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 100,
+        "y": 420,
+        "wires": [
+            [
+                "441a687a6f0270db"
+            ]
+        ]
+    },
+    {
+        "id": "441a687a6f0270db",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "Save to global",
+        "func": "global.set('selected_year', msg.payload)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 420,
+        "wires": [
+            [
+                "e61ab4bc03cdfefd"
+            ]
+        ]
+    },
+    {
+        "id": "9f737faa7187497e",
+        "type": "ui_button",
+        "z": "dd655d4df0c8302b",
+        "name": "",
+        "group": "2b8c708fd58b9d50",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Fetch Data",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 90,
+        "y": 80,
+        "wires": [
+            [
+                "14bb9e3560f24c97"
+            ]
+        ]
+    },
+    {
+        "id": "ba7a7eacb8e101b8",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "Save to global",
+        "func": "global.set('administrative_2', msg.payload)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 80,
+        "wires": [
+            [
+                "428784dcd332e263"
+            ]
+        ]
+    },
+    {
+        "id": "e61ab4bc03cdfefd",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "Get global value",
+        "func": "msg.administrative_2 = global.get('administrative_2')\nmsg.selected_year = global.get('selected_year')\nmsg.payload = global.get('displacement_data')\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 280,
+        "wires": [
+            [
+                "af8b1e619d1e52ce"
+            ]
+        ]
+    },
+    {
+        "id": "03a01d606dafe55b",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "Save to global",
+        "func": "global.set('displacement_data', msg.payload)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 160,
+        "wires": [
+            [
+                "e61ab4bc03cdfefd"
+            ]
+        ]
+    },
+    {
+        "id": "b2015791378ce57d",
+        "type": "ui_template",
+        "z": "dd655d4df0c8302b",
+        "group": "18e03b8f08e9a886",
+        "name": "Departure Districts Label",
+        "order": 4,
+        "width": 10,
+        "height": 1,
+        "format": "<div style=\"padding:15px\">\n    <div>Departure Districts</div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1230,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6ad6225550063f75",
+        "type": "ui_template",
+        "z": "dd655d4df0c8302b",
+        "group": "18e03b8f08e9a886",
+        "name": "Arrival Districts Label",
+        "order": 6,
+        "width": 10,
+        "height": 1,
+        "format": "<div style=\"padding:15px\">\n    <div>Arrival Districts</div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1220,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f4820cb32fd3707b",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "Format Data By Month",
+        "func": "let chartData = {\n    \"series\": [\"Count\"],\n    \"data\": [[]],\n    \"labels\": []\n};\nfor (const [key, value] of Object.entries(msg.payload['byMonth'])) {\n    if(key != undefined){\n        chartData['labels'].push(key);\n        chartData['data'][0].push(value)\n    }\n}\nmsg.payload = [chartData];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 320,
+        "wires": [
+            [
+                "56f084299a8d8d29"
+            ]
+        ]
+    },
+    {
+        "id": "56f084299a8d8d29",
+        "type": "ui_chart",
+        "z": "dd655d4df0c8302b",
+        "name": "",
+        "group": "3595240346c5cd3d",
+        "order": 2,
+        "width": 10,
+        "height": 4,
+        "label": "By Month",
+        "chartType": "bar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": true,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1140,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "55d59204316867e8",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "Format Data By Week",
+        "func": "let chartData = {\n    \"series\": [],\n    \"data\": [],\n    \"labels\": []\n};\nfor (let i = 1; i <= 52; i++) {\n    chartData['labels'].push(i);\n}\nfor (const [year, value] of Object.entries(msg.payload['byWeek'])) {\n    const series = year;\n    const data = [];\n    chartData['labels'].forEach(function (label, idx) {\n        data.push(value[idx] !== undefined ? value[idx] : 0)\n    })\n    chartData['series'].push(series);\n    chartData['data'].push(data);\n}\nmsg.payload = [chartData];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 360,
+        "wires": [
+            [
+                "91203d1a1244935b",
+                "f2fa2ef2012511c3"
+            ]
+        ]
+    },
+    {
+        "id": "91203d1a1244935b",
+        "type": "ui_chart",
+        "z": "dd655d4df0c8302b",
+        "name": "",
+        "group": "18e03b8f08e9a886",
+        "order": 3,
+        "width": 10,
+        "height": 4,
+        "label": "By Week",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "52",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": true,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1140,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f2fa2ef2012511c3",
+        "type": "debug",
+        "z": "dd655d4df0c8302b",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1150,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "2e9cff82b303a985",
+        "type": "ui_button",
+        "z": "2157259019d60ab7",
+        "name": "",
+        "group": "5d51c77f4c626c7b",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Fetch Data",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 130,
+        "y": 120,
+        "wires": [
+            [
+                "8009151d45f9fec7"
+            ]
+        ]
+    },
+    {
+        "id": "65d2823198e3824b",
+        "type": "http request",
+        "z": "2157259019d60ab7",
+        "name": "Somalia Food Security",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://mapipcissprd.us-east-1.elasticbeanstalk.com/api/public/population-tracking-tool/data/2017,2021/?page=1&limit=20&condition=A&country=SO",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 340,
+        "y": 180,
+        "wires": [
+            [
+                "c783d3ec83277790"
+            ]
+        ]
+    },
+    {
+        "id": "8009151d45f9fec7",
+        "type": "http request",
+        "z": "2157259019d60ab7",
+        "name": "Somalia Administrative 2",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://unhcr.github.io/dataviz-somalia-prmn/data/Som_Admbnda_Adm2_UNDP.json",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 350,
+        "y": 120,
+        "wires": [
+            [
+                "d644316ca78832b1"
+            ]
+        ]
+    },
+    {
+        "id": "d644316ca78832b1",
+        "type": "function",
+        "z": "2157259019d60ab7",
+        "name": "Save to global",
+        "func": "global.set('administrative_2', msg.payload)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 120,
+        "wires": [
+            [
+                "65d2823198e3824b"
+            ]
+        ]
+    },
+    {
+        "id": "c783d3ec83277790",
+        "type": "function",
+        "z": "2157259019d60ab7",
+        "name": "Save to global",
+        "func": "global.set('food_security', msg.payload)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 180,
+        "wires": [
+            [
+                "e061849f51835aea"
+            ]
+        ]
+    },
+    {
+        "id": "e061849f51835aea",
+        "type": "function",
+        "z": "2157259019d60ab7",
+        "name": "Get global value",
+        "func": "msg.administrative_2 = global.get('administrative_2')\nmsg.food_security = global.get('food_security')\nmsg.title = global.get('title_selected')\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 260,
+        "wires": [
+            [
+                "1a508bcd5622cd38",
+                "f1daff72ea08d86d"
+            ]
+        ]
+    },
+    {
+        "id": "1a508bcd5622cd38",
+        "type": "function",
+        "z": "2157259019d60ab7",
+        "name": "Format Food Security Data",
+        "func": "\nconst title = msg.title;\nconst dataByArea = {}\nmsg.food_security.forEach(function (value, idx) {\n    const areaName = value['area'].toLowerCase();\n    if (title !== value['title']) {\n        return\n    }\n\n    if (dataByArea[areaName] === undefined) {\n        dataByArea[areaName] = {}\n    }\n    dataByArea[areaName] = value\n    {\n        let updatedAreaName = null;\n        switch (areaName) {\n            case 'kismaayo':\n                updatedAreaName = 'kismayo';\n                break;\n            case 'baydhaba':\n                updatedAreaName = 'baidoa';\n                break;\n        }\n        if (updatedAreaName) {\n            if (dataByArea[updatedAreaName] === undefined) {\n                dataByArea[updatedAreaName] = {}\n            }\n            dataByArea[updatedAreaName] = value\n        }\n    }\n});\nmsg.payload = dataByArea;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 260,
+        "wires": [
+            [
+                "c80d8c35393f1236"
+            ]
+        ]
+    },
+    {
+        "id": "c80d8c35393f1236",
+        "type": "function",
+        "z": "2157259019d60ab7",
+        "name": "Format Administrative Data",
+        "func": "const dataByArea = msg.payload;\nconst administrative = JSON.parse(JSON.stringify(msg.administrative_2));\nconst colorPhase = [\n    '',\n    '#CDFACD',\n    '#F9E61E',\n    '#E67800',\n    '#C80F00',\n    '#640300'\n]\nadministrative.features.forEach(function (value, idx) {\n    const properties = value['properties'];\n    const areaProperty = dataByArea[properties.admin2Name.toLowerCase()];\n    if (areaProperty) {\n        let currentHtml = '';\n        let projectedHtml = '';\n        colorPhase.forEach(function (color, idx) {\n            if (idx !== 0) {\n                {\n                    const censusPopulation = areaProperty['estimated_population_current'];\n                    const population = areaProperty['phase' + idx + '_C_population'];\n                    const percent = ((population / censusPopulation) * 100).toFixed(0) + '%';\n                    currentHtml += \"<span title='\" + population + \"' style='display: inline-block; width: \" + percent + \"; background-color:\" + color + \"; overflow: hidden'>\" + percent + \"</span>\";\n                }\n                {\n                    const censusPopulation = areaProperty['estimated_population_projected'];\n                    const population = areaProperty['phase' + idx + '_P_population'];\n                    const percent = ((population / censusPopulation) * 100).toFixed(0) + '%';\n                    projectedHtml += \"<span title='\" + population + \"' style='display: inline-block; width: \" + percent + \"; background-color:\" + color + \"; overflow: hidden'>\" + percent + \"</span>\";\n                }\n            }\n\n        });\n        value['properties'] = {\n            'Title': areaProperty['title'],\n            'Name': properties.admin2Name,\n            'Population': areaProperty['census_population'],\n            'Phase 3+': areaProperty['p3_plus_population'],\n            'Percentage':\n                \"<div style='padding: 5px'>\" +\n                \"<b>Current</b><br><div style='width: 275px'>\" + currentHtml + \"</div>\" +\n                \"<b>Projected</b><br><div style='width: 275px'>\" + projectedHtml + \"</div>\" +\n                \"</div>\"\n        };\n\n        const phase = parseInt(areaProperty['overall_phase']);\n        value['style'] = {\n            'fill-color': colorPhase[phase],\n            'fill-opacity': 1,\n            'stroke-width': 1,\n            'stroke': '#fff'\n        }\n    } else {\n        value['style'] = {\n            'fill-color': \"grey\",\n            'fill-opacity': 1,\n            'stroke-width': 1,\n            'stroke': '#fff'\n        }\n    }\n});\nmsg.payload = administrative;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 260,
+        "wires": [
+            [
+                "6d346b1b842c6230"
+            ]
+        ]
+    },
+    {
+        "id": "43c250046a125408",
+        "type": "worldmap",
+        "z": "2157259019d60ab7",
+        "name": "Food Security",
+        "lat": "",
+        "lon": "",
+        "zoom": "",
+        "layer": "",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "hide",
+        "layers": "hide",
+        "panit": "false",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "false",
+        "coords": "none",
+        "showgrid": "false",
+        "allowFileDrop": "false",
+        "path": "/food-security",
+        "x": 140,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "6d346b1b842c6230",
+        "type": "ui_worldmap",
+        "z": "2157259019d60ab7",
+        "group": "5d51c77f4c626c7b",
+        "order": 6,
+        "width": 26,
+        "height": 13,
+        "name": "Food Security Map",
+        "lat": "5.6247805",
+        "lon": "45.804684",
+        "zoom": "5.5",
+        "layer": "OSM grey",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "hide",
+        "layers": "hide",
+        "panit": "false",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "true",
+        "coords": "none",
+        "showgrid": "false",
+        "allowFileDrop": "false",
+        "path": "/food-security",
+        "x": 1190,
+        "y": 260,
+        "wires": [],
+        "info": "Departure Districts"
+    },
+    {
+        "id": "38da5c9df1fc4bd7",
+        "type": "function",
+        "z": "2157259019d60ab7",
+        "name": "Format Data By Current Phase ",
+        "func": "\nlet chartData = {\n    \"series\": [\"Population\"],\n    \"data\": [[]],\n    \"labels\": []\n};\nmsg.payload.forEach(function (value, idx) {\n    if (value.name) {\n        chartData['labels'].push(value.name);\n        chartData['data'][0].push(value.currentPopulation)\n    }\n})\nmsg.payload = [chartData];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 340,
+        "wires": [
+            [
+                "392937c584165d91"
+            ]
+        ]
+    },
+    {
+        "id": "392937c584165d91",
+        "type": "ui_chart",
+        "z": "2157259019d60ab7",
+        "name": "",
+        "group": "5d51c77f4c626c7b",
+        "order": 4,
+        "width": 13,
+        "height": 7,
+        "label": "By Current Phase ",
+        "chartType": "horizontalBar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#cdfacd",
+            "#f9e61e",
+            "#e67800",
+            "#c80f00",
+            "#640300",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1250,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f1daff72ea08d86d",
+        "type": "function",
+        "z": "2157259019d60ab7",
+        "name": "Format Data By Phase",
+        "func": "const title = msg.title;\nconst dataByPhase = [\n    {},\n    { 'name': '1-Minimal', 'color': '#CDFACD', 'currentPopulation': 0, 'projectedPopulation': 0 },\n    { 'name': '2-Stressed', 'color': '#F9E61E', 'currentPopulation': 0, 'projectedPopulation': 0 },\n    { 'name': '3-Crisis', 'color': '#E67800', 'currentPopulation': 0, 'projectedPopulation': 0 },\n    { 'name': '4-Emergency', 'color': '#C80F00', 'currentPopulation': 0, 'projectedPopulation': 0 },\n    { 'name': '5-Famine', 'color': '#640300', 'currentPopulation': 0, 'projectedPopulation': 0 },\n]\nlet censusPopulation = 0;\nmsg.food_security.forEach(function (value, idx) {\n    if (title !== value['title']) {\n        return\n    }\n    censusPopulation = value['census_population'];\n    dataByPhase.forEach(function (dataByPhaseValue, phase) {\n        if (idx !== 0) {\n            const currentPopulation = value['phase' + phase + '_C_population'];\n            dataByPhase[phase]['currentPopulation'] += currentPopulation\n            const projectedPopulation = value['phase' + phase + '_P_population'];\n            dataByPhase[phase]['projectedPopulation'] += projectedPopulation\n        }\n\n    });\n});\nmsg.payload = dataByPhase;\nmsg.censusPopulation = censusPopulation;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 340,
+        "wires": [
+            [
+                "38da5c9df1fc4bd7",
+                "2c560a0d88f8a64f",
+                "c1e65543d7b935a9",
+                "909857283254e639"
+            ]
+        ]
+    },
+    {
+        "id": "2c560a0d88f8a64f",
+        "type": "function",
+        "z": "2157259019d60ab7",
+        "name": "Format Data By Projected Phase ",
+        "func": "\nlet chartData = {\n    \"series\": [\"Population\"],\n    \"data\": [[]],\n    \"labels\": []\n};\nmsg.payload.forEach(function (value, idx) {\n    if (value.name) {\n        chartData['labels'].push(value.name);\n        chartData['data'][0].push(value.projectedPopulation)\n    }\n})\nmsg.payload = [chartData];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 400,
+        "wires": [
+            [
+                "2974cfb7dbbc1d52"
+            ]
+        ]
+    },
+    {
+        "id": "c1e65543d7b935a9",
+        "type": "debug",
+        "z": "2157259019d60ab7",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "2974cfb7dbbc1d52",
+        "type": "ui_chart",
+        "z": "2157259019d60ab7",
+        "name": "",
+        "group": "5d51c77f4c626c7b",
+        "order": 5,
+        "width": 13,
+        "height": 7,
+        "label": "By Projected Phase ",
+        "chartType": "horizontalBar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#cdfacd",
+            "#f9e61e",
+            "#e67800",
+            "#c80f00",
+            "#640300",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1250,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "909857283254e639",
+        "type": "ui_template",
+        "z": "2157259019d60ab7",
+        "group": "5d51c77f4c626c7b",
+        "name": "Title Data",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "format": "<div style=\"padding:20px; text-align: center\">\n    {{msg.title}}\n    <br><br>\n    Population : <b>{{msg.censusPopulation}}</b>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 880,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5f8f72b44503e134",
+        "type": "ui_dropdown",
+        "z": "2157259019d60ab7",
+        "name": "Data Selection",
+        "label": "",
+        "tooltip": "",
+        "place": "Data Selector",
+        "group": "5d51c77f4c626c7b",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "-----------",
+                "value": "null",
+                "type": "str"
+            },
+            {
+                "label": "Acute Food Insecurity January 2021",
+                "value": "Acute Food Insecurity January 2021",
+                "type": "str"
+            },
+            {
+                "label": "Acute Food Insecurity August 2020",
+                "value": "Acute Food Insecurity August 2020",
+                "type": "str"
+            },
+            {
+                "label": "Acute Food Insecurity January 2020",
+                "value": "Acute Food Insecurity January 2020",
+                "type": "str"
+            },
+            {
+                "label": "Acute Food Insecurity August 2019",
+                "value": "Acute Food Insecurity August 2019",
+                "type": "str"
+            },
+            {
+                "label": "Acute Food Insecurity January 2019",
+                "value": "Acute Food Insecurity January 2019",
+                "type": "str"
+            },
+            {
+                "label": "Acute Food Insecurity July 2018",
+                "value": "Acute Food Insecurity July 2018",
+                "type": "str"
+            },
+            {
+                "label": "Acute Food Insecurity January 2018",
+                "value": "Acute Food Insecurity January 2018",
+                "type": "str"
+            },
+            {
+                "label": "Acute Food Insecurity July 2017",
+                "value": "Acute Food Insecurity July 2017",
+                "type": "str"
+            },
+            {
+                "label": "Acute Food Insecurity January 2017",
+                "value": "Acute Food Insecurity January 2017",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 140,
+        "y": 320,
+        "wires": [
+            [
+                "51d5609270ddb1d3"
+            ]
+        ]
+    },
+    {
+        "id": "51d5609270ddb1d3",
+        "type": "function",
+        "z": "2157259019d60ab7",
+        "name": "Save to global",
+        "func": "global.set('title_selected', msg.payload)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 320,
+        "wires": [
+            [
+                "e061849f51835aea"
+            ]
+        ]
+    },
+    {
+        "id": "8a7dafa48e3da05b",
+        "type": "http request",
+        "z": "33dd0dbb8f924aeb",
+        "name": "Home Page",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "/home",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 390,
+        "y": 200,
+        "wires": [
+            [
+                "51d40c8ae83d8eb5"
+            ]
+        ]
+    },
+    {
+        "id": "e8164e41d17bbfdb",
+        "type": "comment",
+        "z": "33dd0dbb8f924aeb",
+        "name": "Home Page",
+        "info": "",
+        "x": 390,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "51d40c8ae83d8eb5",
+        "type": "ui_template",
+        "z": "33dd0dbb8f924aeb",
+        "group": "e79fb4e521483cf3",
+        "name": "Home Page",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "format": "<html>\n    <title>Test</title>\n    <body>\n        Test\n    </body>\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 630,
+        "y": 200,
+        "wires": [
+            [
+                "fe19cb93eb7e30a0"
+            ]
+        ]
+    },
+    {
+        "id": "fe19cb93eb7e30a0",
+        "type": "http response",
+        "z": "33dd0dbb8f924aeb",
+        "name": "Home Page",
+        "statusCode": "",
+        "headers": {},
+        "x": 850,
+        "y": 200,
+        "wires": []
+    }
+]
