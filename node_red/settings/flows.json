@@ -2531,6 +2531,10 @@
         "showgrid": "false",
         "allowFileDrop": "false",
         "path": "/worldmap",
+        "mapname": "",
+        "mapurl": "",
+        "mapopt": "",
+        "mapwms": false,
         "x": 1200,
         "y": 480,
         "wires": []
@@ -2556,6 +2560,10 @@
         "showgrid": "false",
         "allowFileDrop": "false",
         "path": "/worldmap",
+        "mapname": "",
+        "mapurl": "",
+        "mapopt": "",
+        "mapwms": false,
         "x": 1280,
         "y": 580,
         "wires": []
@@ -3249,7 +3257,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 550,
+        "x": 630,
         "y": 280,
         "wires": [
             [
@@ -3362,7 +3370,7 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 310,
+        "x": 330,
         "y": 80,
         "wires": [
             [
@@ -3460,56 +3468,6 @@
         "y": 200,
         "wires": [],
         "info": "Departure Districts"
-    },
-    {
-        "id": "5f9f1e9e9ad8c216",
-        "type": "worldmap",
-        "z": "dd655d4df0c8302b",
-        "name": "Arrival Districts",
-        "lat": "",
-        "lon": "",
-        "zoom": "",
-        "layer": "",
-        "cluster": "",
-        "maxage": "",
-        "usermenu": "hide",
-        "layers": "hide",
-        "panit": "false",
-        "panlock": "false",
-        "zoomlock": "false",
-        "hiderightclick": "false",
-        "coords": "none",
-        "showgrid": "false",
-        "allowFileDrop": "false",
-        "path": "/arrival-districts",
-        "x": 160,
-        "y": 740,
-        "wires": []
-    },
-    {
-        "id": "9df618f45727e77d",
-        "type": "worldmap",
-        "z": "dd655d4df0c8302b",
-        "name": "Departure Districts",
-        "lat": "",
-        "lon": "",
-        "zoom": "",
-        "layer": "",
-        "cluster": "",
-        "maxage": "",
-        "usermenu": "hide",
-        "layers": "hide",
-        "panit": "false",
-        "panlock": "false",
-        "zoomlock": "false",
-        "hiderightclick": "false",
-        "coords": "none",
-        "showgrid": "false",
-        "allowFileDrop": "false",
-        "path": "/departure-districts",
-        "x": 170,
-        "y": 680,
-        "wires": []
     },
     {
         "id": "45a6a43671a132ee",
@@ -3770,56 +3728,20 @@
         "name": "Year Selection",
         "label": "",
         "tooltip": "",
-        "place": "Select Year",
+        "place": "Loading",
         "group": "2b8c708fd58b9d50",
         "order": 2,
         "width": 0,
         "height": 0,
         "passthru": true,
         "multiple": false,
-        "options": [
-            {
-                "label": "-----------",
-                "value": "null",
-                "type": "str"
-            },
-            {
-                "label": "2016",
-                "value": "2016",
-                "type": "str"
-            },
-            {
-                "label": "2017",
-                "value": "2017",
-                "type": "str"
-            },
-            {
-                "label": "2018",
-                "value": "2018",
-                "type": "str"
-            },
-            {
-                "label": "2019",
-                "value": "2019",
-                "type": "str"
-            },
-            {
-                "label": "2020",
-                "value": "2020",
-                "type": "str"
-            },
-            {
-                "label": "2021",
-                "value": "2021",
-                "type": "str"
-            }
-        ],
+        "options": [],
         "payload": "",
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 100,
-        "y": 420,
+        "x": 140,
+        "y": 280,
         "wires": [
             [
                 "441a687a6f0270db"
@@ -3837,39 +3759,11 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 420,
+        "x": 280,
+        "y": 340,
         "wires": [
             [
                 "e61ab4bc03cdfefd"
-            ]
-        ]
-    },
-    {
-        "id": "9f737faa7187497e",
-        "type": "ui_button",
-        "z": "dd655d4df0c8302b",
-        "name": "",
-        "group": "2b8c708fd58b9d50",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "label": "Fetch Data",
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "payload": "",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "x": 90,
-        "y": 80,
-        "wires": [
-            [
-                "14bb9e3560f24c97"
             ]
         ]
     },
@@ -3903,7 +3797,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 300,
+        "x": 420,
         "y": 280,
         "wires": [
             [
@@ -3926,7 +3820,7 @@
         "y": 160,
         "wires": [
             [
-                "e61ab4bc03cdfefd"
+                "7d57695482ab2822"
             ]
         ]
     },
@@ -4116,34 +4010,6 @@
         "wires": []
     },
     {
-        "id": "2e9cff82b303a985",
-        "type": "ui_button",
-        "z": "2157259019d60ab7",
-        "name": "",
-        "group": "5d51c77f4c626c7b",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "label": "Fetch Data",
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "className": "",
-        "icon": "",
-        "payload": "",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "x": 130,
-        "y": 120,
-        "wires": [
-            [
-                "8009151d45f9fec7"
-            ]
-        ]
-    },
-    {
         "id": "65d2823198e3824b",
         "type": "http request",
         "z": "2157259019d60ab7",
@@ -4219,7 +4085,7 @@
         "y": 180,
         "wires": [
             [
-                "e061849f51835aea"
+                "cf5bd18f2abcd3ec"
             ]
         ]
     },
@@ -4234,7 +4100,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 320,
+        "x": 420,
         "y": 260,
         "wires": [
             [
@@ -4254,7 +4120,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 620,
+        "x": 660,
         "y": 260,
         "wires": [
             [
@@ -4280,31 +4146,6 @@
                 "6d346b1b842c6230"
             ]
         ]
-    },
-    {
-        "id": "43c250046a125408",
-        "type": "worldmap",
-        "z": "2157259019d60ab7",
-        "name": "Food Security",
-        "lat": "",
-        "lon": "",
-        "zoom": "",
-        "layer": "",
-        "cluster": "",
-        "maxage": "",
-        "usermenu": "hide",
-        "layers": "hide",
-        "panit": "false",
-        "panlock": "false",
-        "zoomlock": "false",
-        "hiderightclick": "false",
-        "coords": "none",
-        "showgrid": "false",
-        "allowFileDrop": "false",
-        "path": "/food-security",
-        "x": 140,
-        "y": 380,
-        "wires": []
     },
     {
         "id": "6d346b1b842c6230",
@@ -4410,8 +4251,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 640,
-        "y": 340,
+        "x": 680,
+        "y": 320,
         "wires": [
             [
                 "38da5c9df1fc4bd7",
@@ -4528,71 +4369,20 @@
         "name": "Data Selection",
         "label": "",
         "tooltip": "",
-        "place": "Data Selector",
+        "place": "Loading",
         "group": "5d51c77f4c626c7b",
         "order": 2,
         "width": 0,
         "height": 0,
         "passthru": true,
         "multiple": false,
-        "options": [
-            {
-                "label": "-----------",
-                "value": "null",
-                "type": "str"
-            },
-            {
-                "label": "Acute Food Insecurity January 2021",
-                "value": "Acute Food Insecurity January 2021",
-                "type": "str"
-            },
-            {
-                "label": "Acute Food Insecurity August 2020",
-                "value": "Acute Food Insecurity August 2020",
-                "type": "str"
-            },
-            {
-                "label": "Acute Food Insecurity January 2020",
-                "value": "Acute Food Insecurity January 2020",
-                "type": "str"
-            },
-            {
-                "label": "Acute Food Insecurity August 2019",
-                "value": "Acute Food Insecurity August 2019",
-                "type": "str"
-            },
-            {
-                "label": "Acute Food Insecurity January 2019",
-                "value": "Acute Food Insecurity January 2019",
-                "type": "str"
-            },
-            {
-                "label": "Acute Food Insecurity July 2018",
-                "value": "Acute Food Insecurity July 2018",
-                "type": "str"
-            },
-            {
-                "label": "Acute Food Insecurity January 2018",
-                "value": "Acute Food Insecurity January 2018",
-                "type": "str"
-            },
-            {
-                "label": "Acute Food Insecurity July 2017",
-                "value": "Acute Food Insecurity July 2017",
-                "type": "str"
-            },
-            {
-                "label": "Acute Food Insecurity January 2017",
-                "value": "Acute Food Insecurity January 2017",
-                "type": "str"
-            }
-        ],
+        "options": [],
         "payload": "",
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 140,
-        "y": 320,
+        "x": 120,
+        "y": 260,
         "wires": [
             [
                 "51d5609270ddb1d3"
@@ -4610,7 +4400,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 320,
+        "x": 280,
         "y": 320,
         "wires": [
             [
@@ -4682,5 +4472,186 @@
         "x": 850,
         "y": 200,
         "wires": []
+    },
+    {
+        "id": "f9cf4693359c8e17",
+        "type": "inject",
+        "z": "dd655d4df0c8302b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 80,
+        "wires": [
+            [
+                "14bb9e3560f24c97"
+            ]
+        ]
+    },
+    {
+        "id": "dfc59d8d2d6278ad",
+        "type": "inject",
+        "z": "2157259019d60ab7",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 120,
+        "wires": [
+            [
+                "8009151d45f9fec7"
+            ]
+        ]
+    },
+    {
+        "id": "2993eafb88f72b1c",
+        "type": "worldmap",
+        "z": "dd655d4df0c8302b",
+        "name": "Departure District",
+        "lat": "",
+        "lon": "",
+        "zoom": "",
+        "layer": "",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "show",
+        "layers": "show",
+        "panit": "false",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "false",
+        "coords": "none",
+        "showgrid": "false",
+        "allowFileDrop": "false",
+        "path": "/departure-districts",
+        "mapname": "",
+        "mapurl": "",
+        "mapopt": "",
+        "mapwms": false,
+        "x": 170,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "0119963978885e0f",
+        "type": "worldmap",
+        "z": "dd655d4df0c8302b",
+        "name": "Arrival Districts",
+        "lat": "",
+        "lon": "",
+        "zoom": "",
+        "layer": "",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "show",
+        "layers": "show",
+        "panit": "false",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "false",
+        "coords": "none",
+        "showgrid": "false",
+        "allowFileDrop": "false",
+        "path": "/arrival-districts",
+        "mapname": "",
+        "mapurl": "",
+        "mapopt": "",
+        "mapwms": false,
+        "x": 160,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "ba1d73f5cb42dff4",
+        "type": "worldmap",
+        "z": "2157259019d60ab7",
+        "name": "Food Security",
+        "lat": "",
+        "lon": "",
+        "zoom": "",
+        "layer": "",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "show",
+        "layers": "show",
+        "panit": "false",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "false",
+        "coords": "none",
+        "showgrid": "false",
+        "allowFileDrop": "false",
+        "path": "/food-security",
+        "mapname": "",
+        "mapurl": "",
+        "mapopt": "",
+        "mapwms": false,
+        "x": 150,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "7d57695482ab2822",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "Create selection",
+        "func": "let current = global.get('selected_year')\nif (!current) {\n    current = '2021';\n}\nmsg.payload = current;\nmsg.options = ['2016','2017','2018','2019','2020','2021'];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 140,
+        "y": 220,
+        "wires": [
+            [
+                "235f61152894521d"
+            ]
+        ]
+    },
+    {
+        "id": "cf5bd18f2abcd3ec",
+        "type": "function",
+        "z": "2157259019d60ab7",
+        "name": "Data Selection",
+        "func": "let current = global.get('title_selected')\nif (!current) {\n    current = 'Acute Food Insecurity January 2021';\n}\nmsg.payload = current;\nmsg.options = ['Acute Food Insecurity January 2021','Acute Food Insecurity August 2020','Acute Food Insecurity January 2020','Acute Food Insecurity August 2019','Acute Food Insecurity January 2019','Acute Food Insecurity July 2018','Acute Food Insecurity January 2018','Acute Food Insecurity July 2017','Acute Food Insecurity January 2017'];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 860,
+        "y": 180,
+        "wires": [
+            [
+                "5f8f72b44503e134"
+            ]
+        ]
     }
 ]
