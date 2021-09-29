@@ -171,8 +171,8 @@
             }
         },
         "site": {
-            "name": "Tim Playground",
-            "hideToolbar": "false",
+            "name": "UNICEF",
+            "hideToolbar": "true",
             "allowSwipe": "true",
             "lockMenu": "true",
             "allowTempTheme": "none",
@@ -3251,7 +3251,7 @@
         "type": "function",
         "z": "dd655d4df0c8302b",
         "name": "Format Data",
-        "func": "const example = msg.payload;\nconst year = parseInt(msg.selected_year);\nconst rawRows = example.split('\\n');\nconst headers = rawRows[0].split(',');\n\nconst output = {\n    'list': [],\n    'byYear': {},\n    'byMonth': {},\n    'byWeek': {},\n    'byReason': {},\n    'byNeed': {},\n    'departureRegions': {},\n    'arrivalRegions': {},\n    'departureDistricts': {},\n    'arrivalDistricts': {},\n    'total': 0,\n};\nconst selectedYear = year;\nrawRows.forEach(function (rawRow, rawRowIdx) {\n    if (rawRowIdx !== 0) {\n        const row = rawRow.split(',');\n        const data = {};\n        headers.forEach(function (value, idx) {\n            if (value !== undefined && row[idx] !== undefined) {\n                data[value.replace('\\r', '')] = row[idx].replace('\\r', '')\n            }\n        });\n        output['list'].push(data);\n        const people = parseInt(data['tpeople']);\n        const yearData = parseInt(data['yr']);\n        if (isNaN(yearData)) {\n            return;\n        }\n\n        // format by year data\n        {\n            const dataKey = yearData;\n            const outputKey = 'byYear';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n        // format by week\n        {\n            const year = data['yr'];\n            const week = data['weeknum'];\n            const outputKey = 'byWeek';\n            if (output[outputKey][year] === undefined) {\n                output[outputKey][year] = {};\n            }\n            if (output[outputKey][year][week] === undefined) {\n                output[outputKey][year][week] = 0;\n            }\n            output[outputKey][year][week] += people;\n        }\n        if (yearData !== selectedYear) {\n            return\n        }\n        output['total'] += people;\n\n        // by month\n        {\n            const dataKey = data['monthname'] + ' ' + data['yr'];\n            const outputKey = 'byMonth';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n\n        // by reason\n        {\n            const dataKey = data['creason'];\n            const outputKey = 'byReason';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n\n        // by needs\n        {\n            const dataKey = data['cneed'];\n            const outputKey = 'byNeed';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n        // by Departure Regions\n        {\n            const dataKey = data['pregion'];\n            const outputKey = 'departureRegions';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n\n        // by Departure Regions\n        {\n            const dataKey = data['cregion'];\n            const outputKey = 'arrivalRegions';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n\n        // by Departure District\n        {\n            const dataKey = data['pdistrict'];\n            const outputKey = 'departureDistricts';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n\n        // by Departure District\n        {\n            const dataKey = data['cdistrict'];\n            const outputKey = 'arrivalDistricts';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n    }\n});\n\nmsg.payload = output;\nreturn msg;",
+        "func": "const example = msg.payload;\nconst year = parseInt(msg.selected_year);\nconst rawRows = example.split('\\n');\nconst headers = rawRows[0].split(',');\n\nconst output = {\n    'list': [],\n    'byYear': {},\n    'byMonth': {},\n    'byWeek': {},\n    'byReason': {},\n    'byNeed': {},\n    'departureRegions': {},\n    'arrivalRegions': {},\n    'departureDistricts': {},\n    'arrivalDistricts': {},\n    'total': 0,\n};\nconst selectedYear = year;\nrawRows.forEach(function (rawRow, rawRowIdx) {\n    if (rawRowIdx !== 0) {\n        const row = rawRow.split(',');\n        const data = {};\n        headers.forEach(function (value, idx) {\n            if (value !== undefined && row[idx] !== undefined) {\n                data[value.replace('\\r', '')] = row[idx].replace('\\r', '')\n            }\n        });\n        output['list'].push(data);\n        const people = parseInt(data['tpeople']);\n        const yearData = parseInt(data['yr']);\n        if (isNaN(yearData)) {\n            return;\n        }\n\n        // format by year data\n        {\n            const dataKey = yearData;\n            const outputKey = 'byYear';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n        // format by week\n        {\n            const year = data['yr'];\n            const week = data['weeknum'];\n            const outputKey = 'byWeek';\n            if (output[outputKey][year] === undefined) {\n                output[outputKey][year] = {};\n            }\n            if (output[outputKey][year][week] === undefined) {\n                output[outputKey][year][week] = 0;\n            }\n            output[outputKey][year][week] += people;\n        }\n        if (yearData !== selectedYear) {\n            return\n        }\n        output['total'] += people;\n\n        // by month\n        {\n            const dataKey = data['monthname'] + ' ' + data['yr'];\n            const outputKey = 'byMonth';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n\n        // by reason\n        {\n            const dataKey = data['creason'];\n            const outputKey = 'byReason';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n\n        // by needs\n        {\n            const dataKey = data['cneed'];\n            const outputKey = 'byNeed';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n        // by Departure Regions\n        {\n            const dataKey = data['pregion'];\n            const outputKey = 'departureRegions';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n\n        // by Departure Regions\n        {\n            const dataKey = data['cregion'];\n            const outputKey = 'arrivalRegions';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n\n        // by Departure District\n        {\n            const dataKey = data['pdistrict'];\n            const outputKey = 'departureDistricts';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n\n        // by Departure District\n        {\n            const dataKey = data['cdistrict'];\n            const outputKey = 'arrivalDistricts';\n            if (output[outputKey][dataKey] === undefined) {\n                output[outputKey][dataKey] = 0;\n            }\n            output[outputKey][dataKey] += people;\n        }\n    }\n});\nmsg.payload = output;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3263,7 +3263,6 @@
             [
                 "28b480d3f124bcf9",
                 "334ce6250dae51ad",
-                "e3b86ba3ebfdd79b",
                 "166fa878151c98d0",
                 "a903ab7029c8d260",
                 "8a0d3a8b5c02c4d5",
@@ -3271,7 +3270,8 @@
                 "0f6a569c0177c8ac",
                 "f4820cb32fd3707b",
                 "55d59204316867e8",
-                "f2fa2ef2012511c3"
+                "f2fa2ef2012511c3",
+                "67d320d1955a463d"
             ]
         ]
     },
@@ -3408,13 +3408,13 @@
         "order": 1,
         "width": 10,
         "height": 2,
-        "format": "<div style=\"padding:15px\">\n    <div>Displacement of {{msg.selected_year}}</div>\n    <h1>{{msg.payload['total']}}</h1>\n</div>",
+        "format": "<div style=\"padding:15px\">\n    <div>Displacement of {{msg.selected_year}}</div>\n    <h1>{{msg.payload}}</h1>\n</div>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 880,
+        "x": 1250,
         "y": 60,
         "wires": [
             []
@@ -4258,7 +4258,7 @@
                 "38da5c9df1fc4bd7",
                 "2c560a0d88f8a64f",
                 "c1e65543d7b935a9",
-                "909857283254e639"
+                "885c7013c2d938bc"
             ]
         ]
     },
@@ -4350,13 +4350,13 @@
         "order": 3,
         "width": 0,
         "height": 0,
-        "format": "<div style=\"padding:20px; text-align: center\">\n    {{msg.title}}\n    <br><br>\n    Population : <b>{{msg.censusPopulation}}</b>\n</div>",
+        "format": "<div style=\"padding:20px; text-align: center\">\n    {{msg.title}}\n    <br><br>\n    Population : <b>{{msg.payload}}</b>\n</div>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 880,
+        "x": 1300,
         "y": 300,
         "wires": [
             []
@@ -4400,32 +4400,11 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 280,
+        "x": 260,
         "y": 320,
         "wires": [
             [
                 "e061849f51835aea"
-            ]
-        ]
-    },
-    {
-        "id": "8a7dafa48e3da05b",
-        "type": "http request",
-        "z": "33dd0dbb8f924aeb",
-        "name": "Home Page",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "/home",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "x": 390,
-        "y": 200,
-        "wires": [
-            [
-                "51d40c8ae83d8eb5"
             ]
         ]
     },
@@ -4438,29 +4417,6 @@
         "x": 390,
         "y": 160,
         "wires": []
-    },
-    {
-        "id": "51d40c8ae83d8eb5",
-        "type": "ui_template",
-        "z": "33dd0dbb8f924aeb",
-        "group": "e79fb4e521483cf3",
-        "name": "Home Page",
-        "order": 4,
-        "width": 0,
-        "height": 0,
-        "format": "<html>\n    <title>Test</title>\n    <body>\n        Test\n    </body>\n</html>",
-        "storeOutMessages": true,
-        "fwdInMessages": true,
-        "resendOnRefresh": true,
-        "templateScope": "local",
-        "className": "",
-        "x": 630,
-        "y": 200,
-        "wires": [
-            [
-                "fe19cb93eb7e30a0"
-            ]
-        ]
     },
     {
         "id": "fe19cb93eb7e30a0",
@@ -4490,7 +4446,7 @@
         "repeat": "",
         "crontab": "",
         "once": true,
-        "onceDelay": "1",
+        "onceDelay": "0.1",
         "topic": "",
         "payloadType": "date",
         "x": 110,
@@ -4518,7 +4474,7 @@
         "repeat": "",
         "crontab": "",
         "once": true,
-        "onceDelay": "1",
+        "onceDelay": "0.1",
         "topic": "",
         "payloadType": "date",
         "x": 130,
@@ -4651,6 +4607,118 @@
         "wires": [
             [
                 "5f8f72b44503e134"
+            ]
+        ]
+    },
+    {
+        "id": "8be14baab07665c4",
+        "type": "template",
+        "z": "33dd0dbb8f924aeb",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<html>\n    <title>Test</title>\n    <body>\n        Test\n    </body>\n</html>",
+        "output": "str",
+        "x": 620,
+        "y": 200,
+        "wires": [
+            [
+                "fe19cb93eb7e30a0"
+            ]
+        ]
+    },
+    {
+        "id": "59630753f9b16c56",
+        "type": "http in",
+        "z": "33dd0dbb8f924aeb",
+        "name": "Home Page",
+        "url": "/home",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 390,
+        "y": 200,
+        "wires": [
+            [
+                "8be14baab07665c4"
+            ]
+        ]
+    },
+    {
+        "id": "69e0a637af27b632",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "Int to CommaSeparator",
+        "func": "msg.payload =  msg.payload.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, \",\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1030,
+        "y": 60,
+        "wires": [
+            [
+                "e3b86ba3ebfdd79b"
+            ]
+        ]
+    },
+    {
+        "id": "67d320d1955a463d",
+        "type": "function",
+        "z": "dd655d4df0c8302b",
+        "name": "getTotal",
+        "func": "msg.payload = msg.payload.total;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 840,
+        "y": 60,
+        "wires": [
+            [
+                "69e0a637af27b632"
+            ]
+        ]
+    },
+    {
+        "id": "4091b7ed89af41b6",
+        "type": "function",
+        "z": "2157259019d60ab7",
+        "name": "Int to CommaSeparator",
+        "func": "msg.payload =  msg.payload.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, \",\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1110,
+        "y": 300,
+        "wires": [
+            [
+                "909857283254e639"
+            ]
+        ]
+    },
+    {
+        "id": "885c7013c2d938bc",
+        "type": "function",
+        "z": "2157259019d60ab7",
+        "name": "getPopulation",
+        "func": "msg.payload = msg.censusPopulation;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 300,
+        "wires": [
+            [
+                "4091b7ed89af41b6"
             ]
         ]
     }

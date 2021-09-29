@@ -1,4 +1,4 @@
-settings/.flows.json.backup
+settings/.flows*
 settings/.npm
 settings/.config*
 settings/package-lock.json
