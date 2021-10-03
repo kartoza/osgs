@@ -20,6 +20,16 @@ help:
 	@echo "------------------------------------------------------------------"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort  | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m - %s\n", $$1, $$2}'
 
+backup-everything: ## Sequentially run through all backup scripts
+	@make backup-hugo
+	-@make backup-db-qgis-styles
+	-@make backup-db-qgis-project
+	@make backup-db
+	@make backup-all-databases
+	@make backup-mergin-base-db-schema
+	@make backup-node-red
+	@make backup-mosquitto
+
 
 # We need to declare phony here since the docs dir exists
 # otherwise make tries to execute the docs file directly
@@ -764,6 +774,14 @@ backup-db: ## Backup the gis database
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-gis-database.dmp
 	@cp backups/osgisstack-gis-database.dmp backups/osgisstack-gis-database-$$(date +%Y-%m-%d).dmp
 	@ls -lah backups/osgisstack-gis-database*
+
+list-database-sizes: ## Show the disk space used by each database
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Listing the sizes of all postgres databases"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db bash -c "psql -c '\l+' > /tmp/listing.txt; cat /tmp/listing.txt | sed 's/--//g'" | sed 's/ //g' | awk 'BEGIN { FS = "|" } {print $$1 ":" $$7}' | tail -n +4 | head -n -5
 
 backup-all-databases: ## Backup all postgresql databases
 	@make check-env
