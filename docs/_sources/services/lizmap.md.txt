@@ -13,13 +13,51 @@ Lizmap is an open source software designed by 3Liz that allows QGIS® Desktop to
 **Docker Source Repository:**
 [3liz / docker-lizmap-web-client](https://github.com/3liz/lizmap-web-client/tree/master/docker)
 
-## Configuration
-
 ## Deployment
 
+```
+make deploy-lizmap
+```
+ 
 ## Enabling
 
+```
+make enable-lizmap
+```
+ 
+## Configuration
+
+```
+make configure-lizmap
+```
+ 
+ ## Starting
+
+```
+make start-lizmap
+```
+
+## Stopping
+
+```
+make stop-lizmap
+```
 ## Disabling
+
+```
+make disable-lizmap
+```
+ ## Logs
+
+```
+make lizmap-logs
+```
+
+ ## Shell 
+
+ ```
+make lizmap-shell
+ ```
 
 ## Accessing the running services
 

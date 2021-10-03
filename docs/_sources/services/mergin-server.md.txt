@@ -25,14 +25,59 @@ Mergin is a web platform for storage and synchronisation of geospatial projects 
 
 **Docker Source Repository:** [lutraconsulting / mergin](https://github.com/lutraconsulting/mergin)
 
-
-## Configuration
-
 ## Deployment
+
+```
+make deploy-mergin-server
+```
 
 ## Enabling
 
+```
+make enable-mergin-server
+```
+
+## Configuration
+
+```
+make configure-mergin-server
+```
+
+## Starting
+
+```
+make start-mergin-server
+```
+
+## Stopping 
+
+```
+make stop-mergin-server
+```
+
 ## Disabling
+
+```
+make disable-mergin-server
+```
+
+## Logs
+
+```
+make mergin-server-logs
+```
+
+## Shell 
+
+```
+make mergin-server-shell
+```
+
+## Restoring data
+
+```
+make restore-mergin-server-sql
+```
 
 ## Accessing the running services
 

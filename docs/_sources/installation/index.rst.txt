@@ -9,6 +9,7 @@ Installation
    initial_configuration
    fonts
    production_stack
+   instructions_for_windows_users
    
 
 Indices and tables

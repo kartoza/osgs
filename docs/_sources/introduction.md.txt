@@ -1,6 +1,9 @@
 # Introduction
 
-## **What is the Open Source GIS Stack?**
+The Open Source GIS Stack by [Kartoza](https://kartoza.com/en/) is maintained in the [kartoza / osgs](https://github.com/kartoza/osgs) repository. 
+
+## What is the Open Source GIS Stack?
+
 In the open source geospatial world, there are different interesting technologies that have been 
 developed to allow one to manipulate, visualize, publish, manage, edit, etc. geospatial data. 
 These technologies are often in disparate projects. Programs like the QGIS project, are often 
