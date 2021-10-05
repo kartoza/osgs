@@ -229,6 +229,8 @@ services:
 
   db:
     image: *postgres-image
+    # Allocate more then the default 64mb to postgresql
+    shm_size: 1g
     profiles:
         - db
         - postgres
