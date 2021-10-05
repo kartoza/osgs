@@ -1,0 +1,14 @@
+{
+  "name": "node-red-project",
+  "description": "A Node-RED Project",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "node-red-contrib-pdfmake": "~1.1.0",
+    "node-red-contrib-postgres-multi": "git+https://github.com/kartoza/node-red-contrib-postgres-multi.git",
+    "node-red-contrib-web-worldmap": "~2.16.1",
+    "node-red-dashboard": "~3.0.4",
+    "node-red-node-ui-iframe": "~0.2.1",
+    "node-red-node-ui-table": "~0.3.11"
+  }
+}

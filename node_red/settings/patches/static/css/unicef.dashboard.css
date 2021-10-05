@@ -1,0 +1,20 @@
+header {
+    background: var(--main-color);
+    padding: 10px 27px;
+}
+
+header img {
+    height: 44px;
+}
+
+.md-sidenav-left {
+    font-size: 15px;
+}
+
+.nr-menu-item-active div button {
+    border-right: 4px solid var(--main-color) !important;
+}
+
+.nr-menu-item-active {
+    color: var(--main-color) !important;
+}
