@@ -220,6 +220,11 @@ services:
       - scp_hugo_data:/src/content
       # config from host mounted volume
       - ./conf/hugo_conf/config.yaml:/src/config.yaml
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   ############################################################
   #  END OF DEFAULT SERVICES - everything after this
@@ -290,6 +295,11 @@ services:
     restart: unless-stopped
     healthcheck:
         test: "exit 0"
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   lizmap:
     # This is not WORKING YET!
@@ -318,6 +328,11 @@ services:
       - ./lizmap:/srv/lizmap
     networks:
       - os-gis-stack
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   # used by lizmap and mergin web server and perhaps others
   redis:
@@ -331,6 +346,11 @@ services:
       - 6379   
     networks:
       - os-gis-stack  
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   # Geoserver backend specifically supporting GeoNode
   # that includes the GeoNode plugins
@@ -371,6 +391,11 @@ services:
     restart: on-failure
     networks:
       - os-gis-stack    
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   qgis-server:
     image: *qgis-server-image
@@ -464,6 +489,11 @@ services:
      # - TODO for the future
      - mergin_sync_data:/mergin-data     
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
   
   # QGIS Desktop running in a web browser via XPRA
   # We will revers proxy it via nginx so no public port 
@@ -505,6 +535,11 @@ services:
      # - TODO for the future
      - mergin_sync_data:/mergin-data     
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
 
   mapproxy:
@@ -525,6 +560,11 @@ services:
       - ./conf/mapproxy_conf/clip:/mapproxy/clip
     networks:
      - os-gis-stack
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   mapproxy-seed:
     ##
@@ -552,6 +592,11 @@ services:
       - ./conf/mapproxy_conf/clip:/mapproxy/clip
     networks:
       - os-gis-stack
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
     
 
   postgrest:
@@ -580,6 +625,11 @@ services:
       - db
     networks:
       - os-gis-stack
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   swagger:
     image: *swagger-image
@@ -598,6 +648,11 @@ services:
       - postgrest
     networks:
       - os-gis-stack
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
 
 #######################################################
@@ -646,6 +701,11 @@ services:
       - scp_general_data:/data/general_data
     networks:
       - os-gis-stack  
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
 
   node-red:
@@ -661,6 +721,11 @@ services:
       - os-gis-stack  
     volumes:
       - node-red-data:/data
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   mosquitto:
     image: *mosquitto-image
@@ -673,6 +738,11 @@ services:
     volumes:
       - mosquitto-data:/mosquitto/data
       - ./conf/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf 
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   ############################################################
   #
@@ -711,6 +781,11 @@ services:
     restart: unless-stopped
     depends_on:
       - db 
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   ##############################################################
   # Will just check out a project and update every interval
@@ -734,6 +809,11 @@ services:
       - qgis_projects:/home/mergin
     networks:
      - os-gis-stack
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   ############################################################
   #
@@ -793,6 +873,11 @@ services:
       - QGIS_STYLE=yes
       # Use clip in the database
       - CLIP=yes
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   osmupdate:
     image: *osm-update-image
@@ -835,6 +920,11 @@ services:
       # if 0, then no update will be done, only the first initial
       # import from the PBF
       - TIME=120
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   # This server updates user and date of osm edits in the mirror
   osmenrich:
@@ -871,6 +961,11 @@ services:
       # if 0, then no update will be done, only the first initial import from the PBF
       # - TIME=120
       # command: bash -c "while [ ! -f /home/settings/importer.lock ] ; do sleep 1; done && python3 -u /home/enrich.py"
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   ############################################################
   #
@@ -928,6 +1023,11 @@ services:
       - redis
     networks:
       - os-gis-stack   
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
       
 
   ############################################################
@@ -957,6 +1057,11 @@ services:
       #command: "/bin/sh -c 'set -x; mergin.sh download $MERGIN_PROJECT; while :; do sleep 1m & wait $${!}; set -x; cd $MERGIN_PROJECT; mergin pull; cd ..; done' "
     volumes:
       - qgis_projects:/home/mergin
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   pull-projects:
     image: *mergin-client-image
@@ -970,6 +1075,11 @@ services:
     command: "pull"
     volumes:
       - qgis_projects:/home/mergin
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   list-shared-projects:
     image: *mergin-client-image
@@ -982,6 +1092,11 @@ services:
     command: "list-projects --flag shared"
     volumes:
       - qgis_projects:/home/mergin
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   download-shared-projects:
     image: *mergin-client-image
@@ -994,6 +1109,11 @@ services:
     command: "download-shared"
     volumes:
       - qgis_projects:/home/mergin
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   ############################################################
   #
@@ -1023,6 +1143,11 @@ services:
       - scp_odm_data:/datasets
     restart: never
     entrypoint: "python3 /code/run.py --project-path /datasets --dsm --dtm --orthophoto-resolution 2 smallholding"
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   odm-ortho-clip:
     
@@ -1051,6 +1176,11 @@ services:
       - odm_cutline:/cutline
     restart: never
     entrypoint: "gdalwarp -overwrite -cutline /cutline/cutline.shp -crop_to_cutline -dstalpha /datasets/smallholding/odm_orthophoto/odm_orthophoto.tif /datasets/orthophoto.tif"
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   odm-dsm-clip:
     
@@ -1079,6 +1209,11 @@ services:
       - odm_cutline:/cutline
     restart: never
     entrypoint: "gdalwarp -overwrite -cutline /cutline/cutline.shp -crop_to_cutline -dstalpha /datasets/smallholding/odm_dem/dsm.tif /datasets/dsm.tif"
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   odm-dtm-clip:
     
@@ -1107,6 +1242,11 @@ services:
       - odm_cutline:/cutline
     restart: never
     entrypoint: "gdalwarp -overwrite -cutline /cutline/cutline.shp -crop_to_cutline -dstalpha /datasets/smallholding/odm_dem/dtm.tif /datasets/dtm.tif"
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
   osm-to-mbtiles:
     # A run once container that export the docker-osm schema to an
@@ -1131,6 +1271,11 @@ services:
       - mergin_sync_data:/data
     restart: never
     entrypoint: "ogr2ogr -f MBTILES /data/osm.mbtiles PG:\"dbname='gis' host='db' port='5432' user='docker' password='docker' SCHEMAS=osm\" -dsco \"MAXZOOM=10\" -dsco \"BOUNDS=-7.389126,39.410085,-7.381439,39.415144\""
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
 
 
