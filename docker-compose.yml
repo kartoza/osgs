@@ -799,7 +799,7 @@ services:
       - MERGIN_URL=${MERGIN_URL}
       - MERGIN_USER=${MERGIN_USER}
       - MERGIN_PASSWORD=${MERGIN_PASSWORD}
-    command: "download"
+    #command: "download"
     command: "download tim1/GloriousProjectOfMagnificence /home/mergin/project"
     #command: "/bin/sh -c 'set -x; mergin.sh download $MERGIN_PROJECT; while :; do sleep 1m & wait $${!}; set -x; cd $MERGIN_PROJECT; mergin pull; cd ..; done' "
     

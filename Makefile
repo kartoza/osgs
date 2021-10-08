@@ -20,6 +20,12 @@ help:
 	@echo "------------------------------------------------------------------"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort  | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m - %s\n", $$1, $$2}'
 
+compose-diagram: ## Generate a diagram of the docker-compose file
+	@echo ""
+	@echo "Generateing diagram of docker architecture"
+	@echo ""
+	@docker run --rm -it --name dcv -v $(pwd):/input pmsipilot/docker-compose-viz render -m image docker-compose.yml
+
 backup-everything: ## Sequentially run through all backup scripts
 	@make backup-hugo
 	-@make backup-db-qgis-styles
