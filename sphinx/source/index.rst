@@ -15,6 +15,7 @@ OSGS
    services/index.rst
    utilities/index.rst
    workflows/index.rst
+   roadmap
    osm
 
 
