@@ -915,7 +915,7 @@ backup-jupyter:
 	@echo "Backing up jupyter data to ./backups"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups jupyter-c "/bin/tar cvfz /backups/jupyter.tar.gz /home"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v $${PWD}/backups:/backups jupyter -c "/bin/tar cvfz /backups/jupyter.tar.gz /home"
 	@cp backups/jupyter-backup.tar.gz backups/jupyter-backup-$$(date +%Y-%m-%d).tar.gz
 	@ls -lah backups/*.tar.gz
 
