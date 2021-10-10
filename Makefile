@@ -35,6 +35,7 @@ backup-everything: ## Sequentially run through all backup scripts
 	@make backup-mergin-base-db-schema
 	@make backup-node-red
 	@make backup-mosquitto
+	@make backup-jupyter
 
 
 # We need to declare phony here since the docs dir exists
