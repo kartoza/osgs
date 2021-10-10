@@ -23,6 +23,12 @@ You can contribute to the documentation by making PRs to `sphinx/source/`
 
 Basic steps to get OSGS up and running.
 
+## Project Roadmap
+
+The project roadmap is outlined in the documentation here: https://kartoza.github.io/osgs/roadmap.html
+
+Note that this may have implications on the deployment strategy and implementaiton.
+
 ### Prerequisites
 
 - [make](https://www.gnu.org/software/make/)
