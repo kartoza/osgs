@@ -917,7 +917,7 @@ backup-jupyter:
 	-@mkdir -p backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v $${PWD}/backups:/backups jupyter -c "/bin/tar cvfz /backups/jupyter-backup.tar.gz /home"
 	@cp backups/jupyter-backup.tar.gz backups/jupyter-backup-$$(date +%Y-%m-%d).tar.gz
-	@ls -lah backups/*.tar.gz
+	@ls -lah backups/jupyter*.tar.gz
 
 restore-jupyter:
 	@make check-env
