@@ -26,6 +26,7 @@ conf/scp_conf/odm_data
 conf/scp_conf/qgis_fonts
 conf/scp_conf/qgis_projects
 conf/scp_conf/qgis_svg
+conf/scp_conf/jupyter_data
 docs/build
 docs/.doctrees/
 .DS_Store
