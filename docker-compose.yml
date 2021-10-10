@@ -80,6 +80,8 @@ volumes:
   scp_odm_data:
   # Mounted in SCP only for data sharing
   scp_general_data:
+  # Mounted in SCP and Jupyter for data sharing
+  scp_jupyter_data:
   # Lizmap related volumes
   lizmap-theme-config:
   lizmap-config:
@@ -701,6 +703,8 @@ services:
       - scp_odm_data:/data/odm_data
       # Mounted in SCP and under nginx as /files only for data sharing
       - scp_general_data:/data/general_data
+      # Mounted in SCP and under jupyter as /data only for data sharing
+      - scp_jupyter_data:/data/jupyter_data
     networks:
       - os-gis-stack  
     logging:
@@ -1299,6 +1303,8 @@ services:
       - os-gis-stack
     volumes:
       - jupyter-data:/home
+      # Mounted in SCP and under jupyter as /data only for data sharing
+      - scp_jupyter_data:/data
     logging:
       driver: json-file
       options:

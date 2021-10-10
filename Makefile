@@ -311,6 +311,7 @@ configure-scp: ## Configure the Secure Copy service.
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/hugo_data
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/odm_data
 	@cat ~/.ssh/authorized_keys > conf/scp_conf/general_data
+	@cat ~/.ssh/authorized_keys > conf/scp_conf/jupyter_data
 
 start-scp: ## Start the Secure Copy service.
 	@make check-env
