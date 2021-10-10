@@ -19,15 +19,15 @@ The same content is available as static resources in the docs directory.
 
 You can contribute to the documentation by making PRs to `sphinx/source/`
 
-## Quickstart
-
-Basic steps to get OSGS up and running.
-
 ## Project Roadmap
 
 The project roadmap is outlined in the documentation here: https://kartoza.github.io/osgs/roadmap.html
 
 Note that this may have implications on the deployment strategy and implementaiton.
+
+## Quickstart
+
+Basic steps to get OSGS up and running.
 
 ### Prerequisites
 
