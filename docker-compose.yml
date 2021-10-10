@@ -89,6 +89,7 @@ volumes:
   # For node red
   node-red-data:
   mosquitto-data:
+  jupyter-data:
 
 #
 # SERVICES
@@ -1281,7 +1282,8 @@ services:
   # This is a jupyter notebooks with geopandas and moving pandas rolled in
   # Thanks to Anita Graser: https://github.com/anitagraser/EDA-protocol-movement-data/blob/main/docker/Dockerfile
   # See https://github.com/anitagraser/EDA-protocol-movement-data/tree/main/docker#docker-instructions
-  # For running notes
+  # After deploying it should be reverse proxied by nginx at /jupyter/
+  # see also make jupyter-token
   jupyter:
     image: jupyter:stable
     profiles: 
@@ -1290,13 +1292,13 @@ services:
       context: docker/jupyter
       dockerfile: Dockerfile
     ports:
-      - 8888:8888
+      - 8888
     depends_on:
       - db
     networks:
       - os-gis-stack
-    #volumes:
-      #  - ./osm_conf:/home/settings
+    volumes:
+      - jupyter-data:/home
     logging:
       driver: json-file
       options:

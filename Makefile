@@ -845,6 +845,7 @@ start-jupyter:
 	@echo "Starting Jupyter"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
+	make jupyter-token
 
 stop-jupyter:
 	@echo
