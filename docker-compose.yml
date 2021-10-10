@@ -246,6 +246,7 @@ services:
         - mergin
         - mergin-server
         - dev
+        - jupyter
     volumes:
       # Persistent storage of the database cluster 
       - postgis_data:/var/lib/postgresql
@@ -1276,6 +1277,32 @@ services:
       options:
         max-size: 200m
         max-file: '10'
+
+  # This is a jupyter notebooks with geopandas and moving pandas rolled in
+  # Thanks to Anita Graser: https://github.com/anitagraser/EDA-protocol-movement-data/blob/main/docker/Dockerfile
+  # See https://github.com/anitagraser/EDA-protocol-movement-data/tree/main/docker#docker-instructions
+  # For running notes
+  jupyter:
+    image: jupyter:stable
+    profiles: 
+      - jupyter
+    build:
+      context: docker/jupyter
+      dockerfile: Dockerfile
+    ports:
+      - 8888:8888
+    depends_on:
+      - db
+    networks:
+      - os-gis-stack
+    #volumes:
+      #  - ./osm_conf:/home/settings
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
+
 
 
 

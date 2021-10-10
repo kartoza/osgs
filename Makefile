@@ -814,6 +814,103 @@ backup-mergin-base-db-schema:
 	@ls -lah backups/*.dmp
 
 
+#----------------- Jupyter --------------------------
+
+deploy-jupyter: build-jupyter enable-jupyter configure-jupyter start-jupyter
+
+build-jupyter:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Building Jupyter"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose build jupyter
+
+enable-jupyter:
+	@make check-env
+	-@cd conf/nginx_conf/locations; ln -s jupyter.conf.available jupyter.conf
+	@echo "jupyter" >> enabled-profiles
+
+configure-jupyter:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Configuring Jupyter"
+	@echo "------------------------------------------------------------------"
+
+start-jupyter:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting Postgres"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
+
+stop-jupyter:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping Postgres"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill jupyter
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm jupyter
+
+disable-jupyter:
+	@make check-env
+	# Remove symlinks
+	@cd conf/nginx_conf/locations; rm jupyter.conf
+	# Remove from enabled-profiles
+	@sed -i '/jupyter/d' enabled-profiles
+
+jupyter-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling jupyter logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f jupyter
+
+jupyter-shell: ## Create a bash shell in the jupyter container
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating jupyter bash shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec jupyter bash
+
+reinitialise-jupyter:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting jupyter"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill jupyter
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm jupyter
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d jupyter
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f jupyter
+
+backup-jupyter:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Backing up jupyter data to ./backups"
+	@echo "------------------------------------------------------------------"
+	-@mkdir -p backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups jupyter-c "/bin/tar cvfz /backups/jupyter.tar.gz /home"
+	@cp backups/jupyter-backup.tar.gz backups/jupyter-backup-$$(date +%Y-%m-%d).tar.gz
+	@ls -lah backups/*.tar.gz
+
+restore-jupyter:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restore last backup of jupyter from /backups/jupyter-backup.tar.gz"
+	@echo "If you wish to restore an older backup, first copy it to /backups/jupyter-backup.tar.gz"
+	@echo "Note: Restoring will OVERWRITE all data currently in your jupyter home dir."
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / jupyter -c "rm -rf /home/*"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups jupyter -c "cd /home && tar xvfz /backups/jupyter-backup.tar.gz --strip 1"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart jupyter
+
+
 #----------------- OSM Mirror --------------------------
 
 deploy-osm-mirror: enable-osm-mirror configure-osm-mirror start-osm-mirror
