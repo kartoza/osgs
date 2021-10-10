@@ -816,8 +816,10 @@ backup-mergin-base-db-schema:
 
 #----------------- Jupyter --------------------------
 
-deploy-jupyter: build-jupyter enable-jupyter configure-jupyter start-jupyter
+deploy-jupyter: build-jupyter enable-jupyter configure-jupyter start-jupyter jupyter-token
 
+# You need to ensure the build happens before running since we 
+# dont use a published docker repo
 build-jupyter:
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -840,14 +842,14 @@ start-jupyter:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Starting Postgres"
+	@echo "Starting Jupyter"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
 
 stop-jupyter:
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Stopping Postgres"
+	@echo "Stopping Jupyter"
 	@echo "------------------------------------------------------------------"
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill jupyter
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm jupyter
@@ -858,6 +860,14 @@ disable-jupyter:
 	@cd conf/nginx_conf/locations; rm jupyter.conf
 	# Remove from enabled-profiles
 	@sed -i '/jupyter/d' enabled-profiles
+
+jupyter-token:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Getting Jupyter token"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec jupyter bash -c "jupyter notebook list" | grep -E -i -o '=[0-9a-f]*' | sed 's/=//'
 
 jupyter-logs:
 	@make check-env
@@ -874,6 +884,15 @@ jupyter-shell: ## Create a bash shell in the jupyter container
 	@echo "Creating jupyter bash shell"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec jupyter bash
+
+jupyter-root-shell: ## Create a root bash shell in the jupyter container
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating jupyter bash shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u root jupyter bash
+
 
 reinitialise-jupyter:
 	@make check-env
