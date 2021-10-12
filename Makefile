@@ -932,6 +932,107 @@ restore-jupyter:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups jupyter -c "cd /home && tar xvfz /backups/jupyter-backup.tar.gz --strip 1"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart jupyter
 
+#----------------- survey solutions --------------------------
+
+deploy-surveysolutions: enable-surveysolutions configure-surveysolutions start-surveysolutions
+
+enable-surveysolutions:
+	@make check-env
+	-@cd conf/nginx_conf/locations; ln -s surveysolutions.conf.available surveysolutions.conf
+	@echo "surveysolutions" >> enabled-profiles
+
+configure-surveysolutions:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Configuring SurveySolutions"
+	@echo "------------------------------------------------------------------"
+	@echo "Please edit .env and set the database password in the XXXXXX area"
+	@echo "of the HQ_URL string" 
+
+start-surveysolutions:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting SurveySolutions"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
+
+stop-surveysolutions:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping SurveySolutions"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill surveysolutions
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm surveysolutions
+
+disable-surveysolutions:
+	@make check-env
+	# Remove symlinks
+	@cd conf/nginx_conf/locations; rm surveysolutions.conf
+	# Remove from enabled-profiles
+	@sed -i '/surveysolutions/d' enabled-profiles
+
+surveysolutions-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling surveysolutions logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f surveysolutions
+
+surveysolutions-shell: ## Create a bash shell in the surveysolutions container
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating surveysolutions bash shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec surveysolutions bash
+
+surveysolutions-root-shell: ## Create a root bash shell in the surveysolutions container
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating surveysolutions bash shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u root surveysolutions bash
+
+
+reinitialise-surveysolutions:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting surveysolutions"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill surveysolutions
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm surveysolutions
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d surveysolutions
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f surveysolutions
+
+backup-surveysolutions:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Backing up surveysolutions data to ./backups"
+	@echo "------------------------------------------------------------------"
+	-@mkdir -p backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v $${PWD}/backups:/backups surveysolutions -c "/bin/tar cvfz /backups/surveysolutions-backup.tar.gz /home"
+	@cp backups/surveysolutions-backup.tar.gz backups/surveysolutions-backup-$$(date +%Y-%m-%d).tar.gz
+	@ls -lah backups/surveysolutions*.tar.gz
+
+restore-surveysolutions:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restore last backup of surveysolutions from /backups/surveysolutions-backup.tar.gz"
+	@echo "If you wish to restore an older backup, first copy it to /backups/surveysolutions-backup.tar.gz"
+	@echo "Note: Restoring will OVERWRITE all data currently in your surveysolutions home dir."
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / surveysolutions -c "rm -rf /home/*"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups surveysolutions -c "cd /home && tar xvfz /backups/surveysolutions-backup.tar.gz --strip 1"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart surveysolutions
+
+
 
 #----------------- OSM Mirror --------------------------
 
@@ -1661,6 +1762,8 @@ up:
 	@echo "Starting all configured services"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
+	make stop-qgis-server
+	make start-qgis-server
 
 kill:
 	@make check-env

@@ -33,7 +33,7 @@ x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
 x-hugo-image: &hugo-image kartoza/hugo-watcher:main
 x-node-red-image: &node-red-image nodered/node-red:latest
 x-mosquitto-image: &mosquitto-image eclipse-mosquitto
-
+x-surveysolutions-image: &surveysolutions-image surveysolutions/surveysolutions
 # 
 # VOLUMES
 #
@@ -92,6 +92,7 @@ volumes:
   node-red-data:
   mosquitto-data:
   jupyter-data:
+  surveysolutions-data:
 
 #
 # SERVICES
@@ -1311,7 +1312,27 @@ services:
         max-size: 200m
         max-file: '10'
 
+  surveysolutions:
 
+    image: *surveysolutions-image
+    profiles: 
+      - surveysolutions
+    ports:
+     - 80
+    depends_on:
+     - db
+    networks:
+      - os-gis-stack
+    environment: 
+      - HQ_ConnectionStrings__DefaultConnection=${HQ_CONN}
+      - HQ_Headquarters__BaseUrl=${HQ_URL} 
+    volumes:
+      - surveysolutions-data:/home
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
 
 
 networks:
