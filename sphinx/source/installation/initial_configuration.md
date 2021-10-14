@@ -1,7 +1,9 @@
 # Initial Configuration
 
+<div class="admonition warning">
 Note for the unprivileged user throughout here, we use the user name ‘timlinux’
 in various examples - you should substitute this with your own user.
+</div>
 
 ## User Group
 

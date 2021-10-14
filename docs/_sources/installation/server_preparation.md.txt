@@ -79,7 +79,9 @@ sudo snap install bpytop
 ### Docker
 
 ```
-sudo apt install docker.io docker-compose
+sudo apt install docker.io
+sudo apt-get -y install python3-pip
+sudo pip3 install docker-compose
 ```
 
 ### Git, rpl, pwgen, Make and openssl
