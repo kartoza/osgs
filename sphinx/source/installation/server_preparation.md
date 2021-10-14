@@ -82,7 +82,7 @@ sudo snap install bpytop
 sudo apt install docker.io docker-compose
 ```
 
-### Git, rpl, pwgen and Make. openssl
+### Git, rpl, pwgen, Make and openssl
 
 Needed for checking out our docker project and running the various make
 commands we provide.

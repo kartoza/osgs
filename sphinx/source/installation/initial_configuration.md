@@ -33,17 +33,16 @@ cd osgs
 
 ## Configuration
 
-Copy the .env boilerplate file and then adjust any settings in it as needed.
+If you are going to use a self-signed certificate on a localhost (for testing):
+
 
 ```
-cp .env.example .env
+make configure-ssl-self-signed
 ```
 
-Replace terms that should be unique for your installation:
+If you are going to use a letsencrypt signed certificate on a name host (for production):
+
 
 ```
-rpl example.org geoservices.govt.lc .env
-rpl example.org geoservices.govt.lc nginx_conf/nginx.conf 
+make configure-letsencrypt-ssl
 ```
-
-

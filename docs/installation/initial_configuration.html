@@ -16,6 +16,8 @@
 
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -32,6 +34,7 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
+    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
@@ -142,7 +145,7 @@
       
         
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#what-is-the-open-source-gis-stack">What is the Open Source GIS Stack?</a></li>
@@ -162,7 +165,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="server_preparation.html#additional-software">Additional Software</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="server_preparation.html#docker">Docker</a></li>
-<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#git-rpl-pwgen-and-make-openssl">Git, rpl, pwgen and Make. openssl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#git-rpl-pwgen-make-and-openssl">Git, rpl, pwgen, Make and openssl</a></li>
 </ul>
 </li>
 </ul>
@@ -405,6 +408,16 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html#indices-and-tables">Indices and tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../roadmap.html#components">Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../roadmap.html#considerations">Considerations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../roadmap.html#architectural-changes">Architectural Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../roadmap.html#blueprints">Blueprints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../roadmap.html#administration">Administration</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../osm.html">OSM Mirror</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../osm.html#pbf-container">PBF Container</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../osm.html#clip-area">Clip Area</a></li>
@@ -426,7 +439,7 @@
           <div id="mnav">
             
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#what-is-the-open-source-gis-stack">What is the Open Source GIS Stack?</a></li>
@@ -446,7 +459,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="server_preparation.html#additional-software">Additional Software</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="server_preparation.html#docker">Docker</a></li>
-<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#git-rpl-pwgen-and-make-openssl">Git, rpl, pwgen and Make. openssl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#git-rpl-pwgen-make-and-openssl">Git, rpl, pwgen, Make and openssl</a></li>
 </ul>
 </li>
 </ul>
@@ -689,6 +702,16 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html#indices-and-tables">Indices and tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../roadmap.html#components">Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../roadmap.html#considerations">Considerations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../roadmap.html#architectural-changes">Architectural Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../roadmap.html#blueprints">Blueprints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../roadmap.html#administration">Administration</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../osm.html">OSM Mirror</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../osm.html#pbf-container">PBF Container</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../osm.html#clip-area">Clip Area</a></li>
@@ -735,13 +758,12 @@ commands.</p>
 </div>
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
-<p>Copy the .env boilerplate file and then adjust any settings in it as needed.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cp</span> <span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">example</span> <span class="o">.</span><span class="n">env</span>
+<p>If you are going to use a self-signed certificate on a localhost (for testing):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">configure</span><span class="o">-</span><span class="n">ssl</span><span class="o">-</span><span class="bp">self</span><span class="o">-</span><span class="n">signed</span>
 </pre></div>
 </div>
-<p>Replace terms that should be unique for your installation:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rpl</span> <span class="n">example</span><span class="o">.</span><span class="n">org</span> <span class="n">geoservices</span><span class="o">.</span><span class="n">govt</span><span class="o">.</span><span class="n">lc</span> <span class="o">.</span><span class="n">env</span>
-<span class="n">rpl</span> <span class="n">example</span><span class="o">.</span><span class="n">org</span> <span class="n">geoservices</span><span class="o">.</span><span class="n">govt</span><span class="o">.</span><span class="n">lc</span> <span class="n">nginx_conf</span><span class="o">/</span><span class="n">nginx</span><span class="o">.</span><span class="n">conf</span> 
+<p>If you are going to use a letsencrypt signed certificate on a name host (for production):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">configure</span><span class="o">-</span><span class="n">letsencrypt</span><span class="o">-</span><span class="n">ssl</span>
 </pre></div>
 </div>
 </div>
@@ -757,7 +779,7 @@ commands.</p>
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"
