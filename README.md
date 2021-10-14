@@ -48,7 +48,21 @@ Navigate to or create your relevant content directory, e.g. `/web/`, and clone t
 
 ### Run Installation Wizard
 
-Open your OSGS directory and run `make configure` to start the wizard.
+Open your OSGS directory:
+
+If you are going to use a self-signed certificate on a localhost (for testing):
+
+
+```
+make configure-ssl-self-signed
+```
+
+If you are going to use a letsencrypt signed certificate on a name host (for production):
+
+
+```
+make configure-letsencrypt-ssl
+```
 
 Once configuration is complete, start the service with `make deploy`.
 
