@@ -7,4 +7,5 @@ This is a list of components we might like to add to the stack in future:
 * https://www.metabase.com/ - BI platform
 * https://superset.apache.org/ - BI Platform
 * https://github.com/shzlw/poli - BI Platform
+* https://github.com/eclipse-che/che-theia - Code Workspaces
 * 
