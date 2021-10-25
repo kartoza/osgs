@@ -783,6 +783,16 @@ backup-db: ## Backup the gis database
 	@cp backups/osgisstack-gis-database.dmp backups/osgisstack-gis-database-$$(date +%Y-%m-%d).dmp
 	@ls -lah backups/osgisstack-gis-database*
 
+restore-db: ## Restore the the gis database from a back up
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restoring the entire GIS postgres db from a backup"
+	@echo "------------------------------------------------------------------"
+	@docker cp backups/osgisstack-gis-database.dmp osgisstack_db_1:/tmp/
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "DROP DATABASE IF EXISTS gis WITH (FORCE);"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_restore -C -d postgres /tmp/osgisstack-gis-database.dmp
+
 list-database-sizes: ## Show the disk space used by each database
 	@make check-env
 	@echo
