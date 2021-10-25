@@ -59,3 +59,7 @@ superset/
 # Todo investigate and fix file extension naming inconsistency
 vector-tile-bright-style.json
 .vscode
+docker-compose.override.yml
+conf/mosquitto/start-mosquitto.sh
+conf/mosquitto/mosquitto.conf
+

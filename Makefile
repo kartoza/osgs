@@ -32,7 +32,7 @@ backup-everything: ## Sequentially run through all backup scripts
 	-@make backup-db-qgis-project
 	@make backup-db
 	@make backup-all-databases
-	@make backup-mergin-base-db-schema
+	-@make backup-mergin-base-db-schema
 	@make backup-node-red
 	@make backup-mosquitto
 	@make backup-jupyter
@@ -68,6 +68,15 @@ deploy: configure ## Deploy the initial stack including nginx, scp and hugo-watc
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f
+
+copy-overrides: ## Copy the docker overrides example if it does not already exist
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Copying overrides"
+	@echo "------------------------------------------------------------------"
+	@if [ -f "docker-compose.override.yml" ]; then echo "Docker composer override already exists."; exit 0; fi
+	@cp docker-compose.override.yml.example docker-compose.override.yml
+
 
 disable-all-services: ## Disable all services - does not actually stop them
 	@echo
@@ -897,7 +906,7 @@ jupyter-root-shell: ## Create a root bash shell in the jupyter container
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u root jupyter bash
 
 
-reinitialise-jupyter:
+restart-jupyter:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -997,7 +1006,7 @@ surveysolutions-root-shell: ## Create a root bash shell in the surveysolutions c
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u root surveysolutions bash
 
 
-reinitialise-surveysolutions:
+restart-surveysolutions:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -1328,6 +1337,10 @@ configure-mosquitto:
 	@echo "========================="
 	@echo "Mosquitto configured"
 	@echo "========================="
+	@if [ -f "conf/mosquitto/start-mosquitto.sh" ]; then sudo rm conf/mosquitto/start-mosquitto.sh; fi
+	@cp conf/mosquitto/start-mosquitto.sh.example conf/mosquitto/start-mosquitto.sh
+	@rpl -q {{siteDomain}} $(shell cat conf/nginx_conf/servername.conf | sed 's/         server_name //' | sed 's/;//') conf/mosquitto/start-mosquitto.sh
+	@chmod +x conf/mosquitto/start-mosquitto.sh
 
 restart-mosquitto: stop-mosquitto start-mosquitto
 
@@ -1392,6 +1405,64 @@ restore-mosquitto:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups mosquitto -c "cd /mosquitto/data && tar xvfz /backups/mosquitto-backup.tar.gz --strip 1"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart mosquitto
 
+#----------------- Simple File Uploader --------------------------
+
+deploy-simple-file-upload: enable-simple-file-upload configure-simple-file-upload start-simple-file-upload 
+
+enable-simple-file-upload:
+	@echo "simple-file-upload" >> enabled-profiles
+
+configure-simple-file-upload:
+	@echo "========================="
+	@echo "Simple file upload configured"
+	@echo "========================="
+	@make copy-overrides
+
+restart-simple-file-upload: stop-simple-file-upload start-simple-file-upload
+
+start-simple-file-upload:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting Simple file upload"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d simple-file-upload
+	
+stop-simple-file-upload:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping Simple file upload"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill simple-file-upload
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm simple-file-upload
+
+disable-simple-file-upload:
+	@make check-env
+	# Remove from enabled-profiles
+	@sed -i '/simple-file-upload/d' enabled-profiles
+
+simple-file-upload-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Logging simple-file-upload"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f simple-file-upload
+
+simple-file-upload-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating node mosquito shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec simple-file-upload bash
+
+create-simple-file-upload-user:
+	@echo "------------------------------------------------------------------"
+	@echo "Creating a new simple file upload user"
+	@echo "------------------------------------------------------------------"
+	@export PASSWD=$$(pwgen 20 1); \
+		rpl "# SIMPLE-FILE-UPLOAD-USERS" "# SIMPLE-FILE-UPLOAD-USERS\n      - KEY_$$(PASSWD)=/upload/SomeFile.zip" docker-compose.override.yml 
 
 #----------------- Mergin Server --------------------------
 
