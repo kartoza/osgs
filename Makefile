@@ -783,7 +783,7 @@ backup-db: ## Backup the gis database
 	@cp backups/osgisstack-gis-database.dmp backups/osgisstack-gis-database-$$(date +%Y-%m-%d).dmp
 	@ls -lah backups/osgisstack-gis-database*
 
-restore-db: ## Restore the the gis database from a back up
+restore-db: ## Restore the gis database from a back up
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
