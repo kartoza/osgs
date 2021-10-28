@@ -1462,7 +1462,8 @@ create-simple-file-upload-user:
 	@echo "Creating a new simple file upload user"
 	@echo "------------------------------------------------------------------"
 	@export PASSWD=$$(pwgen 20 1); \
-		rpl "# SIMPLE-FILE-UPLOAD-USERS" "# SIMPLE-FILE-UPLOAD-USERS\n      - KEY_$$(PASSWD)=/upload/SomeFile.zip" docker-compose.override.yml 
+		echo "Simple upload user set to $$PASSWD"; \
+		sed -i "s/# SIMPLE-FILE-UPLOAD-USERS/# SIMPLE-FILE-UPLOAD-USERS\n      - KEY_$$PASSWD=\/upload\/SomeFile.zip/g" docker-compose.override.yml
 
 #----------------- Mergin Server --------------------------
 

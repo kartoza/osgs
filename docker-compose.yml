@@ -175,6 +175,30 @@ services:
       - scp
       - hugo-watcher
 
+  # file uploader
+  simple-file-upload:
+    image: *simple-file-upload-image
+    profiles: ["all","simple-file-upload"]
+    volumes:
+     # General sharing of files to the web
+     # You can also upload using the scp container
+     - scp_general_data:/upload
+    # Please see docker-compose.override.yml which automatically
+    # gets imported when you run docker-compose
+    ports:
+      - "3000:3000"
+    networks:
+     - os-gis-stack
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
+    depends_on:
+      - scp
+      - nginx
+
   certbot:
     image: *certbot-image
     profiles: ["all","certbot-init"]

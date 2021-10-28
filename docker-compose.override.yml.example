@@ -1,1 +1,17 @@
 version: "3.9"
+
+services:
+  simple-file-upload:
+    environment:
+      # Each file you want to allow must be specified here
+      # First create a unique key for the file e.g.
+      # pwgen -c 30 -1
+      # Zoowie7reiMooKohmaev1bei9dohX5
+      # Then create an entry for each file that will get uploaded
+      - KEY_Zoowie7reiMooKohmaev1bei9dohX5=/upload/SomeFile.zip
+      # The user myst then upload the specific file and pass the key as in this curl example
+      # curl -XPOST -F 'data=@SomeFile.zip' localhost:3000/upload?key=Zoowie7reiMooKohmaev1bei9dohX5
+      # In reality there will be a reverse proxy in front of the site so you will be using
+      # your domain name, not the localhost:port used in the example above
+      # Do not remove this next line, new users will be added after it
+      # SIMPLE-FILE-UPLOAD-USERS
