@@ -22,7 +22,7 @@ help:
 
 compose-diagram: ## Generate a diagram of the docker-compose file
 	@echo ""
-	@echo "Generateing diagram of docker architecture"
+	@echo "Generating diagram of docker architecture"
 	@echo ""
 	@docker run --rm -it --name dcv -v $(pwd):/input pmsipilot/docker-compose-viz render -m image docker-compose.yml
 
