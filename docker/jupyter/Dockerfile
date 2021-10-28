@@ -6,6 +6,8 @@ LABEL author="Tim Sutton"
 
 # Installations
 USER root
+# Copied from 
+# https://github.com/anitagraser/EDA-protocol-movement-data/blob/main/docker/Dockerfile#L9
 RUN conda install -c conda-forge movingpandas && \
     conda clean --all -f -y && \
     rm -rf /home/$NB_USER/.cache/yarn 

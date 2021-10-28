@@ -1,0 +1,11 @@
+#!/bin/sh
+# This script will require that mosquitto be restarted whenever the cert changes
+mkdir /etc/mosquitto
+# When mosquitto runs it drops down to the mostquitto user
+# and that user needs to be able to access the certs
+# We work on a copy so that we dont end up chaning the permissions globally
+cp /etc/letsencrypt/archive/{{siteDomain}}/chain1.pem /etc/mosquitto/chain.pem
+cp /etc/letsencrypt/archive/{{siteDomain}}/cert1.pem /etc/mosquitto/cert.pem
+cp /etc/letsencrypt/archive/{{siteDomain}}/privkey1.pem /etc/mosquitto/privkey.pem
+chown  mosquitto.mosquitto /etc/mosquitto/*.pem
+mosquitto -c /mosquitto/config/mosquitto.conf
