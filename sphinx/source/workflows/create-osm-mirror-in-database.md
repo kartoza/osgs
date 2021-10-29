@@ -47,3 +47,21 @@ Save the project in the `public` schema and name it `qgis projects` to allow the
 To back up the QGIS project created in the previous section, run the command `make backup-db-qgis-project`. This backs up the `qgis_projects` table in the `public` schema as a `.sql` file named `QGISProject.sql`.
 
 To restore a backed up QGIS project, name the `.sql` file `QGISProject.sql` and place the file in the `backups` folder then run the command `restore-db-qgis-project`. 
+
+## Saving QGIS layer styles into the database
+
+To save the style of a layer into the database, right click on the layer in the **Layers Panel** and select **Properties**. 
+
+<img align="middle" src="../img/osm-mirror-workflow-7.png" alt="OSM mirror workflow" width="500">
+
+In the Symbology section of the Layer Properties, click on **Style** > **Save style**. 
+
+<img align="middle" src="../img/osm-mirror-workflow-8.png" alt="OSM mirror workflow" width="300">
+
+In the Save Layer Style dialogue select **In Database (postgres)** and name the style file. You can add an optional description of the style and also set the style to be the default style for the layer.  
+
+<img align="middle" src="../img/osm-mirror-workflow-9.png" alt="OSM mirror workflow" width="300">
+
+The saved style is added as an entry in the `layer_styles` table in the `public` schema of the PostGIS OSM database. 
+
+<img align="middle" src="../img/osm-mirror-workflow-10.png" alt="OSM mirror workflow" width="500">
