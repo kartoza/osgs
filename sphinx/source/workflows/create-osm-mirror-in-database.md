@@ -71,3 +71,7 @@ The saved style is added as an entry in the `layer_styles` table in the `public`
 To back up the QGIS styles created in the previous section, run the command `make backup-db-qgis-styles`. This backs up the `layer_styles` table in the `public` schema as a `.sql` file named `QGISStyles.sql`.  
 
 To restore a back up of the QGIS styles, name the back up file `QGISStyles.sql` and place it in the `backups` folder then run the command `make restore-db-qgis-styles`. 
+
+## References 
+
+<a id="1">[1]</a> Kartoza. (n.d.). GitHub - kartoza/docker-osm: A docker compose project to setup an OSM PostGIS database with automatic updates from OSM periodically. GitHub. Retrieved August 30, 2021, from https://github.com/kartoza/docker-osm#readme
