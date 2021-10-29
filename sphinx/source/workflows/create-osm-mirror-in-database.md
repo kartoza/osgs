@@ -65,3 +65,9 @@ In the Save Layer Style dialogue select **In Database (postgres)** and name the 
 The saved style is added as an entry in the `layer_styles` table in the `public` schema of the PostGIS OSM database. 
 
 <img align="middle" src="../img/osm-mirror-workflow-10.png" alt="OSM mirror workflow" width="500">
+
+## Backing up and restoring the QGIS styles into the database
+
+To back up the QGIS styles created in the previous section, run the command `make backup-db-qgis-styles`. This backs up the `layer_styles` table in the `public` schema as a `.sql` file named `QGISStyles.sql`.  
+
+To restore a back up of the QGIS styles, name the back up file `QGISStyles.sql` and place it in the `backups` folder then run the command `make restore-db-qgis-styles`. 
