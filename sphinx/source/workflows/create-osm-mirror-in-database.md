@@ -18,3 +18,16 @@ Next deploy the Postgres service using `make deploy-postgres`. If you have Postg
 
 To deploy the OSM mirror service, run the `make deploy-osm-mirror` command and follow the subsequent instructions. You can view the logs for the OSM mirror service using the command `make osm-mirror-logs`. 
 
+## Loading the OSM Mirror Layers into QGIS
+
+To use the layers in the OSM Postgis database in QGIS, use the Postgres public port number, username and password contained in the `.env` file to create a connection to the PostGIS OSM database `gis` in QGIS. Make sure to the set the SSL mode to require. 
+
+<img align="middle" src="../img/osm-mirror-workflow-2.png" alt="OSM mirror workflow" width="300">
+
+The imported Open Street Map layers for the clip area specified are present in the `osm` schema of the database. 
+
+<img align="middle" src="../img/osm-mirror-workflow-3.png" alt="OSM mirror workflow" width="300">
+
+To load a layer from the `osm` schema onto the QGIS Map View, double click on the table or drag and drop the table on the Map View. 
+
+<img align="middle" src="../img/osm-mirror-workflow-4.png" alt="OSM mirror workflow" width="500">
