@@ -31,3 +31,13 @@ The imported Open Street Map layers for the clip area specified are present in t
 To load a layer from the `osm` schema onto the QGIS Map View, double click on the table or drag and drop the table on the Map View. 
 
 <img align="middle" src="../img/osm-mirror-workflow-4.png" alt="OSM mirror workflow" width="500">
+
+## Saving a QGIS project into the OSM database
+
+In the **Menu Toolbar** click on **Project**. From the drop down menu select **Save To** **PostgreSQL**. 
+
+<img align="middle" src="../img/osm-mirror-workflow-5.png" alt="OSM mirror workflow" width="500">
+
+Save the project in the `public` schema and name it `qgis projects` to allow the `make backup-db-qgis-project` command to be able to create a back up of the project. 
+
+<img align="middle" src="../img/osm-mirror-workflow-6.png" alt="OSM mirror workflow" width="300">
