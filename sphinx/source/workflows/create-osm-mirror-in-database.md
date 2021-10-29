@@ -41,3 +41,9 @@ In the **Menu Toolbar** click on **Project**. From the drop down menu select **S
 Save the project in the `public` schema and name it `qgis projects` to allow the `make backup-db-qgis-project` command to be able to create a back up of the project. 
 
 <img align="middle" src="../img/osm-mirror-workflow-6.png" alt="OSM mirror workflow" width="300">
+
+## Backing up and restoring a QGIS project into the database
+
+To back up the QGIS project created in the previous section, run the command `make backup-db-qgis-project`. This backs up the `qgis_projects` table in the `public` schema as a `.sql` file named `QGISProject.sql`.
+
+To restore a backed up QGIS project, name the `.sql` file `QGISProject.sql` and place the file in the `backups` folder then run the command `restore-db-qgis-project`. 
