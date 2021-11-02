@@ -15,8 +15,8 @@ x-osmenrich-image: &osm-enrich-image kartoza/docker-osm:osmenrich-latest
 # Special build of the kartoza geoserver image which includes the 
 # plugins etc. GeoNode needs to communicate with GeoServer
 x-geoserver-image: &geoserver-image kartoza/geoserver:2.18.2
-x-mergin-db-sync-image: &mergin-db-sync-image docker pull kartoza/mergin:0.0.1
-#x-mergin-db-sync-image: &mergin-db-sync-image lutraconsulting/mergin-db-sync
+x-mergin-db-sync-image: &mergin-db-sync-image lutraconsulting/mergin-db-sync
+x-mergin-server-image: &mergin-server-image kartoza/mergin:0.0.1
 # alpine spin needed for bcrypt support
 x-nginx-image: &nginx-image nginx:alpine
 x-certbot-image: &certbot-image certbot/certbot
@@ -1037,7 +1037,7 @@ services:
   ############################################################
 
   mergin-server:
-    image: lutraconsulting/mergin
+    image: *mergin-server-image
     profiles:
       - mergin-server
     volumes:
