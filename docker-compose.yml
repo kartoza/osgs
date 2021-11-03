@@ -187,6 +187,8 @@ services:
      - scp_general_data:/files/general_data
      - qgis_projects:/files/qgis_projects
      - scp_qgis_fonts:/files/qgis_fonts
+     - scp_hugo_static:/files/hugo_static
+     - scp_hugo_data:/files/hugo_content
     user: root # FIXME
     networks:
      - os-gis-stack
