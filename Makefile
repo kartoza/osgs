@@ -1405,65 +1405,69 @@ restore-mosquitto:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups mosquitto -c "cd /mosquitto/data && tar xvfz /backups/mosquitto-backup.tar.gz --strip 1"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart mosquitto
 
-#----------------- Simple File Uploader --------------------------
+#----------------- File Browser --------------------------
+# See https://filebrowser.org/
+#
 
-deploy-simple-file-upload: enable-simple-file-upload configure-simple-file-upload start-simple-file-upload 
+deploy-file-browser: enable-file-browser configure-file-browser start-file-browser 
 
-enable-simple-file-upload:
-	@echo "simple-file-upload" >> enabled-profiles
+enable-file-browser:
+	@echo "file-browser" >> enabled-profiles
 
-configure-simple-file-upload:
+configure-file-browser:
 	@echo "========================="
-	@echo "Simple file upload configured"
+	@echo "File browser configured"
 	@echo "========================="
 	@make copy-overrides
+	-@cd conf/nginx_conf/locations; ln -s file-browser.conf.available file-browser.conf
 
-restart-simple-file-upload: stop-simple-file-upload start-simple-file-upload
+restart-file-browser: stop-file-browser start-file-browser
 
-start-simple-file-upload:
+start-file-browser:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Starting Simple file upload"
+	@echo "Starting file browser"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d simple-file-upload
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d file-browser
+	@make restart-nginx
 	
-stop-simple-file-upload:
+stop-file-browser:
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Stopping Simple file upload"
+	@echo "Stopping file browser"
 	@echo "------------------------------------------------------------------"
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill simple-file-upload
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm simple-file-upload
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill file-browser
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm file-browser
 
-disable-simple-file-upload:
+disable-file-browser:
 	@make check-env
 	# Remove from enabled-profiles
-	@sed -i '/simple-file-upload/d' enabled-profiles
+	@sed -i '/file-browser/d' enabled-profiles
 
-simple-file-upload-logs:
+file-browser-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Logging simple-file-upload"
+	@echo "Logging file-browser"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f simple-file-upload
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f file-browser
 
-simple-file-upload-shell:
+file-browser-shell:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Creating node mosquito shell"
+	@echo "Creating file browser shell"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec simple-file-upload bash
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec file-browser bash
 
-create-simple-file-upload-user:
+create-file-browser-user:
 	@echo "------------------------------------------------------------------"
-	@echo "Creating a new simple file upload user"
+	@echo "Creating a new file browser user"
 	@echo "------------------------------------------------------------------"
 	@export PASSWD=$$(pwgen 20 1); \
-		echo "Simple upload user set to $$PASSWD"; \
-		sed -i "s/# SIMPLE-FILE-UPLOAD-USERS/# SIMPLE-FILE-UPLOAD-USERS\n      - KEY_$$PASSWD=\/upload\/SomeFile.zip/g" docker-compose.override.yml
+		echo "Browser user set to $$PASSWD"; \
+		sed -i "s/# SIMPLE-FILE-UPLOAD-USERS/# SIMPLE-FILE-UPLOAD-USERS\n      - KEY_$$PASSWD=\/browser\/SomeFile.zip/g" docker-compose.override.yml
 
 #----------------- Mergin Server --------------------------
 

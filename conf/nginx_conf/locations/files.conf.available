@@ -1,7 +1,0 @@
-        # For general file sharing
-        location /files {
-            alias /files;
-            auth_basic "Download Area";
-            auth_basic_user_file /etc/nginx/.htpasswd; 
-            autoindex on;
-        }

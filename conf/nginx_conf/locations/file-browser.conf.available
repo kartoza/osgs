@@ -1,5 +1,5 @@
-        location /upload {
-                proxy_pass http://simple-file-upload:3000/upload;
+        location /files {
+                proxy_pass http://file-browser:80;
 
 		#Defines the HTTP protocol version for proxying
 		#by default it it set to 1.0.
