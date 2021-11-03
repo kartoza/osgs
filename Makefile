@@ -1459,7 +1459,7 @@ file-browser-shell:
 	@echo "------------------------------------------------------------------"
 	@echo "Creating file browser shell"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec file-browser bash
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec file-browser sh
 
 create-file-browser-user:
 	@echo "------------------------------------------------------------------"
