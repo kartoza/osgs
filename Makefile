@@ -1786,7 +1786,7 @@ check-env:
 	@if [ ! -f ".env" ]; then \
 		echo "--------------------------------------------------"; \
 	       	echo ""; echo ""; echo ".env does not exist yet."; echo ""; \
-		echo "Run make deploy to set up your stack!"; echo ""; \
+		echo "Please run either make configure-ssl-self-signed or make configure-letsencrypt-ssl to set up your stack!"; echo ""; \
 		echo "--------------------------------------------------"; \
 	       	exit 1; \
 	fi
