@@ -182,6 +182,7 @@ services:
     profiles: ["all","file-browser"]
     volumes:
      - ./conf/file_browser/filebrowser.json:/.filebrowser.json
+     - ./conf/file_browser:/conf
      # General sharing of files to the web
      # You can also upload using the scp containers
      - scp_general_data:/files/general_data
