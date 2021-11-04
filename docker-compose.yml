@@ -31,7 +31,8 @@ x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
 # Auto builds on the main branch are tagged with :main
-x-hugo-image: &hugo-image kartoza/hugo-watcher:main
+x-hugo-image: &hugo-image kartoza/hugo-watcher:latest
+#x-hugo-image: &hugo-image kartoza/hugo-watcher:main
 x-node-red-image: &node-red-image nodered/node-red:latest
 x-mosquitto-image: &mosquitto-image eclipse-mosquitto:openssl
 x-surveysolutions-image: &surveysolutions-image surveysolutions/surveysolutions
@@ -81,6 +82,8 @@ volumes:
   scp_hugo_data:
   # Mounted in SCP and to Hugo for themes
   scp_hugo_themes:
+  # Mounted to Hugo for site config
+  hugo_config:
   # Mounted in SCP and to ODM for processing uploaded images
   scp_odm_data:
   # Mounted in SCP only for data sharing
@@ -193,6 +196,7 @@ services:
      - scp_qgis_svg:/files/qgis_svg
      - scp_hugo_static:/files/hugo_static
      - scp_hugo_themes:/files/hugo_themes
+     - hugo_config:/files/hugo_config
      - scp_hugo_data:/files/hugo_content
      - scp_jupyter_data:/files/jupyter_data
      - scp_geoserver_data:/files/geoserver_data
@@ -259,6 +263,8 @@ services:
       - scp_hugo_static:/src/static
       # Only raw markdown should be put in here
       - scp_hugo_data:/src/content
+      # Hugo configs
+      - hugo_config:/src/config
       # config from host mounted volume
       - ./conf/hugo_conf/config.yaml:/src/config.yaml
     logging:
