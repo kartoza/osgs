@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>OSGS - Docker-osm</title>
+<title>OSGS - Docker OSM mirror</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous"/>
@@ -14,8 +14,6 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Code+Pro|Source+Sans+Pro|Source+Serif+Pro|Roboto|Roboto+Mono" rel="stylesheet">
 <link href="https://fonts.red-dove.com/iosevka-ss09-regular/webfont.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -34,7 +32,6 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
-    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
@@ -59,8 +56,8 @@
 
       </div>
       <div id="hdr-centre" class="text-center stretch">
-        <h3 title="Docker-osm">Docker-osm</h3>
-        <h6>Docker-osm</h6>
+        <h3 title="Docker OSM mirror">Docker OSM mirror</h3>
+        <h6>Docker OSM mirror</h6>
       </div>
       <div id="hdr-search">
         
@@ -145,15 +142,15 @@
       
         
   
-    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+    <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#what-is-the-open-source-gis-stack">What is the Open Source GIS Stack?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#overview-diagram">Overview Diagram</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../installation/server_preparation.html">Preparing the server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/server_preparation.html#preparing-the-server">Preparing the server</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../installation/server_preparation.html#basic-security">Basic Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#unattended-upgrades">Unattended upgrades</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#ssh">ssh</a></li>
@@ -165,7 +162,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../installation/server_preparation.html#additional-software">Additional Software</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#docker">Docker</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#git-rpl-pwgen-and-make-openssl">Git, rpl, pwgen and Make. openssl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#git-rpl-pwgen-make-and-openssl">Git, rpl, pwgen, Make and openssl</a></li>
 </ul>
 </li>
 </ul>
@@ -178,12 +175,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../installation/fonts.html">Obtaining free fonts for your projects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/production_stack.html">Production Stack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/production_stack.html#production-stack">Production Stack</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../installation/production_stack.html#overview">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../installation/production_stack.html#configuration">Configuration</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/instructions_for_windows_users.html#production-stack-installation-instructions-for-windows-users">Production Stack installation instructions for Windows Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/instructions_for_windows_users.html">Production Stack installation instructions for Windows Users</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#indices-and-tables">Indices and tables</a></li>
@@ -241,7 +238,7 @@
 <li class="toctree-l3"><a class="reference internal" href="hugo-watcher.html#references">References</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#docker-osm">Docker-osm</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#docker-osm-mirror">Docker OSM mirror</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#enabling">Enabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a></li>
@@ -384,6 +381,33 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/publishing-changes-to-static-website.html">Publishing changes to the static website</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/uploading-qgis-project.html">Uploading a QGIS project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/acessing-postgis-from-qgis-using-pg_service-file.html">Accessing PostGIS from QGIS using a pg_service file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/authentication-using-pg_service-and-qgisauthdb.html">Authentication of Postgres using a pg_service file and a qgis-auth.db file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/publishing-qgis-project.html">Publishing a QGIS project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/publishing-layers-using-geoserver.html">Publishing layers using Geoserver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/connecting-to-geoserver-and-qgisserver-in-hugo.html">Connecting to Geoserver and QGIS Server in Hugo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/qgis-desktop-as-web-service-client.html">QGIS Desktop as a Web Services Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/node-red-access-data-in-postgres.html">Node-red workflow that accesses data in Postgres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/postgrest-api.html">PostgREST API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/node-red-postgrest-api.html">Node-red connect to the PostgREST API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/node-red-point-layer-to-worldmap.html">Node-red point layer to world map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/set-up-pg-notify.html">Set up process for pg notify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/mergin-db-sync-client-workflow1.html">Mergin-db-sync client workflow 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/mergin-db-sync-client-workflow2.html">Mergin-db-sync client Workflow 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html">Creating an Open Street Map mirror into your database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#preparing-the-country-pbf-file-and-the-clip-area-document">Preparing the Country PBF file and the clip area document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#deploying-the-osm-mirror-service">Deploying the OSM mirror service.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#loading-the-osm-mirror-layers-into-qgis">Loading the OSM Mirror Layers into QGIS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#saving-a-qgis-project-into-the-osm-database">Saving a QGIS project into the OSM database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#backing-up-and-restoring-a-qgis-project-into-the-database">Backing up and restoring a QGIS project into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#saving-qgis-layer-styles-into-the-database">Saving QGIS layer styles into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#backing-up-and-restoring-the-qgis-styles-into-the-database">Backing up and restoring the QGIS styles into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/osm-enrich-workflow.html">OSM enrich workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../workflows/postgresql-workflows.html">PostgreSQL Workflows</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../workflows/postgresql-workflows.html#direct-connection">Direct connection</a></li>
 </ul>
@@ -391,6 +415,16 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html#indices-and-tables">Indices and tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../roadmap.html#components">Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../roadmap.html#considerations">Considerations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../roadmap.html#architectural-changes">Architectural Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../roadmap.html#blueprints">Blueprints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../roadmap.html#administration">Administration</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../osm.html">OSM Mirror</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../osm.html#pbf-container">PBF Container</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../osm.html#clip-area">Clip Area</a></li>
@@ -412,15 +446,15 @@
           <div id="mnav">
             
   
-    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+    <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#what-is-the-open-source-gis-stack">What is the Open Source GIS Stack?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#overview-diagram">Overview Diagram</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../installation/server_preparation.html">Preparing the server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/server_preparation.html#preparing-the-server">Preparing the server</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../installation/server_preparation.html#basic-security">Basic Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#unattended-upgrades">Unattended upgrades</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#ssh">ssh</a></li>
@@ -432,7 +466,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../installation/server_preparation.html#additional-software">Additional Software</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#docker">Docker</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#git-rpl-pwgen-and-make-openssl">Git, rpl, pwgen and Make. openssl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#git-rpl-pwgen-make-and-openssl">Git, rpl, pwgen, Make and openssl</a></li>
 </ul>
 </li>
 </ul>
@@ -445,12 +479,12 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../installation/fonts.html">Obtaining free fonts for your projects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/production_stack.html">Production Stack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/production_stack.html#production-stack">Production Stack</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../installation/production_stack.html#overview">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../installation/production_stack.html#configuration">Configuration</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/instructions_for_windows_users.html#production-stack-installation-instructions-for-windows-users">Production Stack installation instructions for Windows Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/instructions_for_windows_users.html">Production Stack installation instructions for Windows Users</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#indices-and-tables">Indices and tables</a></li>
@@ -508,7 +542,7 @@
 <li class="toctree-l3"><a class="reference internal" href="hugo-watcher.html#references">References</a></li>
 </ul>
 </li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#docker-osm">Docker-osm</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#docker-osm-mirror">Docker OSM mirror</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#enabling">Enabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a></li>
@@ -651,6 +685,33 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/publishing-changes-to-static-website.html">Publishing changes to the static website</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/uploading-qgis-project.html">Uploading a QGIS project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/acessing-postgis-from-qgis-using-pg_service-file.html">Accessing PostGIS from QGIS using a pg_service file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/authentication-using-pg_service-and-qgisauthdb.html">Authentication of Postgres using a pg_service file and a qgis-auth.db file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/publishing-qgis-project.html">Publishing a QGIS project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/publishing-layers-using-geoserver.html">Publishing layers using Geoserver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/connecting-to-geoserver-and-qgisserver-in-hugo.html">Connecting to Geoserver and QGIS Server in Hugo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/qgis-desktop-as-web-service-client.html">QGIS Desktop as a Web Services Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/node-red-access-data-in-postgres.html">Node-red workflow that accesses data in Postgres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/postgrest-api.html">PostgREST API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/node-red-postgrest-api.html">Node-red connect to the PostgREST API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/node-red-point-layer-to-worldmap.html">Node-red point layer to world map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/set-up-pg-notify.html">Set up process for pg notify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/mergin-db-sync-client-workflow1.html">Mergin-db-sync client workflow 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/mergin-db-sync-client-workflow2.html">Mergin-db-sync client Workflow 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html">Creating an Open Street Map mirror into your database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#preparing-the-country-pbf-file-and-the-clip-area-document">Preparing the Country PBF file and the clip area document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#deploying-the-osm-mirror-service">Deploying the OSM mirror service.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#loading-the-osm-mirror-layers-into-qgis">Loading the OSM Mirror Layers into QGIS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#saving-a-qgis-project-into-the-osm-database">Saving a QGIS project into the OSM database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#backing-up-and-restoring-a-qgis-project-into-the-database">Backing up and restoring a QGIS project into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#saving-qgis-layer-styles-into-the-database">Saving QGIS layer styles into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#backing-up-and-restoring-the-qgis-styles-into-the-database">Backing up and restoring the QGIS styles into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/osm-enrich-workflow.html">OSM enrich workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../workflows/postgresql-workflows.html">PostgreSQL Workflows</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../workflows/postgresql-workflows.html#direct-connection">Direct connection</a></li>
 </ul>
@@ -658,6 +719,16 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html#indices-and-tables">Indices and tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../roadmap.html#components">Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../roadmap.html#considerations">Considerations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../roadmap.html#architectural-changes">Architectural Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../roadmap.html#blueprints">Blueprints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../roadmap.html#administration">Administration</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../osm.html">OSM Mirror</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../osm.html#pbf-container">PBF Container</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../osm.html#clip-area">Clip Area</a></li>
@@ -674,10 +745,12 @@
           </div>
           <div class="body">
             
-  <div class="tex2jax_ignore mathjax_ignore section" id="docker-osm">
-<h1>Docker-osm<a class="headerlink" href="#docker-osm" title="Permalink to this headline">¶</a></h1>
+  <div class="tex2jax_ignore mathjax_ignore section" id="docker-osm-mirror">
+<h1>Docker OSM mirror<a class="headerlink" href="#docker-osm-mirror" title="Permalink to this headline">¶</a></h1>
 <p>OpenStreetMap (OSM) is a digital map database of the world built through crowdsourced volunteered geographic information. The data from OSM is freely available for visualization, query, download, and modification under <a class="reference external" href="https://www.openstreetmap.org/copyright">open licenses</a>. <a class="reference external" href="#1">[1]</a> OSM can also be described as a free, editable map of the whole world <a class="reference external" href="#2">[2]</a>.</p>
-<p>The Docker-osm service is a docker compose project to setup an OSM PostGIS database with automatic updates from OSM periodically. The only files you need is a PBF file, geojson (if you intend to restrict data download to a smaller extent than the one specified by the PBF) and run the docker compose project.<a class="reference external" href="#3">[3]</a></p>
+<p>The Docker OSM mirror service is a docker compose project to setup an OSM PostGIS database with automatic updates from OSM periodically. The only files you need is a PBF file, geojson (if you intend to restrict data download to a smaller extent than the one specified by the PBF) and run the docker compose project.<a class="reference external" href="#3">[3]</a></p>
+<p>The Docker OSM mirror service is composed of Docker ImpOSM3, Docker OSM Update and Docker OSM enrich. Docker ImpOSM3 takes the PBF file and imports it into the PostGIS OSM database. It will also apply any new diff file that arrives to the database. Docker OSM update runs every few minutes and regualarly fetches any new diff file for all the changes that have happened over the update interval from OpenStreetMap and applies any new features to your existing PostGIS OSM database. OSM enrich goes to the OSM API and gets the username and last change timestamp for each feature.<a class="reference external" href="#3">[3]</a></p>
+<img align="middle" src="https://raw.githubusercontent.com/kartoza/docker-osm/develop/docs/architecture.png" alt="OSM mirror Service " width="500">
 <p><strong>Service name:</strong> osm-mirror</p>
 <p><strong>Project Website:</strong> <a class="reference external" href="https://www.openstreetmap.org/">OpenStreetMap</a></p>
 <p><strong>Project Source Repository:</strong> <a class="reference external" href="https://github.com/openstreetmap/openstreetmap-website">openstreetmap / openstreetmap-website</a></p>
@@ -770,7 +843,7 @@
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"
