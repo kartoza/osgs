@@ -79,6 +79,8 @@ volumes:
   scp_hugo_static:
   # Mounted in SCP and to Hugo for content (markdown)
   scp_hugo_data:
+  # Mounted in SCP and to Hugo for themes
+  scp_hugo_themes:
   # Mounted in SCP and to ODM for processing uploaded images
   scp_odm_data:
   # Mounted in SCP only for data sharing
@@ -185,11 +187,16 @@ services:
      - ./conf/file_browser:/conf
      # General sharing of files to the web
      # You can also upload using the scp containers
-     - scp_general_data:/files/general_data
+     - scp_general_data:/files/public
      - qgis_projects:/files/qgis_projects
      - scp_qgis_fonts:/files/qgis_fonts
+     - scp_qgis_svg:/files/qgis_svg
      - scp_hugo_static:/files/hugo_static
+     - scp_hugo_themes:/files/hugo_themes
      - scp_hugo_data:/files/hugo_content
+     - scp_jupyter_data:/files/jupyter_data
+     - scp_geoserver_data:/files/geoserver_data
+     - node-red-data:/files/node_red__data
     user: root # FIXME
     networks:
      - os-gis-stack
@@ -242,6 +249,8 @@ services:
       # This is not user editable, generated static html
       # will be placed here.
       - generated_hugo_data:/src/public
+      # Place hugo themes here
+      - scp_hugo_themes:/src/themes
       # Mounted in SCP and to Hugo for static content (js/css/img)
       # If empty, the folder will be pre-populated with the hugo docker
       # image's static_template folder
@@ -728,6 +737,8 @@ services:
       - scp_hugo_static:/data/hugo_static
       # Mounted in SCP and to Hugo for rendering static pages
       - scp_hugo_data:/data/hugo_data
+      # Mounted in SCP and to Hugo for themes
+      - scp_hugo_themes:/data/hugo_themes
       # Mounted in SCP and to ODM for processing uploaded images
       - scp_odm_data:/data/odm_data
       # Mounted in SCP and under nginx as /files only for data sharing
