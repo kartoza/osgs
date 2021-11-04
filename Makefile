@@ -179,7 +179,7 @@ configure-htpasswd: ## Set up a password authentiation for password protected ar
 	@make check-env
 	@echo "------------------------------------------------------------------"
 	@echo "Configuring password controlled file sharing are for your site"
-	@echo "Accessible at /files/"
+	@echo "Accessible at /downloads/"
 	@echo "Access credentials will be stored in .env"
 	@echo "------------------------------------------------------------------"
 	#Sometimes docker will make a directory if the pwd file does not 
@@ -201,7 +201,7 @@ else
 		echo "NGINX_AUTH_PWD=$$PASSWD" >> .env; \
 		echo "File sharing htpasswd set to $$PASSWD" 
 endif
-	@make enable-files
+	@make enable-downloads
 
 #------------------ Nginx ------------------------
 
