@@ -1778,7 +1778,7 @@ enable-docs:
 disable-docs:
 	@cd conf/nginx_conf/locations; rm docs.conf
 
-enable-files:
+enable-downloads:
 	@if [ ! -f "conf/nginx_conf/locations/files.conf" ]; then \
 		cd conf/nginx_conf/locations; \
 		ln -s files.conf.available files.conf; \
