@@ -812,6 +812,18 @@ backup-all-databases: ## Backup all postgresql databases
 	@cp backups/osgisstack-all-databases.dmp backups/osgisstack-all-databases-$$(date +%Y-%m-%d).dmp
 	@ls -lah backups/osgisstack-all-databases*
 
+restore-db: ## Restore the gis database from a back up
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restoring the entire GIS postgres db from a backup"
+	@echo "------------------------------------------------------------------"
+	@echo "This will irrevocably delete any pre-existing data in your database."
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@docker cp backups/osgisstack-gis-database.dmp osgisstack_db_1:/tmp/
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "DROP DATABASE IF EXISTS gis WITH (FORCE);"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_restore -C -d postgres /tmp/osgisstack-gis-database.dmp
+
 backup-mergin-base-db-schema:
 	@make check-env
 	@echo
