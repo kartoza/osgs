@@ -1388,7 +1388,7 @@ backup-mosquitto:
 	@echo "Backing up mosquitto data to ./backups"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups mosquitto -c "/bin/tar cvfz /backups/mosquitto-backup.tar.gz /mosquitto/data"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/sh --rm -w / -v ${PWD}/backups:/backups mosquitto -c "/bin/tar cvfz /backups/mosquitto-backup.tar.gz /mosquitto/data"
 	@cp backups/mosquitto-backup.tar.gz backups/mosquitto-backup-$$(date +%Y-%m-%d).tar.gz
 	@ls backups/mosquitto-backup*
 
@@ -1401,8 +1401,8 @@ restore-mosquitto:
 	@echo "Note: Restoring will OVERWRITE all data currently in your mosquitto content dir."
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / mosquitto -c "rm -rf /mosquitto/data/*"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups mosquitto -c "cd /mosquitto/data && tar xvfz /backups/mosquitto-backup.tar.gz --strip 1"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/sh --rm -w / mosquitto -c "rm -rf /mosquitto/data/*"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/sh --rm -w / -v ${PWD}/backups:/backups mosquitto -c "cd /mosquitto/data && tar xvfz /backups/mosquitto-backup.tar.gz --strip 1"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart mosquitto
 
 #----------------- File Browser --------------------------
