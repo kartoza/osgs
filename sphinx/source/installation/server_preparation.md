@@ -68,11 +68,19 @@ We will open more ports as they are needed.
 
 ### Status monitoring
 
-bpytop is a great console based dashboard for monitoring your server.
+gotop is a great console based dashboard for monitoring your server.
 
 ```
-sudo snap install bpytop
+sudo apt-get install golang
+cd 
+go get github.com/cjbassi/gotop
+chmod +x go/bin/gotop
+sudo cp go/bin/gotop /usr/local/bin/
 ```
+
+Now just type gotop whenever you want to see your terminal system monitor.
+
+
 
 ## Additional Software
 
@@ -97,4 +105,8 @@ or fedora:
 ```
 sudo dnf install openssl rpl git pwgen
 ```
+
+## Move on to OSGS Installation
+
+Ok we are ready to install OSGS! Go ahead to the [initial configuration page](initial_configuration.html) now.
 
