@@ -204,12 +204,28 @@ endif
 	@make enable-downloads
 
 #------------------ Nginx ------------------------
+start-nginx: ## Start the Nginx docker container.
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting NGINX"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d nginx
+
+stop-nginx: ## Stop the Nginx docker container.
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping NGINX"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose stop nginx
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm nginx
 
 restart-nginx: ## Restart the Nginx docker container.
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Creating nginx shell"
+	@echo "Restarting NGINX"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 	make nginx-logs
@@ -1427,17 +1443,30 @@ restore-mosquitto:
 # See https://filebrowser.org/
 #
 
-deploy-file-browser: enable-file-browser configure-file-browser start-file-browser 
+deploy-file-browser: enable-file-browser configure-file-browser 
 
 enable-file-browser:
 	@echo "file-browser" >> enabled-profiles
 
 configure-file-browser:
+	# We need to quickly start it to initialise
+	# Then stop so that we can write more options to the db
+	@make start-file-browser 
+	@make stop-file-browser 
 	@echo "========================="
 	@echo "File browser configured"
 	@echo "========================="
 	@make copy-overrides
 	-@cd conf/nginx_conf/locations; ln -s file-browser.conf.available file-browser.conf
+	# This section must run before file-browser is running to avoid an issue in 
+	# file-browser that prevents another app from updating it while it is being used
+	@echo "------------------------------------------------------------------"
+	@echo "Setting up password and branding for file-browser"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run file-browser config set --branding.name "OSGS File Browser" --branding.files "/conf/branding"
+	@make start-file-browser 
+	@make stop-nginx
+	@make start-nginx
 
 restart-file-browser: stop-file-browser start-file-browser
 
@@ -1448,7 +1477,8 @@ start-file-browser:
 	@echo "Starting file browser"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d file-browser
-	@make restart-nginx
+	@make stop-nginx
+	@make start-nginx
 	
 stop-file-browser:
 	@echo

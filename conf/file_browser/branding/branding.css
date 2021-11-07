@@ -1,0 +1,9 @@
+.ace_editor {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    font: 26px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    direction: ltr;
+    text-align: left;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
