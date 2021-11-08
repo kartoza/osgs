@@ -11,12 +11,21 @@ Add yourself to the user group of docker so you don't need to sudo docker
 commands.
 
 ```
-sudo usermod -a -G docker timlinux
+sudo usermod -a -G docker $USER
+
 ```
 
-Then log out and in again to assume the upgraded permissions.
+On linux you can run:
+
+```
+newgrp docker 
+```
+
+To become part of the docker group. On other Operating Systems you should log out and in again to assume the upgraded permissions.
 
 ## Project Checkout
+
+Note you can check out the project anywhere, but for our examples we will use /home/web/osgs.
 
 ```
 cd /home
@@ -27,10 +36,19 @@ git clone https://github.com/kartoza/osgs
 cd osgs
 ```
 
+<div class="admonition warning">
+At this time we do not use the snapd installation of docker. Note that if you do,
+you will need to install osgs in your home directory. See snapd docker notes 
+for details.
+</div>
+
 ## Fetching Docker Images
 
 ![Overview Diagram](../img/docker-images.png)
 
+```
+docker-compose pull
+```
 
 
 ## Configuration

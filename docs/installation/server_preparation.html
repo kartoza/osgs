@@ -167,6 +167,10 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Firewall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#move-on-to-osgs-installation">Move on to OSGS Installation</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="initial_configuration.html">Initial Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#user-group">User Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#project-checkout">Project Checkout</a></li>
@@ -469,6 +473,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#git-rpl-pwgen-make-and-openssl">Git, rpl, pwgen, Make and openssl</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Firewall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#move-on-to-osgs-installation">Move on to OSGS Installation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="initial_configuration.html">Initial Configuration</a><ul>
@@ -805,10 +813,15 @@
 </div>
 <div class="section" id="status-monitoring">
 <h3>Status monitoring<a class="headerlink" href="#status-monitoring" title="Permalink to this headline">¶</a></h3>
-<p>bpytop is a great console based dashboard for monitoring your server.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">snap</span> <span class="n">install</span> <span class="n">bpytop</span>
+<p>gotop is a great console based dashboard for monitoring your server.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">golang</span>
+<span class="n">cd</span> 
+<span class="n">go</span> <span class="n">get</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cjbassi</span><span class="o">/</span><span class="n">gotop</span>
+<span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="n">go</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">gotop</span>
+<span class="n">sudo</span> <span class="n">cp</span> <span class="n">go</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">gotop</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span>
 </pre></div>
 </div>
+<p>Now just type gotop whenever you want to see your terminal system monitor.</p>
 </div>
 </div>
 <div class="section" id="additional-software">
@@ -819,6 +832,11 @@
 <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="o">-</span><span class="n">y</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">pip</span>
 <span class="n">sudo</span> <span class="n">pip3</span> <span class="n">install</span> <span class="n">docker</span><span class="o">-</span><span class="n">compose</span>
 </pre></div>
+</div>
+<div class="admonition warning">
+At this time we do not use the snapd installation of docker. Note that if you do,
+you will need to install osgs in your home directory. See snapd docker notes 
+for details.
 </div>
 </div>
 <div class="section" id="git-rpl-pwgen-make-and-openssl">
@@ -833,6 +851,19 @@ commands we provide.</p>
 </pre></div>
 </div>
 </div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="id1">
+<h1>Firewall<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>If you are using ufw, open port 80 and 443 as minimum. After the initial setup, you
+can again close port 80.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="mi">80</span>
+<span class="n">ufw</span> <span class="n">allow</span> <span class="mi">443</span>
+</pre></div>
+</div>
+<div class="section" id="move-on-to-osgs-installation">
+<h2>Move on to OSGS Installation<a class="headerlink" href="#move-on-to-osgs-installation" title="Permalink to this headline">¶</a></h2>
+<p>Ok we are ready to install OSGS! Go ahead to the <span class="xref myst">initial configuration page</span> now.</p>
 </div>
 </div>
 

@@ -167,6 +167,10 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="server_preparation.html#id1">Firewall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#move-on-to-osgs-installation">Move on to OSGS Installation</a></li>
+</ul>
+</li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#initial-configuration">Initial Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#user-group">User Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#project-checkout">Project Checkout</a></li>
@@ -471,6 +475,10 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="server_preparation.html#id1">Firewall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#move-on-to-osgs-installation">Move on to OSGS Installation</a></li>
+</ul>
+</li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#initial-configuration">Initial Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#user-group">User Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#project-checkout">Project Checkout</a></li>
@@ -755,13 +763,19 @@ in various examples - you should substitute this with your own user.
 <h2>User Group<a class="headerlink" href="#user-group" title="Permalink to this headline">¶</a></h2>
 <p>Add yourself to the user group of docker so you don’t need to sudo docker
 commands.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">usermod</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span><span class="n">G</span> <span class="n">docker</span> <span class="n">timlinux</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>sudo usermod -a -G docker $USER
+
 </pre></div>
 </div>
-<p>Then log out and in again to assume the upgraded permissions.</p>
+<p>On linux you can run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">newgrp</span> <span class="n">docker</span> 
+</pre></div>
+</div>
+<p>To become part of the docker group. On other Operating Systems you should log out and in again to assume the upgraded permissions.</p>
 </div>
 <div class="section" id="project-checkout">
 <h2>Project Checkout<a class="headerlink" href="#project-checkout" title="Permalink to this headline">¶</a></h2>
+<p>Note you can check out the project anywhere, but for our examples we will use /home/web/osgs.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">home</span>
 <span class="n">sudo</span> <span class="n">mkdir</span> <span class="n">web</span>
 <span class="n">sudo</span> <span class="n">chown</span> <span class="n">timlinux</span><span class="o">.</span><span class="n">timlinux</span> <span class="n">web</span>
@@ -770,10 +784,18 @@ commands.</p>
 <span class="n">cd</span> <span class="n">osgs</span>
 </pre></div>
 </div>
+<div class="admonition warning">
+At this time we do not use the snapd installation of docker. Note that if you do,
+you will need to install osgs in your home directory. See snapd docker notes 
+for details.
+</div>
 </div>
 <div class="section" id="fetching-docker-images">
 <h2>Fetching Docker Images<a class="headerlink" href="#fetching-docker-images" title="Permalink to this headline">¶</a></h2>
 <p><img alt="Overview Diagram" src="../_images/docker-images.png" /></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span><span class="o">-</span><span class="n">compose</span> <span class="n">pull</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
