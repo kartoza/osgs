@@ -92,6 +92,13 @@ sudo apt-get -y install python3-pip
 sudo pip3 install docker-compose
 ```
 
+<div class="admonition warning">
+At this time we do not use the snapd installation of docker. Note that if you do,
+you will need to install osgs in your home directory. See snapd docker notes 
+for details.
+</div>
+
+
 ### Git, rpl, pwgen, Make and openssl
 
 Needed for checking out our docker project and running the various make
@@ -104,6 +111,16 @@ sudo apt install git make rpl pwgen openssl
 or fedora:
 ```
 sudo dnf install openssl rpl git pwgen
+```
+
+# Firewall
+
+If you are using ufw, open port 80 and 443 as minimum. After the initial setup, you
+can again close port 80.
+
+```
+ufw allow 80
+ufw allow 443
 ```
 
 ## Move on to OSGS Installation

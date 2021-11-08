@@ -137,9 +137,6 @@ configure-letsencrypt-ssl: disable-all-services prepare-templates ## Create a ce
 		init-letsencrypt.sh; 
 	@read -p "Valid Contact Person Email Address: " EMAIL; \
 	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh .env
-	make site-config 
-	make enable-hugo 
-	make configure-scp 
 	make configure-htpasswd 
 	make deploy 
 
@@ -250,7 +247,7 @@ nginx-logs: ## Display the logs of Nginx. Press Ctrl-C to exit.
 
 #----------------- Hugo --------------------------
 
-deploy-hugo: enable-hugo start-hugo
+deploy-hugo: enable-hugo site-config start-hugo
 
 enable-hugo: ## Enable the Hugo static content management system.
 	-@cd conf/nginx_conf/locations; ln -s hugo.conf.available hugo.conf

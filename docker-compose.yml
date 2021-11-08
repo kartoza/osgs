@@ -178,9 +178,6 @@ services:
       options:
         max-size: 200m
         max-file: '10'
-    depends_on:
-      - scp
-      - hugo-watcher
 
   # file uploader
   file-browser:
@@ -231,7 +228,6 @@ services:
      - ./certbot/certbot/conf:/etc/letsencrypt
      - ./certbot/certbot/www:/var/www/certbot
 
-
   # This is only intended to be used during the initial setup of
   # certbot, thereafter use the nginx service
   # See the makefile for how this is orchestrated       
@@ -272,6 +268,8 @@ services:
       options:
         max-size: 200m
         max-file: '10'
+    depends_on:
+      - nginx
 
   ############################################################
   #  END OF DEFAULT SERVICES - everything after this
@@ -712,7 +710,8 @@ services:
 
   scp:
     image: *scp-image
-    # No profiles specified, automatically started by nginx
+    profiles: 
+      - scp
     ports:
       # This is one of the few cases where we are 
       # exposing a port to the host. Users should
