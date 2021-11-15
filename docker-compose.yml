@@ -242,12 +242,17 @@ services:
      - ./nginx_certbot_init_conf/nginx.conf:/etc/nginx/nginx.conf
      - ./certbot/certbot/conf:/etc/letsencrypt
      - ./certbot/certbot/www:/var/www/certbot
+
   hugo-watcher:
     # This service watches for changes in the static content
     # source files of the hugo site and rebuilds the site 
     # whenever a source file is changed.
     image: *hugo-image
     # No profiles specified, automatically started by nginx
+    environment:
+      - DOMAIN=https://${DOMAIN}
+      # If you comment out theme it will default to hugo-clarity
+      #- THEME=elephants
     volumes:
       # This is non user editable, generated static html
       # will be placed here.
