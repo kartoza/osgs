@@ -31,7 +31,7 @@ x-gdal-image: &gdal-image geodata/gdal
 x-mergin-client-image: &mergin-client-image kartoza/mergin-client:latest
 x-lizmap-image: &lizmap-image 3liz/lizmap-web-client:3.4
 # Auto builds on the main branch are tagged with :main
-x-hugo-image: &hugo-image kartoza/hugo-watcher:latest
+x-hugo-image: &hugo-image kartoza/hugo-watcher:main
 #x-hugo-image: &hugo-image kartoza/hugo-watcher:main
 x-node-red-image: &node-red-image nodered/node-red:latest
 x-mosquitto-image: &mosquitto-image eclipse-mosquitto:openssl
