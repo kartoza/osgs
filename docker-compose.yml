@@ -418,7 +418,6 @@ services:
       start_period: 60s
     depends_on:
         - nginx
-        - scp
     env_file:
       # Editable configs (will be edited by make configure or by user)
       - .env

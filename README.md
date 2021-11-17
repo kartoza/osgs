@@ -34,7 +34,7 @@ Basic steps to get OSGS up and running.
 - [make](https://www.gnu.org/software/make/)
 - [rpl](https://linux.die.net/man/1/rpl)
 - [git](https://git-scm.com/)
-- [docker compose](https://docs.docker.com/compose/)
+- [docker compose](https://docs.docker.com/compose/) (must install from pip3)
 
 A more complete outline of server configuration is available in the documentation https://kartoza.github.io/osgs/installation/server_preparation.html
 
