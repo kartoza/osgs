@@ -752,6 +752,7 @@ backup-db-qgis-styles: ## Backup QGIS Styles in the gis database
 	@echo "------------------------------------------------------------------"
 	@echo "Backing up QGIS styles stored in gis db"
 	@echo "------------------------------------------------------------------"
+	-@mkdir -p backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -f /tmp/QGISStyles.sql -t layer_styles gis
 	@docker cp osgisstack_db_1:/tmp/QGISStyles.sql backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/QGISStyles.sql
@@ -778,6 +779,7 @@ backup-db-qgis-project:
 	@echo "------------------------------------------------------------------"
 	@echo "Backing up QGIS project stored in db"
 	@echo "------------------------------------------------------------------"
+	-@mkdir -p backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -f /tmp/QGISProject.sql -t qgis_projects gis
 	@docker cp osgisstack_db_1:/tmp/QGISProject.sql backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/QGISProject.sql
@@ -803,6 +805,7 @@ backup-db: ## Backup the gis database
 	@echo "------------------------------------------------------------------"
 	@echo "Backing up entire GIS postgres db"
 	@echo "------------------------------------------------------------------"
+	-@mkdir -p backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -Fc -f /tmp/osgisstack-gis-database.dmp gis
 	@docker cp osgisstack_db_1:/tmp/osgisstack-gis-database.dmp backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-gis-database.dmp
@@ -823,6 +826,7 @@ backup-all-databases: ## Backup all postgresql databases
 	@echo "------------------------------------------------------------------"
 	@echo "Backing up all postgres databases"
 	@echo "------------------------------------------------------------------"
+	-@mkdir -p backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dumpall -f /tmp/osgisstack-all-databases.dmp
 	@docker cp osgisstack_db_1:/tmp/osgisstack-all-databases.dmp .
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-all-databases.dmp
@@ -847,6 +851,7 @@ backup-mergin-base-db-schema:
 	@echo "------------------------------------------------------------------"
 	@echo "Backing up mergin base schema from  postgres db"
 	@echo "------------------------------------------------------------------"
+	-@mkdir -p backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -Fc -f /tmp/mergin-base-schema.dmp -n mergin_sync_base_do_not_touch gis
 	@docker cp osgisstack_db_1:/tmp/mergin-base-schema.dmp backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/mergin-base-schema.dmp
