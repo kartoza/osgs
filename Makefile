@@ -780,7 +780,7 @@ backup-db-qgis-project:
 	@echo "Backing up QGIS project stored in db"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -f /tmp/QGISProject.sql -t qgis_projects gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -f /tmp/QGISProject.sql -t public.qgis_projects gis
 	@docker cp osgisstack_db_1:/tmp/QGISProject.sql backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/QGISProject.sql
 	@cp backups/QGISProject.sql backups/QGISProject-$$(date +%Y-%m-%d).sql
