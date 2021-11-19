@@ -753,7 +753,7 @@ backup-db-qgis-styles: ## Backup QGIS Styles in the gis database
 	@echo "Backing up QGIS styles stored in gis db"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -f /tmp/QGISStyles.sql -t layer_styles gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -f /tmp/QGISStyles.sql -t public.layer_styles gis
 	@docker cp osgisstack_db_1:/tmp/QGISStyles.sql backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/QGISStyles.sql
 	@cp backups/QGISStyles.sql backups/QGISStyles-$$(date +%Y-%m-%d).sql
@@ -770,7 +770,7 @@ restore-db-qgis-styles:
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop table layer_styles;" gis 
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/QGISStyles.sql -d gis
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/QGISStyles.sql
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from layer_styles;" gis 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select stylename from layer_styles;" gis 
 
 
 backup-db-qgis-project:
