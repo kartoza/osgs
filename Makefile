@@ -1369,12 +1369,13 @@ enable-mosquitto:
 
 configure-mosquitto:
 	@echo "========================="
-	@echo "Mosquitto configured"
+	@echo "Configuring Mosquitto"
 	@echo "========================="
 	@if [ -f "conf/mosquitto/start-mosquitto.sh" ]; then sudo rm conf/mosquitto/start-mosquitto.sh; fi
 	@cp conf/mosquitto/start-mosquitto.sh.example conf/mosquitto/start-mosquitto.sh
 	@rpl -q {{siteDomain}} $(shell cat conf/nginx_conf/servername.conf | sed 's/         server_name //' | sed 's/;//') conf/mosquitto/start-mosquitto.sh
 	@chmod +x conf/mosquitto/start-mosquitto.sh
+	@if [ ! -f "conf/mosquitto/mosquitto.conf" ]; then cp conf/mosquitto/mosquitto.conf.example conf/mosquitto/mosquitto.conf; fi
 
 restart-mosquitto: stop-mosquitto start-mosquitto
 
