@@ -42,15 +42,6 @@ you will need to install osgs in your home directory. See snapd docker notes
 for details.
 </div>
 
-## Fetching Docker Images
-
-![Overview Diagram](../img/docker-images.png)
-
-```
-docker-compose pull
-```
-
-
 ## Configuration
 
 If you are going to use a self-signed certificate on a localhost (for testing):
@@ -65,4 +56,14 @@ If you are going to use a letsencrypt signed certificate on a name host (for pro
 
 ```
 make configure-letsencrypt-ssl
+```
+
+## Fetching Docker Images
+
+You can optionally prefetch all the docker images that are used in the stack.
+
+![Overview Diagram](../img/docker-images.png)
+
+```
+docker-compose pull
 ```

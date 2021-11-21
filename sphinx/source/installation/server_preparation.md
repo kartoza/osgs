@@ -41,8 +41,9 @@ sudo apt-get install crowdsec
 
 ```
 sudo apt install fail2ban
-https://www.fail2ban.org/wiki/index.php/Main_Page 
 ```
+See: https://www.fail2ban.org/wiki/index.php/Main_Page 
+
 
 
 ### Firewall
@@ -119,8 +120,8 @@ If you are using ufw, open port 80 and 443 as minimum. After the initial setup, 
 can again close port 80.
 
 ```
-ufw allow 80
-ufw allow 443
+sudo ufw allow 80
+sudo ufw allow 443
 ```
 
 ## Move on to OSGS Installation
