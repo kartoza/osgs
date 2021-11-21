@@ -106,7 +106,7 @@ Needed for checking out our docker project and running the various make
 commands we provide.
 
 ```
-sudo apt install git make rpl pwgen openssl
+sudo apt install git make rpl pwgen openssl apache2-utils
 ```
 
 or fedora:

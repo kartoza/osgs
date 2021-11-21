@@ -18,7 +18,6 @@ if [ -d "$data_path" ]; then
   fi
 fi
 
-
 if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] || [ ! -e "$data_path/conf/ssl-dhparams.pem" ]; then
   echo "### Downloading recommended TLS parameters ..."
   mkdir -p "$data_path/conf"
@@ -26,6 +25,10 @@ if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] || [ ! -e "$data_path/conf/
   curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem > "$data_path/conf/ssl-dhparams.pem"
   echo
 fi
+
+docker-compose kill
+docker-compose rm -f
+make ps
 
 echo "### Creating dummy certificate for $domains ..."
 path="/etc/letsencrypt/live/$domains"
@@ -37,9 +40,16 @@ docker-compose --profile=certbot-init run --rm --entrypoint "\
     -subj '/CN=localhost'" certbot
 echo
 
+docker-compose kill
+docker-compose rm -f
+
 echo "### Starting nginx ..."
 docker-compose --profile=certbot-init up --force-recreate -d nginx-certbot-init
 echo
+
+docker-compose kill
+docker-compose rm -f
+make ps
 
 echo "### Deleting dummy certificate for $domains ..."
 docker-compose --profile=certbot-init run --rm --entrypoint "\
@@ -47,7 +57,6 @@ docker-compose --profile=certbot-init run --rm --entrypoint "\
   rm -Rf /etc/letsencrypt/archive/$domains && \
   rm -Rf /etc/letsencrypt/renewal/$domains.conf" certbot
 echo
-
 
 echo "### Requesting Let's Encrypt certificate for $domains ..."
 #Join $domains to -d args
@@ -61,6 +70,7 @@ case "$email" in
   "") email_arg="--register-unsafely-without-email" ;;
   *) email_arg="--email $email" ;;
 esac
+
 
 # Enable staging mode if needed
 if [ $staging != "0" ]; then staging_arg="--staging"; fi
@@ -76,4 +86,14 @@ docker-compose --profile=certbot-init run --rm --entrypoint "\
 echo
 
 echo "### Reloading nginx ..."
-docker-compose --profile=certbot-init exec nginx-certbot-init nginx -s reload
+docker-compose kill
+docker-compose rm -f
+echo "--------------------------------------------------"
+echo "--------------------------------------------------"
+echo "             SUCCESS"
+echo "--------------------------------------------------"
+echo "--------------------------------------------------"
+echo "You are now ready to deploy services."
+echo "For a minimal setup you probably want to do:"
+echo "make deploy-hugo"
+echo "make deploy-filebrowser"

@@ -136,7 +136,7 @@ configure-letsencrypt-ssl: disable-all-services prepare-templates ## Create a ce
 	@read -p "Valid Contact Person Email Address: " EMAIL; \
 	   rpl validemail@yourdomain.org $$EMAIL init-letsencrypt.sh .env
 	make configure-htpasswd 
-	make deploy 
+	./init-letsencrypt.sh
 
 site-config: ## Configure the hugo static site
 	@echo "------------------------------------------------------------------"
