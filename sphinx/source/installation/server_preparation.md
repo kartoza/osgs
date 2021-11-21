@@ -71,6 +71,8 @@ We will open more ports as they are needed.
 
 gotop is a great console based dashboard for monitoring your server.
 
+Ubuntu:
+
 ```
 sudo apt-get install golang
 cd 
@@ -78,6 +80,17 @@ go get github.com/cjbassi/gotop
 chmod +x go/bin/gotop
 sudo cp go/bin/gotop /usr/local/bin/
 ```
+
+Fedora:
+
+```
+sudo dnf install golang
+cd 
+go get github.com/cjbassi/gotop
+chmod +x go/bin/gotop
+sudo cp go/bin/gotop /usr/local/bin/
+```
+
 
 Now just type gotop whenever you want to see your terminal system monitor.
 
