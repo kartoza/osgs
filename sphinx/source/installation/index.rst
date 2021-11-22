@@ -6,6 +6,7 @@ Installation
    :caption: Contents:
 
    server_preparation
+   wireguard_vpn
    initial_configuration
    fonts
    production_stack
