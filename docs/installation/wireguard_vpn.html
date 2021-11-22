@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>OSGS - Workflows</title>
+<title>OSGS - Wireguard VPN</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous"/>
@@ -36,8 +36,8 @@
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
 <link rel="search" title="Search" href="../search.html" />
-<link rel="next" title="Publishing changes to the static website" href="publishing-changes-to-static-website.html" />
-<link rel="prev" title="Building Documentation" href="../utilities/building_docs.html" />
+<link rel="next" title="Initial Configuration" href="initial_configuration.html" />
+<link rel="prev" title="Preparing the server" href="server_preparation.html" />
 
 </head>
 <body class="full-height test">
@@ -56,8 +56,8 @@
 
       </div>
       <div id="hdr-centre" class="text-center stretch">
-        <h3 title="Workflows">Workflows</h3>
-        <h6>Workflows</h6>
+        <h3 title="Wireguard VPN">Wireguard VPN</h3>
+        <h6>Wireguard VPN</h6>
       </div>
       <div id="hdr-search">
         
@@ -74,7 +74,7 @@
       </div>
 
       <div id="hdr-source">
-        <a href="../_sources/workflows/index.rst.txt" class="btn btn-default" title="See the source for this page"><i class="fa fa-code"></i></a>
+        <a href="../_sources/installation/wireguard_vpn.md.txt" class="btn btn-default" title="See the source for this page"><i class="fa fa-code"></i></a>
       </div>
 
       <div id="hdr-right">
@@ -83,18 +83,18 @@
   <div class="prev-next">
     
       <div class="pull-left">
-        <a class="btn btn-default prev" href="../utilities/building_docs.html" title="Previous chapter (Building Documentation)"><i class="fa fa-chevron-left mr-1em" aria-hidden="true"></i><span class="btn-text">Building Documentation</span></a>
+        <a class="btn btn-default prev" href="server_preparation.html" title="Previous chapter (Preparing the server)"><i class="fa fa-chevron-left mr-1em" aria-hidden="true"></i><span class="btn-text">Preparing the server</span></a>
       </div>
     
       <div class="pull-right">
-        <a class="btn btn-default next" href="publishing-changes-to-static-website.html" title="Next chapter (Publishing changes to the static website)"><span class="btn-text">Publishing changes to the static website</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
+        <a class="btn btn-default next" href="initial_configuration.html" title="Next chapter (Initial Configuration)"><span class="btn-text">Initial Configuration</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
       </div>
     </div>
   
       </div>
       <div id="alt-hdr-right">
 
-        <a href="../utilities/building_docs.html"><i class="fa fa-chevron-left mr-8"></i></a>
+        <a href="server_preparation.html"><i class="fa fa-chevron-left mr-8"></i></a>
 
 
         <a href="../index.html"><i class="fa fa-home mr-8"></i></a>
@@ -106,7 +106,7 @@
         <a href="../genindex.html"><i class="fa fa-list mr-8"></i></a>
 
 
-        <a href="publishing-changes-to-static-website.html"><i class="fa fa-chevron-right"></i></a>
+        <a href="initial_configuration.html"><i class="fa fa-chevron-right"></i></a>
 
       </div>
     </div>
@@ -149,61 +149,61 @@
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#overview-diagram">Overview Diagram</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../installation/server_preparation.html#preparing-the-server">Preparing the server</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../installation/server_preparation.html#basic-security">Basic Security</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#unattended-upgrades">Unattended upgrades</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#ssh">ssh</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#crowdsec">Crowdsec</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#fail2ban">Fail2ban</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#firewall">Firewall</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#status-monitoring">Status monitoring</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Installation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="server_preparation.html">Preparing the server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#basic-security">Basic Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#unattended-upgrades">Unattended upgrades</a></li>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#ssh">ssh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#crowdsec">Crowdsec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#fail2ban">Fail2ban</a></li>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#firewall">Firewall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#status-monitoring">Status monitoring</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../installation/server_preparation.html#additional-software">Additional Software</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#docker">Docker</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#git-rpl-pwgen-make-and-openssl">Git, rpl, pwgen, Make and openssl</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/server_preparation.html#id1">Firewall</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../installation/server_preparation.html#move-on-to-osgs-installation">Move on to OSGS Installation</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/wireguard_vpn.html#wireguard-vpn">Wireguard VPN</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../installation/wireguard_vpn.html#setting-up-the-vpn-server">Setting up the VPN Server</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../installation/wireguard_vpn.html#initial-install">Initial Install</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/wireguard_vpn.html#server-networking-and-firewall-configuration">Server Networking and Firewall Configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/wireguard_vpn.html#firewall-config">Firewall config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#additional-software">Additional Software</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#docker">Docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#git-rpl-pwgen-make-and-openssl">Git, rpl, pwgen, Make and openssl</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/wireguard_vpn.html#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../installation/wireguard_vpn.html#stopping-wireguard">Stopping Wireguard</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../installation/wireguard_vpn.html#configure-ssh">Configure ssh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../installation/wireguard_vpn.html#enable-the-vpn">Enable the VPN</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../installation/wireguard_vpn.html#enable-the-firewall">Enable the firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="server_preparation.html#id1">Firewall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#move-on-to-osgs-installation">Move on to OSGS Installation</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/initial_configuration.html#initial-configuration">Initial Configuration</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../installation/initial_configuration.html#user-group">User Group</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../installation/initial_configuration.html#project-checkout">Project Checkout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../installation/initial_configuration.html#configuration">Configuration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../installation/initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#wireguard-vpn">Wireguard VPN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-the-vpn-server">Setting up the VPN Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initial-install">Initial Install</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#server-networking-and-firewall-configuration">Server Networking and Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#firewall-config">Firewall config</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/fonts.html">Obtaining free fonts for your projects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/production_stack.html">Production Stack</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../installation/production_stack.html#overview">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../installation/production_stack.html#configuration">Configuration</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/instructions_for_windows_users.html">Production Stack installation instructions for Windows Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stopping-wireguard">Stopping Wireguard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-ssh">Configure ssh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enable-the-vpn">Enable the VPN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enable-the-firewall">Enable the firewall</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#indices-and-tables">Indices and tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initial_configuration.html">Initial Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#user-group">User Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#project-checkout">Project Checkout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fonts.html">Obtaining free fonts for your projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="production_stack.html">Production Stack</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="production_stack.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="production_stack.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="instructions_for_windows_users.html">Production Stack installation instructions for Windows Users</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../services/index.html">Services</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../services/postgres.html">Postgres and PostGIS</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../services/postgres.html#configuration">Configuration</a><ul>
@@ -400,41 +400,41 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#workflows">Workflows</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="publishing-changes-to-static-website.html">Publishing changes to the static website</a></li>
-<li class="toctree-l2"><a class="reference internal" href="uploading-qgis-project.html">Uploading a QGIS project</a></li>
-<li class="toctree-l2"><a class="reference internal" href="acessing-postgis-from-qgis-using-pg_service-file.html">Accessing PostGIS from QGIS using a pg_service file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="authentication-using-pg_service-and-qgisauthdb.html">Authentication of Postgres using a pg_service file and a qgis-auth.db file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="publishing-qgis-project.html">Publishing a QGIS project</a></li>
-<li class="toctree-l2"><a class="reference internal" href="publishing-layers-using-geoserver.html">Publishing layers using Geoserver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="connecting-to-geoserver-and-qgisserver-in-hugo.html">Connecting to Geoserver and QGIS Server in Hugo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qgis-desktop-as-web-service-client.html">QGIS Desktop as a Web Services Client</a></li>
-<li class="toctree-l2"><a class="reference internal" href="node-red-access-data-in-postgres.html">Node-red workflow that accesses data in Postgres</a></li>
-<li class="toctree-l2"><a class="reference internal" href="postgrest-api.html">PostgREST API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="node-red-postgrest-api.html">Node-red connect to the PostgREST API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="node-red-point-layer-to-worldmap.html">Node-red point layer to world map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="set-up-pg-notify.html">Set up process for pg notify</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mergin-db-sync-client-workflow1.html">Mergin-db-sync client workflow 1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mergin-db-sync-client-workflow2.html">Mergin-db-sync client Workflow 2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="create-osm-mirror-in-database.html">Creating an Open Street Map mirror into your database</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="create-osm-mirror-in-database.html#preparing-the-country-pbf-file-and-the-clip-area-document">Preparing the Country PBF file and the clip area document</a></li>
-<li class="toctree-l3"><a class="reference internal" href="create-osm-mirror-in-database.html#deploying-the-osm-mirror-service">Deploying the OSM mirror service.</a></li>
-<li class="toctree-l3"><a class="reference internal" href="create-osm-mirror-in-database.html#loading-the-osm-mirror-layers-into-qgis">Loading the OSM Mirror Layers into QGIS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="create-osm-mirror-in-database.html#saving-a-qgis-project-into-the-osm-database">Saving a QGIS project into the OSM database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="create-osm-mirror-in-database.html#backing-up-and-restoring-a-qgis-project-into-the-database">Backing up and restoring a QGIS project into the database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="create-osm-mirror-in-database.html#saving-qgis-layer-styles-into-the-database">Saving QGIS layer styles into the database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="create-osm-mirror-in-database.html#backing-up-and-restoring-the-qgis-styles-into-the-database">Backing up and restoring the QGIS styles into the database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="create-osm-mirror-in-database.html#references">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/publishing-changes-to-static-website.html">Publishing changes to the static website</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/uploading-qgis-project.html">Uploading a QGIS project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/acessing-postgis-from-qgis-using-pg_service-file.html">Accessing PostGIS from QGIS using a pg_service file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/authentication-using-pg_service-and-qgisauthdb.html">Authentication of Postgres using a pg_service file and a qgis-auth.db file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/publishing-qgis-project.html">Publishing a QGIS project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/publishing-layers-using-geoserver.html">Publishing layers using Geoserver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/connecting-to-geoserver-and-qgisserver-in-hugo.html">Connecting to Geoserver and QGIS Server in Hugo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/qgis-desktop-as-web-service-client.html">QGIS Desktop as a Web Services Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/node-red-access-data-in-postgres.html">Node-red workflow that accesses data in Postgres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/postgrest-api.html">PostgREST API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/node-red-postgrest-api.html">Node-red connect to the PostgREST API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/node-red-point-layer-to-worldmap.html">Node-red point layer to world map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/set-up-pg-notify.html">Set up process for pg notify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/mergin-db-sync-client-workflow1.html">Mergin-db-sync client workflow 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/mergin-db-sync-client-workflow2.html">Mergin-db-sync client Workflow 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html">Creating an Open Street Map mirror into your database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#preparing-the-country-pbf-file-and-the-clip-area-document">Preparing the Country PBF file and the clip area document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#deploying-the-osm-mirror-service">Deploying the OSM mirror service.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#loading-the-osm-mirror-layers-into-qgis">Loading the OSM Mirror Layers into QGIS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#saving-a-qgis-project-into-the-osm-database">Saving a QGIS project into the OSM database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#backing-up-and-restoring-a-qgis-project-into-the-database">Backing up and restoring a QGIS project into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#saving-qgis-layer-styles-into-the-database">Saving QGIS layer styles into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#backing-up-and-restoring-the-qgis-styles-into-the-database">Backing up and restoring the QGIS styles into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#references">References</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="osm-enrich-workflow.html">OSM enrich workflow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="postgresql-workflows.html">PostgreSQL Workflows</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="postgresql-workflows.html#direct-connection">Direct connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/osm-enrich-workflow.html">OSM enrich workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/postgresql-workflows.html">PostgreSQL Workflows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/postgresql-workflows.html#direct-connection">Direct connection</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../roadmap.html#components">Components</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../roadmap.html#considerations">Considerations</a></li>
@@ -473,61 +473,61 @@
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#overview-diagram">Overview Diagram</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../installation/server_preparation.html#preparing-the-server">Preparing the server</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../installation/server_preparation.html#basic-security">Basic Security</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#unattended-upgrades">Unattended upgrades</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#ssh">ssh</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#crowdsec">Crowdsec</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#fail2ban">Fail2ban</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#firewall">Firewall</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#status-monitoring">Status monitoring</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Installation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="server_preparation.html">Preparing the server</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#basic-security">Basic Security</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#unattended-upgrades">Unattended upgrades</a></li>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#ssh">ssh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#crowdsec">Crowdsec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#fail2ban">Fail2ban</a></li>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#firewall">Firewall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#status-monitoring">Status monitoring</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../installation/server_preparation.html#additional-software">Additional Software</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#docker">Docker</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/server_preparation.html#git-rpl-pwgen-make-and-openssl">Git, rpl, pwgen, Make and openssl</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/server_preparation.html#id1">Firewall</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../installation/server_preparation.html#move-on-to-osgs-installation">Move on to OSGS Installation</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/wireguard_vpn.html#wireguard-vpn">Wireguard VPN</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../installation/wireguard_vpn.html#setting-up-the-vpn-server">Setting up the VPN Server</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../installation/wireguard_vpn.html#initial-install">Initial Install</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/wireguard_vpn.html#server-networking-and-firewall-configuration">Server Networking and Firewall Configuration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../installation/wireguard_vpn.html#firewall-config">Firewall config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#additional-software">Additional Software</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#docker">Docker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="server_preparation.html#git-rpl-pwgen-make-and-openssl">Git, rpl, pwgen, Make and openssl</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/wireguard_vpn.html#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../installation/wireguard_vpn.html#stopping-wireguard">Stopping Wireguard</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../installation/wireguard_vpn.html#configure-ssh">Configure ssh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../installation/wireguard_vpn.html#enable-the-vpn">Enable the VPN</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../installation/wireguard_vpn.html#enable-the-firewall">Enable the firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="server_preparation.html#id1">Firewall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="server_preparation.html#move-on-to-osgs-installation">Move on to OSGS Installation</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/initial_configuration.html#initial-configuration">Initial Configuration</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../installation/initial_configuration.html#user-group">User Group</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../installation/initial_configuration.html#project-checkout">Project Checkout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../installation/initial_configuration.html#configuration">Configuration</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../installation/initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#wireguard-vpn">Wireguard VPN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-the-vpn-server">Setting up the VPN Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initial-install">Initial Install</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#server-networking-and-firewall-configuration">Server Networking and Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#firewall-config">Firewall config</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/fonts.html">Obtaining free fonts for your projects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/production_stack.html">Production Stack</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../installation/production_stack.html#overview">Overview</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../installation/production_stack.html#configuration">Configuration</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/instructions_for_windows_users.html">Production Stack installation instructions for Windows Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#stopping-wireguard">Stopping Wireguard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-ssh">Configure ssh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enable-the-vpn">Enable the VPN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enable-the-firewall">Enable the firewall</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#indices-and-tables">Indices and tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="initial_configuration.html">Initial Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#user-group">User Group</a></li>
+<li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#project-checkout">Project Checkout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fonts.html">Obtaining free fonts for your projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="production_stack.html">Production Stack</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="production_stack.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="production_stack.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="instructions_for_windows_users.html">Production Stack installation instructions for Windows Users</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../services/index.html">Services</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../services/postgres.html">Postgres and PostGIS</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../services/postgres.html#configuration">Configuration</a><ul>
@@ -724,41 +724,41 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#workflows">Workflows</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="publishing-changes-to-static-website.html">Publishing changes to the static website</a></li>
-<li class="toctree-l2"><a class="reference internal" href="uploading-qgis-project.html">Uploading a QGIS project</a></li>
-<li class="toctree-l2"><a class="reference internal" href="acessing-postgis-from-qgis-using-pg_service-file.html">Accessing PostGIS from QGIS using a pg_service file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="authentication-using-pg_service-and-qgisauthdb.html">Authentication of Postgres using a pg_service file and a qgis-auth.db file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="publishing-qgis-project.html">Publishing a QGIS project</a></li>
-<li class="toctree-l2"><a class="reference internal" href="publishing-layers-using-geoserver.html">Publishing layers using Geoserver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="connecting-to-geoserver-and-qgisserver-in-hugo.html">Connecting to Geoserver and QGIS Server in Hugo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qgis-desktop-as-web-service-client.html">QGIS Desktop as a Web Services Client</a></li>
-<li class="toctree-l2"><a class="reference internal" href="node-red-access-data-in-postgres.html">Node-red workflow that accesses data in Postgres</a></li>
-<li class="toctree-l2"><a class="reference internal" href="postgrest-api.html">PostgREST API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="node-red-postgrest-api.html">Node-red connect to the PostgREST API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="node-red-point-layer-to-worldmap.html">Node-red point layer to world map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="set-up-pg-notify.html">Set up process for pg notify</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mergin-db-sync-client-workflow1.html">Mergin-db-sync client workflow 1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mergin-db-sync-client-workflow2.html">Mergin-db-sync client Workflow 2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="create-osm-mirror-in-database.html">Creating an Open Street Map mirror into your database</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="create-osm-mirror-in-database.html#preparing-the-country-pbf-file-and-the-clip-area-document">Preparing the Country PBF file and the clip area document</a></li>
-<li class="toctree-l3"><a class="reference internal" href="create-osm-mirror-in-database.html#deploying-the-osm-mirror-service">Deploying the OSM mirror service.</a></li>
-<li class="toctree-l3"><a class="reference internal" href="create-osm-mirror-in-database.html#loading-the-osm-mirror-layers-into-qgis">Loading the OSM Mirror Layers into QGIS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="create-osm-mirror-in-database.html#saving-a-qgis-project-into-the-osm-database">Saving a QGIS project into the OSM database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="create-osm-mirror-in-database.html#backing-up-and-restoring-a-qgis-project-into-the-database">Backing up and restoring a QGIS project into the database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="create-osm-mirror-in-database.html#saving-qgis-layer-styles-into-the-database">Saving QGIS layer styles into the database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="create-osm-mirror-in-database.html#backing-up-and-restoring-the-qgis-styles-into-the-database">Backing up and restoring the QGIS styles into the database</a></li>
-<li class="toctree-l3"><a class="reference internal" href="create-osm-mirror-in-database.html#references">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/publishing-changes-to-static-website.html">Publishing changes to the static website</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/uploading-qgis-project.html">Uploading a QGIS project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/acessing-postgis-from-qgis-using-pg_service-file.html">Accessing PostGIS from QGIS using a pg_service file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/authentication-using-pg_service-and-qgisauthdb.html">Authentication of Postgres using a pg_service file and a qgis-auth.db file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/publishing-qgis-project.html">Publishing a QGIS project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/publishing-layers-using-geoserver.html">Publishing layers using Geoserver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/connecting-to-geoserver-and-qgisserver-in-hugo.html">Connecting to Geoserver and QGIS Server in Hugo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/qgis-desktop-as-web-service-client.html">QGIS Desktop as a Web Services Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/node-red-access-data-in-postgres.html">Node-red workflow that accesses data in Postgres</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/postgrest-api.html">PostgREST API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/node-red-postgrest-api.html">Node-red connect to the PostgREST API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/node-red-point-layer-to-worldmap.html">Node-red point layer to world map</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/set-up-pg-notify.html">Set up process for pg notify</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/mergin-db-sync-client-workflow1.html">Mergin-db-sync client workflow 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/mergin-db-sync-client-workflow2.html">Mergin-db-sync client Workflow 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html">Creating an Open Street Map mirror into your database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#preparing-the-country-pbf-file-and-the-clip-area-document">Preparing the Country PBF file and the clip area document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#deploying-the-osm-mirror-service">Deploying the OSM mirror service.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#loading-the-osm-mirror-layers-into-qgis">Loading the OSM Mirror Layers into QGIS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#saving-a-qgis-project-into-the-osm-database">Saving a QGIS project into the OSM database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#backing-up-and-restoring-a-qgis-project-into-the-database">Backing up and restoring a QGIS project into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#saving-qgis-layer-styles-into-the-database">Saving QGIS layer styles into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#backing-up-and-restoring-the-qgis-styles-into-the-database">Backing up and restoring the QGIS styles into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/create-osm-mirror-in-database.html#references">References</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="osm-enrich-workflow.html">OSM enrich workflow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="postgresql-workflows.html">PostgreSQL Workflows</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="postgresql-workflows.html#direct-connection">Direct connection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/osm-enrich-workflow.html">OSM enrich workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../workflows/postgresql-workflows.html">PostgreSQL Workflows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../workflows/postgresql-workflows.html#direct-connection">Direct connection</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../roadmap.html#components">Components</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../roadmap.html#considerations">Considerations</a></li>
@@ -785,52 +785,187 @@
           </div>
           <div class="body">
             
-  <div class="section" id="workflows">
-<h1>Workflows<a class="headerlink" href="#workflows" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="publishing-changes-to-static-website.html">Publishing changes to the static website</a></li>
-<li class="toctree-l1"><a class="reference internal" href="uploading-qgis-project.html">Uploading a QGIS project</a></li>
-<li class="toctree-l1"><a class="reference internal" href="acessing-postgis-from-qgis-using-pg_service-file.html">Accessing PostGIS from QGIS using a pg_service file</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authentication-using-pg_service-and-qgisauthdb.html">Authentication of Postgres using a pg_service file and a qgis-auth.db file</a></li>
-<li class="toctree-l1"><a class="reference internal" href="publishing-qgis-project.html">Publishing a QGIS project</a></li>
-<li class="toctree-l1"><a class="reference internal" href="publishing-layers-using-geoserver.html">Publishing layers using Geoserver</a></li>
-<li class="toctree-l1"><a class="reference internal" href="connecting-to-geoserver-and-qgisserver-in-hugo.html">Connecting to Geoserver and QGIS Server in Hugo</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qgis-desktop-as-web-service-client.html">QGIS Desktop as a Web Services Client</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node-red-access-data-in-postgres.html">Node-red workflow that accesses data in Postgres</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postgrest-api.html">PostgREST API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node-red-postgrest-api.html">Node-red connect to the PostgREST API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node-red-point-layer-to-worldmap.html">Node-red point layer to world map</a></li>
-<li class="toctree-l1"><a class="reference internal" href="set-up-pg-notify.html">Set up process for pg notify</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mergin-db-sync-client-workflow1.html">Mergin-db-sync client workflow 1</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mergin-db-sync-client-workflow2.html">Mergin-db-sync client Workflow 2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create-osm-mirror-in-database.html">Creating an Open Street Map mirror into your database</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="create-osm-mirror-in-database.html#preparing-the-country-pbf-file-and-the-clip-area-document">Preparing the Country PBF file and the clip area document</a></li>
-<li class="toctree-l2"><a class="reference internal" href="create-osm-mirror-in-database.html#deploying-the-osm-mirror-service">Deploying the OSM mirror service.</a></li>
-<li class="toctree-l2"><a class="reference internal" href="create-osm-mirror-in-database.html#loading-the-osm-mirror-layers-into-qgis">Loading the OSM Mirror Layers into QGIS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="create-osm-mirror-in-database.html#saving-a-qgis-project-into-the-osm-database">Saving a QGIS project into the OSM database</a></li>
-<li class="toctree-l2"><a class="reference internal" href="create-osm-mirror-in-database.html#backing-up-and-restoring-a-qgis-project-into-the-database">Backing up and restoring a QGIS project into the database</a></li>
-<li class="toctree-l2"><a class="reference internal" href="create-osm-mirror-in-database.html#saving-qgis-layer-styles-into-the-database">Saving QGIS layer styles into the database</a></li>
-<li class="toctree-l2"><a class="reference internal" href="create-osm-mirror-in-database.html#backing-up-and-restoring-the-qgis-styles-into-the-database">Backing up and restoring the QGIS styles into the database</a></li>
-<li class="toctree-l2"><a class="reference internal" href="create-osm-mirror-in-database.html#references">References</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="osm-enrich-workflow.html">OSM enrich workflow</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postgresql-workflows.html">PostgreSQL Workflows</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="postgresql-workflows.html#direct-connection">Direct connection</a></li>
-</ul>
-</li>
-</ul>
+  <div class="tex2jax_ignore mathjax_ignore section" id="wireguard-vpn">
+<h1>Wireguard VPN<a class="headerlink" href="#wireguard-vpn" title="Permalink to this headline">¶</a></h1>
+<p>You can further enhance the security of communications between clients and the OSGS
+server by configuring a Wireguard VPN. The goal here will be to tunnel
+all non-web based requests to the server through the VPN. This can include
+Postgres and Mosquitto connections, and others if they are published on a port. You can
+also move the actual management over SSH of the OSGS server itself into the VPN
+so that the only public facing ports of the server are https and the vpn service.</p>
+<p>In this document we describe a scenario where the OSGS server is also a VPN server,
+but there are other potential scenarios such as using a second server and the VPN server
+and the OSGS as a VPN client.</p>
+<div class="section" id="setting-up-the-vpn-server">
+<h2>Setting up the VPN Server<a class="headerlink" href="#setting-up-the-vpn-server" title="Permalink to this headline">¶</a></h2>
+<p><strong>Note:</strong> There is NO public facing ssh port open on this host, you can only access ssh via the VPN. So for management when the VPN is down or you don’t have your client set up yet, use your hosting provider’s virtual console.</p>
+<p><strong>Note 2:</strong> Use these instructions at your own risk. Misconfiguring your server could
+lock you out of it permanently, so proceed with caution!</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ssh</span> <span class="n">yourhost</span>
+</pre></div>
+</div>
+<p>or use the hosting provider’s console to log in if you do not already have SSH access.</p>
+<p><strong>Note:</strong> When logging in take note that the keyboard layout in the console is US if you are using hetzner for your provider, so if you have a different layout e.g. Portuguese you need to type as if you are on a US keyboard.</p>
+<div class="section" id="initial-install">
+<h3>Initial Install<a class="headerlink" href="#initial-install" title="Permalink to this headline">¶</a></h3>
+<p>Assuming an ubuntu based server here…</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">su</span> <span class="o">-</span>
+<span class="n">apt</span> <span class="n">update</span>
+<span class="n">apt</span> <span class="n">upgrade</span>
+<span class="n">apt</span> <span class="n">install</span> <span class="n">wireguard</span>
+<span class="n">cd</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">wireguard</span><span class="o">/</span>
+<span class="n">umask</span> <span class="mi">077</span><span class="p">;</span> <span class="n">wg</span> <span class="n">genkey</span> <span class="o">|</span> <span class="n">tee</span> <span class="n">privatekey</span> <span class="o">|</span> <span class="n">wg</span> <span class="n">pubkey</span> <span class="o">&gt;</span> <span class="n">publickey</span>
+<span class="n">ls</span> <span class="o">-</span><span class="n">l</span> <span class="n">privatekey</span> <span class="n">publickey</span>
+</pre></div>
+</div>
+<p>Should show:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">rw</span><span class="o">-------</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">45</span> <span class="n">Oct</span> <span class="mi">31</span> <span class="mi">23</span><span class="p">:</span><span class="mi">33</span> <span class="n">privatekey</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-------</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">45</span> <span class="n">Oct</span> <span class="mi">31</span> <span class="mi">23</span><span class="p">:</span><span class="mi">33</span> <span class="n">publickey</span>
+</pre></div>
+</div>
+<p>Make a note of the private key and public key:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="n">privatekey</span>
+<span class="n">cat</span> <span class="n">publickey</span>
+</pre></div>
+</div>
+<p>Now configure the conf file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vim</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">wireguard</span><span class="o">/</span><span class="n">wg</span><span class="o">-</span><span class="n">osgs</span><span class="o">.</span><span class="n">conf</span>
+</pre></div>
+</div>
+<p><strong>Note:</strong> You can run multiple Wireguard VPN clients and servers on the same
+host so we include osgs in the conf file name to make it clear what this VPN is
+to be used for.</p>
+<p>Add this content:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="c1">## Set Up WireGuard VPN on Ubuntu By Editing/Creating wg0.conf File ##</span>
+<span class="p">[</span><span class="n">Interface</span><span class="p">]</span>
+<span class="c1">## My VPN server private IP address ##</span>
+<span class="n">Address</span> <span class="o">=</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.1</span><span class="o">/</span><span class="mi">24</span>
+ 
+<span class="c1">## My VPN server port ##</span>
+<span class="n">ListenPort</span> <span class="o">=</span> <span class="mi">41194</span>
+ 
+<span class="c1">## VPN server&#39;s private key i.e. /etc/wireguard/privatekey ##</span>
+<span class="n">PrivateKey</span> <span class="o">=</span> <span class="n">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+
+<span class="c1"># Also enable NAT routing of all traffic through the VPN</span>
+<span class="c1"># This is needed for VPN clients to be able to conenct to each other&#39;s services and ports</span>
+<span class="c1"># We comment this out in the assumption that you want to support only client</span>
+<span class="c1"># to client communications and not client to server communications.</span>
+<span class="c1">#PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</span>
+<span class="c1">#PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE</span>
+
+<span class="c1">##</span>
+<span class="c1">## All osgs peers (clients) should be added here</span>
+<span class="c1">## </span>
+
+<span class="p">[</span><span class="n">Peer</span><span class="p">]</span>
+<span class="c1">## Client VPN public key ##</span>
+<span class="n">PublicKey</span> <span class="o">=</span> <span class="n">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+ 
+<span class="c1">## client VPN IP address (note  the /32 subnet) ##</span>
+<span class="n">AllowedIPs</span> <span class="o">=</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.2</span><span class="o">/</span><span class="mi">32</span>
+
+</pre></div>
 </div>
 </div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="../genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="../py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
-<li><a class="reference internal" href="../search.html"><span class="std std-ref">Search Page</span></a></li>
-</ul>
+<div class="section" id="server-networking-and-firewall-configuration">
+<h3>Server Networking and Firewall Configuration<a class="headerlink" href="#server-networking-and-firewall-configuration" title="Permalink to this headline">¶</a></h3>
+<p><strong>Note:</strong> Only complete this section if you want to support VPN client to client
+communications instead of just client to server comms.</p>
+<p>This section copied from https://linuxize.com/post/how-to-set-up-wireguard-vpn-on-ubuntu-20-04/#server-networking-and-firewall-configuration</p>
+<p>IP forwarding must be enabled for NAT to work. Open the /etc/sysctl.conf file and add or uncomment the following line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">vim</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">sysctl</span><span class="o">.</span><span class="n">conf</span>
+</pre></div>
+</div>
+<p>Add this line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">ipv4</span><span class="o">.</span><span class="n">ip_forward</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Save the file and apply the change:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">sysctl</span> <span class="o">-</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>Should show:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">ipv4</span><span class="o">.</span><span class="n">ip_forward</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="firewall-config">
+<h3>Firewall config<a class="headerlink" href="#firewall-config" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="mi">41194</span><span class="o">/</span><span class="n">udp</span>
+<span class="n">ufw</span> <span class="n">status</span>
+</pre></div>
+</div>
+<p>Should show:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Status</span><span class="p">:</span> <span class="n">inactive</span>
+</pre></div>
+</div>
+<p>Allow ssh connections originating from within the VPN</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">22</span> <span class="n">proto</span> <span class="n">tcp</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="enable-wireguard-service-in-systemd">
+<h1>Enable wireguard service in systemd<a class="headerlink" href="#enable-wireguard-service-in-systemd" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">systemctl</span> <span class="n">enable</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+<span class="n">systemctl</span> <span class="n">start</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+<span class="n">systemctl</span> <span class="n">status</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+</pre></div>
+</div>
+<p>A convenient way to do status checks is with the wg command. It will show all connected hosts.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wg</span>
+</pre></div>
+</div>
+<div class="section" id="stopping-wireguard">
+<h2>Stopping Wireguard<a class="headerlink" href="#stopping-wireguard" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">systemctl</span> <span class="n">stop</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configure-ssh">
+<h2>Configure ssh<a class="headerlink" href="#configure-ssh" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vim</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ssh</span><span class="o">/</span><span class="n">sshd_config</span>
+</pre></div>
+</div>
+<p>Changed these (add them to the end of the file):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Changed by Tim to listen on wireguard interface only</span>
+<span class="n">ListenAddress</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.1</span>
+<span class="c1"># Disabled by Tim</span>
+<span class="n">PermitRootLogin</span> <span class="n">no</span>
+<span class="n">PasswordAuthentication</span> <span class="n">no</span>
+</pre></div>
+</div>
+<p>Again, check carefully at the end of the file, some providers add a <code class="docutils literal notranslate"><span class="pre">PasswordAuthentication</span> <span class="pre">yes</span></code> to the bottom of the file which you want to override.</p>
+</div>
+<div class="section" id="enable-the-vpn">
+<h2>Enable the VPN<a class="headerlink" href="#enable-the-vpn" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">systemctl</span> <span class="n">enable</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="enable-the-firewall">
+<h2>Enable the firewall<a class="headerlink" href="#enable-the-firewall" title="Permalink to this headline">¶</a></h2>
+<p>Now enable the firewall (you probably want to be logged in at the service provider’s virtual console here as your WAN connection will be dropped until you access via VPN).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">enable</span>
+<span class="n">ufw</span> <span class="n">status</span>
+<span class="n">systemctl</span> <span class="n">restart</span> <span class="n">sshd</span>
+</pre></div>
+</div>
+<p>Should show:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Status</span><span class="p">:</span> <span class="n">active</span>
+
+<span class="n">To</span>                         <span class="n">Action</span>      <span class="n">From</span>
+<span class="o">--</span>                         <span class="o">------</span>      <span class="o">----</span>
+<span class="mi">41194</span><span class="o">/</span><span class="n">udp</span>                  <span class="n">ALLOW</span>       <span class="n">Anywhere</span>                  
+<span class="mi">22</span><span class="o">/</span><span class="n">tcp</span>                     <span class="n">ALLOW</span>       <span class="mf">192.168</span><span class="o">.</span><span class="mf">6.0</span><span class="o">/</span><span class="mi">24</span>            
+<span class="mi">41194</span><span class="o">/</span><span class="n">udp</span> <span class="p">(</span><span class="n">v6</span><span class="p">)</span>             <span class="n">ALLOW</span>       <span class="n">Anywhere</span> <span class="p">(</span><span class="n">v6</span><span class="p">)</span>             
+</pre></div>
+</div>
+<p>Now go to https://github.com/kartoza/kartoza/wiki/WireGuard-Client-Configuration for client configs….</p>
+</div>
 </div>
 
 

@@ -36,7 +36,7 @@
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
 <link rel="search" title="Search" href="../search.html" />
-<link rel="next" title="Initial Configuration" href="initial_configuration.html" />
+<link rel="next" title="Wireguard VPN" href="wireguard_vpn.html" />
 <link rel="prev" title="Installation" href="index.html" />
 
 </head>
@@ -87,7 +87,7 @@
       </div>
     
       <div class="pull-right">
-        <a class="btn btn-default next" href="initial_configuration.html" title="Next chapter (Initial Configuration)"><span class="btn-text">Initial Configuration</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
+        <a class="btn btn-default next" href="wireguard_vpn.html" title="Next chapter (Wireguard VPN)"><span class="btn-text">Wireguard VPN</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
       </div>
     </div>
   
@@ -106,7 +106,7 @@
         <a href="../genindex.html"><i class="fa fa-list mr-8"></i></a>
 
 
-        <a href="initial_configuration.html"><i class="fa fa-chevron-right"></i></a>
+        <a href="wireguard_vpn.html"><i class="fa fa-chevron-right"></i></a>
 
       </div>
     </div>
@@ -171,11 +171,27 @@
 <li class="toctree-l3"><a class="reference internal" href="#move-on-to-osgs-installation">Move on to OSGS Installation</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html">Wireguard VPN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#setting-up-the-vpn-server">Setting up the VPN Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#initial-install">Initial Install</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#server-networking-and-firewall-configuration">Server Networking and Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#firewall-config">Firewall config</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#stopping-wireguard">Stopping Wireguard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#configure-ssh">Configure ssh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#enable-the-vpn">Enable the VPN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#enable-the-firewall">Enable the firewall</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="initial_configuration.html">Initial Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#user-group">User Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#project-checkout">Project Checkout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
 <li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="fonts.html">Obtaining free fonts for your projects</a></li>
@@ -479,11 +495,27 @@
 <li class="toctree-l3"><a class="reference internal" href="#move-on-to-osgs-installation">Move on to OSGS Installation</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html">Wireguard VPN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#setting-up-the-vpn-server">Setting up the VPN Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#initial-install">Initial Install</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#server-networking-and-firewall-configuration">Server Networking and Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#firewall-config">Firewall config</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#stopping-wireguard">Stopping Wireguard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#configure-ssh">Configure ssh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#enable-the-vpn">Enable the VPN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#enable-the-firewall">Enable the firewall</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="initial_configuration.html">Initial Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#user-group">User Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#project-checkout">Project Checkout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
 <li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="fonts.html">Obtaining free fonts for your projects</a></li>
@@ -789,9 +821,9 @@
 <div class="section" id="fail2ban">
 <h3>Fail2ban<a class="headerlink" href="#fail2ban" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">fail2ban</span>
-<span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">fail2ban</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">wiki</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">php</span><span class="o">/</span><span class="n">Main_Page</span> 
 </pre></div>
 </div>
+<p>See: https://www.fail2ban.org/wiki/index.php/Main_Page</p>
 </div>
 <div class="section" id="firewall">
 <h3>Firewall<a class="headerlink" href="#firewall" title="Permalink to this headline">¶</a></h3>
@@ -814,7 +846,16 @@
 <div class="section" id="status-monitoring">
 <h3>Status monitoring<a class="headerlink" href="#status-monitoring" title="Permalink to this headline">¶</a></h3>
 <p>gotop is a great console based dashboard for monitoring your server.</p>
+<p>Ubuntu:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">golang</span>
+<span class="n">cd</span> 
+<span class="n">go</span> <span class="n">get</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cjbassi</span><span class="o">/</span><span class="n">gotop</span>
+<span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="n">go</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">gotop</span>
+<span class="n">sudo</span> <span class="n">cp</span> <span class="n">go</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">gotop</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>Fedora:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">dnf</span> <span class="n">install</span> <span class="n">golang</span>
 <span class="n">cd</span> 
 <span class="n">go</span> <span class="n">get</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cjbassi</span><span class="o">/</span><span class="n">gotop</span>
 <span class="n">chmod</span> <span class="o">+</span><span class="n">x</span> <span class="n">go</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">gotop</span>
@@ -843,7 +884,7 @@ for details.
 <h3>Git, rpl, pwgen, Make and openssl<a class="headerlink" href="#git-rpl-pwgen-make-and-openssl" title="Permalink to this headline">¶</a></h3>
 <p>Needed for checking out our docker project and running the various make
 commands we provide.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">git</span> <span class="n">make</span> <span class="n">rpl</span> <span class="n">pwgen</span> <span class="n">openssl</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">git</span> <span class="n">make</span> <span class="n">rpl</span> <span class="n">pwgen</span> <span class="n">openssl</span> <span class="n">apache2</span><span class="o">-</span><span class="n">utils</span>
 </pre></div>
 </div>
 <p>or fedora:</p>
@@ -857,8 +898,8 @@ commands we provide.</p>
 <h1>Firewall<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>If you are using ufw, open port 80 and 443 as minimum. After the initial setup, you
 can again close port 80.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="mi">80</span>
-<span class="n">ufw</span> <span class="n">allow</span> <span class="mi">443</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">ufw</span> <span class="n">allow</span> <span class="mi">80</span>
+<span class="n">sudo</span> <span class="n">ufw</span> <span class="n">allow</span> <span class="mi">443</span>
 </pre></div>
 </div>
 <div class="section" id="move-on-to-osgs-installation">

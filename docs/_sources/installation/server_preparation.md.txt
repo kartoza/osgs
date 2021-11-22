@@ -41,8 +41,9 @@ sudo apt-get install crowdsec
 
 ```
 sudo apt install fail2ban
-https://www.fail2ban.org/wiki/index.php/Main_Page 
 ```
+See: https://www.fail2ban.org/wiki/index.php/Main_Page 
+
 
 
 ### Firewall
@@ -70,6 +71,8 @@ We will open more ports as they are needed.
 
 gotop is a great console based dashboard for monitoring your server.
 
+Ubuntu:
+
 ```
 sudo apt-get install golang
 cd 
@@ -77,6 +80,17 @@ go get github.com/cjbassi/gotop
 chmod +x go/bin/gotop
 sudo cp go/bin/gotop /usr/local/bin/
 ```
+
+Fedora:
+
+```
+sudo dnf install golang
+cd 
+go get github.com/cjbassi/gotop
+chmod +x go/bin/gotop
+sudo cp go/bin/gotop /usr/local/bin/
+```
+
 
 Now just type gotop whenever you want to see your terminal system monitor.
 
@@ -105,7 +119,7 @@ Needed for checking out our docker project and running the various make
 commands we provide.
 
 ```
-sudo apt install git make rpl pwgen openssl
+sudo apt install git make rpl pwgen openssl apache2-utils
 ```
 
 or fedora:
@@ -119,8 +133,8 @@ If you are using ufw, open port 80 and 443 as minimum. After the initial setup, 
 can again close port 80.
 
 ```
-ufw allow 80
-ufw allow 443
+sudo ufw allow 80
+sudo ufw allow 443
 ```
 
 ## Move on to OSGS Installation

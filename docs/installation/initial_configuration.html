@@ -37,7 +37,7 @@
 <link rel="index" title="Index" href="../genindex.html" />
 <link rel="search" title="Search" href="../search.html" />
 <link rel="next" title="Obtaining free fonts for your projects" href="fonts.html" />
-<link rel="prev" title="Preparing the server" href="server_preparation.html" />
+<link rel="prev" title="Wireguard VPN" href="wireguard_vpn.html" />
 
 </head>
 <body class="full-height test">
@@ -83,7 +83,7 @@
   <div class="prev-next">
     
       <div class="pull-left">
-        <a class="btn btn-default prev" href="server_preparation.html" title="Previous chapter (Preparing the server)"><i class="fa fa-chevron-left mr-1em" aria-hidden="true"></i><span class="btn-text">Preparing the server</span></a>
+        <a class="btn btn-default prev" href="wireguard_vpn.html" title="Previous chapter (Wireguard VPN)"><i class="fa fa-chevron-left mr-1em" aria-hidden="true"></i><span class="btn-text">Wireguard VPN</span></a>
       </div>
     
       <div class="pull-right">
@@ -94,7 +94,7 @@
       </div>
       <div id="alt-hdr-right">
 
-        <a href="server_preparation.html"><i class="fa fa-chevron-left mr-8"></i></a>
+        <a href="wireguard_vpn.html"><i class="fa fa-chevron-left mr-8"></i></a>
 
 
         <a href="../index.html"><i class="fa fa-home mr-8"></i></a>
@@ -171,11 +171,27 @@
 <li class="toctree-l3"><a class="reference internal" href="server_preparation.html#move-on-to-osgs-installation">Move on to OSGS Installation</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html">Wireguard VPN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#setting-up-the-vpn-server">Setting up the VPN Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#initial-install">Initial Install</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#server-networking-and-firewall-configuration">Server Networking and Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#firewall-config">Firewall config</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#stopping-wireguard">Stopping Wireguard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#configure-ssh">Configure ssh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#enable-the-vpn">Enable the VPN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#enable-the-firewall">Enable the firewall</a></li>
+</ul>
+</li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#initial-configuration">Initial Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#user-group">User Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#project-checkout">Project Checkout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#fetching-docker-images">Fetching Docker Images</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fetching-docker-images">Fetching Docker Images</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="fonts.html">Obtaining free fonts for your projects</a></li>
@@ -479,11 +495,27 @@
 <li class="toctree-l3"><a class="reference internal" href="server_preparation.html#move-on-to-osgs-installation">Move on to OSGS Installation</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html">Wireguard VPN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#setting-up-the-vpn-server">Setting up the VPN Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#initial-install">Initial Install</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#server-networking-and-firewall-configuration">Server Networking and Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#firewall-config">Firewall config</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#stopping-wireguard">Stopping Wireguard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#configure-ssh">Configure ssh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#enable-the-vpn">Enable the VPN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#enable-the-firewall">Enable the firewall</a></li>
+</ul>
+</li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#initial-configuration">Initial Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#user-group">User Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#project-checkout">Project Checkout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#fetching-docker-images">Fetching Docker Images</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fetching-docker-images">Fetching Docker Images</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="fonts.html">Obtaining free fonts for your projects</a></li>
@@ -790,13 +822,6 @@ you will need to install osgs in your home directory. See snapd docker notes
 for details.
 </div>
 </div>
-<div class="section" id="fetching-docker-images">
-<h2>Fetching Docker Images<a class="headerlink" href="#fetching-docker-images" title="Permalink to this headline">¶</a></h2>
-<p><img alt="Overview Diagram" src="../_images/docker-images.png" /></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span><span class="o">-</span><span class="n">compose</span> <span class="n">pull</span>
-</pre></div>
-</div>
-</div>
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
 <p>If you are going to use a self-signed certificate on a localhost (for testing):</p>
@@ -805,6 +830,14 @@ for details.
 </div>
 <p>If you are going to use a letsencrypt signed certificate on a name host (for production):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">configure</span><span class="o">-</span><span class="n">letsencrypt</span><span class="o">-</span><span class="n">ssl</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fetching-docker-images">
+<h2>Fetching Docker Images<a class="headerlink" href="#fetching-docker-images" title="Permalink to this headline">¶</a></h2>
+<p>You can optionally prefetch all the docker images that are used in the stack.</p>
+<p><img alt="Overview Diagram" src="../_images/docker-images.png" /></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span><span class="o">-</span><span class="n">compose</span> <span class="n">pull</span>
 </pre></div>
 </div>
 </div>
