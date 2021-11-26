@@ -173,18 +173,33 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html">Wireguard VPN</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#setting-up-the-vpn-server">Setting up the VPN Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#log-in-to-your-server">Log in to your server</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#initial-install">Initial Install</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#server-networking-and-firewall-configuration">Server Networking and Firewall Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#firewall-config">Firewall config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#connecting-with-your-client">Connecting with your client</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#install-ubuntu">Install Ubuntu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#configure-client-keys">Configure client keys</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#add-client-to-the-server">Add client to the server</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#stopping-wireguard">Stopping Wireguard</a></li>
-<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#configure-ssh">Configure ssh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#enable-the-vpn">Enable the VPN</a></li>
-<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#enable-the-firewall">Enable the firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html#configure-on-the-client">Configure on the client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#enable-and-start-wireguard">Enable and start wireguard</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html#allow-incoming-ssh-only-from-the-vpn">Allow incoming SSH only from the VPN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#further-configuration-notes">Further configuration notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#stopping-wireguard">Stopping Wireguard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#configure-ssh">Configure ssh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#enable-the-vpn">Enable the VPN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#enable-the-firewall">Enable the firewall</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="initial_configuration.html">Initial Configuration</a><ul>
@@ -497,18 +512,33 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html">Wireguard VPN</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#setting-up-the-vpn-server">Setting up the VPN Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#log-in-to-your-server">Log in to your server</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#initial-install">Initial Install</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#server-networking-and-firewall-configuration">Server Networking and Firewall Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#firewall-config">Firewall config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#connecting-with-your-client">Connecting with your client</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#install-ubuntu">Install Ubuntu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#configure-client-keys">Configure client keys</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#add-client-to-the-server">Add client to the server</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#stopping-wireguard">Stopping Wireguard</a></li>
-<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#configure-ssh">Configure ssh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#enable-the-vpn">Enable the VPN</a></li>
-<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#enable-the-firewall">Enable the firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html#configure-on-the-client">Configure on the client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#enable-and-start-wireguard">Enable and start wireguard</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html#allow-incoming-ssh-only-from-the-vpn">Allow incoming SSH only from the VPN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#further-configuration-notes">Further configuration notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#stopping-wireguard">Stopping Wireguard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#configure-ssh">Configure ssh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#enable-the-vpn">Enable the VPN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#enable-the-firewall">Enable the firewall</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="initial_configuration.html">Initial Configuration</a><ul>
@@ -793,7 +823,8 @@
 <li class="toctree-l1"><a class="reference internal" href="server_preparation.html">Preparing the server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="server_preparation.html#id1">Firewall</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wireguard_vpn.html">Wireguard VPN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="wireguard_vpn.html#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wireguard_vpn.html#configure-on-the-client">Configure on the client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wireguard_vpn.html#allow-incoming-ssh-only-from-the-vpn">Allow incoming SSH only from the VPN</a></li>
 <li class="toctree-l1"><a class="reference internal" href="initial_configuration.html">Initial Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="fonts.html">Obtaining free fonts for your projects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="production_stack.html">Production Stack</a></li>

@@ -173,18 +173,33 @@
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#wireguard-vpn">Wireguard VPN</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#setting-up-the-vpn-server">Setting up the VPN Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#log-in-to-your-server">Log in to your server</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#initial-install">Initial Install</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#server-networking-and-firewall-configuration">Server Networking and Firewall Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#firewall-config">Firewall config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#connecting-with-your-client">Connecting with your client</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#install-ubuntu">Install Ubuntu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configure-client-keys">Configure client keys</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#add-client-to-the-server">Add client to the server</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#stopping-wireguard">Stopping Wireguard</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#configure-ssh">Configure ssh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#enable-the-vpn">Enable the VPN</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#enable-the-firewall">Enable the firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configure-on-the-client">Configure on the client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#enable-and-start-wireguard">Enable and start wireguard</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#allow-incoming-ssh-only-from-the-vpn">Allow incoming SSH only from the VPN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#further-configuration-notes">Further configuration notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#stopping-wireguard">Stopping Wireguard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configure-ssh">Configure ssh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enable-the-vpn">Enable the VPN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enable-the-firewall">Enable the firewall</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="initial_configuration.html">Initial Configuration</a><ul>
@@ -497,18 +512,33 @@
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#wireguard-vpn">Wireguard VPN</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#setting-up-the-vpn-server">Setting up the VPN Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#log-in-to-your-server">Log in to your server</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#initial-install">Initial Install</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#server-networking-and-firewall-configuration">Server Networking and Firewall Configuration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#firewall-config">Firewall config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#connecting-with-your-client">Connecting with your client</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#install-ubuntu">Install Ubuntu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configure-client-keys">Configure client keys</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#add-client-to-the-server">Add client to the server</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#stopping-wireguard">Stopping Wireguard</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#configure-ssh">Configure ssh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#enable-the-vpn">Enable the VPN</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#enable-the-firewall">Enable the firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configure-on-the-client">Configure on the client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#enable-and-start-wireguard">Enable and start wireguard</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#allow-incoming-ssh-only-from-the-vpn">Allow incoming SSH only from the VPN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#further-configuration-notes">Further configuration notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#stopping-wireguard">Stopping Wireguard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configure-ssh">Configure ssh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enable-the-vpn">Enable the VPN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#enable-the-firewall">Enable the firewall</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="initial_configuration.html">Initial Configuration</a><ul>
@@ -801,11 +831,15 @@ and the OSGS as a VPN client.</p>
 <p><strong>Note:</strong> There is NO public facing ssh port open on this host, you can only access ssh via the VPN. So for management when the VPN is down or you don’t have your client set up yet, use your hosting provider’s virtual console.</p>
 <p><strong>Note 2:</strong> Use these instructions at your own risk. Misconfiguring your server could
 lock you out of it permanently, so proceed with caution!</p>
+<p><strong>Note 3:</strong> We assume you have already carried out the <a class="reference internal" href="server_preparation.html"><span class="doc std std-doc">server_preparation</span></a> steps before following this guide.</p>
+<div class="section" id="log-in-to-your-server">
+<h3>Log in to your server<a class="headerlink" href="#log-in-to-your-server" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ssh</span> <span class="n">yourhost</span>
 </pre></div>
 </div>
 <p>or use the hosting provider’s console to log in if you do not already have SSH access.</p>
 <p><strong>Note:</strong> When logging in take note that the keyboard layout in the console is US if you are using hetzner for your provider, so if you have a different layout e.g. Portuguese you need to type as if you are on a US keyboard.</p>
+</div>
 <div class="section" id="initial-install">
 <h3>Initial Install<a class="headerlink" href="#initial-install" title="Permalink to this headline">¶</a></h3>
 <p>Assuming an ubuntu based server here…</p>
@@ -850,10 +884,8 @@ to be used for.</p>
 
 <span class="c1"># Also enable NAT routing of all traffic through the VPN</span>
 <span class="c1"># This is needed for VPN clients to be able to conenct to each other&#39;s services and ports</span>
-<span class="c1"># We comment this out in the assumption that you want to support only client</span>
-<span class="c1"># to client communications and not client to server communications.</span>
-<span class="c1">#PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE</span>
-<span class="c1">#PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE</span>
+<span class="n">PostUp</span> <span class="o">=</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">A</span> <span class="n">FORWARD</span> <span class="o">-</span><span class="n">i</span> <span class="n">wg0</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span><span class="p">;</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">t</span> <span class="n">nat</span> <span class="o">-</span><span class="n">A</span> <span class="n">POSTROUTING</span> <span class="o">-</span><span class="n">o</span> <span class="n">eth0</span> <span class="o">-</span><span class="n">j</span> <span class="n">MASQUERADE</span>
+<span class="n">PostDown</span> <span class="o">=</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">D</span> <span class="n">FORWARD</span> <span class="o">-</span><span class="n">i</span> <span class="n">wg0</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span><span class="p">;</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">t</span> <span class="n">nat</span> <span class="o">-</span><span class="n">D</span> <span class="n">POSTROUTING</span> <span class="o">-</span><span class="n">o</span> <span class="n">eth0</span> <span class="o">-</span><span class="n">j</span> <span class="n">MASQUERADE</span>
 
 <span class="c1">##</span>
 <span class="c1">## All osgs peers (clients) should be added here</span>
@@ -871,8 +903,9 @@ to be used for.</p>
 </div>
 <div class="section" id="server-networking-and-firewall-configuration">
 <h3>Server Networking and Firewall Configuration<a class="headerlink" href="#server-networking-and-firewall-configuration" title="Permalink to this headline">¶</a></h3>
-<p><strong>Note:</strong> Only complete this section if you want to support VPN client to client
-communications instead of just client to server comms.</p>
+<p><strong>Note:</strong> Only do this for cases when you want to support peer to peer access in the VPN. In
+normal circumstances it is better to have an architecture where peers can talk to the server
+only and not to each other.</p>
 <p>This section copied from https://linuxize.com/post/how-to-set-up-wireguard-vpn-on-ubuntu-20-04/#server-networking-and-firewall-configuration</p>
 <p>IP forwarding must be enabled for NAT to work. Open the /etc/sysctl.conf file and add or uncomment the following line:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">vim</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">sysctl</span><span class="o">.</span><span class="n">conf</span>
@@ -905,11 +938,31 @@ communications instead of just client to server comms.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">22</span> <span class="n">proto</span> <span class="n">tcp</span>
 </pre></div>
 </div>
+<p>For the same for each port that you want to be accessible only via the VPN e.g.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">5432</span> <span class="n">proto</span> <span class="n">tcp</span>
+<span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">1883</span> <span class="n">proto</span> <span class="n">tcp</span>
+</pre></div>
 </div>
+<p>Would allow Postgres connections (5432) and Mosquitto (1883) over the VPN only.</p>
+<p>On my test system the set of final UFW rules looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">root</span><span class="nd">@osgs</span><span class="p">:</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">wireguard</span><span class="c1"># ufw status numbered</span>
+<span class="n">Status</span><span class="p">:</span> <span class="n">active</span>
+
+     <span class="n">To</span>                         <span class="n">Action</span>      <span class="n">From</span>
+     <span class="o">--</span>                         <span class="o">------</span>      <span class="o">----</span>
+<span class="p">[</span> <span class="mi">1</span><span class="p">]</span> <span class="mi">80</span>                         <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="n">Anywhere</span>                  
+<span class="p">[</span> <span class="mi">2</span><span class="p">]</span> <span class="mi">443</span>                        <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="n">Anywhere</span>                  
+<span class="p">[</span> <span class="mi">3</span><span class="p">]</span> <span class="mi">41194</span><span class="o">/</span><span class="n">udp</span>                  <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="n">Anywhere</span>                  
+<span class="p">[</span> <span class="mi">4</span><span class="p">]</span> <span class="mi">22</span><span class="o">/</span><span class="n">tcp</span>                     <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span>            
+<span class="p">[</span> <span class="mi">5</span><span class="p">]</span> <span class="mi">5432</span><span class="o">/</span><span class="n">tcp</span>                   <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span>            
+<span class="p">[</span> <span class="mi">6</span><span class="p">]</span> <span class="mi">1883</span><span class="o">/</span><span class="n">tcp</span>                   <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span> 
+</pre></div>
 </div>
+<p>i.e. only web and vpn traffic are publicly accessible and other services and ports need to
+be accessed from within the VPN.</p>
 </div>
-<div class="tex2jax_ignore mathjax_ignore section" id="enable-wireguard-service-in-systemd">
-<h1>Enable wireguard service in systemd<a class="headerlink" href="#enable-wireguard-service-in-systemd" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="enable-wireguard-service-in-systemd">
+<h3>Enable wireguard service in systemd<a class="headerlink" href="#enable-wireguard-service-in-systemd" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">systemctl</span> <span class="n">enable</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
 <span class="n">systemctl</span> <span class="n">start</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
 <span class="n">systemctl</span> <span class="n">status</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
@@ -919,21 +972,153 @@ communications instead of just client to server comms.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wg</span>
 </pre></div>
 </div>
+</div>
+</div>
+<div class="section" id="connecting-with-your-client">
+<h2>Connecting with your client<a class="headerlink" href="#connecting-with-your-client" title="Permalink to this headline">¶</a></h2>
+<p>For each client you need to create public/private keys on the client and a [peer] entry on the server, then restart client and server wireguard instances.</p>
+<div class="section" id="install-ubuntu">
+<h3>Install Ubuntu<a class="headerlink" href="#install-ubuntu" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">install</span> <span class="n">wireguard</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">openresolv</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">resolvconf</span>
+</pre></div>
+</div>
+<p>or (for fedora):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dnf</span> <span class="n">install</span> <span class="n">wireguard</span> <span class="n">wireguard</span><span class="o">-</span><span class="n">tools</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configure-client-keys">
+<h3>Configure client keys<a class="headerlink" href="#configure-client-keys" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">wireguard</span><span class="o">/</span>
+<span class="n">umask</span> <span class="mi">077</span><span class="p">;</span> <span class="n">wg</span> <span class="n">genkey</span> <span class="o">|</span> <span class="n">tee</span> <span class="n">privatekey</span> <span class="o">|</span> <span class="n">wg</span> <span class="n">pubkey</span> <span class="o">&gt;</span> <span class="n">publickey</span>
+<span class="n">ls</span> <span class="o">-</span><span class="n">l</span> <span class="n">privatekey</span> <span class="n">publickey</span>
+<span class="n">cat</span> <span class="n">publickey</span>
+<span class="n">cat</span> <span class="n">privatekey</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-client-to-the-server">
+<h3>Add client to the server<a class="headerlink" href="#add-client-to-the-server" title="Permalink to this headline">¶</a></h3>
+<p>Log in to the server:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ssh</span> <span class="n">vpn</span>
+<span class="n">sudo</span> <span class="n">vim</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">wireguard</span><span class="o">/</span><span class="n">wg</span><span class="o">-</span><span class="n">osgs</span><span class="o">.</span><span class="n">conf</span>
+</pre></div>
+</div>
+<p><strong>Note:</strong> Steps below already partly done for the first host if you have
+followed the server setup notes above. You need to repeat this process
+for each host that needs to connect to the server via VPN.</p>
+<p>Now add a new peer, using your public key from your client machine.
+Make sure to allocate a unique IP for it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Peer</span><span class="p">]</span>
+<span class="c1">## Desktop/client VPN public key ##</span>
+<span class="n">PublicKey</span> <span class="o">=</span> <span class="n">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+
+<span class="c1">## client VPN IP address (note  the /32 subnet) ##</span>
+<span class="n">AllowedIPs</span> <span class="o">=</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.2</span><span class="o">/</span><span class="mi">32</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="configure-on-the-client">
+<h1>Configure on the client<a class="headerlink" href="#configure-on-the-client" title="Permalink to this headline">¶</a></h1>
+<p>sudo vim /etc/wireguard/wg-osgs.conf</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Interface</span><span class="p">]</span>
+<span class="c1">## This Desktop/client&#39;s private key ##</span>
+<span class="n">PrivateKey</span> <span class="o">=</span> <span class="n">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><span class="o">=</span>
+
+<span class="c1">## Client ip address ##</span>
+
+<span class="c1"># Replace .2 with your allocated ip address!</span>
+<span class="n">Address</span> <span class="o">=</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.2</span><span class="o">/</span><span class="mi">24</span>
+
+
+<span class="p">[</span><span class="n">Peer</span><span class="p">]</span>
+<span class="c1">## Server public key ##</span>
+<span class="n">PublicKey</span> <span class="o">=</span> <span class="n">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+
+<span class="c1">## set ACL ##</span>
+<span class="n">AllowedIPs</span> <span class="o">=</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span>
+
+<span class="c1">## Server&#39;s public IPv4/IPv6 address and port ##</span>
+<span class="n">Endpoint</span> <span class="o">=</span> <span class="n">XX</span><span class="o">.</span><span class="n">YY</span><span class="o">.</span><span class="n">ZZ</span><span class="o">.</span><span class="n">AA</span><span class="p">:</span><span class="mi">41194</span>
+
+<span class="c1">##  Key connection alive ##</span>
+<span class="n">PersistentKeepalive</span> <span class="o">=</span> <span class="mi">15</span>
+</pre></div>
+</div>
+<div class="section" id="enable-and-start-wireguard">
+<h2>Enable and start wireguard<a class="headerlink" href="#enable-and-start-wireguard" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">enable</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+<span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">start</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+<span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">status</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+</pre></div>
+</div>
+<p>To bring it down again in the future you can do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span> <span class="n">down</span> <span class="n">wg</span><span class="o">-</span><span class="n">osgs</span>
+</pre></div>
+</div>
+<p>Or to restart:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">restart</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+</pre></div>
+</div>
+<p>And to check status:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">wg</span>
+</pre></div>
+</div>
+<p>Which should show something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">interface</span><span class="p">:</span> <span class="n">wg</span><span class="o">-</span><span class="n">osgs</span>
+  <span class="n">public</span> <span class="n">key</span><span class="p">:</span> <span class="n">Kimironw1r21</span><span class="o">/</span><span class="n">RH3jbd97HTwtXjlUJFJAOXmBKuB</span><span class="o">+</span><span class="n">hg</span><span class="o">=</span>
+  <span class="n">private</span> <span class="n">key</span><span class="p">:</span> <span class="p">(</span><span class="n">hidden</span><span class="p">)</span>
+  <span class="n">listening</span> <span class="n">port</span><span class="p">:</span> <span class="mi">58616</span>
+
+<span class="n">peer</span><span class="p">:</span> <span class="n">IdLyVLa0htZ82EKYWM9sXjB5ST15O3U5yYbNW</span><span class="o">+</span><span class="mi">3</span><span class="n">XOQY</span><span class="o">=</span>
+  <span class="n">endpoint</span><span class="p">:</span> <span class="n">XX</span><span class="o">.</span><span class="n">YY</span><span class="o">.</span><span class="n">ZZ</span><span class="o">.</span><span class="n">AA</span><span class="p">:</span><span class="mi">41194</span>
+  <span class="n">allowed</span> <span class="n">ips</span><span class="p">:</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span>
+  <span class="n">transfer</span><span class="p">:</span> <span class="mi">0</span> <span class="n">B</span> <span class="n">received</span><span class="p">,</span> <span class="mi">296</span> <span class="n">B</span> <span class="n">sent</span>
+  <span class="n">persistent</span> <span class="n">keepalive</span><span class="p">:</span> <span class="n">every</span> <span class="mi">15</span> <span class="n">seconds</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="allow-incoming-ssh-only-from-the-vpn">
+<h1>Allow incoming SSH only from the VPN<a class="headerlink" href="#allow-incoming-ssh-only-from-the-vpn" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">6.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">22</span> <span class="n">proto</span> <span class="n">tcp</span>
+</pre></div>
+</div>
+<p>Also update your sshd to listen only on the wg interface</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Changed by Tim to listen on wireguard interface only</span>
+<span class="c1"># Change XXX to your IP</span>
+<span class="n">ListenAddress</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.</span><span class="n">XXX</span>
+<span class="c1"># Disabled by Tim</span>
+<span class="n">PermitRootLogin</span> <span class="n">no</span>
+<span class="n">PasswordAuthentication</span> <span class="n">no</span>
+</pre></div>
+</div>
+<div class="section" id="further-configuration-notes">
+<h2>Further configuration notes<a class="headerlink" href="#further-configuration-notes" title="Permalink to this headline">¶</a></h2>
+<p><strong>Note:</strong> Only once you have verified that you can connect with a client.</p>
 <div class="section" id="stopping-wireguard">
-<h2>Stopping Wireguard<a class="headerlink" href="#stopping-wireguard" title="Permalink to this headline">¶</a></h2>
+<h3>Stopping Wireguard<a class="headerlink" href="#stopping-wireguard" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">systemctl</span> <span class="n">stop</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="configure-ssh">
-<h2>Configure ssh<a class="headerlink" href="#configure-ssh" title="Permalink to this headline">¶</a></h2>
+<h3>Configure ssh<a class="headerlink" href="#configure-ssh" title="Permalink to this headline">¶</a></h3>
+<p>For additional security you can set the SSH listenaddress to your
+VPN network so that it will not even respond to conneciton
+attempts from the wider internet.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vim</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ssh</span><span class="o">/</span><span class="n">sshd_config</span>
 </pre></div>
 </div>
 <p>Changed these (add them to the end of the file):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Changed by Tim to listen on wireguard interface only</span>
 <span class="n">ListenAddress</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.1</span>
-<span class="c1"># Disabled by Tim</span>
+<span class="c1"># Disabled by Tim (should already be done in server_preparation step)</span>
 <span class="n">PermitRootLogin</span> <span class="n">no</span>
 <span class="n">PasswordAuthentication</span> <span class="n">no</span>
 </pre></div>
@@ -941,13 +1126,13 @@ communications instead of just client to server comms.</p>
 <p>Again, check carefully at the end of the file, some providers add a <code class="docutils literal notranslate"><span class="pre">PasswordAuthentication</span> <span class="pre">yes</span></code> to the bottom of the file which you want to override.</p>
 </div>
 <div class="section" id="enable-the-vpn">
-<h2>Enable the VPN<a class="headerlink" href="#enable-the-vpn" title="Permalink to this headline">¶</a></h2>
+<h3>Enable the VPN<a class="headerlink" href="#enable-the-vpn" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">systemctl</span> <span class="n">enable</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="enable-the-firewall">
-<h2>Enable the firewall<a class="headerlink" href="#enable-the-firewall" title="Permalink to this headline">¶</a></h2>
+<h3>Enable the firewall<a class="headerlink" href="#enable-the-firewall" title="Permalink to this headline">¶</a></h3>
 <p>Now enable the firewall (you probably want to be logged in at the service provider’s virtual console here as your WAN connection will be dropped until you access via VPN).</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">enable</span>
 <span class="n">ufw</span> <span class="n">status</span>
@@ -960,11 +1145,12 @@ communications instead of just client to server comms.</p>
 <span class="n">To</span>                         <span class="n">Action</span>      <span class="n">From</span>
 <span class="o">--</span>                         <span class="o">------</span>      <span class="o">----</span>
 <span class="mi">41194</span><span class="o">/</span><span class="n">udp</span>                  <span class="n">ALLOW</span>       <span class="n">Anywhere</span>                  
-<span class="mi">22</span><span class="o">/</span><span class="n">tcp</span>                     <span class="n">ALLOW</span>       <span class="mf">192.168</span><span class="o">.</span><span class="mf">6.0</span><span class="o">/</span><span class="mi">24</span>            
+<span class="mi">22</span><span class="o">/</span><span class="n">tcp</span>                     <span class="n">ALLOW</span>       <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span>            
 <span class="mi">41194</span><span class="o">/</span><span class="n">udp</span> <span class="p">(</span><span class="n">v6</span><span class="p">)</span>             <span class="n">ALLOW</span>       <span class="n">Anywhere</span> <span class="p">(</span><span class="n">v6</span><span class="p">)</span>             
 </pre></div>
 </div>
 <p>Now go to https://github.com/kartoza/kartoza/wiki/WireGuard-Client-Configuration for client configs….</p>
+</div>
 </div>
 </div>
 
