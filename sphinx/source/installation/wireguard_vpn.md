@@ -88,10 +88,8 @@ PrivateKey = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 # Also enable NAT routing of all traffic through the VPN
 # This is needed for VPN clients to be able to conenct to each other's services and ports
-# We comment this out in the assumption that you want to support only client
-# to client communications and not client to server communications.
-#PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-#PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 
 ##
 ## All osgs peers (clients) should be added here
@@ -109,9 +107,9 @@ AllowedIPs = 192.168.7.2/32
 
 ### Server Networking and Firewall Configuration
 
-**Note:** Only complete this section if you want to support VPN client to client
-communications instead of just client to server comms.
-
+**Note:** Only do this for cases when you want to support peer to peer access in the VPN. In
+normal circumstances it is better to have an architecture where peers can talk to the server
+only and not to each other.
 
 This section copied from https://linuxize.com/post/how-to-set-up-wireguard-vpn-on-ubuntu-20-04/#server-networking-and-firewall-configuration
 
@@ -166,8 +164,27 @@ ufw allow from 192.168.7.0/24 to any port 1883 proto tcp
 Would allow Postgres connections (5432) and Mosquitto (1883) over the VPN only.
 
 
+On my test system the set of final UFW rules looks like this:
 
-# Enable wireguard service in systemd
+```
+root@osgs:/etc/wireguard# ufw status numbered
+Status: active
+
+     To                         Action      From
+     --                         ------      ----
+[ 1] 80                         ALLOW IN    Anywhere                  
+[ 2] 443                        ALLOW IN    Anywhere                  
+[ 3] 41194/udp                  ALLOW IN    Anywhere                  
+[ 4] 22/tcp                     ALLOW IN    192.168.7.0/24            
+[ 5] 5432/tcp                   ALLOW IN    192.168.7.0/24            
+[ 6] 1883/tcp                   ALLOW IN    192.168.7.0/24 
+```
+
+i.e. only web and vpn traffic are publicly accessible and other services and ports need to
+be accessed from within the VPN.
+
+
+### Enable wireguard service in systemd
 
 ```
 systemctl enable wg-quick@wg-osgs
@@ -318,7 +335,7 @@ Also update your sshd to listen only on the wg interface
 ```
 # Changed by Tim to listen on wireguard interface only
 # Change XXX to your IP
-ListenAddress 192.168.6.XXX
+ListenAddress 192.168.7.XXX
 # Disabled by Tim
 PermitRootLogin no
 PasswordAuthentication no
