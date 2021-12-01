@@ -1510,14 +1510,6 @@ file-browser-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec file-browser sh
 
-create-file-browser-user:
-	@echo "------------------------------------------------------------------"
-	@echo "Creating a new file browser user"
-	@echo "------------------------------------------------------------------"
-	@export PASSWD=$$(pwgen 20 1); \
-		echo "Browser user set to $$PASSWD"; \
-		sed -i "s/# SIMPLE-FILE-UPLOAD-USERS/# SIMPLE-FILE-UPLOAD-USERS\n      - KEY_$$PASSWD=\/browser\/SomeFile.zip/g" docker-compose.override.yml
-
 #----------------- Mergin Server --------------------------
 
 deploy-mergin-server:  enable-mergin-server configure-mergin-server start-mergin-server

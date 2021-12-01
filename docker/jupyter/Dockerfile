@@ -12,6 +12,7 @@ RUN conda install -c conda-forge movingpandas && \
     conda clean --all -f -y && \
     rm -rf /home/$NB_USER/.cache/yarn 
 RUN conda install -y -c anaconda psycopg2
+RUN conda install -y -c conda-forge geoalchemy2
 # Replace the config files from the base image
 # with our own that tell jupyter to run in URL
 # /jupyter/ instead of in the root path
