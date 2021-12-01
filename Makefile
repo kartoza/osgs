@@ -1414,7 +1414,7 @@ mosquitto-shell:
 	@echo "------------------------------------------------------------------"
 	@echo "Creating node mosquito shell"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec mosquitto bash
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec mosquitto sh
 
 backup-mosquitto:
 	@make check-env
