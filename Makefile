@@ -1207,13 +1207,18 @@ enable-postgrest:
 	-@cd conf/nginx_conf/upstreams; ln -s swagger.conf.available swagger.conf
 	@echo "postgrest" >> enabled-profiles
 
-configure-postgrest: start-postgrest
+configure-postgrest: start-postgrest restore-postgrest-sql
 	@echo "========================="
-	@echo "PostgREST specific updates"
+	@echo "PostgREST configuration started"
 	@echo "========================="
 	@export PASSWD=$$(pwgen 20 1); \
 		rpl PGRST_JWT_SECRET=foobarxxxyyyzzz PGRST_JWT_SECRET=$$PASSWD .env; \
 		echo "PostGREST JWT token set to $$PASSWD"
+	@export PASSWD=$$(pwgen 20 1); \
+		cp conf/postgrest/setup.sql.example conf/postgrest/setup.sql; \
+		rpl secret_password $$PASSWD conf/postgrest/setup.sql; \
+		echo "API Anon user password set to $$PASSWD"
+
 
 start-postgrest:
 	@make check-env
@@ -1260,9 +1265,13 @@ postgrest-shell:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec postgrest bash
 
 restore-postgrest-sql:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Loading conf/postgrest/setup.sql for Postgrest"
+	@echo "------------------------------------------------------------------"
 	@echo "See https://www.compose.com/articles/authenticating-node-red-with-jsonwebtoken/"
 	@echo "For notes on how to use the JWT we are about to set up"
-	@docker cp setup.sql osgisstack_db_1:/tmp/ 
+	@docker cp conf/postgrest/setup.sql  osgisstack_db_1:/tmp/ 
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/setup.sql -d gis
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/setup.sql
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select * from api.monitoring;" gis 
