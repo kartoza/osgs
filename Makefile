@@ -1207,7 +1207,7 @@ enable-postgrest:
 	-@cd conf/nginx_conf/upstreams; ln -s swagger.conf.available swagger.conf
 	@echo "postgrest" >> enabled-profiles
 
-configure-postgrest: start-postgrest restore-postgrest-sql
+configure-postgrest: start-postgrest 
 	@echo "========================="
 	@echo "PostgREST configuration started"
 	@echo "========================="
@@ -1218,6 +1218,7 @@ configure-postgrest: start-postgrest restore-postgrest-sql
 		cp conf/postgrest/setup.sql.example conf/postgrest/setup.sql; \
 		rpl secret_password $$PASSWD conf/postgrest/setup.sql; \
 		echo "API Anon user password set to $$PASSWD"
+	@make restore-postgrest-sql
 
 
 start-postgrest:
