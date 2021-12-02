@@ -594,7 +594,7 @@ start-mapproxy:
 	@echo "------------------------------------------------------------------"
 	@echo "Starting Mapproxy"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose -up -d 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
 stop-mapproxy:
