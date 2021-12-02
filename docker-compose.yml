@@ -206,7 +206,7 @@ services:
      - ./conf/mapproxy_conf/app.py:/files/mapproxy/app.py
      - ./conf/mapproxy_conf/seed.yaml:/files/mapproxy/seed.yaml
      - ./conf/mapproxy_conf/mapproxy.yaml:/files/mapproxy/mapproxy.yaml
-     - ./conf/mapproxy_conf/clip:i/files/mapproxy/clip
+     - ./conf/mapproxy_conf/clip:/files/mapproxy/clip
      # Nore red data
      - node-red-data:/files/node_red__data
     user: root # FIXME
