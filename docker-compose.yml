@@ -202,6 +202,12 @@ services:
      - scp_hugo_themes:/files/hugo_themes
      - scp_jupyter_data:/files/jupyter_data
      - scp_geoserver_data:/files/geoserver_data
+     # Mapproxy configs
+     - ./conf/mapproxy_conf/app.py:/files/mapproxy/app.py
+     - ./conf/mapproxy_conf/seed.yaml:files/mapproxy/seed.yaml
+     - ./conf/mapproxy_conf/mapproxy.yaml:files/mapproxy/mapproxy.yaml
+     - ./conf/mapproxy_conf/clip:files/mapproxy/clip
+     # Nore red data
      - node-red-data:/files/node_red__data
     user: root # FIXME
     networks:
