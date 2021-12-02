@@ -16,6 +16,8 @@
 
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/css/sizzle.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -32,6 +34,7 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
+    <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
       <script src="app-data.js"></script>
 <link rel="index" title="Index" href="genindex.html" />
@@ -142,7 +145,7 @@
       
         
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#introduction">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#what-is-the-open-source-gis-stack">What is the Open Source GIS Stack?</a></li>
@@ -150,7 +153,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="installation/index.html#installation">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation/server_preparation.html">Preparing the server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/server_preparation.html#preparing-the-server">Preparing the server</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="installation/server_preparation.html#basic-security">Basic Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#unattended-upgrades">Unattended upgrades</a></li>
 <li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#ssh">ssh</a></li>
@@ -162,7 +165,42 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="installation/server_preparation.html#additional-software">Additional Software</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#docker">Docker</a></li>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#git-rpl-pwgen-and-make-openssl">Git, rpl, pwgen and Make. openssl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#git-rpl-pwgen-make-and-openssl">Git, rpl, pwgen, Make and openssl</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation/server_preparation.html#id1">Firewall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/server_preparation.html#move-on-to-osgs-installation">Move on to OSGS Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation/wireguard_vpn.html#wireguard-vpn">Wireguard VPN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/wireguard_vpn.html#setting-up-the-vpn-server">Setting up the VPN Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#log-in-to-your-server">Log in to your server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#initial-install">Initial Install</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#server-networking-and-firewall-configuration">Server Networking and Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#firewall-config">Firewall config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation/wireguard_vpn.html#allow-incoming-ssh-only-from-the-vpn">Allow incoming SSH only from the VPN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/wireguard_vpn.html#connecting-with-your-client">Connecting with your client</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#install-ubuntu">Install Ubuntu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#configure-client-keys">Configure client keys</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#add-client-to-the-server">Add client to the server</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation/wireguard_vpn.html#configure-on-the-client">Configure on the client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/wireguard_vpn.html#enable-and-start-wireguard">Enable and start wireguard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation/wireguard_vpn.html#further-configuration-notes">Further configuration notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#stopping-wireguard">Stopping Wireguard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#configure-ssh">Configure ssh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#enable-the-vpn">Enable the VPN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#enable-the-firewall">Enable the firewall</a></li>
 </ul>
 </li>
 </ul>
@@ -170,17 +208,17 @@
 <li class="toctree-l2"><a class="reference internal" href="installation/initial_configuration.html#initial-configuration">Initial Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#user-group">User Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#project-checkout">Project Checkout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
 <li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="installation/fonts.html">Obtaining free fonts for your projects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation/production_stack.html">Production Stack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/production_stack.html#production-stack">Production Stack</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="installation/production_stack.html#overview">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="installation/production_stack.html#configuration">Configuration</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="installation/instructions_for_windows_users.html#production-stack-installation-instructions-for-windows-users">Production Stack installation instructions for Windows Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/instructions_for_windows_users.html">Production Stack installation instructions for Windows Users</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="installation/index.html#indices-and-tables">Indices and tables</a></li>
@@ -238,7 +276,7 @@
 <li class="toctree-l3"><a class="reference internal" href="services/hugo-watcher.html#references">References</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="services/docker-osm.html">Docker-osm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="services/docker-osm.html">Docker OSM mirror</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#enabling">Enabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#configuration">Configuration</a></li>
@@ -396,7 +434,17 @@
 <li class="toctree-l2"><a class="reference internal" href="workflows/set-up-pg-notify.html">Set up process for pg notify</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflows/mergin-db-sync-client-workflow1.html">Mergin-db-sync client workflow 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflows/mergin-db-sync-client-workflow2.html">Mergin-db-sync client Workflow 2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html">Creating an Open Street Map mirror into your database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html">Creating an Open Street Map mirror into your database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html#preparing-the-country-pbf-file-and-the-clip-area-document">Preparing the Country PBF file and the clip area document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html#deploying-the-osm-mirror-service">Deploying the OSM mirror service.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html#loading-the-osm-mirror-layers-into-qgis">Loading the OSM Mirror Layers into QGIS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html#saving-a-qgis-project-into-the-osm-database">Saving a QGIS project into the OSM database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html#backing-up-and-restoring-a-qgis-project-into-the-database">Backing up and restoring a QGIS project into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html#saving-qgis-layer-styles-into-the-database">Saving QGIS layer styles into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html#backing-up-and-restoring-the-qgis-styles-into-the-database">Backing up and restoring the QGIS styles into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html#references">References</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="workflows/osm-enrich-workflow.html">OSM enrich workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflows/postgresql-workflows.html">PostgreSQL Workflows</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="workflows/postgresql-workflows.html#direct-connection">Direct connection</a></li>
@@ -405,6 +453,16 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="workflows/index.html#indices-and-tables">Indices and tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="roadmap.html">OSGS Roadmap</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="roadmap.html#components">Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="roadmap.html#considerations">Considerations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="roadmap.html#architectural-changes">Architectural Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="roadmap.html#blueprints">Blueprints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="roadmap.html#administration">Administration</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="osm.html">OSM Mirror</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="osm.html#pbf-container">PBF Container</a></li>
 <li class="toctree-l2"><a class="reference internal" href="osm.html#clip-area">Clip Area</a></li>
@@ -426,7 +484,7 @@
           <div id="mnav">
             
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#introduction">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#what-is-the-open-source-gis-stack">What is the Open Source GIS Stack?</a></li>
@@ -434,7 +492,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="installation/index.html#installation">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation/server_preparation.html">Preparing the server</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/server_preparation.html#preparing-the-server">Preparing the server</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="installation/server_preparation.html#basic-security">Basic Security</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#unattended-upgrades">Unattended upgrades</a></li>
 <li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#ssh">ssh</a></li>
@@ -446,7 +504,42 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="installation/server_preparation.html#additional-software">Additional Software</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#docker">Docker</a></li>
-<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#git-rpl-pwgen-and-make-openssl">Git, rpl, pwgen and Make. openssl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/server_preparation.html#git-rpl-pwgen-make-and-openssl">Git, rpl, pwgen, Make and openssl</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation/server_preparation.html#id1">Firewall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/server_preparation.html#move-on-to-osgs-installation">Move on to OSGS Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation/wireguard_vpn.html#wireguard-vpn">Wireguard VPN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/wireguard_vpn.html#setting-up-the-vpn-server">Setting up the VPN Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#log-in-to-your-server">Log in to your server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#initial-install">Initial Install</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#server-networking-and-firewall-configuration">Server Networking and Firewall Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#firewall-config">Firewall config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation/wireguard_vpn.html#allow-incoming-ssh-only-from-the-vpn">Allow incoming SSH only from the VPN</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/wireguard_vpn.html#connecting-with-your-client">Connecting with your client</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#install-ubuntu">Install Ubuntu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#configure-client-keys">Configure client keys</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#add-client-to-the-server">Add client to the server</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation/wireguard_vpn.html#configure-on-the-client">Configure on the client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installation/wireguard_vpn.html#enable-and-start-wireguard">Enable and start wireguard</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation/wireguard_vpn.html#further-configuration-notes">Further configuration notes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#stopping-wireguard">Stopping Wireguard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#configure-ssh">Configure ssh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#enable-the-vpn">Enable the VPN</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installation/wireguard_vpn.html#enable-the-firewall">Enable the firewall</a></li>
 </ul>
 </li>
 </ul>
@@ -454,17 +547,17 @@
 <li class="toctree-l2"><a class="reference internal" href="installation/initial_configuration.html#initial-configuration">Initial Configuration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#user-group">User Group</a></li>
 <li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#project-checkout">Project Checkout</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
 <li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installation/initial_configuration.html#fetching-docker-images">Fetching Docker Images</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="installation/fonts.html">Obtaining free fonts for your projects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation/production_stack.html">Production Stack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/production_stack.html#production-stack">Production Stack</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="installation/production_stack.html#overview">Overview</a></li>
 <li class="toctree-l3"><a class="reference internal" href="installation/production_stack.html#configuration">Configuration</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="installation/instructions_for_windows_users.html#production-stack-installation-instructions-for-windows-users">Production Stack installation instructions for Windows Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/instructions_for_windows_users.html">Production Stack installation instructions for Windows Users</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="installation/index.html#indices-and-tables">Indices and tables</a></li>
@@ -522,7 +615,7 @@
 <li class="toctree-l3"><a class="reference internal" href="services/hugo-watcher.html#references">References</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="services/docker-osm.html">Docker-osm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="services/docker-osm.html">Docker OSM mirror</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#deployment">Deployment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#enabling">Enabling</a></li>
 <li class="toctree-l3"><a class="reference internal" href="services/docker-osm.html#configuration">Configuration</a></li>
@@ -680,7 +773,17 @@
 <li class="toctree-l2"><a class="reference internal" href="workflows/set-up-pg-notify.html">Set up process for pg notify</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflows/mergin-db-sync-client-workflow1.html">Mergin-db-sync client workflow 1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflows/mergin-db-sync-client-workflow2.html">Mergin-db-sync client Workflow 2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html">Creating an Open Street Map mirror into your database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html">Creating an Open Street Map mirror into your database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html#preparing-the-country-pbf-file-and-the-clip-area-document">Preparing the Country PBF file and the clip area document</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html#deploying-the-osm-mirror-service">Deploying the OSM mirror service.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html#loading-the-osm-mirror-layers-into-qgis">Loading the OSM Mirror Layers into QGIS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html#saving-a-qgis-project-into-the-osm-database">Saving a QGIS project into the OSM database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html#backing-up-and-restoring-a-qgis-project-into-the-database">Backing up and restoring a QGIS project into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html#saving-qgis-layer-styles-into-the-database">Saving QGIS layer styles into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html#backing-up-and-restoring-the-qgis-styles-into-the-database">Backing up and restoring the QGIS styles into the database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="workflows/create-osm-mirror-in-database.html#references">References</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="workflows/osm-enrich-workflow.html">OSM enrich workflow</a></li>
 <li class="toctree-l2"><a class="reference internal" href="workflows/postgresql-workflows.html">PostgreSQL Workflows</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="workflows/postgresql-workflows.html#direct-connection">Direct connection</a></li>
@@ -689,6 +792,16 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="workflows/index.html#indices-and-tables">Indices and tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="roadmap.html">OSGS Roadmap</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="roadmap.html#components">Components</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="roadmap.html#considerations">Considerations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="roadmap.html#architectural-changes">Architectural Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="roadmap.html#blueprints">Blueprints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="roadmap.html#administration">Administration</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="osm.html">OSM Mirror</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="osm.html#pbf-container">PBF Container</a></li>
 <li class="toctree-l2"><a class="reference internal" href="osm.html#clip-area">Clip Area</a></li>
@@ -710,15 +823,31 @@
 <p>The Open Source GIS Stack by <a class="reference external" href="https://kartoza.com/en/">Kartoza</a> is maintained in the <a class="reference external" href="https://github.com/kartoza/osgs">kartoza / osgs</a> repository.</p>
 <div class="section" id="what-is-the-open-source-gis-stack">
 <h2>What is the Open Source GIS Stack?<a class="headerlink" href="#what-is-the-open-source-gis-stack" title="Permalink to this headline">¶</a></h2>
-<p>In the open source geospatial world, there are different interesting technologies that have been
-developed to allow one to manipulate, visualize, publish, manage, edit, etc. geospatial data.
-These technologies are often in disparate projects. Programs like the QGIS project, are often
-ensemble applications that take some of these different technologies as components and use them
-to provide some higher level functionality. In some cases the integration is in silos or vertical
-applications, for example QGIS, PostGIS, Geoserver, etc. The aim of this project is to take a number
-of those different silos and incoporate them into a single platform, therefore making it really
-easy to access and publish the different types of services that are easily avalibale on their
-own but not so easily available in a consolidated platform.</p>
+<p>In the open source geospatial world, there are different interesting
+technologies that have been developed to allow one to manipulate, visualize,
+publish, manage, edit, etc. geospatial data. These technologies are often in
+disparate projects. Programs like the QGIS project, are often ensemble
+applications that take some of these different technologies as components and
+use them to provide some higher level functionality. In some cases the
+integration is in silos or vertical applications, for example QGIS, PostGIS,
+Geoserver, etc. The aim of this project is to take a number of those different
+silos and incoporate them into a single platform, therefore making it really
+easy to access and publish the different types of services that are easily
+available on their own but not so easily available in a consolidated platform.</p>
+<p>The <a class="reference external" href="https://kartoza.github.io/osgs/introduction.html">Open Source GIS Stack
+(OSGS)</a> is a platform based
+on <a class="reference external" href="https://www.docker.com/">Docker</a>, which is a container deployment
+environment. Containers are isolated application runtimes. They typically
+contain a minimal version of an operating system, typically Linux. In that
+minimal version of the operating system the containers will typically have one
+single task they are responsible for doing, for example running PostGIS or
+running Geoserver and so on. Each container has a very specific task and the
+design intent that you do not deploy mutliple services in a single container.
+You must deploy each service in its own container then orcherstrate those
+containers together. This is all managed using Docker and Docker Compose which
+is the orchestration environment for Docker. OSGS is simply a set of Docker
+orchestration routines to bring up different services in different containers,
+make them all talk together and present them as one cohesive architecture.</p>
 <p>The Open Source GIS Stack (OSGS) is a platform based on Docker, which is a container deployment environment.
 Containers are isolated application runtimes. They typically contain a minimal version of an operating
 system, typically Linux. In that minimal version of the operating system the containers will typically
@@ -759,7 +888,7 @@ software and find one that works the best for you.</p>
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"

@@ -158,10 +158,10 @@ For the same for each port that you want to be accessible only via the VPN e.g.
 
 ```
 ufw allow from 192.168.7.0/24 to any port 5432 proto tcp
-ufw allow from 192.168.7.0/24 to any port 1883 proto tcp
+ufw allow from 192.168.7.0/24 to any port 8883 proto tcp
 ```
 
-Would allow Postgres connections (5432) and Mosquitto (1883) over the VPN only.
+Would allow Postgres connections (5432) and Mosquitto (8883) over the VPN only.
 
 
 On my test system the set of final UFW rules looks like this:
@@ -177,7 +177,7 @@ Status: active
 [ 3] 41194/udp                  ALLOW IN    Anywhere                  
 [ 4] 22/tcp                     ALLOW IN    192.168.7.0/24            
 [ 5] 5432/tcp                   ALLOW IN    192.168.7.0/24            
-[ 6] 1883/tcp                   ALLOW IN    192.168.7.0/24 
+[ 6] 8883/tcp                   ALLOW IN    192.168.7.0/24 
 ```
 
 i.e. only web and vpn traffic are publicly accessible and other services and ports need to
@@ -197,6 +197,26 @@ A convenient way to do status checks is with the wg command. It will show all co
 ```
 wg
 ```
+
+# Allow incoming SSH only from the VPN
+
+As indicated above, do:
+
+```
+ufw allow from 192.168.6.0/24 to any port 22 proto tcp
+```
+Also update your sshd to listen only on the wg interface
+
+```
+# Changed by Tim to listen on wireguard interface only
+# Change XXX to your IP
+ListenAddress 192.168.7.XXX
+# Disabled by Tim
+PermitRootLogin no
+PasswordAuthentication no
+```
+
+
 
 ## Connecting with your client
 
@@ -325,21 +345,6 @@ peer: IdLyVLa0htZ82EKYWM9sXjB5ST15O3U5yYbNW+3XOQY=
 ```
 
 
-# Allow incoming SSH only from the VPN
-
-```
-ufw allow from 192.168.6.0/24 to any port 22 proto tcp
-```
-Also update your sshd to listen only on the wg interface
-
-```
-# Changed by Tim to listen on wireguard interface only
-# Change XXX to your IP
-ListenAddress 192.168.7.XXX
-# Disabled by Tim
-PermitRootLogin no
-PasswordAuthentication no
-```
 
 
 

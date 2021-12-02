@@ -16,6 +16,8 @@
 
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -32,6 +34,7 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
+    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
@@ -142,7 +145,7 @@
       
         
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#what-is-the-open-source-gis-stack">What is the Open Source GIS Stack?</a></li>
@@ -180,6 +183,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#allow-incoming-ssh-only-from-the-vpn">Allow incoming SSH only from the VPN</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#connecting-with-your-client">Connecting with your client</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#install-ubuntu">Install Ubuntu</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#configure-client-keys">Configure client keys</a></li>
@@ -190,9 +196,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#configure-on-the-client">Configure on the client</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#enable-and-start-wireguard">Enable and start wireguard</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#allow-incoming-ssh-only-from-the-vpn">Allow incoming SSH only from the VPN</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#further-configuration-notes">Further configuration notes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#stopping-wireguard">Stopping Wireguard</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#configure-ssh">Configure ssh</a></li>
@@ -481,7 +484,7 @@
           <div id="mnav">
             
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#what-is-the-open-source-gis-stack">What is the Open Source GIS Stack?</a></li>
@@ -519,6 +522,9 @@
 <li class="toctree-l4"><a class="reference internal" href="#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#allow-incoming-ssh-only-from-the-vpn">Allow incoming SSH only from the VPN</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#connecting-with-your-client">Connecting with your client</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#install-ubuntu">Install Ubuntu</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#configure-client-keys">Configure client keys</a></li>
@@ -529,9 +535,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#configure-on-the-client">Configure on the client</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#enable-and-start-wireguard">Enable and start wireguard</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#allow-incoming-ssh-only-from-the-vpn">Allow incoming SSH only from the VPN</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#further-configuration-notes">Further configuration notes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#stopping-wireguard">Stopping Wireguard</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#configure-ssh">Configure ssh</a></li>
@@ -940,10 +943,10 @@ only and not to each other.</p>
 </div>
 <p>For the same for each port that you want to be accessible only via the VPN e.g.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">5432</span> <span class="n">proto</span> <span class="n">tcp</span>
-<span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">1883</span> <span class="n">proto</span> <span class="n">tcp</span>
+<span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">8883</span> <span class="n">proto</span> <span class="n">tcp</span>
 </pre></div>
 </div>
-<p>Would allow Postgres connections (5432) and Mosquitto (1883) over the VPN only.</p>
+<p>Would allow Postgres connections (5432) and Mosquitto (8883) over the VPN only.</p>
 <p>On my test system the set of final UFW rules looks like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">root</span><span class="nd">@osgs</span><span class="p">:</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">wireguard</span><span class="c1"># ufw status numbered</span>
 <span class="n">Status</span><span class="p">:</span> <span class="n">active</span>
@@ -955,7 +958,7 @@ only and not to each other.</p>
 <span class="p">[</span> <span class="mi">3</span><span class="p">]</span> <span class="mi">41194</span><span class="o">/</span><span class="n">udp</span>                  <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="n">Anywhere</span>                  
 <span class="p">[</span> <span class="mi">4</span><span class="p">]</span> <span class="mi">22</span><span class="o">/</span><span class="n">tcp</span>                     <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span>            
 <span class="p">[</span> <span class="mi">5</span><span class="p">]</span> <span class="mi">5432</span><span class="o">/</span><span class="n">tcp</span>                   <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span>            
-<span class="p">[</span> <span class="mi">6</span><span class="p">]</span> <span class="mi">1883</span><span class="o">/</span><span class="n">tcp</span>                   <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span> 
+<span class="p">[</span> <span class="mi">6</span><span class="p">]</span> <span class="mi">8883</span><span class="o">/</span><span class="n">tcp</span>                   <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span> 
 </pre></div>
 </div>
 <p>i.e. only web and vpn traffic are publicly accessible and other services and ports need to
@@ -973,6 +976,22 @@ be accessed from within the VPN.</p>
 </pre></div>
 </div>
 </div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="allow-incoming-ssh-only-from-the-vpn">
+<h1>Allow incoming SSH only from the VPN<a class="headerlink" href="#allow-incoming-ssh-only-from-the-vpn" title="Permalink to this headline">¶</a></h1>
+<p>As indicated above, do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">6.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">22</span> <span class="n">proto</span> <span class="n">tcp</span>
+</pre></div>
+</div>
+<p>Also update your sshd to listen only on the wg interface</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Changed by Tim to listen on wireguard interface only</span>
+<span class="c1"># Change XXX to your IP</span>
+<span class="n">ListenAddress</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.</span><span class="n">XXX</span>
+<span class="c1"># Disabled by Tim</span>
+<span class="n">PermitRootLogin</span> <span class="n">no</span>
+<span class="n">PasswordAuthentication</span> <span class="n">no</span>
+</pre></div>
 </div>
 <div class="section" id="connecting-with-your-client">
 <h2>Connecting with your client<a class="headerlink" href="#connecting-with-your-client" title="Permalink to this headline">¶</a></h2>
@@ -1083,21 +1102,6 @@ Make sure to allocate a unique IP for it:</p>
 </pre></div>
 </div>
 </div>
-</div>
-<div class="tex2jax_ignore mathjax_ignore section" id="allow-incoming-ssh-only-from-the-vpn">
-<h1>Allow incoming SSH only from the VPN<a class="headerlink" href="#allow-incoming-ssh-only-from-the-vpn" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">6.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">22</span> <span class="n">proto</span> <span class="n">tcp</span>
-</pre></div>
-</div>
-<p>Also update your sshd to listen only on the wg interface</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Changed by Tim to listen on wireguard interface only</span>
-<span class="c1"># Change XXX to your IP</span>
-<span class="n">ListenAddress</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.</span><span class="n">XXX</span>
-<span class="c1"># Disabled by Tim</span>
-<span class="n">PermitRootLogin</span> <span class="n">no</span>
-<span class="n">PasswordAuthentication</span> <span class="n">no</span>
-</pre></div>
-</div>
 <div class="section" id="further-configuration-notes">
 <h2>Further configuration notes<a class="headerlink" href="#further-configuration-notes" title="Permalink to this headline">¶</a></h2>
 <p><strong>Note:</strong> Only once you have verified that you can connect with a client.</p>
@@ -1164,7 +1168,7 @@ attempts from the wider internet.</p>
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"
