@@ -4,7 +4,7 @@ subtitle: The most basic map we can make
 images:
 - "/unsplash/photo-1573489176014-6d0176081570.jpg"
 
-wms: "https://osgs.kartoza.com/ogc/HelloWorld"
+wms: "https://example.org/ogc/HelloWorld"
 
 layers:
 - "Map"

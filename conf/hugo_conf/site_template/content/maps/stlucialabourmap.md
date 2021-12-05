@@ -3,7 +3,7 @@ title: St Lucia Labour Market
 subtitle: Labour map for St Lucia
 
 
-wms: "https://osgs.kartoza.com/ogc/StLuciaLabourForce"
+wms: "https://example.org/ogc/StLuciaLabourForce"
 
 layers:
 - "LabourForce"
