@@ -16,6 +16,8 @@
 
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -32,6 +34,7 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
+    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
@@ -142,7 +145,7 @@
       
         
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#what-is-the-open-source-gis-stack">What is the Open Source GIS Stack?</a></li>
@@ -180,6 +183,9 @@
 <li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html#allow-incoming-ssh-only-from-the-vpn">Allow incoming SSH only from the VPN</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#connecting-with-your-client">Connecting with your client</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#install-ubuntu">Install Ubuntu</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#configure-client-keys">Configure client keys</a></li>
@@ -190,9 +196,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html#configure-on-the-client">Configure on the client</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#enable-and-start-wireguard">Enable and start wireguard</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html#allow-incoming-ssh-only-from-the-vpn">Allow incoming SSH only from the VPN</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#further-configuration-notes">Further configuration notes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#stopping-wireguard">Stopping Wireguard</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#configure-ssh">Configure ssh</a></li>
@@ -481,7 +484,7 @@
           <div id="mnav">
             
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../introduction.html#what-is-the-open-source-gis-stack">What is the Open Source GIS Stack?</a></li>
@@ -519,6 +522,9 @@
 <li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#enable-wireguard-service-in-systemd">Enable wireguard service in systemd</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html#allow-incoming-ssh-only-from-the-vpn">Allow incoming SSH only from the VPN</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#connecting-with-your-client">Connecting with your client</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#install-ubuntu">Install Ubuntu</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#configure-client-keys">Configure client keys</a></li>
@@ -529,9 +535,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html#configure-on-the-client">Configure on the client</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#enable-and-start-wireguard">Enable and start wireguard</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="wireguard_vpn.html#allow-incoming-ssh-only-from-the-vpn">Allow incoming SSH only from the VPN</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="wireguard_vpn.html#further-configuration-notes">Further configuration notes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#stopping-wireguard">Stopping Wireguard</a></li>
 <li class="toctree-l4"><a class="reference internal" href="wireguard_vpn.html#configure-ssh">Configure ssh</a></li>
@@ -818,13 +821,13 @@
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="server_preparation.html">Preparing the server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="server_preparation.html#id1">Firewall</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wireguard_vpn.html">Wireguard VPN</a></li>
-<li class="toctree-l1"><a class="reference internal" href="wireguard_vpn.html#configure-on-the-client">Configure on the client</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wireguard_vpn.html#allow-incoming-ssh-only-from-the-vpn">Allow incoming SSH only from the VPN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wireguard_vpn.html#configure-on-the-client">Configure on the client</a></li>
 <li class="toctree-l1"><a class="reference internal" href="initial_configuration.html">Initial Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="fonts.html">Obtaining free fonts for your projects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="production_stack.html">Production Stack</a></li>
@@ -851,7 +854,7 @@
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"
