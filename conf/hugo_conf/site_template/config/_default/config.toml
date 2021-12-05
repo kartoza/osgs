@@ -1,0 +1,25 @@
+### Note
+### Title is set in hugo_site/config/_default/languages.toml
+### For footer etc...
+
+# set `baseurl` to your root domain
+# if you set it to "/" share icons won't work properly on production
+baseurl = "https://osgs.kartoza.com/"  # Include trailing slash
+# title = "Clarity"  # Edit directly from config/_default/languages.toml # alternatively, uncomment this and remove `title` entry from the aforemention file.
+copyright = "Copyright © 2021, Tim Sutton; all rights reserved."
+# canonifyurls = true
+paginate = 10
+theme = "hugo-clarity"
+disqusShortname = ""
+
+DefaultContentLanguage = "en"
+# [languages]
+# config/_default/languages.toml
+
+# [menus]
+# config/_default/menus/menu.xx.toml
+
+[taxonomies]
+category = "categories"
+tag = "tags"
+series = "series"

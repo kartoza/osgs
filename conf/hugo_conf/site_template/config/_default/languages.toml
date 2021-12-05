@@ -1,0 +1,11 @@
+
+[en]
+  title = "Open Source GIS Stack"
+  LanguageName = "English"
+  weight = 1
+
+[pt]
+  title = "Open Source GIS Stack" # just for the sake of showing this is possible
+  LanguageName = "Português"
+  weight = 2
+  

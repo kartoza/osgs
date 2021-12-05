@@ -257,6 +257,9 @@ services:
     # No profiles specified, automatically started by nginx
     environment:
       - DOMAIN=https://${DOMAIN}
+      # See notes in the site_template volume section below and
+      # https://github.com/kartoza/hugo-watcher#environment-variables
+      - SITE_TEMPLATE_PATH=/site_template
       # If you comment out theme it will default to hugo-clarity
       #- THEME=elephants
     volumes:
@@ -268,6 +271,11 @@ services:
       # adding the hugo-clarity theme by default
       # Place hugo themes here
       - scp_hugo_themes:/themes
+      # Site template path. When you start with an empty /src directory,
+      # The contents from this folder will be automatically copied into
+      # the src folder to create your initial site. You should go into 
+      # the various config files then to configure your site.
+      - ./conf/hugo_conf/site_template:/site_template
       # Mounted in SCP, file-browser and to Hugo for content (markdown)
       # If empty will be initially populated by hugo-watcher
       # adding the hugo-clarity sample site by default
