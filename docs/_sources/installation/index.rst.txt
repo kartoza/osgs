@@ -12,10 +12,3 @@ Installation
    production_stack
    instructions_for_windows_users
    
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

@@ -17,11 +17,3 @@ Services
    postgrest
    qgis-server
    scp
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
