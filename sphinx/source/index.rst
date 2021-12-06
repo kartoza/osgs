@@ -11,8 +11,8 @@ Welcome to the Open Source Geospatial Stack!
 
 
 .. image:: img/OSGS-Logo.png
-   :width: 200px
-   :height: 100px
+   :width: 703px
+   :height: 324px
    :scale: 100 %
    :alt: alternate text
    :align: center
