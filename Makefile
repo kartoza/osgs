@@ -1079,7 +1079,7 @@ restore-surveysolutions:
 
 #----------------- OSM Mirror --------------------------
 
-deploy-osm-mirror: enable-osm-mirror configure-osm-mirror start-osm-mirror
+deploy-osm-mirror: enable-osm-mirror configure-osm-mirror start-osm-mirror add-db-osm-mirror-qgis-project
 
 enable-osm-mirror:
 	@make check-env
@@ -1124,6 +1124,21 @@ start-osm-mirror:
 	@echo "Starting OSM Mirror"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
+
+
+add-db-osm-mirror-qgis-project:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Add the OSM Mirror QGIS project to db"
+	@echo "------------------------------------------------------------------"
+	@docker cp qgis_projects/osm_mirror_qgis_project/osm_mirror_qgis_project.sql osgisstack_db_1:/tmp/ 
+	# - at start of next line means error will be ignored (in case QGIS project table isnt already there)
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop table qgis_projects;" gis 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/osm_mirror_qgis_project.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/osm_mirror_qgis_project.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from qgis_projects;" gis 
+
 
 stop-osm-mirror:
 	@make check-env
