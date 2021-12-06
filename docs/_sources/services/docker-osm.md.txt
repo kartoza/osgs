@@ -188,7 +188,7 @@ or
 
 https://example.org/geoserver/SaintLucia/wms
 
-   ![Layer Details in GeoServer](img/geoserver-osm-4.png)
+   ![Layer Details in GeoServer](../img/geoserver-osm-4.png)
 
 
 ### Publishing with QGIS Server

@@ -6,6 +6,19 @@
 OSGS
 ==============================================
 
+Welcome to the Open Source Geospatial Stack!
+
+
+
+.. image:: img/OSGS-Logo.png
+   :width: 200px
+   :height: 100px
+   :scale: 100 %
+   :alt: alternate text
+   :align: center
+
+In the open source geospatial world, there are different interesting technologies that have been developed to allow one to manipulate, visualize, publish, manage, edit, etc. geospatial data. These technologies are often in disparate projects. Programs like the QGIS project, are often ensemble applications that take some of these different technologies as components and use them to provide some higher level functionality. In some cases the integration is in silos or vertical applications, for example QGIS, PostGIS, Geoserver, etc. The aim of this project is to take a number of those different silos and incoporate them into a single platform, therefore making it really easy to access and publish the different types of services that are easily available on their own but not so easily available in a consolidated platform.
+
 .. toctree::
    :maxdepth: 1
    :caption: Contents:

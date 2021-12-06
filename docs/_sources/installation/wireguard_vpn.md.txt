@@ -198,7 +198,7 @@ A convenient way to do status checks is with the wg command. It will show all co
 wg
 ```
 
-# Allow incoming SSH only from the VPN
+## Allow incoming SSH only from the VPN
 
 As indicated above, do:
 
@@ -273,7 +273,7 @@ AllowedIPs = 192.168.7.2/32
 
 ```
 
-# Configure on the client
+## Configure on the client
 
 sudo vim /etc/wireguard/wg-osgs.conf
 

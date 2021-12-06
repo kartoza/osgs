@@ -127,7 +127,7 @@ or fedora:
 sudo dnf install openssl rpl git pwgen
 ```
 
-# Firewall
+## Firewall
 
 If you are using ufw, open port 80 and 443 as minimum. After the initial setup, you
 can again close port 80.
@@ -137,7 +137,7 @@ sudo ufw allow 80
 sudo ufw allow 443
 ```
 
-## Move on to OSGS Installation
+### Move on to OSGS Installation
 
 Ok we are ready to install OSGS! Go ahead to the [initial configuration page](initial_configuration.html) now.
 

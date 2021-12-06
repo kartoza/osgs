@@ -345,9 +345,8 @@ be accessed from within the VPN.</p>
 </div>
 </div>
 </div>
-</div>
-<div class="tex2jax_ignore mathjax_ignore section" id="allow-incoming-ssh-only-from-the-vpn">
-<h1>Allow incoming SSH only from the VPN<a class="headerlink" href="#allow-incoming-ssh-only-from-the-vpn" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="allow-incoming-ssh-only-from-the-vpn">
+<h2>Allow incoming SSH only from the VPN<a class="headerlink" href="#allow-incoming-ssh-only-from-the-vpn" title="Permalink to this headline">¶</a></h2>
 <p>As indicated above, do:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">6.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">22</span> <span class="n">proto</span> <span class="n">tcp</span>
 </pre></div>
@@ -360,6 +359,7 @@ be accessed from within the VPN.</p>
 <span class="n">PermitRootLogin</span> <span class="n">no</span>
 <span class="n">PasswordAuthentication</span> <span class="n">no</span>
 </pre></div>
+</div>
 </div>
 <div class="section" id="connecting-with-your-client">
 <h2>Connecting with your client<a class="headerlink" href="#connecting-with-your-client" title="Permalink to this headline">¶</a></h2>
@@ -409,9 +409,8 @@ Make sure to allocate a unique IP for it:</p>
 </div>
 </div>
 </div>
-</div>
-<div class="tex2jax_ignore mathjax_ignore section" id="configure-on-the-client">
-<h1>Configure on the client<a class="headerlink" href="#configure-on-the-client" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="configure-on-the-client">
+<h2>Configure on the client<a class="headerlink" href="#configure-on-the-client" title="Permalink to this headline">¶</a></h2>
 <p>sudo vim /etc/wireguard/wg-osgs.conf</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Interface</span><span class="p">]</span>
 <span class="c1">## This Desktop/client&#39;s private key ##</span>
@@ -438,7 +437,7 @@ Make sure to allocate a unique IP for it:</p>
 </pre></div>
 </div>
 <div class="section" id="enable-and-start-wireguard">
-<h2>Enable and start wireguard<a class="headerlink" href="#enable-and-start-wireguard" title="Permalink to this headline">¶</a></h2>
+<h3>Enable and start wireguard<a class="headerlink" href="#enable-and-start-wireguard" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">enable</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
 <span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">start</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
 <span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">status</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
@@ -468,6 +467,7 @@ Make sure to allocate a unique IP for it:</p>
   <span class="n">transfer</span><span class="p">:</span> <span class="mi">0</span> <span class="n">B</span> <span class="n">received</span><span class="p">,</span> <span class="mi">296</span> <span class="n">B</span> <span class="n">sent</span>
   <span class="n">persistent</span> <span class="n">keepalive</span><span class="p">:</span> <span class="n">every</span> <span class="mi">15</span> <span class="n">seconds</span>
 </pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="further-configuration-notes">
