@@ -16,7 +16,6 @@ OSGS
    utilities/index.rst
    workflows/index.rst
    roadmap
-   osm
 
 
 Indices and tables
