@@ -63,7 +63,10 @@ html_static_path = ['_static']
 # Theme specific options:
 # See https://docs.red-dove.com/sphinx_sizzle_theme/
 html_theme_options = {
-    'globaltoc_depth': 1
+    'globaltoc_depth': 1,
+    'show_index': False,
+    'show_filter': False,
+    'show_source': False, # not working
 }
 
 # -- Extension configuration -------------------------------------------------
