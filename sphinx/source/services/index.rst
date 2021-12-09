@@ -16,4 +16,3 @@ Services
    nginx
    postgrest
    qgis-server
-   scp
