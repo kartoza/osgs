@@ -510,7 +510,16 @@ services:
      # too so that you can upload your projects easily
      # using SCP and then have them published
      #
-     - qgis_projects:/io/data:ro
+     # It would be much nicer to mount this RO
+     # but when working with GPKG files QGIS wants to 
+     # create wal and shm files and your projects wont load
+     # if it can't
+     # There is an option to disable creating WAL files 
+     # in QGIS but I havent looked into how to set up QGIS Server
+     # to support it.
+     # See https://gis.stackexchange.com/questions/224188/geopackage-error-is-mounted-and-in-wal-mode-this-combination-is-not-allowed
+     #- qgis_projects:/io/data:ro
+     - qgis_projects:/io/data
      # 
      # qgis_plugins
      # |
