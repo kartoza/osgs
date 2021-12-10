@@ -7,24 +7,18 @@ Make sure to copy over the authdb whenever you change it e.g.
 
 sudo cp ~/.local/share/QGIS/QGIS3/profiles/Smallholding/qgis-auth.db qgis_conf/
 
+Or more conveniently copy it into the filebrowser web file manager.
+
 These files must be writable by the nginx user in the container. See 
 below:
 
-sudo chown 33:33 qgis_conf/qgis*
+sudo chown 33:33 qgis_conf/auth-db-password/qgis*
+sudo chown 33:33 qgis_conf/auth-db/qgis*
 docker-compose exec qgis-server ls -lah /tmp
 
-total 84K
-drwxrwxrwt 1 root     root     4.0K Feb 10 13:13 .
-drwxr-xr-x 1 root     root     4.0K Feb 10 13:13 ..
-drwxrwxrwt 2 root     root     4.0K Feb 10 13:13 .X11-unix
--r--r--r-- 1 root     root       11 Feb 10 13:13 .X99-lock
-drwx------ 2 www-data www-data 4.0K Feb 10 13:13 QGIS3-XpIBVC
--rw-r--r-- 1 www-data www-data    0 Feb 10 13:13 QGIS3.BCjd13
-drwx------ 2 root     root     4.0K Jan 18 06:56 crssync-tb3mKp
--rw-rw-r-- 1 www-data www-data    8 Feb 10 00:39 qgis-auth-pwd.txt
--rw-r--r-- 1 www-data www-data  44K Feb  9 18:08 qgis-auth.db
-drwx------ 2 www-data www-data 4.0K Feb 10 13:13 qgis_mapserv.fcgi-htBxsD
-drwx------ 2 www-data www-data 4.0K Feb 10 13:13 runtime-www-data
-drwx------ 2 root     root     4.0K Jan 18 06:53 tmp4q9bqd_o
+
+auth-db-password/qgis-auth-pwd.txt
+auth-db/qgis-auth.db
+
 
 Also make sure to restart docker containers after changing this.

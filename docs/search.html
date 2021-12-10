@@ -75,10 +75,6 @@
 </div>
       </div>
 
-      <div id="hdr-index">
-        <a href="genindex.html" class="btn btn-default" title="Go to the index"><i class="fa fa-list"></i></a>
-      </div>
-
       <div id="hdr-right">
         
   
@@ -89,8 +85,6 @@
         <a href="index.html"><i class="fa fa-home mr-8"></i></a>
 
 
-
-        <a href="genindex.html"><i class="fa fa-list mr-8"></i></a>
 
 
       </div>
@@ -121,19 +115,17 @@
         </div>
         <div class="sidebar-toc">
       
-          <div id="toc-filter" title="Type in here to show only matching topics">
-            <input class="form-control" id="toc-filter-query" placeholder="Filter by title ...">
-          </div>
+        <div style="clear: both"></div>
       
         
   
     <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="services/index.html#services">Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utilities/index.html#utilities">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="workflows/index.html#workflows">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflows/index.html">Workflows</a></li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">OSGS Roadmap</a></li>
 </ul>
 
@@ -149,10 +141,10 @@
     <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="services/index.html#services">Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utilities/index.html#utilities">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="workflows/index.html#workflows">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflows/index.html">Workflows</a></li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">OSGS Roadmap</a></li>
 </ul>
 
@@ -231,14 +223,6 @@ $(document).ready(function() {
   'use strict';
   var $search = $('.search-query');
 
-  var $filter = $('#toc-filter-query');
-  var $toclist = $('.sidebar-toc > ul').find('li');
-
-  if ($toclist.length === 0) {
-    $toclist = $('.localtoc > ul').find('li');
-  }
-
-
   var $nav = $('#nav');
 
   //$('#whole-page').removeClass('hidden');
@@ -269,27 +253,6 @@ $(document).ready(function() {
       location.href = url;
     }
   }
-
-
-  function apply_filter() {
-    var s = $filter.val().trim().toLowerCase();
-
-    $toclist.find('a').removeClass('hidden');
-    $toclist.each(function() {
-      var $this = $(this);
-      var $link = $this.find('> a');
-      var t = $link.text().toLowerCase();
-      var show = t.indexOf(s) >= 0;
-
-      if (!show) {
-        $link.addClass('hidden');
-      }
-    });
-  }
-
-  $filter.on('keyup', function(e) {
-    apply_filter();
-  });
 
 
 

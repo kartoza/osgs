@@ -72,10 +72,6 @@
 </div>
       </div>
 
-      <div id="hdr-index">
-        <a href="../genindex.html" class="btn btn-default" title="Go to the index"><i class="fa fa-list"></i></a>
-      </div>
-
       <div id="hdr-source">
         <a href="../_sources/workflows/postgrest-api.md.txt" class="btn btn-default" title="See the source for this page"><i class="fa fa-code"></i></a>
       </div>
@@ -105,8 +101,6 @@
 
         <a href="../search.html"><i class="fa fa-search mr-8"></i></a>
 
-
-        <a href="../genindex.html"><i class="fa fa-list mr-8"></i></a>
 
 
         <a href="node-red-postgrest-api.html"><i class="fa fa-chevron-right"></i></a>
@@ -139,9 +133,7 @@
         </div>
         <div class="sidebar-toc">
       
-          <div id="toc-filter" title="Type in here to show only matching topics">
-            <input class="form-control" id="toc-filter-query" placeholder="Filter by title ...">
-          </div>
+        <div style="clear: both"></div>
       
         
   
@@ -149,13 +141,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../services/index.html#services">Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../services/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#utilities">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Workflows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
 </ul>
 
@@ -172,13 +160,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../services/index.html#services">Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../services/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#utilities">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Workflows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
 </ul>
 
@@ -224,14 +208,6 @@ $(document).ready(function() {
   'use strict';
   var $search = $('.search-query');
 
-  var $filter = $('#toc-filter-query');
-  var $toclist = $('.sidebar-toc > ul').find('li');
-
-  if ($toclist.length === 0) {
-    $toclist = $('.localtoc > ul').find('li');
-  }
-
-
   var $nav = $('#nav');
 
   //$('#whole-page').removeClass('hidden');
@@ -257,27 +233,6 @@ $(document).ready(function() {
       location.href = url;
     }
   }
-
-
-  function apply_filter() {
-    var s = $filter.val().trim().toLowerCase();
-
-    $toclist.find('a').removeClass('hidden');
-    $toclist.each(function() {
-      var $this = $(this);
-      var $link = $this.find('> a');
-      var t = $link.text().toLowerCase();
-      var show = t.indexOf(s) >= 0;
-
-      if (!show) {
-        $link.addClass('hidden');
-      }
-    });
-  }
-
-  $filter.on('keyup', function(e) {
-    apply_filter();
-  });
 
 
 

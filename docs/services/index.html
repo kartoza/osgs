@@ -39,7 +39,7 @@
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
 <link rel="search" title="Search" href="../search.html" />
-<link rel="next" title="Postgres and PostGIS" href="postgres.html" />
+<link rel="next" title="Nginx - PR" href="nginx.html" />
 <link rel="prev" title="Production Stack installation instructions for Windows Users" href="../installation/instructions_for_windows_users.html" />
 
 </head>
@@ -72,10 +72,6 @@
 </div>
       </div>
 
-      <div id="hdr-index">
-        <a href="../genindex.html" class="btn btn-default" title="Go to the index"><i class="fa fa-list"></i></a>
-      </div>
-
       <div id="hdr-source">
         <a href="../_sources/services/index.rst.txt" class="btn btn-default" title="See the source for this page"><i class="fa fa-code"></i></a>
       </div>
@@ -90,7 +86,7 @@
       </div>
     
       <div class="pull-right">
-        <a class="btn btn-default next" href="postgres.html" title="Next chapter (Postgres and PostGIS)"><span class="btn-text">Postgres and PostGIS</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
+        <a class="btn btn-default next" href="nginx.html" title="Next chapter (Nginx - PR)"><span class="btn-text">Nginx - PR</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
       </div>
     </div>
   
@@ -106,10 +102,8 @@
         <a href="../search.html"><i class="fa fa-search mr-8"></i></a>
 
 
-        <a href="../genindex.html"><i class="fa fa-list mr-8"></i></a>
 
-
-        <a href="postgres.html"><i class="fa fa-chevron-right"></i></a>
+        <a href="nginx.html"><i class="fa fa-chevron-right"></i></a>
 
       </div>
     </div>
@@ -139,16 +133,14 @@
         </div>
         <div class="sidebar-toc">
       
-          <div id="toc-filter" title="Type in here to show only matching topics">
-            <input class="form-control" id="toc-filter-query" placeholder="Filter by title ...">
-          </div>
+        <div style="clear: both"></div>
       
         
   
     <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#services">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
@@ -167,7 +159,7 @@
     <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#services">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
@@ -180,21 +172,30 @@
             
   <div class="section" id="services">
 <h1>Services<a class="headerlink" href="#services" title="Permalink to this headline">¶</a></h1>
+<p>Here follows the list of services that are available in the OSGS stack.</p>
+<ul class="simple">
+<li>Items with a (PR) suffix can be considered production ready.</li>
+<li>Items with a (WIP) suffix can be considered a work in progress.</li>
+</ul>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="postgres.html">Postgres and PostGIS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="geoserver.html">GeoServer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hugo-watcher.html">Hugo Watcher</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docker-osm.html">Docker OSM mirror</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lizmap.html">Lizmap</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mergin-server.html">Mergin Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mergin-client.html">Mergin Client</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mergin-db-sync.html">Mergin-db-sync</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nginx.html">Nginx</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postgrest.html">PostgREST</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qgis-server.html">QGIS Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scp.html">SCP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nginx.html">Nginx - PR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filebrowser.html">File Browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hugo-watcher.html">Hugo Watcher - PR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postgres.html">Postgres and PostGIS - PR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qgis-server.html">QGIS Server - PR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="geoserver.html">GeoServer - PR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker-osm.html">Docker OSM mirror - PR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="node-red.html">Node Red - PR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jupyter.html">Jupyter Notebook  - PR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postgrest.html">PostgREST - PR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swagger.html">Swagger - PR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scp.html">SCP - PR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lizmap.html">Lizmap - WIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mergin-server.html">Mergin Server - WIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mergin-client.html">Mergin Client - WIP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mergin-db-sync.html">Mergin-db-sync - PR</a></li>
 </ul>
 </div>
 </div>
@@ -228,14 +229,6 @@ $(document).ready(function() {
   'use strict';
   var $search = $('.search-query');
 
-  var $filter = $('#toc-filter-query');
-  var $toclist = $('.sidebar-toc > ul').find('li');
-
-  if ($toclist.length === 0) {
-    $toclist = $('.localtoc > ul').find('li');
-  }
-
-
   var $nav = $('#nav');
 
   //$('#whole-page').removeClass('hidden');
@@ -261,27 +254,6 @@ $(document).ready(function() {
       location.href = url;
     }
   }
-
-
-  function apply_filter() {
-    var s = $filter.val().trim().toLowerCase();
-
-    $toclist.find('a').removeClass('hidden');
-    $toclist.each(function() {
-      var $this = $(this);
-      var $link = $this.find('> a');
-      var t = $link.text().toLowerCase();
-      var show = t.indexOf(s) >= 0;
-
-      if (!show) {
-        $link.addClass('hidden');
-      }
-    });
-  }
-
-  $filter.on('keyup', function(e) {
-    apply_filter();
-  });
 
 
 

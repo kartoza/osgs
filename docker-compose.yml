@@ -62,7 +62,7 @@ volumes:
   redis_data:
   cache:
   # Mounted in to geoserver for a file store
-  geoserver_data:
+  user_geoserver_data:
   # Mounted in to QGIS Server for serving QGIS projects
   qgis_projects:
   # Mounted in to QGIS Server for serving QGIS fonts
@@ -193,7 +193,7 @@ services:
      # adding the hugo-clarity theme by default
      - hugo_themes:/files/hugo_themes
      - jupyter_data:/files/jupyter_data
-     - geoserver_data:/files/geoserver_data
+     - user_geoserver_data:/files/geoserver_data
      # Mapproxy configs
      - ./conf/mapproxy_conf/app.py:/files/mapproxy/app.py
      - ./conf/mapproxy_conf/seed.yaml:/files/mapproxy/seed.yaml
@@ -444,7 +444,7 @@ services:
       - geoserver_data:/opt/geoserver/data_dir
       # Mounted in to geoserver for serving geoserver data
       # store
-      - geoserver_data:/data/geoserver_data
+      - user_geoserver_data:/data/geoserver_data
     restart: on-failure
     networks:
       - os-gis-stack    

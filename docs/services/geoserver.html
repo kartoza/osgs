@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>OSGS - GeoServer</title>
+<title>OSGS - GeoServer - PR</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous"/>
@@ -39,8 +39,8 @@
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
 <link rel="search" title="Search" href="../search.html" />
-<link rel="next" title="Hugo Watcher" href="hugo-watcher.html" />
-<link rel="prev" title="Postgres and PostGIS" href="postgres.html" />
+<link rel="next" title="Docker OSM mirror - PR" href="docker-osm.html" />
+<link rel="prev" title="QGIS Server - PR" href="qgis-server.html" />
 
 </head>
 <body class="full-height test">
@@ -59,8 +59,8 @@
 
       </div>
       <div id="hdr-centre" class="text-center stretch">
-        <h3 title="GeoServer">GeoServer</h3>
-        <h6>GeoServer</h6>
+        <h3 title="GeoServer - PR">GeoServer - PR</h3>
+        <h6>GeoServer - PR</h6>
       </div>
       <div id="hdr-search">
         
@@ -70,10 +70,6 @@
     <i class="fa fa-search"></i>
   </div>
 </div>
-      </div>
-
-      <div id="hdr-index">
-        <a href="../genindex.html" class="btn btn-default" title="Go to the index"><i class="fa fa-list"></i></a>
       </div>
 
       <div id="hdr-source">
@@ -86,18 +82,18 @@
   <div class="prev-next">
     
       <div class="pull-left">
-        <a class="btn btn-default prev" href="postgres.html" title="Previous chapter (Postgres and PostGIS)"><i class="fa fa-chevron-left mr-1em" aria-hidden="true"></i><span class="btn-text">Postgres and PostGIS</span></a>
+        <a class="btn btn-default prev" href="qgis-server.html" title="Previous chapter (QGIS Server - PR)"><i class="fa fa-chevron-left mr-1em" aria-hidden="true"></i><span class="btn-text">QGIS Server - PR</span></a>
       </div>
     
       <div class="pull-right">
-        <a class="btn btn-default next" href="hugo-watcher.html" title="Next chapter (Hugo Watcher)"><span class="btn-text">Hugo Watcher</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
+        <a class="btn btn-default next" href="docker-osm.html" title="Next chapter (Docker OSM mirror - PR)"><span class="btn-text">Docker OSM mirror - PR</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
       </div>
     </div>
   
       </div>
       <div id="alt-hdr-right">
 
-        <a href="postgres.html"><i class="fa fa-chevron-left mr-8"></i></a>
+        <a href="qgis-server.html"><i class="fa fa-chevron-left mr-8"></i></a>
 
 
         <a href="../index.html"><i class="fa fa-home mr-8"></i></a>
@@ -106,10 +102,8 @@
         <a href="../search.html"><i class="fa fa-search mr-8"></i></a>
 
 
-        <a href="../genindex.html"><i class="fa fa-list mr-8"></i></a>
 
-
-        <a href="hugo-watcher.html"><i class="fa fa-chevron-right"></i></a>
+        <a href="docker-osm.html"><i class="fa fa-chevron-right"></i></a>
 
       </div>
     </div>
@@ -139,24 +133,18 @@
         </div>
         <div class="sidebar-toc">
       
-          <div id="toc-filter" title="Type in here to show only matching topics">
-            <input class="form-control" id="toc-filter-query" placeholder="Filter by title ...">
-          </div>
+        <div style="clear: both"></div>
       
         
   
     <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#indices-and-tables">Indices and tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
 </ul>
 
   
@@ -170,24 +158,20 @@
   
     <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#indices-and-tables">Indices and tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#indices-and-tables">Indices and tables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html#indices-and-tables">Indices and tables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
 </ul>
 
   
           </div>
           <div class="body">
             
-  <div class="tex2jax_ignore mathjax_ignore section" id="geoserver">
-<h1>GeoServer<a class="headerlink" href="#geoserver" title="Permalink to this headline">¶</a></h1>
+  <div class="tex2jax_ignore mathjax_ignore section" id="geoserver-pr">
+<h1>GeoServer - PR<a class="headerlink" href="#geoserver-pr" title="Permalink to this headline">¶</a></h1>
 <p>GeoServer is a Java-based server, built on <a class="reference external" href="https://geotools.org/">GeoTools</a>,  that allows users to view and edit geospatial data, using the open standards set forth by the <a class="reference external" href="http://www.opengeospatial.org/">Open Geospatial Consortium (OGC)</a>. By implementing the <a class="reference external" href="https://www.ogc.org/standards/wms">Web Map Service (WMS)</a> standard, GeoServer can create maps in a variety of output formats. GeoServer also conforms to the <a class="reference external" href="https://www.ogc.org/standards/wfs">Web Feature Service (WFS)</a> standard, and <a class="reference external" href="https://www.ogc.org/standards/wcs">Web Coverage Service (WCS)</a> standard which permits the sharing and editing of the data that is used to generate the maps. GeoServer also uses the <a class="reference external" href="https://www.ogc.org/standards/wmts">Web Map Tile Service</a> standard to split your published maps into tiles for ease of use by web mapping and mobile applications.  <a class="reference external" href="https://openlayers.org/">OpenLayers</a>, a free mapping library, is integrated into GeoServer, making map generation quick and easy. GeoServer is a modular application with additional functionality added via extensions.<a class="reference external" href="#1">[1]</a></p>
 <p><strong>Service name:</strong> geoserver</p>
 <p><strong>Project Website:</strong> <a class="reference external" href="http://geoserver.org/">GeoServer</a></p>
@@ -289,14 +273,6 @@ $(document).ready(function() {
   'use strict';
   var $search = $('.search-query');
 
-  var $filter = $('#toc-filter-query');
-  var $toclist = $('.sidebar-toc > ul').find('li');
-
-  if ($toclist.length === 0) {
-    $toclist = $('.localtoc > ul').find('li');
-  }
-
-
   var $nav = $('#nav');
 
   //$('#whole-page').removeClass('hidden');
@@ -322,27 +298,6 @@ $(document).ready(function() {
       location.href = url;
     }
   }
-
-
-  function apply_filter() {
-    var s = $filter.val().trim().toLowerCase();
-
-    $toclist.find('a').removeClass('hidden');
-    $toclist.each(function() {
-      var $this = $(this);
-      var $link = $this.find('> a');
-      var t = $link.text().toLowerCase();
-      var show = t.indexOf(s) >= 0;
-
-      if (!show) {
-        $link.addClass('hidden');
-      }
-    });
-  }
-
-  $filter.on('keyup', function(e) {
-    apply_filter();
-  });
 
 
 

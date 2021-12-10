@@ -1,4 +1,4 @@
-# Nginx
+# Nginx - PR
 
 Nginx is a lightweight web server acting as a proxy in front of QGIS server, and as a server for the static HTML content.
 

@@ -1,4 +1,4 @@
-# QGIS Server
+# QGIS Server - PR
 
 With the QGIS Server service you can publish one or more QGIS projects including:
     1. Projects stored in-database in PostgreSQL

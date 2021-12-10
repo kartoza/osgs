@@ -1,4 +1,4 @@
-# PostgREST
+# PostgREST - PR
 
 PostgREST is a standalone web server that turns your PostgreSQL database directly into a RESTful API. The structural constraints and permissions in the database determine the API endpoints and operations. [[1]](#1) The PostgREST service ion the OSGS platform is used for pushing readings from IoT devices to our database.
 

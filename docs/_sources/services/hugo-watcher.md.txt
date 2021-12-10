@@ -1,4 +1,4 @@
-# Hugo Watcher
+# Hugo Watcher - PR
 
 Hugo is a static site generator. Hugo builds pages when you create or update your content. Since websites are viewed far more often than they are edited, Hugo is designed to provide an optimal viewing experience for the website’s end users and an ideal writing experience for website authors. [[1]](#1)
 

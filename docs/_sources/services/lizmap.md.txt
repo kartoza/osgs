@@ -1,4 +1,8 @@
-# Lizmap
+# Lizmap - WIP
+
+<div class="admonition warning">
+Note - this service is under development and not production ready yet.
+</div>
 
 Lizmap is an open source software designed by 3Liz that allows QGIS® Desktop to create Web map applications. [[1]](#1)  
 
