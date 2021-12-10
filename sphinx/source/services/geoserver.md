@@ -1,4 +1,4 @@
-# GeoServer
+# GeoServer - PR
 
 GeoServer is a Java-based server, built on [GeoTools](https://geotools.org/),  that allows users to view and edit geospatial data, using the open standards set forth by the [Open Geospatial Consortium (OGC)](http://www.opengeospatial.org/). By implementing the [Web Map Service (WMS)](https://www.ogc.org/standards/wms) standard, GeoServer can create maps in a variety of output formats. GeoServer also conforms to the [Web Feature Service (WFS)](https://www.ogc.org/standards/wfs) standard, and [Web Coverage Service (WCS)](https://www.ogc.org/standards/wcs) standard which permits the sharing and editing of the data that is used to generate the maps. GeoServer also uses the [Web Map Tile Service](https://www.ogc.org/standards/wmts) standard to split your published maps into tiles for ease of use by web mapping and mobile applications.  [OpenLayers](https://openlayers.org/), a free mapping library, is integrated into GeoServer, making map generation quick and easy. GeoServer is a modular application with additional functionality added via extensions.[[1]](#1)
 

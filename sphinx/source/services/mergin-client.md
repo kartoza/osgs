@@ -1,4 +1,8 @@
-# Mergin Client
+# Mergin Client - WIP
+
+<div class="admonition warning">
+Note - this service is under development and not production ready yet.
+</div>
 
 This tool will synchronise a Mergin cloud project into a PostgreSQL project.
 

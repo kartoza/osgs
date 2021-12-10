@@ -1,4 +1,8 @@
-# Mergin Server
+# Mergin Server - WIP
+
+<div class="admonition warning">
+Note - this service is under development and not production ready yet.
+</div>
 
 Mergin is a web platform for storage and synchronisation of geospatial projects across multiple users and devices (desktop and mobile).The platform is especially useful when you need: 
 

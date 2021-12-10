@@ -1,4 +1,9 @@
-# Mergin-db-sync
+# Mergin-db-sync - PR
+
+
+<div class="admonition warning">
+Note - this service only supports one synchronised Mergin project. 
+</div>
 
 There are two modalities in which you can work with Mergin projects:
 

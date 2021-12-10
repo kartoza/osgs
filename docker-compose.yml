@@ -199,9 +199,15 @@ services:
      - ./conf/mapproxy_conf/seed.yaml:/files/mapproxy/seed.yaml
      - ./conf/mapproxy_conf/mapproxy.yaml:/files/mapproxy/mapproxy.yaml
      - ./conf/mapproxy_conf/clip:/files/mapproxy/clip
-     # Nore red data
+     # Node red data
      - node-red-data:/files/node_red__data
+<<<<<<< HEAD
     user: 1000:1000
+=======
+     # Pg config data
+     - ./conf/pg_conf:/files/postgres_config
+    user: root # FIXME
+>>>>>>> 65b7965 (Doc updates)
     networks:
      - os-gis-stack
     restart: unless-stopped
