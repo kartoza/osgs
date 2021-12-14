@@ -740,6 +740,9 @@ tables:
       - key: admin_level
         name: admin_level
         type: integer
+    filters:
+      require:
+        admin_level: [__any__]
     mapping:
       boundary:
         - administrative
