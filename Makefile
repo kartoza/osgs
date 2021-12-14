@@ -1143,6 +1143,21 @@ add-db-osm-mirror-qgis-project:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from qgis_projects;" gis 
 
 
+add-db-osm-mirror-elevation:
+	@make check-env 
+	@echo "-------------------------------------------------------------------"
+	@echo "Adding the SRTM 30m DEM for the OSM clip area to the db"
+	@echo "-------------------------------------------------------------------"
+	@python3 conf/osm_conf/getDEM.py
+	@echo -n "Are you sure you want to delete the public.dem table? [y/N] " && read ans && [ $${ans:-N} = y ]
+	# - at start of next line means error will be ignored (in case the dem table isn't already there)
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop table public.dem;" gis
+	@raster2pgsql -s 4326 -C -P -F -I conf/osm_conf/SRTM_DEM/SRTM_30m_DEM.tif public.dem > conf/osm_conf/SRTM_DEM/srtm30m_dem.sql
+	@docker cp conf/osm_conf/SRTM_DEM/srtm30m_dem.sql osgisstack_db_1:/tmp/
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/srtm30m_dem.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/srtm30m_dem.sql 
+
+
 stop-osm-mirror:
 	@make check-env
 	@echo
