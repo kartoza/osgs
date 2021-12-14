@@ -766,6 +766,7 @@ restore-db-qgis-styles:
 	@echo "Restoring QGIS styles to gis db"
 	@echo "------------------------------------------------------------------"
 	@docker cp backups/QGISStyles.sql osgisstack_db_1:/tmp/ 
+	@echo -n "Are you sure you want to delete the public.layer_styles table? [y/N] " && read ans && [ $${ans:-N} = y ]
 	# - at start of next line means error will be ignored (in case QGIS project table isnt already there)
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop table layer_styles;" gis 
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/QGISStyles.sql -d gis
@@ -793,6 +794,7 @@ restore-db-qgis-project:
 	@echo "Restoring QGIS project to db"
 	@echo "------------------------------------------------------------------"
 	@docker cp backups/QGISProject.sql osgisstack_db_1:/tmp/ 
+	@echo -n "Are you sure you want to delete the public.qgis_projects table? [y/N] " && read ans && [ $${ans:-N} = y ]
 	# - at start of next line means error will be ignored (in case QGIS project table isnt already there)
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop table qgis_projects;" gis 
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/QGISProject.sql -d gis
@@ -1133,7 +1135,8 @@ add-db-osm-mirror-qgis-project:
 	@echo "Add the OSM Mirror QGIS project to db"
 	@echo "------------------------------------------------------------------"
 	@docker cp qgis_projects/osm_mirror_qgis_project/osm_mirror_qgis_project.sql osgisstack_db_1:/tmp/ 
-	# - at start of next line means error will be ignored (in case QGIS project table isnt already there)
+	@echo -n "Are you sure you want to delete the public.qgis_projects table? [y/N] " && read ans && [ $${ans:-N} = y ]
+	# - at start of next line means error will be ignored (in case the qgis_projects table isn't already there)
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop table qgis_projects;" gis 
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/osm_mirror_qgis_project.sql -d gis
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/osm_mirror_qgis_project.sql
