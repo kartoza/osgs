@@ -693,24 +693,11 @@ tables:
     - key: name
       name: name
       type: string
-    - key: leisure
-      name: leisure
-      type: string
-    - key: use
-      name: use
-      type: string
-    - key: religion
-      name: religon
-      type: string
     - name: type
-      type: mapping_value
-    - name: amenity
-      type: mapping_value
-    - name: landuse
       type: mapping_value
     filters:
       reject:
-        building: ["no","none","No"]
+        building: ["no","none","No","yes"]
         man_made: ["bridge"]
     mapping:
       building:
@@ -753,6 +740,9 @@ tables:
       - key: admin_level
         name: admin_level
         type: integer
+    filters:
+      require:
+        admin_level: [__any__]
     mapping:
       boundary:
         - administrative
@@ -845,61 +835,47 @@ tables:
         type: id
       - name: geometry
         type: geometry
-      - name: type
-        type: mapping_value
       - key: name
         name: name
-        type: string
-      - key: oneway
-        name: oneway
-        type: direction
-      - key: layer
-        name: z_order
-        type: wayzorder
-      - key: service
-        name: service
         type: string
       - key: ref
         name: ref
         type: string
-      - key: tunnel
-        name: tunnel
-        type: string
       - name: class
         type: mapping_key
+      - name: type
+        type: mapping_value
     filters:
       reject:
         area: ["yes"]
-    mappings:
-      roads:
-        mapping:
-          highway:
-            - motorway
-            - motorway_link
-            - trunk
-            - trunk_link
-            - primary
-            - primary_link
-            - secondary
-            - secondary_link
-            - tertiary
-            - tertiary_link
-            - road
-            - path
-            - track
-            - service
-            - footway
-            - bridleway
-            - cycleway
-            - steps
-            - pedestrian
-            - living_street
-            - unclassified
-            - residential
-            - raceway
-          man_made:
-            - pier
-            - groyne
+    mapping:
+      highway:
+        - motorway
+        - motorway_link
+        - trunk
+        - trunk_link
+        - primary
+        - primary_link
+        - secondary
+        - secondary_link
+        - tertiary
+        - tertiary_link
+        - road
+        - path
+        - track
+        - service
+        - footway
+        - bridleway
+        - cycleway
+        - steps
+        - pedestrian
+        - living_street
+        - unclassified
+        - residential
+        - raceway
+      man_made:
+        - pier
+        - groyne
     type: linestring
   places:
     columns:
@@ -910,12 +886,6 @@ tables:
       - key: name
         name: name
         type: string
-      - key: landuse
-        name: landuse
-        type: string
-      - key: population
-        name: population
-        type: integer
       - name: place
         type: mapping_value
     mapping:
@@ -1289,7 +1259,6 @@ tables:
       
  # etldoc: imposm3 -> osm_border_disp_relation
   border_disp_relation:
-    type: relation_member
     columns:
     - name: relation_id
       type: id
@@ -1317,13 +1286,15 @@ tables:
       name: maritime
       type: bool
       from_member: true
-    mapping:
-      type: [boundary]
     filters:
       require:
         #admin_level: ['2']
         admin_level: [__any__]
-        claimed_by: [__any__]    
+        claimed_by: [__any__]  
+    mapping:
+      type: [boundary]
+    type: relation_member
+   
   peak_points:
     type: point
     columns:
