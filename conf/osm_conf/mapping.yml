@@ -469,10 +469,292 @@ areas:
   area_tags: [buildings]
   area_tags: [power]
 
-
-
-
 tables:
+  admin:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - name: type
+        type: mapping_value
+      - key: admin_level
+        name: admin_level
+        type: integer
+    filters:
+      require:
+        admin_level: [__any__]
+    mapping:
+      boundary:
+        - administrative
+    type: polygon
+  # etldoc: imposm3 -> osm_border_disp_relation
+  border_disp_relation:
+    columns:
+    - name: relation_id
+      type: id
+    - name: osm_id
+      type: id
+      from_member: true
+    - name: geometry
+      type: geometry
+    - key: name
+      name: name
+      type: string
+    - key: boundary
+      name: boundary
+      type: string
+    - key: admin_level
+      name: admin_level
+      type: integer
+    - key: claimed_by
+      name: claimed_by
+      type: string
+    - key: disputed_by
+      name: disputed_by
+      type: string
+    - key: maritime
+      name: maritime
+      type: bool
+      from_member: true
+    filters:
+      require:
+        #admin_level: ['2']
+        admin_level: [__any__]
+        claimed_by: [__any__]  
+    mapping:
+      type: [boundary]
+    type: relation_member
+  roads:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - key: ref
+        name: ref
+        type: string
+      - name: class
+        type: mapping_key
+      - name: type
+        type: mapping_value
+    filters:
+      reject:
+        area: ["yes"]
+    mapping:
+      highway:
+        - motorway
+        - motorway_link
+        - trunk
+        - trunk_link
+        - primary
+        - primary_link
+        - secondary
+        - secondary_link
+        - tertiary
+        - tertiary_link
+        - road
+        - path
+        - track
+        - service
+        - footway
+        - bridleway
+        - cycleway
+        - steps
+        - pedestrian
+        - living_street
+        - unclassified
+        - residential
+        - raceway
+      man_made:
+        - pier
+        - groyne
+    type: linestring
+  railways:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - key: ref
+        name: ref
+        type: string
+      - name: class
+        type: mapping_key
+      - name: type
+        type: mapping_value
+    filters:
+      reject:
+        area: ["yes"]
+    mapping:
+      railway:
+        - rail
+        - miniature
+        - tram
+        - light_rail
+        - subway
+        - narrow_gauge
+        - preserved
+        - funicular
+        - monorail
+        - disused
+    type: linestring
+  waterways_rivers:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - name: waterway
+        type: mapping_value
+      - key: width
+        name: width
+        type: string
+      - key: intermittent
+        name: permanent
+        type: string
+    filters:
+      require:
+        name: [__any__]
+    mapping:
+      waterway:
+        - river
+        - riverbank
+    type: linestring
+  waterways_streams:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - name: waterway
+        type: mapping_value
+      - key: width
+        name: width
+        type: string
+      - key: intermittent
+        name: permanent
+        type: string
+    mapping:
+      waterway:
+        - stream
+    type: linestring
+  waterways_manmade:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - name: waterway
+        type: mapping_value
+    mapping:
+      waterway:
+        - canal
+        - ditch
+        - drain
+    type: linestring
+  waterways_points:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - name: waterway
+        type: mapping_value
+    mapping:
+      waterway:
+        - waterfall
+        - rapids
+    type: point
+  places:
+    columns:
+      - name: osm_id
+        type: id
+      - name: geometry
+        type: geometry
+      - key: name
+        name: name
+        type: string
+      - name: place
+        type: mapping_value
+    filters:
+      require:
+        name : [__any__]
+    mapping:
+      place:
+        - locality
+        - hamlet
+        - village
+        - suburb
+        - town
+        - city
+        - county
+        - region
+        - state
+    type: point
+  buildings:
+    columns:
+    - name: osm_id
+      type: id
+    - name: geometry
+      type: geometry
+    - key: name
+      name: name
+      type: string
+    - name: type
+      type: mapping_value
+    filters:
+      reject:
+        building: ["no","none","No","yes"]
+        man_made: ["bridge"]
+    mapping:
+      building:
+        - __any__
+      amenity:
+        - school
+        - university
+        - government
+        - fire
+        - police
+        - public building
+        - worship
+        - mall
+        - kindergarten
+        - college
+        - market
+      religion:
+        - __any__
+      use:
+        - government
+        - residential
+        - education
+        - place_of_worship
+        - school
+        - commercial
+        - industrial
+        - utility
+    type: polygon
   power_polygons:
     columns:
     - {name: osm_id, type: id}
@@ -684,69 +966,6 @@ tables:
     mapping:
       power: [transformer]
     type: point
-  buildings:
-    columns:
-    - name: osm_id
-      type: id
-    - name: geometry
-      type: geometry
-    - key: name
-      name: name
-      type: string
-    - name: type
-      type: mapping_value
-    filters:
-      reject:
-        building: ["no","none","No","yes"]
-        man_made: ["bridge"]
-    mapping:
-      building:
-        - __any__
-      amenity:
-        - school
-        - university
-        - government
-        - fire
-        - police
-        - public building
-        - worship
-        - mall
-        - kindergarten
-        - college
-        - market
-      religion:
-        - __any__
-      use:
-        - government
-        - residential
-        - education
-        - place_of_worship
-        - school
-        - commercial
-        - industrial
-        - utility
-    type: polygon
-  admin:
-    columns:
-      - name: osm_id
-        type: id
-      - name: geometry
-        type: geometry
-      - key: name
-        name: name
-        type: string
-      - name: type
-        type: mapping_value
-      - key: admin_level
-        name: admin_level
-        type: integer
-    filters:
-      require:
-        admin_level: [__any__]
-    mapping:
-      boundary:
-        - administrative
-    type: polygon
   landuse:
     columns:
       - name: osm_id
@@ -828,109 +1047,7 @@ tables:
       place:
         - ocean
         - sea
-    type: polygon
-  roads:
-    columns:
-      - name: osm_id
-        type: id
-      - name: geometry
-        type: geometry
-      - key: name
-        name: name
-        type: string
-      - key: ref
-        name: ref
-        type: string
-      - name: class
-        type: mapping_key
-      - name: type
-        type: mapping_value
-    filters:
-      reject:
-        area: ["yes"]
-    mapping:
-      highway:
-        - motorway
-        - motorway_link
-        - trunk
-        - trunk_link
-        - primary
-        - primary_link
-        - secondary
-        - secondary_link
-        - tertiary
-        - tertiary_link
-        - road
-        - path
-        - track
-        - service
-        - footway
-        - bridleway
-        - cycleway
-        - steps
-        - pedestrian
-        - living_street
-        - unclassified
-        - residential
-        - raceway
-      man_made:
-        - pier
-        - groyne
-    type: linestring
-  places:
-    columns:
-      - name: osm_id
-        type: id
-      - name: geometry
-        type: geometry
-      - key: name
-        name: name
-        type: string
-      - name: place
-        type: mapping_value
-    mapping:
-      place:
-        - island
-        - archipelago
-        - village
-        - town
-        - hamlet
-        - neighbourhood
-        - quarter
-        - suburb
-        - borough
-        - city
-        - municpality
-        - district
-        - province
-        - region
-        - state
-        - country
-    type: point
-  waterways:
-    columns:
-      - name: osm_id
-        type: id
-      - name: geometry
-        type: geometry
-      - key: name
-        name: name
-        type: string
-      - name: waterway
-        type: mapping_value
-    mapping:
-      waterway:
-        - river
-        - stream
-        - riverbank
-        - canal
-        - drain
-        - ditch
-        - tidal_channel
-        - pressurised
-        - fairway
-        - fish_pass
-    type: linestring 
+    type: polygon 
   parks:
     columns:
       - name: osm_id
@@ -1255,46 +1372,7 @@ tables:
     mapping:
       aeroway:
       - aerodrome
-      - gate
-      
- # etldoc: imposm3 -> osm_border_disp_relation
-  border_disp_relation:
-    columns:
-    - name: relation_id
-      type: id
-    - name: osm_id
-      type: id
-      from_member: true
-    - name: geometry
-      type: geometry
-    - key: name
-      name: name
-      type: string
-    - key: boundary
-      name: boundary
-      type: string
-    - key: admin_level
-      name: admin_level
-      type: integer
-    - key: claimed_by
-      name: claimed_by
-      type: string
-    - key: disputed_by
-      name: disputed_by
-      type: string
-    - key: maritime
-      name: maritime
-      type: bool
-      from_member: true
-    filters:
-      require:
-        #admin_level: ['2']
-        admin_level: [__any__]
-        claimed_by: [__any__]  
-    mapping:
-      type: [boundary]
-    type: relation_member
-   
+      - gate   
   peak_points:
     type: point
     columns:
