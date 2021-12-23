@@ -1081,7 +1081,7 @@ restore-surveysolutions:
 
 #----------------- OSM Mirror --------------------------
 
-deploy-osm-mirror: enable-osm-mirror configure-osm-mirror start-osm-mirror add-db-osm-mirror-qgis-project
+deploy-osm-mirror: enable-osm-mirror configure-osm-mirror start-osm-mirror osm-mirror-materialized-views add-db-osm-mirror-qgis-project
 
 enable-osm-mirror:
 	@make check-env
@@ -1127,6 +1127,17 @@ start-osm-mirror:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
 
+
+osm-mirror-materialized-views:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Generate materialized views for the osm-mirror-layers"
+	@echo "------------------------------------------------------------------"
+	@docker cp conf/osm_conf/materialized_views.sql osgisstack_db_1:/tmp/ 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/materialized_views.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/materialized_views.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select schemaname as schema_name, matviewname as view_name, matviewowner as owner, ispopulated as is_populated from pg_matviews order by schema_name, view_name;" gis 
 
 add-db-osm-mirror-qgis-project:
 	@make check-env
