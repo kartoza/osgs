@@ -16,7 +16,7 @@ The PBF files for the country or region of interest can be downloaded from [GeoF
 
 The clip area constrains any data being imported into the PostGIS database to a specific geographic area. You will need to save the clip area document as `conf/osm_conf/clip.geojson`. For best performance, a simple rectangle is best, but any complext polygon can be used. The `clip.geojson` can also be the same extent of the administrative area for your country or region specified in the PBF file, or it can be a smaller extent. The CRS of the geojson should always be EPSG:4326.[[1]](#1)
 
-<img src="../img/osm-mirror-workflow-1.png" alt="OSM mirror " width="300"/>
+!["OSM Clip Area"](../img/osm-mirror-workflow-1.png)
 
 You can easily create such a clip document at  https://geojson.io or by using QGIS. For this workflow the clip area document for the country Kenya, was obtained using QGIS. The Kenya country boundary data was obtained from the [Kenya- Subnational Administrative Boundaries data](https://data.humdata.org/dataset/ken-administrative-boundaries).
 
@@ -57,36 +57,36 @@ To deploy the OSM mirror service, run the `make deploy-osm-mirror` command and f
 
 To use the OSM mirror layers in the Postgis database in QGIS, use the service name ```osgs``` and the port number you used to set up the ```osgs``` service  in the ```.pg_service.conf``` file to create a new PostGIS connection in QGIS. Make sure to the set the SSL mode to require. 
 
-<img src="../img/osm-mirror-workflow-2.png" alt="OSM mirror workflow" width="300">
+!["Add OSGS Service to QGIS"](../img/osm-mirror-workflow-2.png)
 
 
 ## Loading the default OSM mirror QGIS project.
 
 To load the default OSM mirror QGIS project, in the ```qgis_projects``` table, in the ```public``` schema, double click on the ```osm_mirror_qgis_project```. The project layers will load onto the QGIS **Map View**.
 
-<img src="../img/osm-mirror-workflow-11.png" alt="OSM mirror workflow" width="300">
+!["Load the Default QGIS Project"](../img/osm-mirror-workflow-11.png)
 
-<img src="../img/osm-mirror-workflow-12.png" alt="OSM mirror workflow" width="500">
+!["View the Default QGIS Project"](../img/osm-mirror-workflow-12.png)
 
 ## Loading the OSM Mirror Layers into QGIS
 
 The imported Open Street Map layers for the clip area specified are present in the `osm` schema of the database. 
 
-<img src="../img/osm-mirror-workflow-3.png" alt="OSM mirror workflow" width="300">
+!["OSM Mirror Layers"](../img/osm-mirror-workflow-3.png)
 
 To load a layer from the `osm` schema onto the QGIS Map View, double click on the table or drag and drop the table onto the Map View. 
 
-<img src="../img/osm-mirror-workflow-4.png" alt="OSM mirror workflow" width="500">
+!["Load a OSM Mirror Layer"](../img/osm-mirror-workflow-4.png)
 
-## Saving a QGIS project into the OSM database
+## Saving a QGIS project into the PostGIS database
 
 In the **Menu Toolbar** click on **Project**. From the drop down menu select **Save To** **PostgreSQL**. 
 
-<img src="../img/osm-mirror-workflow-5.png" alt="OSM mirror workflow" width="500">
+!["Save QGIS Project in Database"](../img/osm-mirror-workflow-5.png)
 
-Save the project in the `public` schema and name the project. In this example we have named the project `qgis projects`.
+Save the project in the `public` schema and name the project. In this example we have named the project `qgis_projects`.
 
-<img src="../img/osm-mirror-workflow-6.png" alt="OSM mirror workflow" width="300">
+!["Save QGIS Project in Database"](../img/osm-mirror-workflow-6.png)
 
 ## Backing up and restoring a QGIS project into the database
 
@@ -98,19 +98,19 @@ To restore a backed up QGIS project, name the `.sql` file `QGISProject.sql` and 
 
 To save the style of a layer into the database, right click on the layer in the **Layers Panel** and select **Properties**. 
 
-<img src="../img/osm-mirror-workflow-7.png" alt="OSM mirror workflow" width="500">
+!["Save Default Layer Style to Database"](../img/osm-mirror-workflow-7.png)
 
 In the Symbology section of the Layer Properties, click on **Style** > **Save style**. 
 
-<img src="../img/osm-mirror-workflow-8.png" alt="OSM mirror workflow" width="300">
+!["Save Default Layer Style to Database"](../img/osm-mirror-workflow-8.png)
 
 In the Save Layer Style dialogue select **In Database (postgres)** and name the style file. You can add an optional description of the style and also set the style to be the default style for the layer.  
 
-<img src="../img/osm-mirror-workflow-9.png" alt="OSM mirror workflow" width="300">
+!["Save Default Layer Style to Database"](../img/osm-mirror-workflow-9.png)
 
 The saved style is added as an entry in the `layer_styles` table in the `public` schema of the PostGIS OSM database. 
 
-<img src="../img/osm-mirror-workflow-10.png" alt="OSM mirror workflow" width="500">
+!["Default Layer Styles in Database"](../img/osm-mirror-workflow-10.png)
 
 ## Backing up and restoring the QGIS styles into the database
 
