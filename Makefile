@@ -439,6 +439,7 @@ enable-qgis-server:
 	-@cd conf/nginx_conf/locations; ln -s qgis-server.conf.available qgis-server.conf
 	-@cd conf/nginx_conf/upstreams; ln -s qgis-server.conf.available qgis-server.conf
 	@echo "qgis-server" >> enabled-profiles
+	@touch conf/pg_conf/pg_service.conf
 
 restart-qgis-server:  ## Stop and restart the QGIS server containers
 	@make check-env
@@ -447,6 +448,7 @@ restart-qgis-server:  ## Stop and restart the QGIS server containers
 	@echo "Restarting QGIS Server containers"
 	@echo "------------------------------------------------------------------"
 	# Need to flush this completely for it to work on restart
+	@touch conf/pg_conf/pg_service.conf
 	make stop-qgis-desktop
 	make start-qgis-desktop
 
@@ -687,6 +689,7 @@ configure-postgres: configure-timezone
 	@echo
 	@read -p "Postgis Public Port (e.g. 5432):" PORT; \
 	   rpl POSTGRES_PUBLIC_PORT=5432 POSTGRES_PUBLIC_PORT=$$PORT .env; 
+	@touch conf/pg_conf/pg_service.conf
 
 start-postgres:
 	@make check-env
@@ -1249,6 +1252,8 @@ enable-postgrest:
 	-@cd conf/nginx_conf/locations; ln -s swagger.conf.available swagger.conf
 	-@cd conf/nginx_conf/upstreams; ln -s postgrest.conf.available postgrest.conf
 	-@cd conf/nginx_conf/upstreams; ln -s swagger.conf.available swagger.conf
+	#
+	-@cp mv conf/swagger_conf/swagger.json.example conf/swagger_conf/swagger.json
 	@echo "postgrest" >> enabled-profiles
 
 configure-postgrest: start-postgrest 
