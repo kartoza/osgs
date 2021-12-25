@@ -1253,7 +1253,7 @@ enable-postgrest:
 	-@cd conf/nginx_conf/upstreams; ln -s postgrest.conf.available postgrest.conf
 	-@cd conf/nginx_conf/upstreams; ln -s swagger.conf.available swagger.conf
 	#
-	-@cp mv conf/swagger_conf/swagger.json.example conf/swagger_conf/swagger.json
+	-@cp conf/swagger_conf/swagger.json.example conf/swagger_conf/swagger.json
 	@echo "postgrest" >> enabled-profiles
 
 configure-postgrest: start-postgrest 
