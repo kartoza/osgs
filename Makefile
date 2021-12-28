@@ -34,7 +34,7 @@ backup-everything: ## Sequentially run through all backup scripts
 	@make backup-node-red
 	@make backup-mosquitto
 	@make backup-jupyter
-
+	@make backup-metabase
 
 # We need to declare phony here since the docs dir exists
 # otherwise make tries to execute the docs file directly
@@ -979,6 +979,114 @@ restore-jupyter:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / jupyter -c "rm -rf /home/*"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups jupyter -c "cd /home && tar xvfz /backups/jupyter-backup.tar.gz --strip 1"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart jupyter
+
+#----------------- Metabase --------------------------
+
+deploy-metabase: enable-metabase configure-metabase start-metabase metabase-token
+
+enable-metabase:
+	@make check-env
+	-@cd conf/nginx_conf/locations; ln -s metabase.conf.available metabase.conf
+	@echo "metabase" >> enabled-profiles
+
+configure-metabase:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Configuring Metabase"
+	@echo "------------------------------------------------------------------"
+
+start-metabase:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting Metabase"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
+	make metabase-token
+
+stop-metabase:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping Metabase"
+	@echo "------------------------------------------------------------------"
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill metabase
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm metabase
+
+disable-metabase:
+	@make check-env
+	# Remove symlinks
+	@cd conf/nginx_conf/locations; rm metabase.conf
+	# Remove from enabled-profiles
+	@sed -i '/metabase/d' enabled-profiles
+
+metabase-token:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Getting Metabase token"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec metabase bash -c "metabase notebook list" | grep -E -i -o '=[0-9a-f]*' | sed 's/=//'
+
+metabase-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling metabase logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f metabase
+
+metabase-shell: ## Create a bash shell in the metabase container
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating metabase bash shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec metabase bash
+
+metabase-root-shell: ## Create a root bash shell in the metabase container
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Creating metabase bash shell"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u root metabase bash
+
+
+restart-metabase:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting metabase"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill metabase
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm metabase
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d metabase
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f metabase
+
+backup-metabase:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Backing up metabase data to ./backups"
+	@echo "------------------------------------------------------------------"
+	-@mkdir -p backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v $${PWD}/backups:/backups metabase -c "/bin/tar cvfz /backups/metabase-backup.tar.gz /home"
+	@cp backups/metabase-backup.tar.gz backups/metabase-backup-$$(date +%Y-%m-%d).tar.gz
+	@ls -lah backups/metabase*.tar.gz
+
+restore-metabase:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restore last backup of metabase from /backups/metabase-backup.tar.gz"
+	@echo "If you wish to restore an older backup, first copy it to /backups/metabase-backup.tar.gz"
+	@echo "Note: Restoring will OVERWRITE all data currently in your metabase home dir."
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / metabase -c "rm -rf /home/*"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups metabase -c "cd /home && tar xvfz /backups/metabase-backup.tar.gz --strip 1"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart metabase
+
 
 #----------------- survey solutions --------------------------
 

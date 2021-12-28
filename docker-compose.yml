@@ -35,6 +35,7 @@ x-hugo-image: &hugo-image kartoza/hugo-watcher:main
 x-node-red-image: &node-red-image nodered/node-red:latest
 x-mosquitto-image: &mosquitto-image eclipse-mosquitto:openssl
 x-file-browser-image: &file-browser-image filebrowser/filebrowser
+x-metabase-image: &metabase-image metabase/metabase:latest
 
 # 
 # VOLUMES
@@ -360,6 +361,33 @@ services:
       options:
         max-size: 200m
         max-file: '10'
+
+  metabase:
+    image: *metabase-image
+    env_file: .env
+    environment:
+      - MB_DB_TYPE: postgres
+      - MB_DB_DBNAME: metabase
+      - MB_DB_PORT: 5432
+      - MB_DB_USER: ${POSTGRES_USER}
+      - MB_DB_PASS: ${POSTGRES_PASSWORD}
+      - MB_DB_HOST: db
+      - MUID: 1000
+      - MGID: 1000
+      - JAVA_TIMEZONE: ${TIMEZONE}
+    volumes: 
+    - /dev/urandom:/dev/random:ro
+    ports:
+      - 3000
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
+    networks:
+     - os-gis-stack
+    depends_on: 
+      - db
 
   lizmap:
     # This is not WORKING YET!
