@@ -21,7 +21,7 @@ jobs:
           python-version: ${{ matrix.python_version }}
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install -r sphinx/requirements.txt
           pip install sphinx${{matrix.sphinx_version}}
           pip install .
       - name: List dependency versions
