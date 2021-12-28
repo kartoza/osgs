@@ -39,15 +39,23 @@ backup-everything: ## Sequentially run through all backup scripts
 # We need to declare phony here since the docs dir exists
 # otherwise make tries to execute the docs file directly
 .PHONY: docs
-docs: ## Generate documentation and place results in docs folder.
+docs: htmldocs pdfdocs## Generate documentation and place results in docs folder.
+
+pdfdocs:
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Making sphinx docs"
+	@echo "Making sphinx PDF docs"
+	@echo "------------------------------------------------------------------"
+	$(MAKE) -C sphinx latexpdf
+	@cp sphinx/build/latex/osgs.pdf osgs-manual.pdf
+
+htmldocs: ## Generate documentation and place results in docs folder.
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Making sphinx HTML docs"
 	@echo "------------------------------------------------------------------"
 	$(MAKE) -C sphinx html
 	@cp -r  sphinx/build/html/* docs
-	$(MAKE) -C sphinx latexpdf
-	@cp sphinx/build/latex/osgs.pdf osgs-manual.pdf
 
 
 ps: ## List all running docker contains
