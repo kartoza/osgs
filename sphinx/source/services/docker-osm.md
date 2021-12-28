@@ -15,7 +15,7 @@ The Docker OSM mirror service is composed of Docker ImpOSM3, Docker OSM Update a
 
 **Project Source Repository:** [openstreetmap / openstreetmap-website](https://github.com/openstreetmap/openstreetmap-website)
 
-**Project Technical Documentation:** [OpenStreetMap Getting Help](openstreetmap.org/help)
+**Project Technical Documentation:** [OpenStreetMap Getting Help](https://openstreetmap.org/help)
 
 **Docker Repository:** [kartoza/docker-osm](https://hub.docker.com/r/kartoza/docker-osm)
 
