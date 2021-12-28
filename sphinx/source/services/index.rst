@@ -21,6 +21,7 @@ Here follows the list of services that are available in the OSGS stack.
    jupyter
    postgrest
    swagger
+   metabase
    scp
    lizmap
    mergin-server
