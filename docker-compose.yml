@@ -63,7 +63,7 @@ volumes:
   redis_data:
   cache:
   # Mounted in to geoserver for a file store
-  user_geoserver_data:
+  geoserver_user_data:
   # Mounted in to QGIS Server for serving QGIS projects
   qgis_projects:
   # Mounted in to QGIS Server for serving QGIS fonts
@@ -194,7 +194,7 @@ services:
      # adding the hugo-clarity theme by default
      - hugo_themes:/files/hugo_themes
      - jupyter_data:/files/jupyter_data
-     - user_geoserver_data:/files/geoserver_data
+     - geoserver_user_data:/files/geoserver_user_data
      # Mapproxy configs
      - ./conf/mapproxy_conf/app.py:/files/mapproxy/app.py
      - ./conf/mapproxy_conf/seed.yaml:/files/mapproxy/seed.yaml
@@ -321,7 +321,7 @@ services:
       # gis - for general purpose gis projects
       # mergin-server - for mergin server flask app
       # mergin - for mergin-db-sync
-      - POSTGRES_DB=gis,mergin-server,mergin
+      - POSTGRES_DB=gis,mergin-server,mergin,metabase
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       # Read the notes at
@@ -366,15 +366,15 @@ services:
     image: *metabase-image
     env_file: .env
     environment:
-      - MB_DB_TYPE: postgres
-      - MB_DB_DBNAME: metabase
-      - MB_DB_PORT: 5432
-      - MB_DB_USER: ${POSTGRES_USER}
-      - MB_DB_PASS: ${POSTGRES_PASSWORD}
-      - MB_DB_HOST: db
-      - MUID: 1000
-      - MGID: 1000
-      - JAVA_TIMEZONE: ${TIMEZONE}
+      - MB_DB_TYPE=postgres
+      - MB_DB_DBNAME=metabase
+      - MB_DB_PORT=5432
+      - MB_DB_USER=${POSTGRES_USER}
+      - MB_DB_PASS=${POSTGRES_PASSWORD}
+      - MB_DB_HOST=db
+      - MUID=1000
+      - MGID=1000
+      - JAVA_TIMEZONE=${TIMEZONE}
     volumes: 
     - /dev/urandom:/dev/random:ro
     ports:
@@ -475,7 +475,7 @@ services:
       - geoserver_data:/opt/geoserver/data_dir
       # Mounted in to geoserver for serving geoserver data
       # store
-      - user_geoserver_data:/data/geoserver_data
+      - geoserver_user_data:/geoserver_user_data
     restart: on-failure
     networks:
       - os-gis-stack    

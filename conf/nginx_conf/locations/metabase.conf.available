@@ -1,5 +1,5 @@
         location /metabase/ {
-                proxy_pass http://metabase:8888/jupyter/;
+                proxy_pass http://metabase:3000/;
 
 		#Defines the HTTP protocol version for proxying
 		#by default it it set to 1.0.
