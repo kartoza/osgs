@@ -1,3 +1,3 @@
-## Node-red connect to the PostgREST API
+# Node-red connect to the PostgREST API
 
 This workflow will demonstrate how to connect to the PostgREST API, pull data out of  table and present it in a node-red dahsboard.
