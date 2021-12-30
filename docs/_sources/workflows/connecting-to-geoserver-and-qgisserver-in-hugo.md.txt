@@ -1,4 +1,4 @@
-# Connecting to Geoserver and QGIS Server in Hugo
+# Connecting to Geoserver and QGIS Server in Hugo - TODO
 
 This workflow covers connecting to QGIS server and Geoserver in Hugo through the following steps:
 

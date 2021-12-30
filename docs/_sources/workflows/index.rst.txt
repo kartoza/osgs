@@ -1,6 +1,11 @@
 Workflows
 ==============================================
 
+Here follows the list of example workflows that are available in the OSGS stack.
+
+* Items with a (PR) suffix can be considered production ready.
+* Items with a (TODO) suffix have yet to be written.
+
 .. toctree::
    :maxdepth: 1
    :caption: Contents:
