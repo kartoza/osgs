@@ -1,3 +1,3 @@
-# QGIS Desktop as a Web Services Client
+# QGIS Desktop as a Web Services Client - TODO
 
 This workflow will cover how to use QGIS Desktop as a web service client for both the QGIS Server and Geoserver published layers.

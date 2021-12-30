@@ -1,4 +1,4 @@
-# Set up process for pg notify
+# Set up process for pg notify - TODO
 
 Pg notify is a notification system that Postgres has that can let a client know that a change has occurred in the database. This workflow will demonstrate how to: 
 
