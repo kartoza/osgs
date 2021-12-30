@@ -139,5 +139,5 @@ sudo ufw allow 443
 
 ### Move on to OSGS Installation
 
-Ok we are ready to install OSGS! Go ahead to the [initial configuration page](initial_configuration.html) now.
+Ok we are ready to install OSGS! Go ahead to the [initial configuration page](initial_configuration.md) now.
 

@@ -16,8 +16,6 @@
 
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -34,7 +32,6 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
-    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
@@ -137,7 +134,7 @@
       
         
   
-    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+    <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
@@ -156,7 +153,7 @@
           <div id="mnav">
             
   
-    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+    <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
@@ -172,34 +169,67 @@
             
   <div class="tex2jax_ignore mathjax_ignore section" id="creating-an-open-street-map-mirror-into-your-database">
 <h1>Creating an Open Street Map mirror into your database<a class="headerlink" href="#creating-an-open-street-map-mirror-into-your-database" title="Permalink to this headline">¶</a></h1>
+<p>The OSM mirror service uses the kartoza/docker-osm tool to create an in-database
+mirror of a designated geographical area in the designated postgres
+database schema (set to: osm). The OSM mirror tool is described in the project
+README here:</p>
+<p>https://github.com/kartoza/docker-osm</p>
+<p>To deploy the osm-mirror service, you need to follow the steps descibed below.</p>
 <div class="section" id="preparing-the-country-pbf-file-and-the-clip-area-document">
 <h2>Preparing the Country PBF file and the clip area document<a class="headerlink" href="#preparing-the-country-pbf-file-and-the-clip-area-document" title="Permalink to this headline">¶</a></h2>
 <p>The PBF files for the country or region of interest can be downloaded from <a class="reference external" href="https://download.geofabrik.de/">GeoFabrik</a>. The PBF file used in this workflow was for Kenya and the URL for the country PBF file is https://download.geofabrik.de/africa/kenya-latest.osm.pbf.</p>
-<p>The clip area allows you to limit the features being imported into the PostGIS OSM database to a small area you can work with. You will need to save the clip area document as <code class="docutils literal notranslate"><span class="pre">conf/osm_conf/clip.geojson</span></code>. The <code class="docutils literal notranslate"><span class="pre">clip.geojson</span></code> can be the same extent of the administrative area for your country or region specified in the PBF file, or it can be a smaller extent. The CRS of the geojson should always be EPSG:4326.<a class="reference external" href="#1">[1]</a></p>
-<img src="../img/osm-mirror-workflow-1.png" alt="OSM mirror " width="300"/>
+<p>The clip area constrains any data being imported into the PostGIS database to a specific geographic area. You will need to save the clip area document as <code class="docutils literal notranslate"><span class="pre">conf/osm_conf/clip.geojson</span></code>. For best performance, a simple rectangle is best, but any complext polygon can be used. The <code class="docutils literal notranslate"><span class="pre">clip.geojson</span></code> can also be the same extent of the administrative area for your country or region specified in the PBF file, or it can be a smaller extent. The CRS of the geojson should always be EPSG:4326.<a class="reference external" href="#1">[1]</a></p>
+<p><img alt="&quot;OSM Clip Area&quot;" src="../_images/osm-mirror-workflow-1.png" /></p>
 <p>You can easily create such a clip document at  https://geojson.io or by using QGIS. For this workflow the clip area document for the country Kenya, was obtained using QGIS. The Kenya country boundary data was obtained from the <a class="reference external" href="https://data.humdata.org/dataset/ken-administrative-boundaries">Kenya- Subnational Administrative Boundaries data</a>.</p>
+</div>
+<div class="section" id="editing-the-mappings-yml-file">
+<h2>Editing the mappings.yml  file.<a class="headerlink" href="#editing-the-mappings-yml-file" title="Permalink to this headline">¶</a></h2>
+<p>For advanced users, you can tweak the <code class="docutils literal notranslate"><span class="pre">osm_conf/mapping.yml</span></code>. To customize the OSM data being imported into the PostGIS database.</p>
+<p>You can see how the imposm3 mapping syntax works here:</p>
+<p>https://imposm.org/docs/imposm3/latest/mapping.html</p>
+<blockquote>
+<div><strong>Note</strong>: You cannot alter the <code class="docutils literal notranslate"><span class="pre">mappings.yml</span></code> file after the service is running without
+clearing the database (using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">stop-osm-mirror</span></code>) and restarting the import (using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-osm-mirror</span></code>).</div></blockquote>
 </div>
 <div class="section" id="deploying-the-osm-mirror-service">
 <h2>Deploying the OSM mirror service.<a class="headerlink" href="#deploying-the-osm-mirror-service" title="Permalink to this headline">¶</a></h2>
-<p>To deploy the initial stack, which includes the  Nginx, Hugo watcher and SCP services, please run either  <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> or <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code>.</p>
+<p>To deploy the initial stack, which includes the  Nginx and Hugo watcher services, please run either  <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> or <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code>.</p>
 <p>Next deploy the Postgres service using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-postgres</span></code>. If you have PostgreSQL already installed outside of the stack (on your local machine) ensure that you specify a different Postgres public port number other than the default 5432. For example, you can use the port number 5434 for the public port.</p>
+<p>After deploying the Postgres service, set up the <code class="docutils literal notranslate"><span class="pre">.pg_service.conf</span></code> file on your local machine using the instructions provided <a class="reference external" href="https://www.postgresql.org/docs/9.0/libpq-pgservice.html">here</a>.
+Your osgs service should look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">osgs</span><span class="p">]</span>
+<span class="n">dbname</span><span class="o">=</span><span class="n">gis</span>
+<span class="n">user</span><span class="o">=</span><span class="n">docker</span>
+<span class="n">port</span><span class="o">=</span>
+<span class="n">password</span><span class="o">=</span>
+<span class="n">host</span><span class="o">=</span>
+<span class="n">sslmode</span><span class="o">=</span><span class="n">require</span>
+</pre></div>
+</div>
+<p>For the port and password configuration parameters, use the Postgres public port number (POSTGRES_PUBLIC_PORT) and Postgres password (POSTGRES_PASSWORD) specified in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file. For the host configuration parameter use the hostname of the server where you have set up OSGS.</p>
 <p>To deploy the OSM mirror service, run the <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-osm-mirror</span></code> command and follow the subsequent instructions. You can view the logs for the OSM mirror service using the command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">osm-mirror-logs</span></code>.</p>
+<p>To use the OSM mirror layers in the Postgis database in QGIS, use the service name <code class="docutils literal notranslate"><span class="pre">osgs</span></code> and the port number you used to set up the <code class="docutils literal notranslate"><span class="pre">osgs</span></code> service  in the <code class="docutils literal notranslate"><span class="pre">.pg_service.conf</span></code> file to create a new PostGIS connection in QGIS. Make sure to the set the SSL mode to require.</p>
+<p><img alt="&quot;Add OSGS Service to QGIS&quot;" src="../_images/osm-mirror-workflow-2.png" /></p>
+</div>
+<div class="section" id="loading-the-default-osm-mirror-qgis-project">
+<h2>Loading the default OSM mirror QGIS project.<a class="headerlink" href="#loading-the-default-osm-mirror-qgis-project" title="Permalink to this headline">¶</a></h2>
+<p>To load the default OSM mirror QGIS project, in the <code class="docutils literal notranslate"><span class="pre">qgis_projects</span></code> table, in the <code class="docutils literal notranslate"><span class="pre">public</span></code> schema, double click on the <code class="docutils literal notranslate"><span class="pre">osm_mirror_qgis_project</span></code>. The project layers will load onto the QGIS <strong>Map View</strong>.</p>
+<p><img alt="&quot;Load the Default QGIS Project&quot;" src="../_images/osm-mirror-workflow-11.png" /></p>
+<p><img alt="&quot;View the Default QGIS Project&quot;" src="../_images/osm-mirror-workflow-12.png" /></p>
 </div>
 <div class="section" id="loading-the-osm-mirror-layers-into-qgis">
 <h2>Loading the OSM Mirror Layers into QGIS<a class="headerlink" href="#loading-the-osm-mirror-layers-into-qgis" title="Permalink to this headline">¶</a></h2>
-<p>To use the layers in the OSM Postgis database in QGIS, use the Postgres public port number, username and password contained in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file to create a connection to the PostGIS OSM database <code class="docutils literal notranslate"><span class="pre">gis</span></code> in QGIS. Make sure to the set the SSL mode to require.</p>
-<img src="../img/osm-mirror-workflow-2.png" alt="OSM mirror workflow" width="300">
 <p>The imported Open Street Map layers for the clip area specified are present in the <code class="docutils literal notranslate"><span class="pre">osm</span></code> schema of the database.</p>
-<img src="../img/osm-mirror-workflow-3.png" alt="OSM mirror workflow" width="300">
-<p>To load a layer from the <code class="docutils literal notranslate"><span class="pre">osm</span></code> schema onto the QGIS Map View, double click on the table or drag and drop the table on the Map View.</p>
-<img src="../img/osm-mirror-workflow-4.png" alt="OSM mirror workflow" width="500">
+<p><img alt="&quot;OSM Mirror Layers&quot;" src="../_images/osm-mirror-workflow-3.png" /></p>
+<p>To load a layer from the <code class="docutils literal notranslate"><span class="pre">osm</span></code> schema onto the QGIS Map View, double click on the table or drag and drop the table onto the Map View.</p>
+<p><img alt="&quot;Load a OSM Mirror Layer&quot;" src="../_images/osm-mirror-workflow-4.png" /></p>
 </div>
-<div class="section" id="saving-a-qgis-project-into-the-osm-database">
-<h2>Saving a QGIS project into the OSM database<a class="headerlink" href="#saving-a-qgis-project-into-the-osm-database" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="saving-a-qgis-project-into-the-postgis-database">
+<h2>Saving a QGIS project into the PostGIS database<a class="headerlink" href="#saving-a-qgis-project-into-the-postgis-database" title="Permalink to this headline">¶</a></h2>
 <p>In the <strong>Menu Toolbar</strong> click on <strong>Project</strong>. From the drop down menu select <strong>Save To</strong> <strong>PostgreSQL</strong>.</p>
-<img src="../img/osm-mirror-workflow-5.png" alt="OSM mirror workflow" width="500">
-<p>Save the project in the <code class="docutils literal notranslate"><span class="pre">public</span></code> schema and name it <code class="docutils literal notranslate"><span class="pre">qgis</span> <span class="pre">projects</span></code> to allow the <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">backup-db-qgis-project</span></code> command to be able to create a back up of the project.</p>
-<img src="../img/osm-mirror-workflow-6.png" alt="OSM mirror workflow" width="300">
+<p><img alt="&quot;Save QGIS Project in Database&quot;" src="../_images/osm-mirror-workflow-5.png" /></p>
+<p>Save the project in the <code class="docutils literal notranslate"><span class="pre">public</span></code> schema and name the project. In this example we have named the project <code class="docutils literal notranslate"><span class="pre">qgis_projects</span></code>.</p>
+<p><img alt="&quot;Save QGIS Project in Database&quot;" src="../_images/osm-mirror-workflow-6.png" /></p>
 </div>
 <div class="section" id="backing-up-and-restoring-a-qgis-project-into-the-database">
 <h2>Backing up and restoring a QGIS project into the database<a class="headerlink" href="#backing-up-and-restoring-a-qgis-project-into-the-database" title="Permalink to this headline">¶</a></h2>
@@ -209,18 +239,52 @@
 <div class="section" id="saving-qgis-layer-styles-into-the-database">
 <h2>Saving QGIS layer styles into the database<a class="headerlink" href="#saving-qgis-layer-styles-into-the-database" title="Permalink to this headline">¶</a></h2>
 <p>To save the style of a layer into the database, right click on the layer in the <strong>Layers Panel</strong> and select <strong>Properties</strong>.</p>
-<img src="../img/osm-mirror-workflow-7.png" alt="OSM mirror workflow" width="500">
+<p><img alt="&quot;Save Default Layer Style to Database&quot;" src="../_images/osm-mirror-workflow-7.png" /></p>
 <p>In the Symbology section of the Layer Properties, click on <strong>Style</strong> &gt; <strong>Save style</strong>.</p>
-<img src="../img/osm-mirror-workflow-8.png" alt="OSM mirror workflow" width="300">
+<p><img alt="&quot;Save Default Layer Style to Database&quot;" src="../_images/osm-mirror-workflow-8.png" /></p>
 <p>In the Save Layer Style dialogue select <strong>In Database (postgres)</strong> and name the style file. You can add an optional description of the style and also set the style to be the default style for the layer.</p>
-<img src="../img/osm-mirror-workflow-9.png" alt="OSM mirror workflow" width="300">
+<p><img alt="&quot;Save Default Layer Style to Database&quot;" src="../_images/osm-mirror-workflow-9.png" /></p>
 <p>The saved style is added as an entry in the <code class="docutils literal notranslate"><span class="pre">layer_styles</span></code> table in the <code class="docutils literal notranslate"><span class="pre">public</span></code> schema of the PostGIS OSM database.</p>
-<img src="../img/osm-mirror-workflow-10.png" alt="OSM mirror workflow" width="500">
+<p><img alt="&quot;Default Layer Styles in Database&quot;" src="../_images/osm-mirror-workflow-10.png" /></p>
 </div>
 <div class="section" id="backing-up-and-restoring-the-qgis-styles-into-the-database">
 <h2>Backing up and restoring the QGIS styles into the database<a class="headerlink" href="#backing-up-and-restoring-the-qgis-styles-into-the-database" title="Permalink to this headline">¶</a></h2>
 <p>To back up the QGIS styles created in the previous section, run the command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">backup-db-qgis-styles</span></code>. This backs up the <code class="docutils literal notranslate"><span class="pre">layer_styles</span></code> table in the <code class="docutils literal notranslate"><span class="pre">public</span></code> schema as a <code class="docutils literal notranslate"><span class="pre">.sql</span></code> file named <code class="docutils literal notranslate"><span class="pre">QGISStyles.sql</span></code>.</p>
 <p>To restore a back up of the QGIS styles, name the back up file <code class="docutils literal notranslate"><span class="pre">QGISStyles.sql</span></code> and place it in the <code class="docutils literal notranslate"><span class="pre">backups</span></code> folder then run the command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">restore-db-qgis-styles</span></code>.</p>
+</div>
+<div class="section" id="publishing-with-geoserver">
+<h2>Publishing with GeoServer<a class="headerlink" href="#publishing-with-geoserver" title="Permalink to this headline">¶</a></h2>
+<p>You can publish the OSM mirror layers in the <code class="docutils literal notranslate"><span class="pre">osm</span></code> schema using GeoServer or by publishing a QGIS project that references the layers in the <code class="docutils literal notranslate"><span class="pre">osm</span></code> schema.</p>
+<p>The steps for publishing with GeoServer are quite simple:</p>
+<ol>
+<li><p class="first">Log in to GeoServer using the ‘admin’ user and the password in .env.</p>
+</li>
+<li><p class="first">Create a new store of type ‘Postgis’ and configure it as per the screenshot below, replacing the password with the Postgres password stored in .env:</p>
+<p><img alt="Store Creation in GeoServer" src="../_images/geoserver-osm-1.png" /></p>
+<p>Also, be sure to scroll down and set SSL mode to Required:</p>
+<p><img alt="SSL Mode Required" src="../_images/geoserver-osm-5.png" /></p>
+</li>
+<li><p class="first">Register one or more layers from that store as per the image below:</p>
+<p><img alt="Layer Creation in GeoServer" src="../_images/geoserver-osm-2.png" /></p>
+</li>
+<li><p class="first">Complete the layer details as appropriate and make sure to click the options highlighted in red in the screenshot below:</p>
+<p><img alt="Adding a GeoServer WMS layer in QGIS" src="../_images/geoserver-osm-3.png" /></p>
+</li>
+<li><p class="first">Connect to the GeoServer from a client e.g. QGIS using WFS or WMS using the scheme:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> https://example.org/geoserver/SaintLucia/wfs
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> https://example.org/geoserver/SaintLucia/wms
+</pre></div>
+</div>
+<p><img alt="Layer Details in GeoServer" src="../_images/geoserver-osm-4.png" /></p>
+</li>
+</ol>
+</div>
+<div class="section" id="publishing-with-qgis-server">
+<h2>Publishing with QGIS Server<a class="headerlink" href="#publishing-with-qgis-server" title="Permalink to this headline">¶</a></h2>
+<p>The workflows described in the section on working with the PostgreSQL database are basically all you need to know, so we don’t repeat that here, other than to remind you that the OSM mirrored data is by default stored in a schema called <code class="docutils literal notranslate"><span class="pre">osm</span></code>.</p>
 </div>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
@@ -238,7 +302,7 @@
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"

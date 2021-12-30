@@ -16,8 +16,6 @@
 
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -34,7 +32,6 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
-    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
@@ -137,14 +134,14 @@
       
         
   
-    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+    <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
 </ul>
 
   
@@ -156,14 +153,14 @@
           <div id="mnav">
             
   
-    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+    <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
 </ul>
 
   
@@ -179,7 +176,7 @@
 <p><strong>Service name:</strong> osm-mirror</p>
 <p><strong>Project Website:</strong> <a class="reference external" href="https://www.openstreetmap.org/">OpenStreetMap</a></p>
 <p><strong>Project Source Repository:</strong> <a class="reference external" href="https://github.com/openstreetmap/openstreetmap-website">openstreetmap / openstreetmap-website</a></p>
-<p><strong>Project Technical Documentation:</strong> <span class="xref myst">OpenStreetMap Getting Help</span></p>
+<p><strong>Project Technical Documentation:</strong> <a class="reference external" href="https://openstreetmap.org/help">OpenStreetMap Getting Help</a></p>
 <p><strong>Docker Repository:</strong> <a class="reference external" href="https://hub.docker.com/r/kartoza/docker-osm">kartoza/docker-osm</a></p>
 <p><strong>Docker Source Repository:</strong> <a class="reference external" href="https://github.com/kartoza/docker-osm">kartoza / docker-osm</a></p>
 <div class="section" id="deployment">
@@ -249,97 +246,10 @@
 </div>
 <div class="section" id="additional-notes">
 <h2>Additional Notes<a class="headerlink" href="#additional-notes" title="Permalink to this headline">¶</a></h2>
-<p>The OSM mirror uses the kartoza/docker-osm tool to create an in-database
-mirror of a designated geographical area in the designated postgres
-databse schema (set to: osm). The OSM mirror tool is described in the project
-README here:</p>
-<p>https://github.com/kartoza/docker-osm</p>
-<p>To deploy the docker-mirror you need to follow the steps descibed below.
-First a process overview:</p>
-<ol class="simple">
-<li>Create the PBF feature container passing it a URL to a PBF file</li>
-<li>Create a clip file that will be used to constrain any retrieved / imported
-data to a specific geographic area.</li>
-<li>Tweak the mappings.yml file (advanced users)</li>
-<li>Run the docker-osm service</li>
-<li>Optionally include these data in published services via QGIS projects,
-GeoServer etc.</li>
-</ol>
-<div class="section" id="pbf-container">
-<h3>PBF Container<a class="headerlink" href="#pbf-container" title="Permalink to this headline">¶</a></h3>
-<p>During the <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure</span></code> process, the script will ask for the URL
-to an OSM .pbf file e.g.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">------------------------------------------------------------------</span>
-<span class="n">Fetching</span> <span class="n">pbf</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">cached</span> <span class="ow">and</span> <span class="n">then</span> <span class="n">copying</span> <span class="n">to</span> <span class="n">settings</span> <span class="nb">dir</span>
-<span class="o">------------------------------------------------------------------</span>
-<span class="n">URL</span> <span class="n">For</span> <span class="n">Country</span> <span class="n">PBF</span> <span class="n">File</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">download</span><span class="o">.</span><span class="n">geofabrik</span><span class="o">.</span><span class="n">de</span><span class="o">/</span><span class="n">central</span><span class="o">-</span><span class="n">america</span><span class="o">-</span><span class="n">latest</span><span class="o">.</span><span class="n">osm</span><span class="o">.</span><span class="n">pbf</span>
-</pre></div>
-</div>
-<p>You can enter any valid URL for an OSM .PBF file at this point. A docker
-container will be built that fetches the PBD and stores it on the host
-file system under osm_config.</p>
-</div>
-<div class="section" id="clip-area">
-<h3>Clip Area<a class="headerlink" href="#clip-area" title="Permalink to this headline">¶</a></h3>
-<p>Create the clip area to constrain the geographical region that data
-will be harvested for. For best performance, a simple rectangle is best,
-but any complext polygon can be used. The clip area must be saved
-as <code class="docutils literal notranslate"><span class="pre">osm_config/clip.geojson</span></code>. The format for the clip area must be
-GeoJSON. You can easily create this using QGIS.</p>
-</div>
-<div class="section" id="mappings">
-<h3>Mappings<a class="headerlink" href="#mappings" title="Permalink to this headline">¶</a></h3>
-<p>For advanced users, you can tweak the <code class="docutils literal notranslate"><span class="pre">osm_config/mapping.yml</span></code></p>
-<p>You can see how the imposm3 mapping syntax works here:</p>
-<p>https://imposm.org/docs/imposm3/latest/mapping.html</p>
-<p>Note that you cannot alter the mappings after the service is running without
-clearing the databse and restarting the import.</p>
-</div>
-<div class="section" id="run-services">
-<h3>Run services<a class="headerlink" href="#run-services" title="Permalink to this headline">¶</a></h3>
-<p>To run the OSM services do:</p>
-<p><code class="docutils literal notranslate"><span class="pre">docker-compose</span> <span class="pre">--profile=osm</span> <span class="pre">up</span> <span class="pre">-d</span></code></p>
-</div>
-<div class="section" id="publishing-with-geoserver">
-<h3>Publishing with GeoServer<a class="headerlink" href="#publishing-with-geoserver" title="Permalink to this headline">¶</a></h3>
-<p>You can publish the data in the osm schema using GeoServer or
-by publishing a QGIS project that references the data layers in
-the OSM schema.</p>
-<p>The steps for publishing with GeoServer are quite simple:</p>
-<ol>
-<li><p class="first">Log in to GeoServer using the ‘admin’ user and the password in
-.env.</p>
-</li>
-<li><p class="first">Create a new store of type ‘Postgis’ and configure it as per the
-screenshot below, replacing the password with the Postgres password
-stored in .env:</p>
-<p><img alt="Store Creation in GeoServer" src="../_images/geoserver-osm-1.png" /></p>
-<p>Also, be sure to scroll down and set SSL mode to Required:</p>
-<p><img alt="SSL Mode Required" src="../_images/geoserver-osm-5.png" /></p>
-</li>
-<li><p class="first">Register one or more layers from that store as per the image below:</p>
-<p><img alt="Layer Creation in GeoServer" src="../_images/geoserver-osm-2.png" /></p>
-</li>
-</ol>
-<p>4.Complete the layer details as appropriate and make sure to click the options highlighted in red in the screenshot below:</p>
-<p><img alt="Adding a GeoServer WMS layer in QGIS" src="../_images/geoserver-osm-3.png" /></p>
-<ol class="simple">
-<li>Connect to the GeoServer from a client e.g. QGIS using WFS or WMS using the scheme:</li>
-</ol>
-<p>https://example.org/geoserver/SaintLucia/wfs</p>
-<p>or</p>
-<p>https://example.org/geoserver/SaintLucia/wms</p>
-<p><img alt="Layer Details in GeoServer" src="../_images/geoserver-osm-4.png" /></p>
-</div>
-<div class="section" id="publishing-with-qgis-server">
-<h3>Publishing with QGIS Server<a class="headerlink" href="#publishing-with-qgis-server" title="Permalink to this headline">¶</a></h3>
-<p>The workflows described in the section on working with the PostgreSQL database below are basically all you need to know, so we don’t repeat that here, other than to remind you that hte OSM mirrored data is by default stored in a schema called ‘osm’.</p>
-</div>
+<p>To deploy the Docker osm-mirror service, you need to follow the steps described <a class="reference external" href="https://kartoza.github.io/osgs/workflows/create-osm-mirror-in-database.html">here</a>.</p>
 <div class="section" id="osm-attribution">
 <h3>OSM Attribution<a class="headerlink" href="#osm-attribution" title="Permalink to this headline">¶</a></h3>
-<p>Note that whenever you publish a map containing OSM data, be
-careful to adhere to the license and credit the OSM Project as
-per:</p>
+<p>Note that whenever you publish a map containing OSM data, be careful to adhere to the license and credit the OSM Project as per:</p>
 <p>https://www.openstreetmap.org/copyright</p>
 </div>
 </div>
@@ -361,7 +271,7 @@ per:</p>
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"
