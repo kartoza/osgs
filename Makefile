@@ -1886,7 +1886,7 @@ redeploy-mergin-dbsync:
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-dbsync
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-dbsync
 	-@docker rmi mergin_db_sync
-	@git clone git@github.com:lutraconsulting/mergin-db-sync.git --depth=1
+	@git clone https://github.com/lutraconsulting/mergin-db-sync.git --depth=1
 	@cd mergin-db-sync; docker build --no-cache -t mergin_db_sync .; cd ..
 	@rm -rf mergin-db-sync
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-dbsync
