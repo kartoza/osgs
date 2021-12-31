@@ -1831,9 +1831,20 @@ lizmap-shell:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec lizmap sh
 
 
-#----------------- Mergin Client ------------------
+#----------------- Mergin DB Sync ------------------
 
-configure-mergin-client:
+deploy-mergin-dbsync: enable-mergin-dbsync configure-mergin-dbsync redeploy-mergin-dbsync
+
+enable-mergin-dbsync:
+	@make check-env
+	@echo "mergin-dbync" >> enabled-profiles
+
+disable-file-browser:
+	@make check-env
+	# Remove from enabled-profiles
+	@sed -i '/mergin-dbync/d' enabled-profiles
+
+configure-mergin-dbsync:
 	@make check-env
 	@echo "=========================:"
 	@echo "Mergin related configs:"
@@ -1849,67 +1860,64 @@ configure-mergin-client:
 	@read -p "Mergin Database Schema to hold mirror of geopackage): " SCHEMA; \
 	   rpl schematoreceivemergindata $$SCHEMA .env
 
-reinitialise-mergin-client:
+reinitialise-mergin-dbsync:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Deleting mergin database schemas and removing local sync files"
 	@echo "Then restarting the mergin sync service"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-sync
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-dbsync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-dbsync
 	@sudo rm -rf mergin_sync_data/*
 	# Next line allowed to fail
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema qgis_demo cascade;" gis 
 	# Next line allowed to fail
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop schema mergin_sync_base_do_not_touch cascade;" gis 	
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-sync
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-dbsync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-dbsync
 
-redeploy-mergin-client:
+redeploy-mergin-dbsync:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Stopping merging container, rebuilding the image, then restarting mergin db sync"
 	@echo "------------------------------------------------------------------"
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-sync
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-sync
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-dbsync
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-dbsync
 	-@docker rmi mergin_db_sync
 	@git clone git@github.com:lutraconsulting/mergin-db-sync.git --depth=1
 	@cd mergin-db-sync; docker build --no-cache -t mergin_db_sync .; cd ..
 	@rm -rf mergin-db-sync
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-sync
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
-
-
-#----------------- Mergin DB Sync ----------------------
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-dbsync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-dbsync
 
 start-mergin-dbsync:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Starting mergin-db-sync service"
+	@echo "Starting mergin-dbsync service"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-sync
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-dbsync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-dbsync
 
 stop-mergin-dbsync:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Stopping mergin-db-sync service"
+	@echo "Stopping mergin-dbsync service"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-sync
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-dbsync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-dbsync
 
 
 mergin-dbsync-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Polling mergin-db-sync logs"
+	@echo "Polling mergin-dbsync logs"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-sync
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-dbsync
 
 mergin-dbsync-shell:
 	@make check-env
@@ -1917,7 +1925,47 @@ mergin-dbsync-shell:
 	@echo "------------------------------------------------------------------"
 	@echo "Shelling into mergin db sync"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run mergin-sync bash
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run mergin-dbsync bash
+
+
+
+#----------------- Mergin Project Sync ----------------------
+# Will just check out a project and update every interval
+
+start-mergin-project-sync:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting mergin-project-sync service"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mergin-client
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-client
+
+stop-mergin-projectsync:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Stopping mergin-project-sync service"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mergin-client
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mergin-client
+
+
+mergin-project-sync-logs:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Polling mergin-project-sync logs"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mergin-client
+
+mergin-project-shell:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Shelling into mergin project sync"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run mergin-client bash
 
 #----------------- ODM ----------------------
 
