@@ -644,6 +644,10 @@ services:
     profiles: 
       - mapproxy
     env_file: .env
+    # Added this because mapproxy was not resolving my QGIS SServer on its public hostname
+    dns:
+       - 8.8.8.8
+       - 4.4.4.4
     environment:
       - PRODUCTION=false
       - PROCESSES=4
