@@ -64,3 +64,4 @@ conf/mosquitto/start-mosquitto.sh
 conf/mosquitto/mosquitto.conf
 conf/file_browser/database.db
 conf/postgrest/setup.sql
+backups
