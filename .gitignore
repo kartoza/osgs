@@ -65,3 +65,9 @@ conf/mosquitto/mosquitto.conf
 conf/file_browser/database.db
 conf/postgrest/setup.sql
 backups
+conf/mapproxy_conf/base/osgs-osm.yaml
+conf/mapproxy_conf/base/owntracks-today.yaml
+conf/mapproxy_conf/mapproxy.yaml.bak
+mergin-db-sync/
+osgisstack-all-databases.dmp
+
