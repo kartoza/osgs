@@ -196,10 +196,7 @@ services:
      - jupyter_data:/files/jupyter_data
      - geoserver_user_data:/files/geoserver_user_data
      # Mapproxy configs
-     - ./conf/mapproxy_conf/app.py:/files/mapproxy/app.py
-     - ./conf/mapproxy_conf/seed.yaml:/files/mapproxy/seed.yaml
-     - ./conf/mapproxy_conf/mapproxy.yaml:/files/mapproxy/mapproxy.yaml
-     - ./conf/mapproxy_conf/clip:/files/mapproxy/clip
+     - ./conf/mapproxy_conf/:/files/mapproxy
      # Node red data
      - node-red-data:/files/node_red_data
      # PG Service file - take care of permissions to not expose passwords to 
@@ -644,6 +641,7 @@ services:
     profiles: 
       - mapproxy
     env_file: .env
+    user: 1000:1000
     # Added this because mapproxy was not resolving my QGIS SServer on its public hostname
     dns:
        - 8.8.8.8
@@ -659,6 +657,7 @@ services:
       - ./conf/mapproxy_conf/seed.yaml:/mapproxy/seed.yaml
       - ./conf/mapproxy_conf/mapproxy.yaml:/mapproxy/mapproxy.yaml
       - ./conf/mapproxy_conf/clip:/mapproxy/clip
+      - ./conf/mapproxy_conf/base:/mapproxy/base
     networks:
      - os-gis-stack
     logging:
@@ -677,6 +676,11 @@ services:
     image: *mapproxy-image
     profiles: 
       - mapproxy-seed
+    user: 1000:1000
+    # Added this because mapproxy was not resolving my QGIS SServer on its public hostname
+    dns:
+       - 8.8.8.8
+       - 4.4.4.4
     entrypoint: ["mapproxy-seed"]
     command: ["-c", "4", "-s", "/mapproxy/seed.yaml", "-f",  "/mapproxy/mapproxy.yaml"]
     env_file: .env
@@ -691,6 +695,7 @@ services:
       - ./conf/mapproxy_conf/seed.yaml:/mapproxy/seed.yaml
       - ./conf/mapproxy_conf/mapproxy.yaml:/mapproxy/mapproxy.yaml
       - ./conf/mapproxy_conf/clip:/mapproxy/clip
+      - ./conf/mapproxy_conf/base:/mapproxy/base
     networks:
       - os-gis-stack
     logging:

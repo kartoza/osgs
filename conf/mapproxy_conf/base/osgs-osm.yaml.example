@@ -1,0 +1,58 @@
+#
+# This is an example file
+#
+# You will typically make a file like this for each WMS service you want to proxy.
+# After creating the file, add it to the base: list in the mapproxy.yaml
+# 
+# You will need to change the various settings in this file to match your service.
+#
+# If this file is successfully read you should see 
+# something like this in your logs:
+#mapproxy_1                  | [2022-01-03 07:03:49,375] mapproxy.config - INFO - reading: /mapproxy/mapproxy.yaml
+#mapproxy_1                  | [2022-01-03 07:03:49,382] mapproxy.config - INFO - reading: /mapproxy/base/osgs-osm.yaml
+
+layers:
+  # Old layer syntax, deprecated but needed for base merging
+  # See https://github.com/mapproxy/mapproxy/issues/490
+  OSGS-OSM:
+    title: OSGS-OSM
+    sources: [osgs_osm_cache]
+  # New layer syntax
+  #- name: OSGSOSM
+  #  title: OSGSOSM
+  #  sources: [osgs_osm_cache]
+ 
+caches:
+  
+  osgs_osm_cache:
+    sources: [osgs_osm_wms]
+    grids: [osm_grid]
+    meta_size: [16,16]
+    meta_buffer: 200
+    concurrent_tile_creators: 2
+    cache:
+      type: mbtiles
+      filename: osgs_osm.mbtiles
+
+
+sources:
+
+  osgs_osm_wms:
+    coverage:
+      bbox: [-9.575006, 36.948017, -6.172035, 42.154321]
+      bbox_srs: EPSG:4326
+    type: wms
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 20
+    wms_opts:
+      version: 1.3.0
+      featureinfo: True
+    req:
+      # Replace this with a valid URL to your QGIS Server
+      url: https://example.org/ogc/OSGS-OSM
+      layers: OSM
+      transparent: false
+    supported_formats: [png]
+    supported_srs: ['EPSG:3857', 'CRS:84']
+

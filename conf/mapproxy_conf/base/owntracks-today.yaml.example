@@ -1,0 +1,57 @@
+#
+# This is an example file
+#
+# You will typically make a file like this for each WMS service you want to proxy.
+# After creating the file, add it to the base: list in the mapproxy.yaml
+# 
+# You will need to change the various settings in this file to match your service.
+#
+# If this file is successfully read you should see 
+# something like this in your logs:
+#mapproxy_1                  | [2022-01-03 07:03:49,375] mapproxy.config - INFO - reading: /mapproxy/mapproxy.yaml
+#mapproxy_1                  | [2022-01-03 07:03:49,382] mapproxy.config - INFO - reading: /mapproxy/base/owntracks-today.yaml
+
+layers:
+
+  # Old layer syntax, deprecated but needed for base merging
+  # See https://github.com/mapproxy/mapproxy/issues/490
+  OwntracksToday:
+    title: Owntracks Today
+    sources: [owntracks_today_cache]
+  # New layer syntax
+  #- name: OwntracksToday
+  #  title: Owntracks Today
+  #  sources: [owntracks_today_cache]
+
+caches:
+  
+  owntracks_today_cache:
+    sources: [owntracks_today_wms]
+    grids: [osm_grid]
+    meta_size: [5,5]
+    meta_buffer: 20
+    concurrent_tile_creators: 2
+    cache:
+      type: mbtiles
+      filename: owntracks_today.mbtiles
+
+
+sources:
+
+  owntracks_today_wms:
+    coverage:
+      bbox: [-9.575006, 36.948017, -6.172035, 42.154321]
+      bbox_srs: EPSG:4326
+    type: wms
+    image:
+      transparent_color: '#ffffff'
+      transparent_color_tolerance: 20
+    wms_opts:
+      version: 1.3.0
+      featureinfo: True
+    req:
+      url: https://example.org/ogc/OwntracksToday
+      layers: activity
+      transparent: false
+    supported_formats: [png]
+    supported_srs: ['EPSG:3857', 'CRS:84']
