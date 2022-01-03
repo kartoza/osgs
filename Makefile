@@ -591,6 +591,8 @@ configure-mapproxy:
 	@echo "Mapproxy configurations:"
 	@echo "=========================:"
 	@cp conf/mapproxy_conf/mapproxy.yaml.example conf/mapproxy_conf/mapproxy.yaml 
+	@cp conf/mapproxy_conf/base/osgs-osm.yaml.example conf/mapproxy_conf/base/osgs-osm.yaml 
+	@cp conf/mapproxy_conf/base/owntracks-today.yaml.example conf/mapproxy_conf/base/owntracks-today.yaml 
 	@cp conf/mapproxy_conf/seed.yaml.example conf/mapproxy_conf/seed.yaml 
 	@echo "We have created template mapproxy.yaml and seed.yaml"
 	@echo "configuration files in conf/mapproxy_conf."
