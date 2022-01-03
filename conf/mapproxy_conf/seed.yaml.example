@@ -8,8 +8,8 @@
 
 seeds:
 
-  portugal_seed:
-    caches: [portugal_cache]
+  osm_seed:
+    caches: [osgs_osm_cache]
     # grids: []
     # coverages: []
     levels:
