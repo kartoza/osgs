@@ -1,11 +1,11 @@
 # Open Source GIS Stack
 
 ```
-  ___  ___  __ _ ___ 
+  ___  ___  __ _ ___
  / _ \/ __|/ _` / __|
-| (_) \__ \ (_| \__ \ 
+| (_) \__ \ (_| \__ \
  \___/|___/\__, |___/
-           |___/     
+           |___/
 The Open Source GIS Stack
 ```
 
@@ -23,7 +23,7 @@ You can contribute to the documentation by making PRs to `sphinx/source/`
 
 The project roadmap is outlined in the documentation here: https://kartoza.github.io/osgs/roadmap.html
 
-Note that this may have implications on the deployment strategy and implementaiton.
+Note that this may have implications on the deployment strategy and implementation.
 
 ## Quickstart
 
@@ -37,6 +37,12 @@ Basic steps to get OSGS up and running.
 - [docker compose](https://docs.docker.com/compose/) (must install from pip3)
 
 A more complete outline of server configuration is available in the documentation https://kartoza.github.io/osgs/installation/server_preparation.html
+
+### Windows
+
+Note that the stack is designed to be run on linux.
+
+Make is available on Windows using various installation methods, including [chocolatey](https://community.chocolatey.org/packages/make). Whilst it is technically feasible to configure and run the system on Docker for Windows, or using Windows Subsystem for Linux, there have been numerous issues in the past with this approach and it is recommended that the stack is run in a virtual machine when deployed on windows infrastructure.
 
 ### Setup Domain Name
 
@@ -52,13 +58,11 @@ Open your OSGS directory:
 
 If you are going to use a self-signed certificate on a localhost (for testing):
 
-
 ```
 make configure-ssl-self-signed
 ```
 
 If you are going to use a letsencrypt signed certificate on a name host (for production):
-
 
 ```
 make configure-letsencrypt-ssl
@@ -90,7 +94,7 @@ By being opinionated, the stack provides a mechanism for being a "one stop shop"
 
 - Lower barriers to entry for advanced spatial data services
 - Provide a 'click-to-run' experience for supporting spatial infrastructures
-- Simplify configuration and management for complex solutions 
+- Simplify configuration and management for complex solutions
 - Promote the usage and adoption of Open Source GIS tools and platforms
 - Create meaningful blueprints for data lifecycle management and location intelligence solutions
 - Remain flexible while providing sensible default configurations
