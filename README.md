@@ -11,6 +11,19 @@ The Open Source GIS Stack
 
 The Open Source GIS Stack (OSGS) is a rich, integrated, and opinionated GIS Stack with a focus on configurability and ease of use built from Open Source Components.
 
+</br>
+  <a href="https://osgs.kartoza.com/">
+    <div style="display: inline-block;">
+    <img src="https://raw.githubusercontent.com/kartoza/osgs/main/conf/hugo_conf/site_template/static/logos/logo.svg"
+        style="vertical-align:middle; width: 50px; height:50px;" alt="OSGS ICON" />
+        <div style="vertical-align:middle; display:inline; font-size: 2rem; font-weight: bold; margin-left: 16px">
+          VIEW DEMO
+        </div>
+    </div>
+  </a>
+</br>
+</br>
+
 ## Documentation
 
 The documentation site is available at https://kartoza.github.io/osgs/
@@ -92,7 +105,7 @@ The Open Source Geospatial community provides a wide variety of tools suited to 
 
 The OSGS attempts to resolve this by providing an opinionated platform with preconfigured components to provide a number of generic workflows and solutions, whilst providing the flexibility, extensibility, and value benefits of open source.
 
-The advanced confugration management tools also provide a level of granular control for adminsitrators to define exactly which services are desired, with the entire stack designed with ease of use in mind for setup, deployment, and use.
+The advanced configuration management tools also provide a level of granular control for administrators to define exactly which services are desired, with the entire stack designed with ease of use in mind for setup, deployment, and use.
 
 ## Philosophy
 
@@ -119,8 +132,10 @@ OSGS Provides support and integration for a wide variety of services, with a key
 - [QGIS Server](https://docs.qgis.org/latest/en/docs/server_manual/index.html) integration for dynamic spatial data services and WYSIWYG web map service provision
 - [MapProxy](https://mapproxy.org/) for providing metatiling, caching, and additional service provision
 - [Mergin](https://public.cloudmergin.com/) and [Input](https://inputapp.io/) integration for field mapping services
+- [File Browser](https://filebrowser.org/) for simple and interactive data management for remote services
 - [SCP](https://en.wikipedia.org/wiki/Secure_copy_protocol) service for simple and user friendly flat file access that integrates neatly with services
-- [PostgREST](https://postgrest.org/) and [OpenAPI](https://swagger.io/specification/) endpoints to facilitate development
+- [PostgREST](https://postgrest.org/) and [OpenAPI](https://swagger.io/specification/) endpoints to facilitate development and integration
+- [Metabase](https://www.metabase.com/) open source business intelligence tool for visualising and analysing data, which provides some great widgets that integrate into webpages
 
 ### Additional Services
 
@@ -130,7 +145,15 @@ A number of additional value added services are included as well, including, but
 - [Geoserver](http://geoserver.org/)
 - [LizMap](https://www.lizmap.com/)
 - [NodeRed](https://nodered.org/)
+- [Jupyter Notebooks](https://jupyter.org/)
 - [OpenDroneMap](https://www.opendronemap.org/)
+
+### "Plumbing"
+
+Various services also run under the hood to facilitate platform operations and ensure a pleasant user experience. Typically these services are used when debugging issues or for maintenance operations by system administrators, and may include:
+
+- [Hugo Watcher](https://github.com/kartoza/hugo-watcher), a utility that watches for file system changes and triggers a rebuild with the static site builder. [Windows users may encounter some issues with this service](https://github.com/zacharlie/hot-flask#wsl2-docker-file-watching).
+- Mergin components: Mergin is a platform which provides various functions, including access control, data synchronization, versioning, and data management. The server component may be configured to leverage the public mergin cloud service (commercial projects are required to pay a subscription), or a local instance of Mergin may be configured within OSGS (with some caveats). Additionally, the Mergin service includes a client for data synchronization, and the mergin-db-sync client is used to synchronize data between Mergin and a PostgreSQL database.
 
 ## Configuration
 
