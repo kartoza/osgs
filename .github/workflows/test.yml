@@ -1,7 +1,16 @@
 # This is a basic workflow to help you get started with Actions
 
 name: test
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+      - docs
+  pull_request:
+    branches:
+      - main
+      - docs
+
 jobs:
   build:
     runs-on: ubuntu-latest
