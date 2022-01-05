@@ -15,6 +15,7 @@ These components can usually be segregated into three categories:
 - Access
 
 _Basic Spatial Infrastructure component categories:_
+
 ![Core SDI Elements](../img/SpatialDataInfrastructuresOverview-Core.png)
 
 In it's most basic form, GIS could involve access to data using a Desktop GIS to access some data, stored on the local file system. In such an instance, server based services are excluded. Users may also produce map outputs and publish them to a service such as a website.
@@ -28,6 +29,7 @@ Of course the descriptions above are simplistic and are relevant to basic implem
 As the amount of users, available data, applications, or required insights grows, so does the complexity of the system, with real life implementation or practical examples resembling the following illustrating much more closely than the example above.
 
 _Example components in more complex Spatial Infrastructure systems:_
+
 ![SDI Elements](../img/SpatialDataInfrastructuresOverview-Complex.png)
 
 In addition to this, within or between any of these components, additional complexity may be introduced by various operational processes, such as additional analysis, integration, management, auditing, or production of derivative components or products.
@@ -53,6 +55,7 @@ The next step would be to configure the various technologies and components into
 The primary goal of OSGS is to take this (rather complex) step, and reduce it to `git clone https://github.com/kartoza/osgs/` and `make configure`.
 
 _A basic example OSGS implementation:_
+
 ![Basic OSGS Structure](../img/SpatialDataInfrastructuresOverview-OSGS.png)
 
 Of course, under the hood, OSGS is handling a lot of complexity, configuration, and decision making. The illustration below shows the core components of OSGS, and the functionalities they provide across the various categories required to implement and extend a Spatial Infrastructure, along with the application specific attributes or particular areas of interest that applications are intended for use.
@@ -68,6 +71,8 @@ For end users, this complexity is likely overwhelming. That's ok, and it's exact
 The main idea behind OSGS is to take all of this complexity illustrated above, and condense it into application-specific, user-centric workflows and processes.
 
 The following illustration outlines the process behind publication of a map as a service and it's integration into an article on the main site, and the various stack components that are involved.
+
+_Outline of a basic map and article publication workflow:_
 
 ![Basic Process Example](../img/SpatialDataInfrastructuresOverview-BasicProcessExample.png)
 

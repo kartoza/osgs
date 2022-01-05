@@ -1,8 +1,6 @@
 Introduction
 ==============================================
 
-The Open Source GIS Stack (OSGS) is a rich, integrated, and opinionated GIS Stack with a focus on configurability and ease of use built from Open Source Components.
-
 The Open Source GIS Stack by `Kartoza <https://kartoza.com/en/>`_ is maintained in the `Kartoza / osgs <https://github.com/kartoza/osgs>`_ repository.
 
 What is the Open Source GIS Stack?
