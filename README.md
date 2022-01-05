@@ -15,9 +15,9 @@ The Open Source GIS Stack (OSGS) is a rich, integrated, and opinionated GIS Stac
 
 The documentation site is available at https://kartoza.github.io/osgs/
 
-The same content is available as static resources in the docs directory.
+The documentation site content is available as static resources in the `docs` directory.
 
-You can contribute to the documentation by making PRs to `sphinx/source/`
+You can contribute to the documentation by making changes to resources located in `sphinx/source/`.
 
 ## Project Roadmap
 
@@ -28,6 +28,8 @@ Note that this may have implications on the deployment strategy and implementati
 ## Quickstart
 
 Basic steps to get OSGS up and running.
+
+Impatient users can try `make configure-ssl-self-signed` to run through configuration, and `make deploy` to deploy the stack.
 
 ### Prerequisites
 
@@ -50,21 +52,25 @@ Before setting up the project you will need to define a fully qualified domain n
 
 ### Clone Repository
 
-Navigate to or create your relevant content directory, e.g. `/web/`, and clone the repository with `git clone https://github.com/kartoza/osgs`
+Navigate to or create your relevant content directory, e.g. `/web/`, and clone the repository with git:
+
+```bash
+git clone https://github.com/kartoza/osgs
+```
 
 ### Run Installation Wizard
 
-Open your OSGS directory:
+Open your OSGS directory (e.g. `$ cd /web/osgs`) and run the configuration wizard.
 
-If you are going to use a self-signed certificate on a localhost (for testing):
+If you are going to use a self-signed certificate (e.g. on localhost for testing):
 
-```
+```bash
 make configure-ssl-self-signed
 ```
 
-If you are going to use a letsencrypt signed certificate on a name host (for production):
+If you are going to use a letsencrypt signed certificate on a named host (for production servers with a domain name):
 
-```
+```bash
 make configure-letsencrypt-ssl
 ```
 
