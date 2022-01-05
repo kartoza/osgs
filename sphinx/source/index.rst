@@ -29,5 +29,6 @@ The Open Source GIS Stack (OSGS) is a rich, integrated, and opinionated GIS Stac
    services/index.rst
    utilities/index.rst
    workflows/index.rst
+   blueprints/index.rst
    roadmap
 
