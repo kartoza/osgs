@@ -2089,7 +2089,8 @@ get-fonts: ## Download a whole bunch of free fonts so you can use them in your c
 	@cd fonts;wget http://ftp.gnu.org/gnu/freefont/freefont-ttf-20120503.zip
 	@cd fonts;unzip freefont-ttf-20120503.zip; rm freefont-ttf-20120503.zip
 	@cd fonts;find . -name "*.ttf" -exec mv -t . {} +
-	@docker cp fonts osgisstack_scp_1:/home/qgis_fonts/
+	@cd fonts;for FILE in *.ttf; do docker cp $FILE osgisstack_file-browser_1:/files/qgis_fonts/ ; done
+	@rm -rf fonts
 
 vrt-styles:
 	@echo "------------------------------------------------------------------"
