@@ -89,9 +89,9 @@ The advanced confugration management tools also provide a level of granular cont
 By being opinionated, the stack provides a mechanism for being a "one stop shop" for the vast majority of open source spatial system needs. In particular, the stack aims to:
 
 - Lower barriers to entry for advanced spatial data services
-- Provide a 'click-to-run' experience for supporting
+- Provide a 'click-to-run' experience for supporting spatial infrastructures
 - Simplify configuration and management for complex solutions 
-- Promote the usage and adoption of FOSSGIS tools and platforms
+- Promote the usage and adoption of Open Source GIS tools and platforms
 - Create meaningful blueprints for data lifecycle management and location intelligence solutions
 - Remain flexible while providing sensible default configurations
 
