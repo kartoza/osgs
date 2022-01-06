@@ -1,10 +1,10 @@
-# Lizmap - WIP
+# Lizmap - WIP ![WIP](https://img.shields.io/badge/wip-red?style=for-the-badge)
 
 <div class="admonition warning">
 Note - this service is under development and not production ready yet.
 </div>
 
-Lizmap is an open source software designed by 3Liz that allows QGIS® Desktop to create Web map applications. [[1]](#1)  
+Lizmap is an open source software designed by 3Liz that allows QGIS® Desktop to create Web map applications. [<sup>[1]</sup>](#1)
 
 **Project Website:** [Lizmap](https://www.3liz.com/opensource.html#lizmap)
 
@@ -22,20 +22,20 @@ Lizmap is an open source software designed by 3Liz that allows QGIS® Desktop to
 ```
 make deploy-lizmap
 ```
- 
+
 ## Enabling
 
 ```
 make enable-lizmap
 ```
- 
+
 ## Configuration
 
 ```
 make configure-lizmap
 ```
- 
- ## Starting
+
+## Starting
 
 ```
 make start-lizmap
@@ -46,22 +46,24 @@ make start-lizmap
 ```
 make stop-lizmap
 ```
+
 ## Disabling
 
 ```
 make disable-lizmap
 ```
- ## Logs
+
+## Logs
 
 ```
 make lizmap-logs
 ```
 
- ## Shell 
+## Shell
 
- ```
+```
 make lizmap-shell
- ```
+```
 
 ## Accessing the running services
 

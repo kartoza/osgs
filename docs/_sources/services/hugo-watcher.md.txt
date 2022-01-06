@@ -1,6 +1,6 @@
-# Hugo Watcher - PR
+# Hugo Watcher - PR ![PR](https://img.shields.io/badge/pr-green?style=for-the-badge) ![EEK](https://img.shields.io/badge/eek-F9E79F?style=for-the-badge)
 
-Hugo is a static site generator. Hugo builds pages when you create or update your content. Since websites are viewed far more often than they are edited, Hugo is designed to provide an optimal viewing experience for the website’s end users and an ideal writing experience for website authors. [[1]](#1)
+Hugo is a static site generator. Hugo builds pages when you create or update your content. Since websites are viewed far more often than they are edited, Hugo is designed to provide an optimal viewing experience for the website’s end users and an ideal writing experience for website authors. [<sup>[1]</sup>](#1)
 
 The Hugo Watcher service watches for changes in the static content source files of the hugo site and rebuilds the site whenever a source file is changed.
 
@@ -8,7 +8,7 @@ The Hugo Watcher service watches for changes in the static content source files 
 
 **Project Website:** [HUGO](https://gohugo.io/)
 
-**Project Source Repository:**  [gohugoio / hugo](https://github.com/gohugoio/hugo)
+**Project Source Repository:** [gohugoio / hugo](https://github.com/gohugoio/hugo)
 
 **Project Project Technical Documentation:** [Hugo Documentation](https://gohugo.io/documentation/)
 
@@ -34,7 +34,7 @@ make enable-hugo
 make start-hugo
 ```
 
-## Stopping 
+## Stopping
 
 ```
 make stop-hugo
@@ -52,7 +52,7 @@ make disable-hugo
 make hugo-logs
 ```
 
-## Shell 
+## Shell
 
 ```
 make hugo-shell
@@ -73,6 +73,8 @@ make restore-hugo
 ## Accessing the running services
 
 ## Additional Notes
+
+![EEK](https://img.shields.io/badge/eek-F9E79F?style=for-the-badge) Windows users may have issues with the file watcher running on the local file system, even when using virtualization frameworks like CYGWIN, WSL2, or Docker.
 
 ## References
 

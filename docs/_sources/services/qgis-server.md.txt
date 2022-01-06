@@ -1,10 +1,8 @@
-# QGIS Server - PR
+# QGIS Server - PR ![PR](https://img.shields.io/badge/pr-green?style=for-the-badge)
 
-With the QGIS Server service you can publish one or more QGIS projects including:
-    1. Projects stored in-database in PostgreSQL
-    2. Projects stored in the file system
+With the QGIS Server service you can publish one or more QGIS projects including: 1. Projects stored in-database in PostgreSQL 2. Projects stored in the file system
 
-For the QGIS Server, we have chosen the OpenQuake build of QGIS Server because it has a few interesting characteristics. One, is that you can deploy QGIS server-side extensions easily with it and two, is that it supports things like the QGIS Authentication System. The QGIS Authentication System is an authentication database that provides more advanced security options, provides pg_service support, and provides some special features for URL rerouting so that your project paths are hidden away from the user (which is both a security and a convenience concern).  
+For the QGIS Server, we have chosen the OpenQuake build of QGIS Server because it has a few interesting characteristics. One, is that you can deploy QGIS server-side extensions easily with it and two, is that it supports things like the QGIS Authentication System. The QGIS Authentication System is an authentication database that provides more advanced security options, provides pg_service support, and provides some special features for URL rerouting so that your project paths are hidden away from the user (which is both a security and a convenience concern).
 
 The OpenQuake QGIS Server is used for the QGIS Server instance. The OSGS also provides a couple of sample plugins like a demonstrater plugin and a plugin for handling atlas reports. The demonstrater plugin is a modified version of the GetFeatureInfo handler and will return some html back and in a nicely formatted table. The plugin for handling atlas reports, written by Lizmap extends the QGIS getPrint support to allow you to request a specific page from an atlas print. This is pretty handy if you, for example, click on a feature and you want to get then from an atlas report the one page for that feature in the atlas.
 
@@ -20,7 +18,7 @@ The QGIS Server works in orchestration with many of the other containers, includ
 
 **Docker Repository:** [openquake/qgis-server:stable](https://hub.docker.com/r/openquake/qgis-server)
 
-**Docker Source Repository:** [gem / oq-qgis-server](https://github.com/gem/oq-qgis-server) 
+**Docker Source Repository:** [gem / oq-qgis-server](https://github.com/gem/oq-qgis-server)
 
 ## Configuration
 
@@ -32,11 +30,9 @@ The QGIS Server works in orchestration with many of the other containers, includ
 
 ## Accessing the running services
 
-Every project you publish will be available at ```/ogc/project_name``` which makes it very simple to discover where the projects are deployed on the server.
+Every project you publish will be available at `/ogc/project_name` which makes it very simple to discover where the projects are deployed on the server.
 
 ## Additional Notes
-
-
 
 ## Further Reading
 
@@ -58,9 +54,7 @@ docker-compose --profile=qgis-server up -d --scale qgis-server=10 --remove-orpha
 
 ```
 
-
-
-To take advantage of this, the locations/upstreams/qgis-server.conf should have one 
+To take advantage of this, the locations/upstreams/qgis-server.conf should have one
 server reference per instance e.g.
 
 ```
@@ -81,7 +75,6 @@ server reference per instance e.g.
     }
 ```
 
-
 <div class="admonition note">
 Scaling to 10 instances is the default if you launch the QGIS server instance via the Make command.
 </div>
@@ -100,5 +93,3 @@ Finally check the logs of Nginx to make sure things are running right:
 ```
 docker-compose --profile=production logs nginx
 ```
-
-

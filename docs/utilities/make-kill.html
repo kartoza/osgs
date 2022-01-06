@@ -16,6 +16,9 @@
 
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/css.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -32,7 +35,9 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
+    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/js.js"></script>
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
 <link rel="search" title="Search" href="../search.html" />
@@ -134,13 +139,14 @@
       
         
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html#introduction">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../services/index.html#services">Services</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
 </ul>
 
@@ -153,13 +159,14 @@
           <div id="mnav">
             
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html#introduction">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../services/index.html#services">Services</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
 </ul>
 
@@ -186,7 +193,7 @@
 <span class="n">Killing</span> <span class="n">osgisstack_nginx_1</span>        <span class="o">...</span> <span class="n">done</span>
 <span class="n">Killing</span> <span class="n">osgisstack_hugo</span><span class="o">-</span><span class="n">watcher_1</span> <span class="o">...</span> <span class="n">done</span>
 <span class="n">Killing</span> <span class="n">osgisstack_scp_1</span>          <span class="o">...</span> <span class="n">done</span>
-          <span class="mf">0.0</span><span class="o">.</span><span class="mf">0.0</span><span class="p">:</span><span class="mi">2222</span><span class="o">-&gt;</span><span class="mi">22</span><span class="o">/</span><span class="n">tcp</span><span class="p">,:::</span><span class="mi">2222</span><span class="o">-&gt;</span><span class="mi">22</span><span class="o">/</span><span class="n">tcp</span>  
+          <span class="mf">0.0.0.0</span><span class="p">:</span><span class="mi">2222</span><span class="o">-&gt;</span><span class="mi">22</span><span class="o">/</span><span class="n">tcp</span><span class="p">,:::</span><span class="mi">2222</span><span class="o">-&gt;</span><span class="mi">22</span><span class="o">/</span><span class="n">tcp</span>  
 
 </pre></div>
 </div>
@@ -207,7 +214,7 @@
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"
