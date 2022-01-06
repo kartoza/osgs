@@ -10,3 +10,22 @@ img {
 .section p {
   min-width: 100%;
 }
+
+/* Hack for Markdown IMG CSS based on alt content */
+.img-shield,
+img[alt*="PR"],
+img[alt*="production ready"],
+img[alt*="WIP"],
+img[alt*="work in progress"],
+img[alt*="DEP"],
+img[alt*="deprecated"],
+img[alt*="DEL"],
+img[alt*="deleted"],
+img[alt*="EEK"],
+img[alt*="gotchas"] {
+  display: inline;
+  margin-left: none;
+  margin-right: none;
+  text-align: left;
+  align-items: left;
+}

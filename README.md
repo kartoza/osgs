@@ -61,7 +61,7 @@ Make is available on Windows using various installation methods, including [choc
 
 ### Setup Domain Name
 
-Before setting up the project you will need to define a fully qualified domain name ([FQDN](https://en.wikipedia.org/wiki/Fully_qualified_domain_name)) and ensure that the routing is correctly configured for communication with trhe server using that domain name. For local deployments it is recommended that the relevant fqdn is defined in the [hosts file](https://linuxize.com/post/how-to-edit-your-hosts-file/).
+Before setting up the project you will need to define a fully qualified domain name ([FQDN](https://en.wikipedia.org/wiki/Fully_qualified_domain_name)) and ensure that the routing is correctly configured for communication with the server using that domain name. For local deployments it is recommended that the relevant fqdn is defined in the [hosts file](https://linuxize.com/post/how-to-edit-your-hosts-file/).
 
 ### Clone Repository
 

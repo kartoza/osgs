@@ -1,10 +1,10 @@
-# Mergin Server - WIP
+# Mergin Server - WIP ![WIP](https://img.shields.io/badge/wip-red?style=for-the-badge)
 
 <div class="admonition warning">
 Note - this service is under development and not production ready yet.
 </div>
 
-Mergin is a web platform for storage and synchronisation of geospatial projects across multiple users and devices (desktop and mobile).The platform is especially useful when you need: 
+Mergin is a web platform for storage and synchronisation of geospatial projects across multiple users and devices (desktop and mobile).The platform is especially useful when you need:
 
 - **Mobile data collection**. If you need to capture location of assets (and their attributes) or update an existing database.
 
@@ -17,7 +17,7 @@ Mergin is a web platform for storage and synchronisation of geospatial projects 
 - **Audit changes**. Knowing who has changed what and when in a database is often important - Mergin keeps track of the history and allows to go back if needed.
 
 - **No coding required**. Everything can be set up with no knowledge of programming.
-[[1]](#1)
+  [<sup>[1]</sup>](#1)
 
 **Project Website:** [Mergin](https://public.cloudmergin.com/)
 
@@ -53,7 +53,7 @@ make configure-mergin-server
 make start-mergin-server
 ```
 
-## Stopping 
+## Stopping
 
 ```
 make stop-mergin-server
@@ -71,7 +71,7 @@ make disable-mergin-server
 make mergin-server-logs
 ```
 
-## Shell 
+## Shell
 
 ```
 make mergin-server-shell
