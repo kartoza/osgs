@@ -51,6 +51,7 @@ volumes:
   import_queue:
   postgis_data:
   geoserver_data:
+  mapproxy_cache_data:
   mapproxy_data:
   mergin_sync_data:
   osm_import_done:
@@ -196,6 +197,7 @@ services:
      - jupyter_data:/files/jupyter_data
      - geoserver_user_data:/files/geoserver_user_data
      # Mapproxy configs
+     - mapproxy_cache_data/:/files/mapproxy_cache
      - ./conf/mapproxy_conf/:/files/mapproxy
      # Node red data
      - node-red-data:/files/node_red_data
@@ -652,6 +654,7 @@ services:
       - THREADS=10
     user: "1000:1000"
     volumes:
+      - mapproxy_cache_data:/mapproxy/cache_data
       - mapproxy_data:/mapproxy/
       - ./conf/mapproxy_conf/app.py:/mapproxy/app.py
       - ./conf/mapproxy_conf/seed.yaml:/mapproxy/seed.yaml
@@ -690,6 +693,7 @@ services:
       - THREADS=100
     user: "1000:1000"
     volumes:
+      - mapproxy_cache_data:/mapproxy/cache_data
       - mapproxy_data:/mapproxy/
       - ./conf/mapproxy_conf/app.py:/mapproxy/app.py
       - ./conf/mapproxy_conf/seed.yaml:/mapproxy/seed.yaml
