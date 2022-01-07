@@ -52,7 +52,6 @@ volumes:
   postgis_data:
   geoserver_data:
   mapproxy_cache_data:
-  mapproxy_data:
   mergin_sync_data:
   osm_import_done:
   osm_import_queue:
@@ -198,7 +197,7 @@ services:
      - geoserver_user_data:/files/geoserver_user_data
      # Mapproxy configs
      - mapproxy_cache_data/:/files/mapproxy_cache
-     - ./conf/mapproxy_conf/:/files/mapproxy
+     - ./conf/mapproxy_conf/:/files/mapproxy_config
      # Node red data
      - node-red-data:/files/node_red_data
      # PG Service file - take care of permissions to not expose passwords to 
@@ -654,13 +653,8 @@ services:
       - THREADS=10
     user: "1000:1000"
     volumes:
+      - ./conf/mapproxy_conf:/mapproxy
       - mapproxy_cache_data:/mapproxy/cache_data
-      - mapproxy_data:/mapproxy/
-      - ./conf/mapproxy_conf/app.py:/mapproxy/app.py
-      - ./conf/mapproxy_conf/seed.yaml:/mapproxy/seed.yaml
-      - ./conf/mapproxy_conf/mapproxy.yaml:/mapproxy/mapproxy.yaml
-      - ./conf/mapproxy_conf/clip:/mapproxy/clip
-      - ./conf/mapproxy_conf/base:/mapproxy/base
     networks:
      - os-gis-stack
     logging:
@@ -693,13 +687,8 @@ services:
       - THREADS=100
     user: "1000:1000"
     volumes:
+      - ./conf/mapproxy_conf:/mapproxy
       - mapproxy_cache_data:/mapproxy/cache_data
-      - mapproxy_data:/mapproxy/
-      - ./conf/mapproxy_conf/app.py:/mapproxy/app.py
-      - ./conf/mapproxy_conf/seed.yaml:/mapproxy/seed.yaml
-      - ./conf/mapproxy_conf/mapproxy.yaml:/mapproxy/mapproxy.yaml
-      - ./conf/mapproxy_conf/clip:/mapproxy/clip
-      - ./conf/mapproxy_conf/base:/mapproxy/base
     networks:
       - os-gis-stack
     logging:

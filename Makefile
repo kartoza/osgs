@@ -606,6 +606,8 @@ start-mapproxy:
 	@echo "------------------------------------------------------------------"
 	@echo "Starting Mapproxy"
 	@echo "------------------------------------------------------------------"
+	# Nasty hack for permissions issue - see https://github.com/kartoza/docker-mapproxy/issues/16
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/chown --rm -w / -u root mapproxy 1000:1000 /mapproxy/cache_data
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
