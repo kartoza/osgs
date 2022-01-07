@@ -2092,6 +2092,26 @@ get-fonts: ## Download a whole bunch of free fonts so you can use them in your c
 	@cd fonts;for FILE in *.ttf; do docker cp $FILE osgisstack_file-browser_1:/files/qgis_fonts/ ; done
 	@rm -rf fonts
 
+get-here-icons: ## Download a whole bunch of map icons from here maps
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Getting Google apache license and gnu free fonts"
+	@echo "and placing them into the qgis_fonts volume" 
+	@echo "------------------------------------------------------------------"
+	-@rm -rf icons
+	-@mkdir icons
+	@cd icons;wget https://github.com/heremaps/here-icons/archive/refs/heads/master.zip
+	@cd icons;unzip master.zip
+	-@cd icons;for FILE in here-icons-master/icons/*; do mkdir `basename $$FILE`; cp $$FILE/SVG/*.svg `basename $$FILE`;  done
+	-@cd icons;for FILE in here-icons-master/icons/guidance-icons/*; do mkdir guidance-icons/`basename $$FILE`; cp $$FILE/SVG/*.svg guidance-icons/`basename $$FILE`;  done
+	-@cd icons;for FILE in here-icons-master/icons/guidance-icons/lane-assistance/*; do mkdir guidance-icons/lane-assistance/`basename $$FILE`; cp $$FILE/*.svg guidance-icons/lane-assistance/`basename $$FILE`;  done
+	-@cd icons;for FILE in here-icons-master/icons/guidance-icons/lane-assistance/directions/*; do mkdir guidance-icons/lane-assistance/directions/`basename $$FILE`; cp $$FILE/*.svg guidance-icons/lane-assistance/directions/`basename $$FILE`;  done
+	-@cd icons; rm -rf here-icons-master master.zip
+	@docker cp icons osgisstack_file-browser_1:/files/qgis_svg/here
+	@rm -rf icons
+
+
 vrt-styles:
 	@echo "------------------------------------------------------------------"
 	@echo "Checking out Vector Tiles QMLs to qgis-vector-tiles folder"
