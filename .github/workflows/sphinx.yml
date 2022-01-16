@@ -7,13 +7,13 @@ on:
       - main
       - docs
     paths:
-      - sphinx/
+      - 'sphinx/**'
   pull_request:
     branches:
       - main
       - docs
     paths:
-      - sphinx/
+      - 'sphinx/**'
 
 env:
   DEFAULT_BRANCH: "main"
