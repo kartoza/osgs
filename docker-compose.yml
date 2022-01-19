@@ -305,6 +305,7 @@ services:
         - mergin-server
         - dev
         - jupyter
+        - metabase
     volumes:
       # Persistent storage of the database cluster 
       - postgis_data:/var/lib/postgresql
@@ -363,6 +364,8 @@ services:
   metabase:
     image: *metabase-image
     env_file: .env
+    profiles:
+        - metabase
     environment:
       - MB_DB_TYPE=postgres
       - MB_DB_DBNAME=metabase

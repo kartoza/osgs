@@ -1646,7 +1646,10 @@ configure-file-browser:
 	@sudo chown -R 1000:1000 conf/file_browser
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run file-browser config init
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run file-browser config set --branding.name "OSGS File Browser" --branding.files "/conf/branding"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run file-browser users add admin ghjklk
+	@export PASSWD=$$(pwgen 60 1); \
+	   COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run file-browser users add admin $$PASSWD; \
+	   echo "FILEBROWSER_USER=admin" >> .env; \
+	   echo "FILEBROWSER_PASSWORD=$$PASSWD" >> .env
 	@make start-file-browser 
 	@make stop-nginx
 	@make start-nginx
