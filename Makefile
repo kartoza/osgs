@@ -207,6 +207,7 @@ endif
 	@make enable-downloads
 
 #------------------ Nginx ------------------------
+
 start-nginx: ## Start the Nginx docker container.
 	@make check-env
 	@echo
@@ -232,7 +233,6 @@ restart-nginx: ## Restart the Nginx docker container.
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 	make nginx-logs
-
 
 nginx-shell: ## Create an shell in the Nginx docker container for debugging.
 	@make check-env
@@ -274,6 +274,16 @@ stop-hugo: ## Stop the Hugo static content management system.
 	@echo "------------------------------------------------------------------"
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill hugo-watcher
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm hugo-watcher
+
+restart-hugo:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting Hugo"
+	@echo "------------------------------------------------------------------"
+	@make stop-hugo
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d hugo-watcher
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
+	@make hugo-logs
 
 disable-hugo: ## Disable the Hugo static content management system.
 	@cd conf/nginx_conf/locations; rm hugo.conf
@@ -324,6 +334,9 @@ get-hugo-theme:
 	@echo "Getting hugo theme"
 	@echo "------------------------------------------------------------------"
 	@export THEME=clarity; wget -O - https://github.com/gohugoio/hugoThemes | grep '<a data-skip-pjax="true" href="' | grep -o "<span title=\".*\">" | sed 's/<span title="//g' | sed 's/"><a data-skip-pjax="true" href="/ /g' | sed 's/">//g' | sed 's/\/tree\//\/archive\//g' | awk '{print  $1 , "https://github.com"$4".zip" }' > themes.txt ; egrep "${THEME}" themes.txt | awk '{print $2}' | xargs wget -O ${THEME}.zip
+
+restart-hugo:
+
 
 #----------------- GeoServer --------------------------
 
