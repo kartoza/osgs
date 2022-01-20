@@ -1644,6 +1644,7 @@ configure-file-browser:
 	@echo "Setting up password and branding for file-browser"
 	@echo "------------------------------------------------------------------"
 	@sudo chown -R 1000:1000 conf/file_browser
+	@sudo sh -c "cd /var/lib/docker/volumes/osgisstack_hugo_site/; chown -R 1000:1000 _data/; chmod -R ug+rwX _data/; cd _data; ls -lah;"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run file-browser config set --branding.name "OSGS File Browser" --branding.files "/conf/branding"
 	@export PASSWD=$$(pwgen 60 1); \
 	   COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run file-browser users update admin --password $$PASSWD; \
