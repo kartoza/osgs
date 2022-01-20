@@ -335,9 +335,6 @@ get-hugo-theme:
 	@echo "------------------------------------------------------------------"
 	@export THEME=clarity; wget -O - https://github.com/gohugoio/hugoThemes | grep '<a data-skip-pjax="true" href="' | grep -o "<span title=\".*\">" | sed 's/<span title="//g' | sed 's/"><a data-skip-pjax="true" href="/ /g' | sed 's/">//g' | sed 's/\/tree\//\/archive\//g' | awk '{print  $1 , "https://github.com"$4".zip" }' > themes.txt ; egrep "${THEME}" themes.txt | awk '{print $2}' | xargs wget -O ${THEME}.zip
 
-restart-hugo:
-
-
 #----------------- GeoServer --------------------------
 
 deploy-geoserver: enable-geoserver configure-geoserver-passwd start-geoserver ## Deploy the GeoServer service.
