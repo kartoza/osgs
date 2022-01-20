@@ -474,8 +474,6 @@ stop-qgis-desktop:
 
 disable-qgis-desktop:
 	@make check-env
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill qgis-desktop
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm qgis-desktop
 	@cd conf/nginx_conf/locations; rm qgis-desktop.conf
 	#@cd conf/nginx_conf/upstreams; rm qgis-desktop.conf
 	# Remove from enabled-profiles
