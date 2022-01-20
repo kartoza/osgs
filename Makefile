@@ -383,7 +383,6 @@ restart-geoserver:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 	@make geoserver-logs
 
-
 disable-geoserver:
 	@make check-env
 	@cd conf/nginx_conf/locations; rm geoserver.conf
@@ -406,7 +405,6 @@ geoserver-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec geoserver bash
 
-
 #----------------- QGIS Server --------------------------
 
 deploy-qgis-server: enable-qgis-server start-qgis-server
@@ -428,7 +426,6 @@ restart-qgis-server:  ## Stop and restart the QGIS server containers
 	@touch conf/pg_conf/pg_service.conf
 	make stop-qgis-desktop
 	make start-qgis-desktop
-
 
 start-qgis-server:
 	@make check-env
@@ -522,15 +519,15 @@ qgis-desktop-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec qgis-desktop bash
 
-restart-qgis-desktop:stop-qgis-desktop start-qgis-desktop
+restart-qgis-desktop:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restarting QGIS Desktop and Nginx"
+	@echo "Restarting QGIS Desktop"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-desktop 
-
+	@make stop-qgis-desktop
+	@make start-qgis-desktop
+	@make qgis-desktop-logs
 
 #----------------- Mapproxy --------------------------
 
