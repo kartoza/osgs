@@ -281,6 +281,9 @@ restart-hugo:
 	@echo "Restarting Hugo"
 	@echo "------------------------------------------------------------------"
 	@make stop-hugo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting Hugo"
+	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d hugo-watcher
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 	@make hugo-logs
