@@ -696,6 +696,17 @@ stop-postgres:
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill db
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm db
 
+restart-postgres:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting Postgres"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill db
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm db
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d db
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f db
+
 disable-postgres:
 	@make check-env
 	@echo "This is currently a stub"	
@@ -725,18 +736,6 @@ db-psql-shell: ## Create a psql session in the db container connected to the gis
 	@echo "Creating db psql shell"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql gis
-
-
-reinitialise-postgres:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restarting postgres"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill db
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm db
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d db
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f db
 
 backup-db-qgis-styles: ## Backup QGIS Styles in the gis database
 	@make check-env
