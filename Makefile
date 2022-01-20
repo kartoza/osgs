@@ -26,6 +26,7 @@ compose-diagram: ## Generate a diagram of the docker-compose file
 
 backup-everything: ## Sequentially run through all backup scripts
 	@make backup-hugo
+	@make backup-mapproxy
 	-@make backup-db-qgis-styles
 	-@make backup-db-qgis-project
 	@make backup-db
@@ -572,6 +573,18 @@ stop-mapproxy:
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mapproxy
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mapproxy
 
+restart-mapproxy:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting Mapproxy and clearing its cache"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mapproxy
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mapproxy
+	@rm -rf conf/mapproxy_conf/cache_data/*
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mapproxy
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mapproxy
+
 disable-mapproxy:
 	@make check-env
 	@cd conf/nginx_conf/locations; rm mapproxy.conf
@@ -594,18 +607,29 @@ mapproxy-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec mapproxy bash
 
-restart-mapproxy:
+backup-mapproxy:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restarting Mapproxy and clearing its cache"
+	@echo "Backing up Mapproxy configuration files"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mapproxy
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mapproxy
-	@rm -rf conf/mapproxy_conf/cache_data/*
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mapproxy
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mapproxy
+	-@mkdir -p backups
+	@cp conf/mapproxy_conf/mapproxy.yaml backups/mapproxy.yaml
+	@cp backups/mapproxy.yaml backups/mapproxy-$$(date +%Y-%m-%d).yaml
+	@cp conf/mapproxy_conf/seed.yaml backups/seed.yaml 
+	@cp backups/seed.yaml backups/seed-$$(date +%Y-%m-%d).yaml
+	@ls -lah backups/*.yaml
 
+restore-mapproxy:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restoring Mapproxy configuration files"
+	@echo "------------------------------------------------------------------"
+	@echo "This will irrevocably delete your current mapproxy.yaml and seed.yaml Mapproxy configuration files."
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@cp backups/mapproxy.yaml conf/mapproxy_conf/mapproxy.yaml
+	@cp backups/seed.yaml conf/mapproxy_conf/seed.yaml
 
 #----------------- Postgres --------------------------
 
