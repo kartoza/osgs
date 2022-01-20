@@ -527,7 +527,7 @@ configure-mapproxy:
 	@echo "configuration files in conf/mapproxy_conf."
 	@echo "You will need to hand edit those files and then "
 	@echo "restart mapproxy for those edits to take effect."
-	@echo "see: make reinitialise-mapproxy"	
+	@echo "see: make restart-mapproxy"	
 
 start-mapproxy:
 	@make check-env
@@ -570,7 +570,7 @@ mapproxy-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec mapproxy bash
 
-reinitialise-mapproxy:
+restart-mapproxy:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
