@@ -416,17 +416,6 @@ enable-qgis-server:
 	@echo "qgis-server" >> enabled-profiles
 	@touch conf/pg_conf/pg_service.conf
 
-restart-qgis-server:  ## Stop and restart the QGIS server containers
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restarting QGIS Server containers"
-	@echo "------------------------------------------------------------------"
-	# Need to flush this completely for it to work on restart
-	@touch conf/pg_conf/pg_service.conf
-	make stop-qgis-desktop
-	make start-qgis-desktop
-
 start-qgis-server:
 	@make check-env
 	@echo
@@ -444,6 +433,17 @@ stop-qgis-server:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill qgis-server
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm qgis-server
+
+restart-qgis-server:  ## Stop and restart the QGIS server containers
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting QGIS Server containers"
+	@echo "------------------------------------------------------------------"
+	# Need to flush this completely for it to work on restart
+	@touch conf/pg_conf/pg_service.conf
+	make stop-qgis-desktop
+	make start-qgis-desktop
 
 disable-qgis-server:
 	@make check-env
@@ -496,6 +496,16 @@ stop-qgis-desktop:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill qgis-desktop
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm qgis-desktop
 
+restart-qgis-desktop:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting QGIS Desktop"
+	@echo "------------------------------------------------------------------"
+	@make stop-qgis-desktop
+	@make start-qgis-desktop
+	@make qgis-desktop-logs
+
 disable-qgis-desktop:
 	@make check-env
 	@cd conf/nginx_conf/locations; rm qgis-desktop.conf
@@ -518,16 +528,6 @@ qgis-desktop-shell:
 	@echo "Creating QGIS Desktop shell"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec qgis-desktop bash
-
-restart-qgis-desktop:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restarting QGIS Desktop"
-	@echo "------------------------------------------------------------------"
-	@make stop-qgis-desktop
-	@make start-qgis-desktop
-	@make qgis-desktop-logs
 
 #----------------- Mapproxy --------------------------
 
