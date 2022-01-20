@@ -423,8 +423,6 @@ stop-qgis-server:
 
 disable-qgis-server:
 	@make check-env
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill qgis-server
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm qgis-server
 	@cd conf/nginx_conf/locations; rm qgis-server.conf
 	@cd conf/nginx_conf/upstreams; rm qgis-server.conf
 	# Remove from enabled-profiles
