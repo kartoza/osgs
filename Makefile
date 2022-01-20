@@ -325,64 +325,6 @@ get-hugo-theme:
 	@echo "------------------------------------------------------------------"
 	@export THEME=clarity; wget -O - https://github.com/gohugoio/hugoThemes | grep '<a data-skip-pjax="true" href="' | grep -o "<span title=\".*\">" | sed 's/<span title="//g' | sed 's/"><a data-skip-pjax="true" href="/ /g' | sed 's/">//g' | sed 's/\/tree\//\/archive\//g' | awk '{print  $1 , "https://github.com"$4".zip" }' > themes.txt ; egrep "${THEME}" themes.txt | awk '{print $2}' | xargs wget -O ${THEME}.zip
 
-#----------------- SCP --------------------------
-
-deploy-scp: enable-scp configure-scp start-scp ## Deploy the Secure Copy service.
-
-enable-scp: ## Enable the Secure Copy service.
-	@make check-env
-	@echo "scp" >> enabled-profiles
-
-configure-scp: ## Configure the Secure Copy service.
-	@make check-env
-	@echo "------------------------------------------------------------------"
-	@echo "Copying .ssh/authorized keys to all scp shares."
-	@echo "------------------------------------------------------------------"
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/geoserver_data
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_projects
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_fonts
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_svg
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/hugo_static
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/hugo_data
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/odm_data
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/general_data
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/jupyter_data
-
-start-scp: ## Start the Secure Copy service.
-	@make check-env
-	@echo "------------------------------------------------------------------"
-	@echo "Starting SCP"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d scp	
-
-stop-scp: ## Stop the Secure Copy services.
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Stopping SCP"
-	@echo "------------------------------------------------------------------"
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill scp
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm scp
-
-disable-scp: ## Disable the Secure Copy service.
-	# Remove from enabled-profiles
-	@sed -i '/db/d' enabled-profiles
-
-scp-logs: ## Show the logs for the Secure Copy service.
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Polling SCP logs"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f scp
-
-scp-shell: ## Create a shell inside the Secure Copy container for debugging.
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Creating SCP shell"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec scp sh 
-
 #----------------- GeoServer --------------------------
 
 deploy-geoserver: enable-geoserver configure-geoserver-passwd start-geoserver ## Deploy the GeoServer service.
