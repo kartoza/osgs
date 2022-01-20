@@ -367,6 +367,20 @@ stop-geoserver:
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill geoserver
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm geoserver
 
+restart-geoserver:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting GeoServer"
+	@echo "------------------------------------------------------------------"
+	@make stop-geoserver
+	@echo "------------------------------------------------------------------"
+	@echo "Starting GeoServer"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d geoserver
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
+	@make geoserver-logs
+
+
 disable-geoserver:
 	@make check-env
 	@cd conf/nginx_conf/locations; rm geoserver.conf
