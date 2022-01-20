@@ -497,7 +497,7 @@ qgis-desktop-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec qgis-desktop bash
 
-reinitialise-qgis-desktop:stop-qgis-desktop start-qgis-desktop
+restart-qgis-desktop:stop-qgis-desktop start-qgis-desktop
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
