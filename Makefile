@@ -458,7 +458,7 @@ start-qgis-desktop:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Starting QGIS Server"
+	@echo "Starting QGIS Desktop"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d qgis-desktop
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
@@ -467,7 +467,7 @@ stop-qgis-desktop:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Stopping QGIS Server and Nginx"
+	@echo "Stopping QGIS Desktop"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill qgis-desktop
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm qgis-desktop
