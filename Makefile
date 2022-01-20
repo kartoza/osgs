@@ -444,15 +444,6 @@ qgis-server-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec qgis-server bash
 
-reinitialise-qgis-server:rm-qgis-server start-qgis-server
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restarting QGIS Server and Nginx"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-server 
-
 #----------------- QGIS Desktop --------------------------
 
 deploy-qgis-desktop: enable-qgis-desktop start-qgis-desktop  ## Run QGIS Desktop in your web browser
