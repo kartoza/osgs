@@ -200,6 +200,13 @@ wg
 
 ## Allow incoming SSH only from the VPN
 
+First make sure ssh is running and configured to run on system start:
+```
+systemctl enable ssh
+systemctl start ssh
+systemctl status ssh
+```
+
 As indicated above, do:
 
 ```
