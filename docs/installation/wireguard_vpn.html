@@ -16,6 +16,9 @@
 
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/css.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -32,7 +35,9 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
+    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/js.js"></script>
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
 <link rel="search" title="Search" href="../search.html" />
@@ -134,13 +139,14 @@
       
         
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../services/index.html">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
 </ul>
 
@@ -153,13 +159,14 @@
           <div id="mnav">
             
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../services/index.html">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
 </ul>
 
@@ -226,7 +233,7 @@ to be used for.</p>
 <span class="c1">## Set Up WireGuard VPN on Ubuntu By Editing/Creating wg0.conf File ##</span>
 <span class="p">[</span><span class="n">Interface</span><span class="p">]</span>
 <span class="c1">## My VPN server private IP address ##</span>
-<span class="n">Address</span> <span class="o">=</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.1</span><span class="o">/</span><span class="mi">24</span>
+<span class="n">Address</span> <span class="o">=</span> <span class="mf">192.168.7.1</span><span class="o">/</span><span class="mi">24</span>
  
 <span class="c1">## My VPN server port ##</span>
 <span class="n">ListenPort</span> <span class="o">=</span> <span class="mi">41194</span>
@@ -248,7 +255,7 @@ to be used for.</p>
 <span class="n">PublicKey</span> <span class="o">=</span> <span class="n">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
  
 <span class="c1">## client VPN IP address (note  the /32 subnet) ##</span>
-<span class="n">AllowedIPs</span> <span class="o">=</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.2</span><span class="o">/</span><span class="mi">32</span>
+<span class="n">AllowedIPs</span> <span class="o">=</span> <span class="mf">192.168.7.2</span><span class="o">/</span><span class="mi">32</span>
 
 </pre></div>
 </div>
@@ -287,12 +294,12 @@ only and not to each other.</p>
 </pre></div>
 </div>
 <p>Allow ssh connections originating from within the VPN</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">22</span> <span class="n">proto</span> <span class="n">tcp</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">22</span> <span class="n">proto</span> <span class="n">tcp</span>
 </pre></div>
 </div>
 <p>For the same for each port that you want to be accessible only via the VPN e.g.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">5432</span> <span class="n">proto</span> <span class="n">tcp</span>
-<span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">8883</span> <span class="n">proto</span> <span class="n">tcp</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">5432</span> <span class="n">proto</span> <span class="n">tcp</span>
+<span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">8883</span> <span class="n">proto</span> <span class="n">tcp</span>
 </pre></div>
 </div>
 <p>Would allow Postgres connections (5432) and Mosquitto (8883) over the VPN only.</p>
@@ -305,9 +312,9 @@ only and not to each other.</p>
 <span class="p">[</span> <span class="mi">1</span><span class="p">]</span> <span class="mi">80</span>                         <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="n">Anywhere</span>                  
 <span class="p">[</span> <span class="mi">2</span><span class="p">]</span> <span class="mi">443</span>                        <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="n">Anywhere</span>                  
 <span class="p">[</span> <span class="mi">3</span><span class="p">]</span> <span class="mi">41194</span><span class="o">/</span><span class="n">udp</span>                  <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="n">Anywhere</span>                  
-<span class="p">[</span> <span class="mi">4</span><span class="p">]</span> <span class="mi">22</span><span class="o">/</span><span class="n">tcp</span>                     <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span>            
-<span class="p">[</span> <span class="mi">5</span><span class="p">]</span> <span class="mi">5432</span><span class="o">/</span><span class="n">tcp</span>                   <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span>            
-<span class="p">[</span> <span class="mi">6</span><span class="p">]</span> <span class="mi">8883</span><span class="o">/</span><span class="n">tcp</span>                   <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span> 
+<span class="p">[</span> <span class="mi">4</span><span class="p">]</span> <span class="mi">22</span><span class="o">/</span><span class="n">tcp</span>                     <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span>            
+<span class="p">[</span> <span class="mi">5</span><span class="p">]</span> <span class="mi">5432</span><span class="o">/</span><span class="n">tcp</span>                   <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span>            
+<span class="p">[</span> <span class="mi">6</span><span class="p">]</span> <span class="mi">8883</span><span class="o">/</span><span class="n">tcp</span>                   <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span> 
 </pre></div>
 </div>
 <p>i.e. only web and vpn traffic are publicly accessible and other services and ports need to
@@ -329,13 +336,13 @@ be accessed from within the VPN.</p>
 <div class="section" id="allow-incoming-ssh-only-from-the-vpn">
 <h2>Allow incoming SSH only from the VPN<a class="headerlink" href="#allow-incoming-ssh-only-from-the-vpn" title="Permalink to this headline">¶</a></h2>
 <p>As indicated above, do:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">6.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">22</span> <span class="n">proto</span> <span class="n">tcp</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168.6.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">22</span> <span class="n">proto</span> <span class="n">tcp</span>
 </pre></div>
 </div>
 <p>Also update your sshd to listen only on the wg interface</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Changed by Tim to listen on wireguard interface only</span>
 <span class="c1"># Change XXX to your IP</span>
-<span class="n">ListenAddress</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.</span><span class="n">XXX</span>
+<span class="n">ListenAddress</span> <span class="mf">192.168.7</span><span class="o">.</span><span class="n">XXX</span>
 <span class="c1"># Disabled by Tim</span>
 <span class="n">PermitRootLogin</span> <span class="n">no</span>
 <span class="n">PasswordAuthentication</span> <span class="n">no</span>
@@ -384,7 +391,7 @@ Make sure to allocate a unique IP for it:</p>
 <span class="n">PublicKey</span> <span class="o">=</span> <span class="n">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
 
 <span class="c1">## client VPN IP address (note  the /32 subnet) ##</span>
-<span class="n">AllowedIPs</span> <span class="o">=</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.2</span><span class="o">/</span><span class="mi">32</span>
+<span class="n">AllowedIPs</span> <span class="o">=</span> <span class="mf">192.168.7.2</span><span class="o">/</span><span class="mi">32</span>
 
 </pre></div>
 </div>
@@ -400,7 +407,7 @@ Make sure to allocate a unique IP for it:</p>
 <span class="c1">## Client ip address ##</span>
 
 <span class="c1"># Replace .2 with your allocated ip address!</span>
-<span class="n">Address</span> <span class="o">=</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.2</span><span class="o">/</span><span class="mi">24</span>
+<span class="n">Address</span> <span class="o">=</span> <span class="mf">192.168.7.2</span><span class="o">/</span><span class="mi">24</span>
 
 
 <span class="p">[</span><span class="n">Peer</span><span class="p">]</span>
@@ -408,7 +415,7 @@ Make sure to allocate a unique IP for it:</p>
 <span class="n">PublicKey</span> <span class="o">=</span> <span class="n">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
 
 <span class="c1">## set ACL ##</span>
-<span class="n">AllowedIPs</span> <span class="o">=</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span>
+<span class="n">AllowedIPs</span> <span class="o">=</span> <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span>
 
 <span class="c1">## Server&#39;s public IPv4/IPv6 address and port ##</span>
 <span class="n">Endpoint</span> <span class="o">=</span> <span class="n">XX</span><span class="o">.</span><span class="n">YY</span><span class="o">.</span><span class="n">ZZ</span><span class="o">.</span><span class="n">AA</span><span class="p">:</span><span class="mi">41194</span>
@@ -444,7 +451,7 @@ Make sure to allocate a unique IP for it:</p>
 
 <span class="n">peer</span><span class="p">:</span> <span class="n">IdLyVLa0htZ82EKYWM9sXjB5ST15O3U5yYbNW</span><span class="o">+</span><span class="mi">3</span><span class="n">XOQY</span><span class="o">=</span>
   <span class="n">endpoint</span><span class="p">:</span> <span class="n">XX</span><span class="o">.</span><span class="n">YY</span><span class="o">.</span><span class="n">ZZ</span><span class="o">.</span><span class="n">AA</span><span class="p">:</span><span class="mi">41194</span>
-  <span class="n">allowed</span> <span class="n">ips</span><span class="p">:</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span>
+  <span class="n">allowed</span> <span class="n">ips</span><span class="p">:</span> <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span>
   <span class="n">transfer</span><span class="p">:</span> <span class="mi">0</span> <span class="n">B</span> <span class="n">received</span><span class="p">,</span> <span class="mi">296</span> <span class="n">B</span> <span class="n">sent</span>
   <span class="n">persistent</span> <span class="n">keepalive</span><span class="p">:</span> <span class="n">every</span> <span class="mi">15</span> <span class="n">seconds</span>
 </pre></div>
@@ -470,7 +477,7 @@ attempts from the wider internet.</p>
 </div>
 <p>Changed these (add them to the end of the file):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Changed by Tim to listen on wireguard interface only</span>
-<span class="n">ListenAddress</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.1</span>
+<span class="n">ListenAddress</span> <span class="mf">192.168.7.1</span>
 <span class="c1"># Disabled by Tim (should already be done in server_preparation step)</span>
 <span class="n">PermitRootLogin</span> <span class="n">no</span>
 <span class="n">PasswordAuthentication</span> <span class="n">no</span>
@@ -498,7 +505,7 @@ attempts from the wider internet.</p>
 <span class="n">To</span>                         <span class="n">Action</span>      <span class="n">From</span>
 <span class="o">--</span>                         <span class="o">------</span>      <span class="o">----</span>
 <span class="mi">41194</span><span class="o">/</span><span class="n">udp</span>                  <span class="n">ALLOW</span>       <span class="n">Anywhere</span>                  
-<span class="mi">22</span><span class="o">/</span><span class="n">tcp</span>                     <span class="n">ALLOW</span>       <span class="mf">192.168</span><span class="o">.</span><span class="mf">7.0</span><span class="o">/</span><span class="mi">24</span>            
+<span class="mi">22</span><span class="o">/</span><span class="n">tcp</span>                     <span class="n">ALLOW</span>       <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span>            
 <span class="mi">41194</span><span class="o">/</span><span class="n">udp</span> <span class="p">(</span><span class="n">v6</span><span class="p">)</span>             <span class="n">ALLOW</span>       <span class="n">Anywhere</span> <span class="p">(</span><span class="n">v6</span><span class="p">)</span>             
 </pre></div>
 </div>
@@ -517,7 +524,7 @@ attempts from the wider internet.</p>
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"

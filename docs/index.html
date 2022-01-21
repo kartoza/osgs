@@ -16,6 +16,9 @@
 
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/css/css.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -32,11 +35,13 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
+    <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/js/js.js"></script>
       <script src="app-data.js"></script>
 <link rel="index" title="Index" href="genindex.html" />
 <link rel="search" title="Search" href="search.html" />
-<link rel="next" title="Introduction" href="introduction.html" />
+<link rel="next" title="Introduction" href="introduction/index.html" />
 
 </head>
 <body class="full-height test">
@@ -78,7 +83,7 @@
   <div class="prev-next">
     
       <div class="pull-right">
-        <a class="btn btn-default next" href="introduction.html" title="Next chapter (Introduction)"><span class="btn-text">Introduction</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
+        <a class="btn btn-default next" href="introduction/index.html" title="Next chapter (Introduction)"><span class="btn-text">Introduction</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
       </div>
     </div>
   
@@ -91,7 +96,7 @@
 
 
 
-        <a href="introduction.html"><i class="fa fa-chevron-right"></i></a>
+        <a href="introduction/index.html"><i class="fa fa-chevron-right"></i></a>
 
       </div>
     </div>
@@ -125,13 +130,14 @@
       
         
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/index.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="services/index.html">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflows/index.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blueprints/index.html">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">OSGS Roadmap</a></li>
 </ul>
 
@@ -144,13 +150,14 @@
           <div id="mnav">
             
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/index.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="services/index.html">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflows/index.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blueprints/index.html">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">OSGS Roadmap</a></li>
 </ul>
 
@@ -162,15 +169,16 @@
 <h1>OSGS<a class="headerlink" href="#osgs" title="Permalink to this headline">¶</a></h1>
 <p>Welcome to the Open Source Geospatial Stack!</p>
 <a class="reference internal image-reference" href="_images/OSGS-Logo.png"><img alt="alternate text" class="align-center" src="_images/OSGS-Logo.png" style="width: 703.0px; height: 324.0px;" /></a>
-<p>In the open source geospatial world, there are different interesting technologies that have been developed to allow one to manipulate, visualize, publish, manage, edit, etc. geospatial data. These technologies are often in disparate projects. Programs like the QGIS project, are often ensemble applications that take some of these different technologies as components and use them to provide some higher level functionality. In some cases the integration is in silos or vertical applications, for example QGIS, PostGIS, Geoserver, etc. The aim of this project is to take a number of those different silos and incoporate them into a single platform, therefore making it really easy to access and publish the different types of services that are easily available on their own but not so easily available in a consolidated platform.</p>
+<p>The Open Source GIS Stack (OSGS) is a rich, integrated, and opinionated GIS Stack with a focus on configurability and ease of use built from Open Source Components.</p>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/index.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="services/index.html">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflows/index.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blueprints/index.html">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">OSGS Roadmap</a></li>
 </ul>
 </div>
@@ -186,7 +194,7 @@
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"

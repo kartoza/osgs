@@ -16,6 +16,9 @@
 
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/css.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -32,7 +35,9 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
+    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/js.js"></script>
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
 <link rel="search" title="Search" href="../search.html" />
@@ -57,7 +62,7 @@
       </div>
       <div id="hdr-centre" class="text-center stretch">
         <h3 title="GeoServer - PR">GeoServer - PR</h3>
-        <h6>GeoServer - PR</h6>
+        <h6>GeoServer - PR </h6>
       </div>
       <div id="hdr-search">
         
@@ -134,14 +139,15 @@
       
         
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html">Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
 </ul>
 
   
@@ -153,23 +159,24 @@
           <div id="mnav">
             
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html">Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
 </ul>
 
   
           </div>
           <div class="body">
             
-  <div class="tex2jax_ignore mathjax_ignore section" id="geoserver-pr">
-<h1>GeoServer - PR<a class="headerlink" href="#geoserver-pr" title="Permalink to this headline">¶</a></h1>
-<p>GeoServer is a Java-based server, built on <a class="reference external" href="https://geotools.org/">GeoTools</a>,  that allows users to view and edit geospatial data, using the open standards set forth by the <a class="reference external" href="http://www.opengeospatial.org/">Open Geospatial Consortium (OGC)</a>. By implementing the <a class="reference external" href="https://www.ogc.org/standards/wms">Web Map Service (WMS)</a> standard, GeoServer can create maps in a variety of output formats. GeoServer also conforms to the <a class="reference external" href="https://www.ogc.org/standards/wfs">Web Feature Service (WFS)</a> standard, and <a class="reference external" href="https://www.ogc.org/standards/wcs">Web Coverage Service (WCS)</a> standard which permits the sharing and editing of the data that is used to generate the maps. GeoServer also uses the <a class="reference external" href="https://www.ogc.org/standards/wmts">Web Map Tile Service</a> standard to split your published maps into tiles for ease of use by web mapping and mobile applications.  <a class="reference external" href="https://openlayers.org/">OpenLayers</a>, a free mapping library, is integrated into GeoServer, making map generation quick and easy. GeoServer is a modular application with additional functionality added via extensions.<a class="reference external" href="#1">[1]</a></p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="geoserver-pr-pr">
+<h1>GeoServer - PR <img alt="PR" src="https://img.shields.io/badge/pr-green?style=for-the-badge" /><a class="headerlink" href="#geoserver-pr-pr" title="Permalink to this headline">¶</a></h1>
+<p>GeoServer is a Java-based server, built on <a class="reference external" href="https://geotools.org/">GeoTools</a>, that allows users to view and edit geospatial data, using the open standards set forth by the <a class="reference external" href="http://www.opengeospatial.org/">Open Geospatial Consortium (OGC)</a>. By implementing the <a class="reference external" href="https://www.ogc.org/standards/wms">Web Map Service (WMS)</a> standard, GeoServer can create maps in a variety of output formats. GeoServer also conforms to the <a class="reference external" href="https://www.ogc.org/standards/wfs">Web Feature Service (WFS)</a> standard, and <a class="reference external" href="https://www.ogc.org/standards/wcs">Web Coverage Service (WCS)</a> standard which permits the sharing and editing of the data that is used to generate the maps. GeoServer also uses the <a class="reference external" href="https://www.ogc.org/standards/wmts">Web Map Tile Service</a> standard to split your published maps into tiles for ease of use by web mapping and mobile applications. <a class="reference external" href="https://openlayers.org/">OpenLayers</a>, a free mapping library, is integrated into GeoServer, making map generation quick and easy. GeoServer is a modular application with additional functionality added via extensions.<a class="reference external" href="#1"><sup>[1]</sup></a></p>
 <p><strong>Service name:</strong> geoserver</p>
 <p><strong>Project Website:</strong> <a class="reference external" href="http://geoserver.org/">GeoServer</a></p>
 <p><strong>Project Source Repository:</strong> <a class="reference external" href="https://github.com/geoserver/geoserver">geoserver / geoserver</a></p>
@@ -251,7 +258,7 @@ https://docs.geoserver.geo-solutions.it/edu/en/security/security_overview.html#t
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"

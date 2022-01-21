@@ -1,4 +1,4 @@
-# Mergin Client - WIP
+# Mergin Client - WIP ![WIP](https://img.shields.io/badge/wip-red?style=for-the-badge)
 
 <div class="admonition warning">
 Note - this service is under development and not production ready yet.
@@ -37,7 +37,7 @@ make configure-mergin-client
 make reinitialise-mergin-client
 ```
 
-## Redeploying 
+## Redeploying
 
 ```
 make redeploy-mergin-client
@@ -52,20 +52,20 @@ For field data collection and project synchronisation support see the following:
 1. The [Mergin](https://public.cloudmergin.com/#) platform for cloud storage of projects
 2. The [INPUT](https://inputapp.io/en/) mobile data collection platform
 
-You use the Mergin client to clone one or more Mergin projects to the host running  docker-compose and these projects are made available through QGIS Server.
+You use the Mergin client to clone one or more Mergin projects to the host running docker-compose and these projects are made available through QGIS Server.
 
 One critical note is that the Project directory and the Project File names must be the same, otherwise QGIS Server will not recognize the project as being valid. For example:
 
-* Valid: ``FooProject/FooProject.qgz``
-* Not Valid: ``FooProject/BarProject.qgz``
+- Valid: `FooProject/FooProject.qgz`
+- Not Valid: `FooProject/BarProject.qgz`
 
 Once published in this way, valid projects will be accessible from any OGC compliant
 client (e.g. QGIS Desktop, OpenLayers, Leaflet) using the following URL Scheme:
 
-``https://yourhost.com/ogc/yourproject``
+`https://yourhost.com/ogc/yourproject`
 
 For example, here is one we published for a client (domain name changed):
 
-``https://example.org/ogc/Elevation``
+`https://example.org/ogc/Elevation`
 
 You can read more about the mergin-client at the separate git repo [here](https://github.com/kartoza/mergin-client).

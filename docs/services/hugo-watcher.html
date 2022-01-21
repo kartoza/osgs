@@ -16,6 +16,9 @@
 
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/css.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -32,12 +35,14 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
+    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/js.js"></script>
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
 <link rel="search" title="Search" href="../search.html" />
 <link rel="next" title="Postgres and PostGIS - PR" href="postgres.html" />
-<link rel="prev" title="File Browser" href="filebrowser.html" />
+<link rel="prev" title="File Browser - PR" href="filebrowser.html" />
 
 </head>
 <body class="full-height test">
@@ -57,7 +62,7 @@
       </div>
       <div id="hdr-centre" class="text-center stretch">
         <h3 title="Hugo Watcher - PR">Hugo Watcher - PR</h3>
-        <h6>Hugo Watcher - PR</h6>
+        <h6>Hugo Watcher - PR  </h6>
       </div>
       <div id="hdr-search">
         
@@ -79,7 +84,7 @@
   <div class="prev-next">
     
       <div class="pull-left">
-        <a class="btn btn-default prev" href="filebrowser.html" title="Previous chapter (File Browser)"><i class="fa fa-chevron-left mr-1em" aria-hidden="true"></i><span class="btn-text">File Browser</span></a>
+        <a class="btn btn-default prev" href="filebrowser.html" title="Previous chapter (File Browser - PR)"><i class="fa fa-chevron-left mr-1em" aria-hidden="true"></i><span class="btn-text">File Browser - PR</span></a>
       </div>
     
       <div class="pull-right">
@@ -134,14 +139,15 @@
       
         
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html">Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
 </ul>
 
   
@@ -153,27 +159,28 @@
           <div id="mnav">
             
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html">Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
 </ul>
 
   
           </div>
           <div class="body">
             
-  <div class="tex2jax_ignore mathjax_ignore section" id="hugo-watcher-pr">
-<h1>Hugo Watcher - PR<a class="headerlink" href="#hugo-watcher-pr" title="Permalink to this headline">¶</a></h1>
-<p>Hugo is a static site generator. Hugo builds pages when you create or update your content. Since websites are viewed far more often than they are edited, Hugo is designed to provide an optimal viewing experience for the website’s end users and an ideal writing experience for website authors. <a class="reference external" href="#1">[1]</a></p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="hugo-watcher-pr-pr-eek">
+<h1>Hugo Watcher - PR <img alt="PR" src="https://img.shields.io/badge/pr-green?style=for-the-badge" /> <img alt="EEK" src="https://img.shields.io/badge/eek-F9E79F?style=for-the-badge" /><a class="headerlink" href="#hugo-watcher-pr-pr-eek" title="Permalink to this headline">¶</a></h1>
+<p>Hugo is a static site generator. Hugo builds pages when you create or update your content. Since websites are viewed far more often than they are edited, Hugo is designed to provide an optimal viewing experience for the website’s end users and an ideal writing experience for website authors. <a class="reference external" href="#1"><sup>[1]</sup></a></p>
 <p>The Hugo Watcher service watches for changes in the static content source files of the hugo site and rebuilds the site whenever a source file is changed.</p>
 <p><strong>Service name:</strong> hugo-watcher</p>
 <p><strong>Project Website:</strong> <a class="reference external" href="https://gohugo.io/">HUGO</a></p>
-<p><strong>Project Source Repository:</strong>  <a class="reference external" href="https://github.com/gohugoio/hugo">gohugoio / hugo</a></p>
+<p><strong>Project Source Repository:</strong> <a class="reference external" href="https://github.com/gohugoio/hugo">gohugoio / hugo</a></p>
 <p><strong>Project Project Technical Documentation:</strong> <a class="reference external" href="https://gohugo.io/documentation/">Hugo Documentation</a></p>
 <p><strong>Docker Repository:</strong> <a class="reference external" href="https://hub.docker.com/r/kartoza/hugo-watcher">kartoza/hugo-watcher</a></p>
 <p><strong>Docker Source Repository:</strong> <a class="reference external" href="https://github.com/kartoza/hugo-watcher">kartoza / hugo-watcher</a></p>
@@ -236,6 +243,7 @@
 </div>
 <div class="section" id="additional-notes">
 <h2>Additional Notes<a class="headerlink" href="#additional-notes" title="Permalink to this headline">¶</a></h2>
+<p><img alt="EEK" src="https://img.shields.io/badge/eek-F9E79F?style=for-the-badge" /> Windows users may have issues with the file watcher running on the local file system, even when using virtualization frameworks like CYGWIN, WSL2, or Docker.</p>
 </div>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
@@ -253,7 +261,7 @@
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"

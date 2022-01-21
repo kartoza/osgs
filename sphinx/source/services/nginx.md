@@ -1,4 +1,4 @@
-# Nginx - PR
+# Nginx - PR ![PR](https://img.shields.io/badge/pr-green?style=for-the-badge)
 
 Nginx is a lightweight web server acting as a proxy in front of QGIS server, and as a server for the static HTML content.
 
