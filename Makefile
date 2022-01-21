@@ -68,7 +68,7 @@ ps: ## List all running docker contains
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose ps
 
 
-deploy: configure ## Deploy the initial stack including nginx, scp and hugo-watcher
+deploy: configure ## Deploy the initial stack including nginx and hugo-watcher
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting basic nginx site"
@@ -121,8 +121,7 @@ configure-ssl-self-signed: disable-all-services prepare-templates ## Create a se
 	@openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./certbot/certbot/conf/nginx-selfsigned.key -out ./certbot/certbot/conf/nginx-selfsigned.crt
 	@cp conf/nginx_conf/ssl/certificates.conf.selfsigned.example conf/nginx_conf/ssl/ssl.conf
 	make site-config 
-	make enable-hugo 
-	make configure-scp 
+	make enable-hugo  
 	make configure-htpasswd 
 	make deploy 
 	#@rpl "BEGIN CERTIFICATE" "BEGIN TRUSTED CERTIFICATE" ./certbot/certbot/conf/nginx-selfsigned.crt
