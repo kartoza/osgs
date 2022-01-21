@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>OSGS - Node-red workflow that accesses data in Postgres - TODO</title>
+<title>OSGS - Node-red workflow that accesses data in Postgres</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous"/>
@@ -61,8 +61,8 @@
 
       </div>
       <div id="hdr-centre" class="text-center stretch">
-        <h3 title="Node-red workflow that accesses data in Postgres - TODO">Node-red workflow that accesses data in Postgres - TODO</h3>
-        <h6>Node-red workflow that accesses data in Postgres - TODO</h6>
+        <h3 title="Node-red workflow that accesses data in Postgres">Node-red workflow that accesses data in Postgres</h3>
+        <h6>Node-red workflow that accesses data in Postgres</h6>
       </div>
       <div id="hdr-search">
         
@@ -174,9 +174,152 @@
           </div>
           <div class="body">
             
-  <div class="tex2jax_ignore mathjax_ignore section" id="node-red-workflow-that-accesses-data-in-postgres-todo">
-<h1>Node-red workflow that accesses data in Postgres - TODO<a class="headerlink" href="#node-red-workflow-that-accesses-data-in-postgres-todo" title="Permalink to this headline">¶</a></h1>
-<p>This is a simple workflow where you connect to a table in Postgres, select all the rows in the table and put them into a table in a dashboard in node red.</p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="node-red-workflow-that-accesses-data-in-postgres">
+<h1>Node-red workflow that accesses data in Postgres<a class="headerlink" href="#node-red-workflow-that-accesses-data-in-postgres" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="deploy-the-node-red-service">
+<h2>Deploy the Node-red service<a class="headerlink" href="#deploy-the-node-red-service" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="deploy-the-nginx-and-hugo-watcher-services">
+<h3>Deploy the Nginx and Hugo Watcher services<a class="headerlink" href="#deploy-the-nginx-and-hugo-watcher-services" title="Permalink to this headline">¶</a></h3>
+<p>To deploy the initial stack, which includes the  Nginx and Hugo Watcher services, please run either  <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> or <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code>.</p>
+</div>
+<div class="section" id="deploy-the-postgres-and-postgis-service">
+<h3>Deploy the Postgres and PostGIS service<a class="headerlink" href="#deploy-the-postgres-and-postgis-service" title="Permalink to this headline">¶</a></h3>
+<p>Next, deploy the Postgres and PostGIS service using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-postgres</span></code>. If you already have PostgreSQL already installed outside of the stack on your local machine, ensure that you specify a different Postgis Public Port number other than the default port, 5432. For example, you can use the port 5434.</p>
+</div>
+<div class="section" id="import-the-node-red-example-data-into-the-gis-database">
+<h3>Import the Node-RED example data into the gis database<a class="headerlink" href="#import-the-node-red-example-data-into-the-gis-database" title="Permalink to this headline">¶</a></h3>
+<p>In this workflow we will be creating a flow that connects to a table in Postgres, selects all the rows in the table and puts them into a table in a dashboard in Node-RED.</p>
+<p>The data we will be using in this workflow is day time temperature forecast data for Nairobi, Kenya from <a class="reference external" href="https://openweathermap.org/">OpenWeatherMap</a>. To import the example data into the gis database, run the following command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">add-node-red-example-data</span></code>. To verify that the data has been imported, create a psql shell using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">db-psql-shell</span></code> and run <code class="docutils literal notranslate"><span class="pre">\dn;</span></code> in the psql shell. The <code class="docutils literal notranslate"><span class="pre">gis</span></code> database should now contain the <code class="docutils literal notranslate"><span class="pre">weather-data-schema</span></code> and the <code class="docutils literal notranslate"><span class="pre">world_air_quality_schema</span></code> schemas as seen below:</p>
+<p><img alt="Node-RED Example Data Schemas" src="../_images/node-red-postgres-table-1.png" /></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">weather_data_schema</span></code> should contain the following tables:</p>
+<p><img alt="Node-RED Example Data Weather Tables" src="../_images/node-red-postgres-table-2.png" /></p>
+</div>
+<div class="section" id="id1">
+<h3>Deploy the Node-RED Service<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Deploy the Node-RED service using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-node-red</span></code>. To add the <code class="docutils literal notranslate"><span class="pre">node-red-contrib-postgres-multi</span></code> package to Node-RED, run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-node-red-patch</span></code> then restart the service using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">restart-node-red</span></code>.</p>
+</div>
+<div class="section" id="accessing-the-node-red-service">
+<h3>Accessing the Node-RED Service<a class="headerlink" href="#accessing-the-node-red-service" title="Permalink to this headline">¶</a></h3>
+<p>The Node-RED service can now be accessed on <code class="docutils literal notranslate"><span class="pre">/node-red/</span></code> e.g.  https://localhost/node-red. Use the <strong>NGINX_AUTH_USER</strong> and <strong>NGINX_AUTH_PWD</strong> specified in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file to sign in into the Node-RED editor.</p>
+</div>
+</div>
+<div class="section" id="create-the-flow">
+<h2>Create the Flow<a class="headerlink" href="#create-the-flow" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="install-the-non-default-nodes">
+<h3>Install the non-default nodes<a class="headerlink" href="#install-the-non-default-nodes" title="Permalink to this headline">¶</a></h3>
+<p>To get started, we will first install the table node, which is not available by default in Node-RED. In the Header section of the Node-RED Editor, click on the main menu (the hamburger icon) and select the <code class="docutils literal notranslate"><span class="pre">Manage</span> <span class="pre">Palette</span></code> option.</p>
+<p><img alt="Manage Palette" src="../_images/node-red-postgres-table-3.png" /></p>
+<p>Under the Palette tab of the User Settings dialog click on the Install tab. Search for the <code class="docutils literal notranslate"><span class="pre">node-red-node-ui-table</span></code> module using the search bar and install it by clicking the install button. Install the <code class="docutils literal notranslate"><span class="pre">node-red-dashboard</span></code> module in the same way. Once the modules have been installed, close the User Settings.</p>
+<p><img alt="Install Table Module" src="../_images/node-red-postgres-table-4.png" /></p>
+<p><img alt="Install Dashboard Module" src="../_images/node-red-worldmap-3.png" /></p>
+</div>
+<div class="section" id="add-nodes-to-the-workspace">
+<h3>Add nodes to the workspace<a class="headerlink" href="#add-nodes-to-the-workspace" title="Permalink to this headline">¶</a></h3>
+<p>From the palette on the left of the workspace of the Node-RED Editor, drag and drop onto the workspace an inject node (from the common category), a function node (function category), a postgres node(storage category), a table node (dashboard category) and a debug node (common category).</p>
+<p><img alt="Add Nodes" src="../_images/node-red-postgres-table-5.png" /></p>
+</div>
+<div class="section" id="connect-to-the-gis-database">
+<h3>Connect to the gis database<a class="headerlink" href="#connect-to-the-gis-database" title="Permalink to this headline">¶</a></h3>
+<p>To configure the postgres node to connect to a database, double click on the node which will open the Edit dialog. Click on the pencil icon next to the Server Properties input box and specify the following properties:</p>
+<table class="colwidths-auto">
+<thead valign="bottom">
+<tr class="row-odd"><th class="text-align:center head"><strong>Property</strong></th>
+<th class="text-align:center head"><strong>Input</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td class="text-align:center">Host</td>
+<td class="text-align:center">db</td>
+</tr>
+<tr class="row-odd"><td class="text-align:center">Port</td>
+<td class="text-align:center">5432</td>
+</tr>
+<tr class="row-even"><td class="text-align:center">Database</td>
+<td class="text-align:center">gis</td>
+</tr>
+<tr class="row-odd"><td class="text-align:center">Username</td>
+<td class="text-align:center">docker</td>
+</tr>
+<tr class="row-even"><td class="text-align:center">Password</td>
+<td class="text-align:center">&lt;POSTGRES_PASSWORD&gt;</td>
+</tr>
+</tbody>
+</table>
+<p>Use the POSTGRES_PASSWORD specified in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file. Please ensure you have enabled SSL by checking  <input type="checkbox" checked> Use SSL. Once your done with the configuration click on Add. In the Name input box specify the name of the node as <code class="docutils literal notranslate"><span class="pre">db</span></code>, check the <input type="checkbox" checked> Receive query output? box, then click on Done.</p>
+<p><img alt="Configure the Postgres Node" src="../_images/node-red-postgres-table-6.png" /></p>
+<p><img alt="Configure the Postgres Node" src="../_images/node-red-postgres-table-7.png" /></p>
+</div>
+<div class="section" id="query-the-database">
+<h3>Query the database<a class="headerlink" href="#query-the-database" title="Permalink to this headline">¶</a></h3>
+<p>To query the database we have connected to above, we will need to assemble the query as an array of objects on msg.payload using the function node. We will select all data in the <code class="docutils literal notranslate"><span class="pre">nairobi_7d_temp_forecast</span></code> table of the <code class="docutils literal notranslate"><span class="pre">weather_data_schema</span></code> schema using the <a class="reference external" href="https://www.postgresql.org/docs/current/sql-select.html">SELECT</a> statement: <code class="docutils literal notranslate"><span class="pre">SELECT</span> <span class="pre">*</span> <span class="pre">FROM</span> <span class="pre">weather_data_schema.nairobi_7d_temp_forecast;</span></code>. Double click on the function node to open the Edit dialog. Configure the function node as shown in the image below then click on Done.</p>
+<p><img alt="Configure the Function Node" src="../_images/node-red-postgres-table-8.png" /></p>
+</div>
+<div class="section" id="display-the-query-results">
+<h3>Display the query results<a class="headerlink" href="#display-the-query-results" title="Permalink to this headline">¶</a></h3>
+<p>We will display the results of the query using the table node. Double click on the table node and accept the default configuration for the table node. For the Group properties:</p>
+<ul>
+<li><p class="first">Add a new dashboard tab called <code class="docutils literal notranslate"><span class="pre">Temperature</span></code>:</p>
+<p><img alt="New Dashboard Tab " src="../_images/node-red-postgres-table-10.png" /></p>
+</li>
+<li><p class="first">Name the group that the dashboard table will be assigned to:</p>
+</li>
+</ul>
+<p>  <img alt="New Dashboard Group " src="../_images/node-red-postgres-table-11.png" /></p>
+<p>For the table columns add 9 columns using the add button <img alt="Add Columns" src="../_images/node-red-postgres-table-12.png" />. Specify the Property and Title properties of the 9 columns as follows but leave the align, width and format properties with their defaults:</p>
+<table class="colwidths-auto">
+<thead valign="bottom">
+<tr class="row-odd"><th class="text-align:center head"><strong>Column</strong></th>
+<th class="text-align:center head"><strong>Property</strong></th>
+<th class="text-align:center head"><strong>Title</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td class="text-align:center">1</td>
+<td class="text-align:center">observation_date</td>
+<td class="text-align:center">Observation Date</td>
+</tr>
+<tr class="row-odd"><td class="text-align:center">2</td>
+<td class="text-align:center">day_0</td>
+<td class="text-align:center">Today’s temperature</td>
+</tr>
+<tr class="row-even"><td class="text-align:center">3</td>
+<td class="text-align:center">day_1</td>
+<td class="text-align:center">Day 1</td>
+</tr>
+<tr class="row-odd"><td class="text-align:center">4</td>
+<td class="text-align:center">day_2</td>
+<td class="text-align:center">Day 2</td>
+</tr>
+<tr class="row-even"><td class="text-align:center">5</td>
+<td class="text-align:center">day_3</td>
+<td class="text-align:center">Day 3</td>
+</tr>
+<tr class="row-odd"><td class="text-align:center">6</td>
+<td class="text-align:center">day_4</td>
+<td class="text-align:center">Day 4</td>
+</tr>
+<tr class="row-even"><td class="text-align:center">7</td>
+<td class="text-align:center">day_5</td>
+<td class="text-align:center">Day 5</td>
+</tr>
+<tr class="row-odd"><td class="text-align:center">8</td>
+<td class="text-align:center">day_6</td>
+<td class="text-align:center">Day 6</td>
+</tr>
+<tr class="row-even"><td class="text-align:center">9</td>
+<td class="text-align:center">day_7</td>
+<td class="text-align:center">Day 7</td>
+</tr>
+</tbody>
+</table>
+<p>Click on Done once finished.</p>
+<p><img alt="Column Properties" src="../_images/node-red-postgres-table-13.png" /></p>
+<p>Connect the nodes in the flow as follows, click on Deploy then click on the inject node to manually trigger the flow:</p>
+<p><img alt="Connect the Nodes" src="../_images/node-red-postgres-table-14.png" /></p>
+<p>The Node-RED dashboard display can now be accessed on <code class="docutils literal notranslate"><span class="pre">/ui/</span></code> e.g.  https://localhost/ui.</p>
+<p><img alt="Temperature Dashboard" src="../_images/node-red-postgres-table-15.png" /></p>
+</div>
+</div>
 </div>
 
 

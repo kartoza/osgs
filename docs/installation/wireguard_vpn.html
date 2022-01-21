@@ -335,6 +335,12 @@ be accessed from within the VPN.</p>
 </div>
 <div class="section" id="allow-incoming-ssh-only-from-the-vpn">
 <h2>Allow incoming SSH only from the VPN<a class="headerlink" href="#allow-incoming-ssh-only-from-the-vpn" title="Permalink to this headline">¶</a></h2>
+<p>First make sure ssh is running and configured to run on system start:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">systemctl</span> <span class="n">enable</span> <span class="n">ssh</span>
+<span class="n">systemctl</span> <span class="n">start</span> <span class="n">ssh</span>
+<span class="n">systemctl</span> <span class="n">status</span> <span class="n">ssh</span>
+</pre></div>
+</div>
 <p>As indicated above, do:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168.6.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">22</span> <span class="n">proto</span> <span class="n">tcp</span>
 </pre></div>
