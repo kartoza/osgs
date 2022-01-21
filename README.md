@@ -15,10 +15,11 @@ The Open Source GIS Stack (OSGS) is a rich, integrated, and opinionated GIS Stac
   <a href="https://osgs.kartoza.com/">
     <div style="display: inline-block;">
     <img src="https://raw.githubusercontent.com/kartoza/osgs/main/conf/hugo_conf/site_template/static/logos/logo.svg"
-        style="vertical-align:middle; width: 50px; height:50px;" alt="OSGS ICON" />
-        <div style="vertical-align:middle; display:inline; font-size: 2rem; font-weight: bold; margin-left: 16px">
-          VIEW DEMO
-        </div>
+        style="vertical-align:middle; width: 50px; height:50px;" alt="OSGS ICON"
+        align="left" />
+        <sub>
+          <strong>VIEW DEMO</strong>
+        </sub>
     </div>
   </a>
 </br>
