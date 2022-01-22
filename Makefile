@@ -740,80 +740,79 @@ backup-db-qgis-styles: ## Backup QGIS Styles in the gis database
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Backing up QGIS styles stored in gis db"
+	@echo "Backing up QGIS styles stored in the gis database"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -f /tmp/QGISStyles.sql -t public.layer_styles gis
-	@docker cp osgisstack_db_1:/tmp/QGISStyles.sql backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/QGISStyles.sql
-	@cp backups/QGISStyles.sql backups/QGISStyles-$$(date +%Y-%m-%d).sql
-	@ls -lah backups/*.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump --clean -f /tmp/qgis-styles.sql -t public.layer_styles gis
+	@docker cp osgisstack_db_1:/tmp/qgis-styles.sql backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/qgis-styles.sql
+	@cp backups/qgis-styles.sql backups/qgis-styles-$$(date +%Y-%m-%d).sql
+	@ls -lah backups/qgis-styles*.sql
 
 restore-db-qgis-styles:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restoring QGIS styles to gis db"
+	@echo "Restoring QGIS styles to the gis database "
 	@echo "------------------------------------------------------------------"
-	@docker cp backups/QGISStyles.sql osgisstack_db_1:/tmp/ 
-	@echo -n "Are you sure you want to delete the public.layer_styles table? [y/N] " && read ans && [ $${ans:-N} = y ]
-	# - at start of next line means error will be ignored (in case QGIS project table isnt already there)
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop table layer_styles;" gis 
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/QGISStyles.sql -d gis
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/QGISStyles.sql
+	@docker cp backups/qgis-styles.sql osgisstack_db_1:/tmp/ 
+	@echo "This will irrevocably delete the public.layer_styles table in your gis database."
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/qgis-styles.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/qgis-styles.sql
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select stylename from layer_styles;" gis 
 
-backup-db-qgis-project:
+backup-db-qgis-projects:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Backing up QGIS project stored in db"
+	@echo "Backing up QGIS projects stored in the gis database"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -f /tmp/QGISProject.sql -t public.qgis_projects gis
-	@docker cp osgisstack_db_1:/tmp/QGISProject.sql backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/QGISProject.sql
-	@cp backups/QGISProject.sql backups/QGISProject-$$(date +%Y-%m-%d).sql
-	@ls -lah backups/*.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump --clean -f /tmp/qgis-projects.sql -t public.qgis_projects gis
+	@docker cp osgisstack_db_1:/tmp/qgis-projects.sql backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/qgis-projects.sql
+	@cp backups/qgis-projects.sql backups/qgis-projects-$$(date +%Y-%m-%d).sql
+	@ls -lah backups/qgis-projects*.sql
 
-restore-db-qgis-project:
+restore-db-qgis-projects:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restoring QGIS project to db"
+	@echo "Restoring QGIS projects to the gis database"
 	@echo "------------------------------------------------------------------"
-	@docker cp backups/QGISProject.sql osgisstack_db_1:/tmp/ 
-	@echo -n "Are you sure you want to delete the public.qgis_projects table? [y/N] " && read ans && [ $${ans:-N} = y ]
-	# - at start of next line means error will be ignored (in case QGIS project table isnt already there)
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop table qgis_projects;" gis 
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/QGISProject.sql -d gis
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/QGISProject.sql
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from qgis_projects;" gis 
+	@docker cp backups/qgis-projects.sql osgisstack_db_1:/tmp/ 
+	@echo "This will irrevocably delete the public.qgis_projects table in your gis database."
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/qgis-projects.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/qgis-projects.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from public.qgis_projects;" gis
 
 backup-db-gis: ## Backup the gis database
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Backing up entire GIS postgres db"
+	@echo "Backing up the entire gis database"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -Fc -f /tmp/osgisstack-gis-database.dmp gis
-	@docker cp osgisstack_db_1:/tmp/osgisstack-gis-database.dmp backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-gis-database.dmp
-	@cp backups/osgisstack-gis-database.dmp backups/osgisstack-gis-database-$$(date +%Y-%m-%d).dmp
-	@ls -lah backups/osgisstack-gis-database*
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump --clean -f /tmp/osgisstack-gis-database.sql gis
+	@docker cp osgisstack_db_1:/tmp/osgisstack-gis-database.sql backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-gis-database.sql
+	@cp backups/osgisstack-gis-database.sql backups/osgisstack-gis-database-$$(date +%Y-%m-%d).sql
+	@ls -lah backups/osgisstack-gis-database*.sql
 
 restore-db-gis: ## Restore the gis database from a back up
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restoring the entire GIS postgres db from a backup"
+	@echo "Restoring the entire GIS database"
 	@echo "------------------------------------------------------------------"
-	@echo "This will irrevocably delete any pre-existing data in your database."
+	@echo "This will irrevocably delete any pre-existing data in your gis database."
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
-	@docker cp backups/osgisstack-gis-database.dmp osgisstack_db_1:/tmp/
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "DROP DATABASE IF EXISTS gis WITH (FORCE);"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_restore -C -d postgres /tmp/osgisstack-gis-database.dmp
+	@docker cp backups/osgisstack-gis-database.sql osgisstack_db_1:/tmp/
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/osgisstack-gis-database.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/osgisstack-gis-database.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "\dn;" gis
 
 list-database-sizes: ## Show the disk space used by each database
 	@make check-env
@@ -823,6 +822,32 @@ list-database-sizes: ## Show the disk space used by each database
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db bash -c "psql -c '\l+' > /tmp/listing.txt; cat /tmp/listing.txt | sed 's/--//g'" | sed 's/ //g' | awk 'BEGIN { FS = "|" } {print $$1 ":" $$7}' | tail -n +4 | head -n -5
 
+backup-db-mergin-base-schema:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Backing up the mergin base schema from the gis database"
+	@echo "------------------------------------------------------------------"
+	-@mkdir -p backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump --clean -f /tmp/mergin-base-schema.sql -n mergin_sync_base_do_not_touch gis
+	@docker cp osgisstack_db_1:/tmp/mergin-base-schema.sql backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/mergin-base-schema.sql
+	@cp backups/mergin-base-schema.sql backups/mergin-base-schema-$$(date +%Y-%m-%d).sql
+	@ls -lah backups/mergin-base-schema*.sql
+
+restore-db-mergin-base-schema:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restoring the mergin base schema to the gis database"
+	@echo "------------------------------------------------------------------"
+	@echo "This will irrevocably delete the public.qgis_projects table in your gis database."
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@docker cp backups/mergin-base-schema.sql osgisstack_db_1:/tmp/mergin-base-schema.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/mergin-base-schema.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/mergin-base-schema.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "\dt mergin_sync_base_do_not_touch.;" gis
+
 backup-all-databases: ## Backup all postgresql databases
 	@make check-env
 	@echo
@@ -830,24 +855,24 @@ backup-all-databases: ## Backup all postgresql databases
 	@echo "Backing up all postgres databases"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dumpall -f /tmp/osgisstack-all-databases.dmp
-	@docker cp osgisstack_db_1:/tmp/osgisstack-all-databases.dmp .
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-all-databases.dmp
-	@cp backups/osgisstack-all-databases.dmp backups/osgisstack-all-databases-$$(date +%Y-%m-%d).dmp
-	@ls -lah backups/osgisstack-all-databases*
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dumpall --clean -f /tmp/osgisstack-all-databases.sql
+	@docker cp osgisstack_db_1:/tmp/osgisstack-all-databases.sql backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-all-databases.sql
+	@cp backups/osgisstack-all-databases.sql backups/osgisstack-all-databases-$$(date +%Y-%m-%d).sql
+	@ls -lah backups/osgisstack-all-databases*.sql
 
-backup-mergin-base-db-schema:
+restore-all-databases: ## Backup all postgresql databases
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Backing up mergin base schema from  postgres db"
+	@echo "Restoring all postgres databases"
 	@echo "------------------------------------------------------------------"
-	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -Fc -f /tmp/mergin-base-schema.dmp -n mergin_sync_base_do_not_touch gis
-	@docker cp osgisstack_db_1:/tmp/mergin-base-schema.dmp backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/mergin-base-schema.dmp
-	@cp backups/mergin-base-schema.dmp backups/mergin-base-schema-$$(date +%Y-%m-%d).dmp
-	@ls -lah backups/*.dmp
+	@echo "This will irrevocably delete any pre-existing data in your databases."
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@docker cp backups/osgisstack-all-databases.sql osgisstack_db_1:/tmp/
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/osgisstack-all-databases.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/osgisstack-all-databases.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "\l+"
 
 #----------------- Jupyter --------------------------
 
