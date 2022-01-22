@@ -1,6 +1,6 @@
-# PostgREST - PR
+# PostgREST - PR ![PR](https://img.shields.io/badge/pr-green?style=for-the-badge)
 
-PostgREST is a standalone web server that turns your PostgreSQL database directly into a RESTful API. The structural constraints and permissions in the database determine the API endpoints and operations. [[1]](#1) The PostgREST service ion the OSGS platform is used for pushing readings from IoT devices to our database.
+PostgREST is a standalone web server that turns your PostgreSQL database directly into a RESTful API. The structural constraints and permissions in the database determine the API endpoints and operations. [<sup>[1]</sup>](#1) The PostgREST service ion the OSGS platform is used for pushing readings from IoT devices to our database.
 
 **Service name**: postgrest
 

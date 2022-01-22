@@ -1537,6 +1537,19 @@ restore-node-red:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups node-red -c "cd /data && tar xvfz /backups/node-red-backup.tar.gz --strip 1"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 
+add-node-red-example-data:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Adding the Node-RED example data to the gis database"
+	@echo "------------------------------------------------------------------"
+	@docker cp node-red-data/nodered_example_data.sql osgisstack_db_1:/tmp/ 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/nodered_example_data.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/nodered_example_data.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "\dn;" gis 
+
+
+
 #----------------- Mosquitto MQTT Broker --------------------------
 
 deploy-mosquitto: enable-mosquitto configure-mosquitto start-mosquitto 

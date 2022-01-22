@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>OSGS - Node-red point layer to world map - TODO</title>
+<title>OSGS - Node-red point layer to world map</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous"/>
@@ -16,6 +16,9 @@
 
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/css.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -32,7 +35,9 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
+    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/js.js"></script>
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
 <link rel="search" title="Search" href="../search.html" />
@@ -56,8 +61,8 @@
 
       </div>
       <div id="hdr-centre" class="text-center stretch">
-        <h3 title="Node-red point layer to world map - TODO">Node-red point layer to world map - TODO</h3>
-        <h6>Node-red point layer to world map - TODO</h6>
+        <h3 title="Node-red point layer to world map">Node-red point layer to world map</h3>
+        <h6>Node-red point layer to world map</h6>
       </div>
       <div id="hdr-search">
         
@@ -134,14 +139,15 @@
       
         
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../services/index.html">Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../services/index.html#services">Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#utilities">Utilities</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Workflows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
 </ul>
 
   
@@ -153,23 +159,193 @@
           <div id="mnav">
             
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../services/index.html">Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../services/index.html#services">Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#utilities">Utilities</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Workflows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
 </ul>
 
   
           </div>
           <div class="body">
             
-  <div class="tex2jax_ignore mathjax_ignore section" id="node-red-point-layer-to-world-map-todo">
-<h1>Node-red point layer to world map - TODO<a class="headerlink" href="#node-red-point-layer-to-world-map-todo" title="Permalink to this headline">¶</a></h1>
-<p>This workflow demonstrates how to take a point layer and connect to it using either the PostgREST API or via Postgres connection, get the points and some data for each point and push them through to the world map in node-red, to create a web map based on live data in the database.</p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="node-red-point-layer-to-world-map">
+<h1>Node-red point layer to world map<a class="headerlink" href="#node-red-point-layer-to-world-map" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="deploy-the-node-red-service">
+<h2>Deploy the Node-red service<a class="headerlink" href="#deploy-the-node-red-service" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="deploy-the-nginx-and-hugo-watcher-services">
+<h3>Deploy the Nginx and Hugo Watcher services<a class="headerlink" href="#deploy-the-nginx-and-hugo-watcher-services" title="Permalink to this headline">¶</a></h3>
+<p>To deploy the initial stack, which includes the  Nginx and Hugo Watcher services, please run either  <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> or <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code>.</p>
+</div>
+<div class="section" id="deploy-the-postgres-and-postgis-service">
+<h3>Deploy the Postgres and PostGIS service<a class="headerlink" href="#deploy-the-postgres-and-postgis-service" title="Permalink to this headline">¶</a></h3>
+<p>Next, deploy the Postgres and PostGIS service using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-postgres</span></code>. If you already have PostgreSQL already installed outside of the stack on your local machine, ensure that you specify a different Postgis Public Port number other than the default port, 5432. For example, you can use the port 5434.</p>
+</div>
+<div class="section" id="import-the-node-red-example-data-into-the-gis-database">
+<h3>Import the Node-RED example data into the gis database<a class="headerlink" href="#import-the-node-red-example-data-into-the-gis-database" title="Permalink to this headline">¶</a></h3>
+<p>In this workflow we will be creating a flow that get points and some data for each point from a table in a Postgres database, and pushes them through to the world map dashboard in Node-RED, to create a web map based on live data in the database.</p>
+<p>The data we will be using in this workflow is the air quality data for capital cities around the world for different dates. The world capitals data is obtained from <a class="reference external" href="https://simplemaps.com/data/world-cities">Simplemaps.com</a> and the air quality data is obtained from <a class="reference external" href="https://www.weatherapi.com/">Weather API</a>). To import the example data into the gis database, run the following command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">add-node-red-example-data</span></code>. To verify that the data has been imported, create a psql shell using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">db-psql-shell</span></code> and run <code class="docutils literal notranslate"><span class="pre">\dn;</span></code> in the psql shell. The <code class="docutils literal notranslate"><span class="pre">gis</span></code> database should now contain the <code class="docutils literal notranslate"><span class="pre">weather-data-schema</span></code> and the <code class="docutils literal notranslate"><span class="pre">world_air_quality_schema</span></code> schemas as seen below:</p>
+<p><img alt="Node-RED Example Data Schemas" src="../_images/node-red-postgres-table-1.png" /></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">world_air_quality_schema</span></code> should contain the following tables:</p>
+<p><img alt="Node-RED Example Data Air quality Tables" src="../_images/node-red-worldmap-1.png" /></p>
+</div>
+<div class="section" id="id1">
+<h3>Deploy the Node-RED Service<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Deploy the Node-RED service using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-node-red</span></code>. To add the <code class="docutils literal notranslate"><span class="pre">node-red-contrib-postgres-multi</span></code> package to Node-RED, run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-node-red-patch</span></code> then restart the service using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">restart-node-red</span></code>.</p>
+</div>
+<div class="section" id="accessing-the-node-red-service">
+<h3>Accessing the Node-RED Service<a class="headerlink" href="#accessing-the-node-red-service" title="Permalink to this headline">¶</a></h3>
+<p>The Node-RED service can now be accessed on <code class="docutils literal notranslate"><span class="pre">/node-red/</span></code> e.g.  https://localhost/node-red. Use the <strong>NGINX_AUTH_USER</strong> and <strong>NGINX_AUTH_PWD</strong> specified in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file to sign in into the Node-RED editor.</p>
+</div>
+</div>
+<div class="section" id="create-the-flow">
+<h2>Create the Flow<a class="headerlink" href="#create-the-flow" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="install-the-non-default-nodes">
+<h3>Install the non-default nodes<a class="headerlink" href="#install-the-non-default-nodes" title="Permalink to this headline">¶</a></h3>
+<p>To get started, we will first install the worldmap node, which is not available by default in Node-RED. In the Header section of the Node-RED Editor, click on the main menu and select the <code class="docutils literal notranslate"><span class="pre">Manage</span> <span class="pre">Palette</span></code> option.</p>
+<p><img alt="Manage Palette" src="../_images/node-red-postgres-table-3.png" /></p>
+<p>Under the Palette tab of the User Settings dialog click on the Install tab. Search for the <code class="docutils literal notranslate"><span class="pre">node-red-contrib-web-worldmap</span></code> module using the search bar and install it by clicking the install button. Install the <code class="docutils literal notranslate"><span class="pre">node-red-dashboard</span></code> module in the same way. Once the modules have been installed, close the User Settings.</p>
+<p><img alt="Install Worldmap Module" src="../_images/node-red-worldmap-2.png" /></p>
+<p><img alt="Install Dashboard Module" src="../_images/node-red-worldmap-3.png" /></p>
+</div>
+<div class="section" id="obtain-dates-for-which-data-is-available">
+<h3>Obtain dates for which data is available<a class="headerlink" href="#obtain-dates-for-which-data-is-available" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="add-nodes-to-workspace">
+<h4>Add nodes to workspace<a class="headerlink" href="#add-nodes-to-workspace" title="Permalink to this headline">¶</a></h4>
+<p>Drag and drop an inject node, 2 function nodes, a postgres node, a dropdown node and a debug node from the palette on the left of the workspace, onto the workspace.</p>
+<p><img alt="Add Nodes" src="../_images/node-red-worldmap-5.png" /></p>
+</div>
+<div class="section" id="connect-to-the-gis-database">
+<h4>Connect to the gis database<a class="headerlink" href="#connect-to-the-gis-database" title="Permalink to this headline">¶</a></h4>
+<p>To configure the postgres node to connect to a database, double click on the first postgres node. This will open the node’s Edit dialog. Click on the pencil icon next to the Server Properties input box and specify the following properties:</p>
+<table class="colwidths-auto">
+<thead valign="bottom">
+<tr class="row-odd"><th class="text-align:center head"><strong>Property</strong></th>
+<th class="text-align:center head"><strong>Input</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td class="text-align:center">Host</td>
+<td class="text-align:center">db</td>
+</tr>
+<tr class="row-odd"><td class="text-align:center">Port</td>
+<td class="text-align:center">5432</td>
+</tr>
+<tr class="row-even"><td class="text-align:center">Database</td>
+<td class="text-align:center">gis</td>
+</tr>
+<tr class="row-odd"><td class="text-align:center">Username</td>
+<td class="text-align:center">docker</td>
+</tr>
+<tr class="row-even"><td class="text-align:center">Password</td>
+<td class="text-align:center">&lt;POSTGRES_PASSWORD&gt;</td>
+</tr>
+</tbody>
+</table>
+<p>Use the POSTGRES_PASSWORD specified in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file. Please ensure you have enabled SSL by checking  <input type="checkbox" checked> Use SSL. Once your done with the configuration click on Add. In the Name input box specify the name of the node as <code class="docutils literal notranslate"><span class="pre">db</span></code>, check the <input type="checkbox" checked> Receive query output? box, then click on Done.</p>
+<p><img alt="Configure the Postgres Node" src="../_images/node-red-postgres-table-6.png" /></p>
+<p><img alt="Configure the Postgres Node" src="../_images/node-red-postgres-table-7.png" /></p>
+</div>
+<div class="section" id="query-the-gis-database-to-get-dates">
+<h4>Query the <code class="docutils literal notranslate"><span class="pre">gis</span></code> database to get dates<a class="headerlink" href="#query-the-gis-database-to-get-dates" title="Permalink to this headline">¶</a></h4>
+<p>There are five tables in the <code class="docutils literal notranslate"><span class="pre">world_air_quality_schema</span></code> schema. Each table has the  air quality data for the world’s capital cities observed on a specific date.</p>
+<p><img alt="Node-RED Example Data Air quality Tables" src="../_images/node-red-worldmap-1.png" /></p>
+<p>We will use the first function node to query the <code class="docutils literal notranslate"><span class="pre">gis</span></code> database we have connected to using the postgres node, to get the dates for which the data is available.</p>
+<p><img alt="First Function Node" src="../_images/node-red-worldmap-9.png" /></p>
+<p>To query the database we will need to assemble the following SELECT query: <code class="docutils literal notranslate"><span class="pre">SELECT</span>&#160; <span class="pre">replace(table_name,</span> <span class="pre">'air_quality_',</span> <span class="pre">'')</span> <span class="pre">FROM</span> <span class="pre">information_schema.tables</span> <span class="pre">WHERE</span> <span class="pre">table_schema='world_air_quality_schema'</span> <span class="pre">AND</span> <span class="pre">table_type='BASE</span> <span class="pre">TABLE'</span> <span class="pre">AND</span> <span class="pre">table_name</span> <span class="pre">LIKE</span> <span class="pre">'air_quality_%';</span></code> (adapted from <a class="reference external" href="https://stackoverflow.com/questions/14730228/postgresql-query-to-list-all-table-names">here</a>) as an array of objects on msg.payload using the function node. For more information on how to construct the above SELECT statement see:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.postgresql.org/docs/current/infoschema-tables.html">tables</a></li>
+<li><a class="reference external" href="https://www.postgresql.org/docs/current/sql-select.html">SELECT</a></li>
+<li><a class="reference external" href="https://www.postgresqltutorial.com/postgresql-replace/">replace</a></li>
+<li><a class="reference external" href="https://www.postgresql.org/docs/9.1/sql-select.html#SQL-WHERE">WHERE</a></li>
+<li><a class="reference external" href="https://www.postgresql.org/docs/current/functions-logical.html">AND</a></li>
+<li><a class="reference external" href="https://www.postgresql.org/docs/14/functions-matching.html#FUNCTIONS-LIKE">LIKE</a></li>
+</ul>
+<p>Double click on the function node to open the Edit dialog. Configure the function node as shown in the image below then click on Done.</p>
+<p><img alt="Select Dates Function Node" src="../_images/node-red-worldmap-6.png" /></p>
+</div>
+<div class="section" id="display-the-dates-in-the-drop-down-menu">
+<h4>Display the dates in the drop down menu<a class="headerlink" href="#display-the-dates-in-the-drop-down-menu" title="Permalink to this headline">¶</a></h4>
+<p>To display the dates that data is available from the <code class="docutils literal notranslate"><span class="pre">world_air_quality_schema</span></code> schema in a drop down menu on the Node-RED dashboard, we will need to pass the dates as a list from the postgres node to the dropdown node. To do this, we will use the second function node to convert the msg.payload from the postgres node from an array to a list.</p>
+<p><img alt="Second Function Node" src="../_images/node-red-worldmap-11.png" /></p>
+<p>This is done using the JavaScript Array <a class="reference external" href="https://www.w3schools.com/jsref/jsref_foreach.asp"><code class="docutils literal notranslate"><span class="pre">forEach()</span></code></a> and <a class="reference external" href="https://www.w3schools.com/jsref/jsref_push.asp"><code class="docutils literal notranslate"><span class="pre">push()</span></code></a> methods.</p>
+<p>Double click on the second function node to open the Edit dialog. Configure the function node as shown in the image below then click on Done.</p>
+<p><img alt="Array to List Function Node" src="../_images/node-red-worldmap-7.png" /></p>
+<p>To display the list of dates in a clickable drop down menu we will configure the dropdown node. Double click on the node to open the Edit dialog. Click on the pencil icon next to the Group input box and edit the Group properties as follows:</p>
+<ul>
+<li><p class="first">Add a new dashboard tab called <code class="docutils literal notranslate"><span class="pre">Air</span> <span class="pre">Quality</span></code>:</p>
+<p><img alt="New Dashboard Tab " src="../_images/node-red-worldmap-12.png" /></p>
+</li>
+<li><p class="first">Name the group that the dashboard table will be assigned to as <code class="docutils literal notranslate"><span class="pre">Select</span> <span class="pre">Date</span></code>:</p>
+</li>
+</ul>
+<p>  <img alt="New Dashboard Group " src="../_images/node-red-worldmap-13.png" /></p>
+<p>Set the label as <code class="docutils literal notranslate"><span class="pre">Select</span> <span class="pre">Date</span></code> but leave the rest of the dropdown node’s properties as default and click on Done.</p>
+<p><img alt="Dropdown Properties " src="../_images/node-red-worldmap-14.png" /></p>
+<p>Connect the nodes in the flow as follows, click on Deploy then click on the inject node to manually trigger the flow:</p>
+<p><img alt="Connect the flow " src="../_images/node-red-worldmap-10.png" /></p>
+<p>The Node-RED dashboard display can now be accessed on <code class="docutils literal notranslate"><span class="pre">/ui/</span></code> e.g.  https://localhost/ui.</p>
+<p>As seen in the image below, we now have a dropdown menu on our dashboard that allows us to select a date of interest to view the air quality data stored in the tables in the <code class="docutils literal notranslate"><span class="pre">world_air_quality_schema</span></code> schema for that specific date.</p>
+<p><img alt="Air Quality Dashboard" src="../_images/node-red-worldmap-16.png" /></p>
+<p>When we select a date from the dropdown menu, the dropdown node passes the date as the msg.payload to the debug node which displays the msg.payload on the debug console.</p>
+<p><img alt="Message Payload" src="../_images/node-red-worldmap-17.png" /></p>
+</div>
+<div class="section" id="query-database-to-get-data-for-selected-date">
+<h4>Query database to get data for selected date<a class="headerlink" href="#query-database-to-get-data-for-selected-date" title="Permalink to this headline">¶</a></h4>
+<p>We will now use the date in the msg.payload from the drop down node to query the <code class="docutils literal notranslate"><span class="pre">gis</span></code> database to retrieve the <code class="docutils literal notranslate"><span class="pre">air_quality</span></code> table for that date.</p>
+</div>
+</div>
+<div class="section" id="display-air-quality-data-for-the-date-selected-on-the-world-map">
+<h3>Display air quality data for the date selected on the world map<a class="headerlink" href="#display-air-quality-data-for-the-date-selected-on-the-world-map" title="Permalink to this headline">¶</a></h3>
+<p>In this step of the flow, we will display the air quality data for the world’s capital cities for the date selected on the world map.</p>
+<div class="section" id="query-the-database-using-the-selected-date">
+<h4>Query the database using the selected date<a class="headerlink" href="#query-the-database-using-the-selected-date" title="Permalink to this headline">¶</a></h4>
+<p>Using a function node and a postgres node, we will use the date selected from the drop down menu (the msg.payload) to get the air quality table data for that specific date.</p>
+<p>Add the 2 nodes and connect them as follows:</p>
+<p><img alt="Add and Connect Nodes" src="../_images/node-red-worldmap-8.png" /></p>
+<p>Label and Configure the function node as follows:</p>
+<p><img alt="Label the Function Node" src="../_images/node-red-worldmap-18.png" /></p>
+<p><img alt="Configure the Function Node" src="../_images/node-red-worldmap-15.png" /></p>
+<p>For the postgres node, we will only set the Name property and check the <input type="checkbox" checked> Receive query output? box. The sever properties will by default, be the properties we configured in the first postgres node.</p>
+<p><img alt="Configure the Postgres Node" src="../_images/node-red-worldmap-19.png" /></p>
+<p>We can connect our postgres node to the debug node at this point and deploy the flow to check if our flow is working correctly. After manually triggering the flow using the inject node and selecting a date from the drop down menu, our debug console should have an output similar to this:</p>
+<p><img alt="Debug Console Output" src="../_images/node-red-worldmap-20.png" /></p>
+</div>
+<div class="section" id="display-the-selected-data-on-the-world-map">
+<h4>Display the selected data on the world map<a class="headerlink" href="#display-the-selected-data-on-the-world-map" title="Permalink to this headline">¶</a></h4>
+<p>The table below shows the colours used to display the different Air Quality Index levels of concern. We will use these colours to display the air quality data on the world map.</p>
+<p><img alt="Daily AQI Color" src="../_images/node-red-worldmap-21.png" /></p>
+<p><em>Image Courtesy of <a class="reference external" href="https://www.airnow.gov/aqi/aqi-basics/">AirNow</a>.</em></p>
+<p>We will assign a map icon and  and a map icon colour to each element of the msg.payload array from the previous section using a split node, a function node and a join node. The split node splits the message into individual array elements, the function node allows us to assign the map icon and map icon color message properties to each element, then the join node recombines the individual elements back into a single array.</p>
+<p><img alt="Add and Connect Nodes" src="../_images/node-red-worldmap-4.png" /></p>
+<p>Use the default configuration for the split and join nodes and configure the function node as follows:</p>
+<p><img alt="Configure the Function Node" src="../_images/node-red-worldmap-22.png" /></p>
+<p>After deploying our flow, we can see the icon and iconColor properties have been added to each individual element of the msg.payload array.</p>
+<p><img alt="Add map icon and iconColor" src="../_images/node-red-worldmap-23.png" /></p>
+<p>To display the data on the worldmap, add the worldmap node <img alt="Worldmap node" src="../_images/node-red-worldmap-24.png" /> from the dashboard category onto the workspace and connect it to the join node.</p>
+<p>Double click on the node to open the Edit dialog. For the Group properties, add a new group called <code class="docutils literal notranslate"><span class="pre">Display</span> <span class="pre">Air</span> <span class="pre">Quality</span> <span class="pre">Data</span></code> to the Air Quality Dashboard Tab. Set the map’s start center coordinates 30 degrees latitude and 31 degrees longitude with a start zoom level of 4.</p>
+<p><img alt="Add New Group" src="../_images/node-red-worldmap-25.png" /></p>
+<p><img alt="Center the Map" src="../_images/node-red-worldmap-26.png" /></p>
+<p>To change the layout of the dashboard, access the dashboard layout sidebar from the drop down menu on the sidebar to the right of the workspace. Click on the layout icon of the Air Quality Dashboard Tab.</p>
+<p><img alt="Edit Dashboard Layout 1" src="../_images/node-red-worldmap-27.png" /></p>
+<p><img alt="Edit Dashboard Layout 2" src="../_images/node-red-worldmap-28.png" /></p>
+<p>Expand the world map.</p>
+<p><img alt="Edit Dashboard Layout 2" src="../_images/node-red-worldmap-29.png" /></p>
+</div>
+</div>
+<div class="section" id="deploy-and-run-the-flow">
+<h3>Deploy and run the flow<a class="headerlink" href="#deploy-and-run-the-flow" title="Permalink to this headline">¶</a></h3>
+<p>This is what your flow should look like:</p>
+<p><img alt="Node-RED Flow" src="../_images/node-red-worldmap-30.png" /></p>
+<p>Deploy and manually trigger your flow. On the Node-RED dashboard display, select a date from the drop down  menu and view the data on the worldmap.</p>
+<p><img alt="View Dashboard" src="../_images/node-red-worldmap-31.png" /></p>
+</div>
+</div>
 </div>
 
 
@@ -182,7 +358,7 @@
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"

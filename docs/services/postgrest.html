@@ -16,6 +16,9 @@
 
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/css.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -32,7 +35,9 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
+    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/js.js"></script>
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
 <link rel="search" title="Search" href="../search.html" />
@@ -57,7 +62,7 @@
       </div>
       <div id="hdr-centre" class="text-center stretch">
         <h3 title="PostgREST - PR">PostgREST - PR</h3>
-        <h6>PostgREST - PR</h6>
+        <h6>PostgREST - PR </h6>
       </div>
       <div id="hdr-search">
         
@@ -134,13 +139,14 @@
       
         
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html#introduction">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
 </ul>
 
@@ -153,13 +159,14 @@
           <div id="mnav">
             
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html#introduction">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
 </ul>
 
@@ -167,9 +174,9 @@
           </div>
           <div class="body">
             
-  <div class="tex2jax_ignore mathjax_ignore section" id="postgrest-pr">
-<h1>PostgREST - PR<a class="headerlink" href="#postgrest-pr" title="Permalink to this headline">¶</a></h1>
-<p>PostgREST is a standalone web server that turns your PostgreSQL database directly into a RESTful API. The structural constraints and permissions in the database determine the API endpoints and operations. <a class="reference external" href="#1">[1]</a> The PostgREST service ion the OSGS platform is used for pushing readings from IoT devices to our database.</p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="postgrest-pr-pr">
+<h1>PostgREST - PR <img alt="PR" src="https://img.shields.io/badge/pr-green?style=for-the-badge" /><a class="headerlink" href="#postgrest-pr-pr" title="Permalink to this headline">¶</a></h1>
+<p>PostgREST is a standalone web server that turns your PostgreSQL database directly into a RESTful API. The structural constraints and permissions in the database determine the API endpoints and operations. <a class="reference external" href="#1"><sup>[1]</sup></a> The PostgREST service ion the OSGS platform is used for pushing readings from IoT devices to our database.</p>
 <p><strong>Service name</strong>: postgrest</p>
 <p><strong>Project Website:</strong> <a class="reference external" href="https://postgrest.org/en/v8.0/">PostgREST Documentation</a></p>
 <p><strong>Project Source Repository:</strong> <a class="reference external" href="https://github.com/PostgREST/postgrest">PostgREST / postgrest</a></p>
@@ -210,7 +217,7 @@
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"

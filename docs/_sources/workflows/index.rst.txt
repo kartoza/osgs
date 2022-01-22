@@ -28,4 +28,5 @@ Here follows the list of example workflows that are available in the OSGS stack.
    create-osm-mirror-in-database
    osm-enrich-workflow
    postgresql-workflows
+   setting-up-access-permissions-in-filebrowser
 

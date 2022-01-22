@@ -1,11 +1,11 @@
-# SCP - PR
+# SCP - PR ![PR](https://img.shields.io/badge/pr-green?style=for-the-badge)
 
 <div class="admonition warning">
 Note - with the provision of the filebrowser service, we will probably deprecate this service.
 </div>
 
 The SCP (secure copy) containers have been arranged so that there are some
-standard containers out of the box.  Each container has its data stored in its
+standard containers out of the box. Each container has its data stored in its
 own docker volume as well. The data is somewhat isolated and there are
 containers for QGIS projects, fonts, SVGs that your QGIS projects might
 reference, general file sharing, uploading data to ODM, etc. The SCP service is
@@ -18,7 +18,6 @@ project file from your desktop up to the server with all the QGIS resources
 that it needs such as shapefiles. The QGIS Server instance can then be used to
 access the project from the OGC web services.
 
-
 **Project Website:**
 
 **Project Source Repository:**
@@ -28,7 +27,6 @@ access the project from the OGC web services.
 **Docker Repository:**
 
 **Docker Source Repository:**
-
 
 ## Configuration
 
@@ -41,8 +39,6 @@ access the project from the OGC web services.
 ## Accessing the running services
 
 ## Additional Notes
-
-
 
 ## SCP File Drop Shares
 
@@ -74,65 +70,64 @@ need to follow the same pattern of creating a config file for each. These
 shares each have a dedicated volume associated with it which is also mounted
 into the associated server container.
 
+---
+
+- **User:** geoserver_data
+- **Named Volume:** scp_geoserver_data
+- **Volume Mounted To:** scp, geoserver
+- **Notes:** Copy vector and raster datasets here for publishing in GeoServer.
+- **Example Use:** `sftp://geoserver_data@<hostname>:2222/home/geoserver_data`
 
 ---
 
-* **User:** geoserver_data
-* **Named Volume:** scp_geoserver_data
-* **Volume Mounted To:**	scp, geoserver	
-* **Notes:** Copy vector and raster datasets here for publishing in GeoServer.
-* **Example Use:** ``sftp://geoserver_data@<hostname>:2222/home/geoserver_data``
-  
----
-
-* **User:** qgis_projects
-* **Named Volume:** scp_qgis_projects
-* **Volume Mounted To:** scp, qgis-server
-* **Notes:** Copy QGIS projects and data here for publishing with QGIS Server.
+- **User:** qgis_projects
+- **Named Volume:** scp_qgis_projects
+- **Volume Mounted To:** scp, qgis-server
+- **Notes:** Copy QGIS projects and data here for publishing with QGIS Server.
   See notes on directory layout below.
-* **Example Use:** ``sftp://qgis_projects@<hostname>:2222/home/qgis_projects``
-  
+- **Example Use:** `sftp://qgis_projects@<hostname>:2222/home/qgis_projects`
+
 ---
 
-* **User:** qgis_svgs
-* **Named Volume:** scp_qgis_svgs
-* **Volume Mounted To:** scp, qgis-server
-* **Notes:** Embed SVGs in styles by preference in QGIS. Use this drop if you
+- **User:** qgis_svgs
+- **Named Volume:** scp_qgis_svgs
+- **Volume Mounted To:** scp, qgis-server
+- **Notes:** Embed SVGs in styles by preference in QGIS. Use this drop if you
   have no way to use embeded SVGS.
-* **Example Use:** ``sftp://qgis_svgs@<hostname>:2222/home/qgis_svgs`
+- **Example Use:** ``sftp://qgis_svgs@<hostname>:2222/home/qgis_svgs`
 
 ---
 
-* **User:** qgis_fonts
-* **Named Volume:** scp_qgis_fonts
-* **Volume Mounted To:** scp, qgis-server
-* **Notes:** Copy fonts directly into the root folder.
-* **Example Use:** ``sftp://qgis_fonts@<hostname>:2222/home/qgis_fonts``
+- **User:** qgis_fonts
+- **Named Volume:** scp_qgis_fonts
+- **Volume Mounted To:** scp, qgis-server
+- **Notes:** Copy fonts directly into the root folder.
+- **Example Use:** `sftp://qgis_fonts@<hostname>:2222/home/qgis_fonts`
 
 ---
 
-* **User:** hugo_data
-* **Named Volume:** scp_hugo_data
-* **Volume Mounted To:** scp, hugo*
-* **Notes:** Upload markdown files for static site generation with Hugo.
-* **Example Use:** ``sftp://hugo_data@<hostname>:2222/home/hugo_data``
+- **User:** hugo_data
+- **Named Volume:** scp_hugo_data
+- **Volume Mounted To:** scp, hugo\*
+- **Notes:** Upload markdown files for static site generation with Hugo.
+- **Example Use:** `sftp://hugo_data@<hostname>:2222/home/hugo_data`
 
 ---
 
-* **User:** odm_data
-* **Named Volume:** scp_odm_data
-* **Volume Mounted To:** scp, odm *
-* **Notes:** Upload imagery data for processing with ODM
-* **Example Use:** ``sftp://odm_data@<hostname>:2222/home/odm_data``
+- **User:** odm_data
+- **Named Volume:** scp_odm_data
+- **Volume Mounted To:** scp, odm \*
+- **Notes:** Upload imagery data for processing with ODM
+- **Example Use:** `sftp://odm_data@<hostname>:2222/home/odm_data`
 
 ---
 
-* **User:** general_data
-* **Named Volume:** scp_general_data
-* **Volume Mounted To:** scp
-* **Notes:** General sharing directory. Later we  will publish this under nginx
+- **User:** general_data
+- **Named Volume:** scp_general_data
+- **Volume Mounted To:** scp
+- **Notes:** General sharing directory. Later we will publish this under nginx
   for public downloads. Don’t put any sensitive data in here.
-* **Example Use:** ``sftp://general_data@<hostname>:2222/home/general_data``
+- **Example Use:** `sftp://general_data@<hostname>:2222/home/general_data`
 
 ---
 
@@ -148,39 +143,36 @@ doing users would not be able to see the other mount points listed above.
 When adding projects to the qgis_projects folder, you need to follow this
 convention strictly for the projects to be recognised by QGIS Server:
 
-``qgis_projects/<project_name>/<project_name>.qgs``
+`qgis_projects/<project_name>/<project_name>.qgs`
 
 For example:
 
-``qgis_projects/terrain/terrain.qgs``
+`qgis_projects/terrain/terrain.qgs`
 
 There is a convenience Make target that will copy your .ssh/authorized_keys
 file contents into each of the scp_config user files listed in the table above.
 
-
-``make setup-scp``
+`make setup-scp`
 
 ## Starting the container
 
-``docker-compose --profile=scp up -d scp``
+`docker-compose --profile=scp up -d scp`
 
 Example copying of data into the container from the command line:
 
-``scp -P 2222 sample-document.txt localhost:/data//gis_projects/gis_projects/gis_projects``
+`scp -P 2222 sample-document.txt localhost:/data//gis_projects/gis_projects/gis_projects`
 
-In Nautilus (file manager in Linux Gnome Desktop) you can test by connecting 
+In Nautilus (file manager in Linux Gnome Desktop) you can test by connecting
 
-``sftp://<hostname>:2222/data/gis_projects``
+`sftp://<hostname>:2222/data/gis_projects`
 
 into the red highlighted box below:
 
 XXXXXXXXXXXXXXXXXXXX
 
-
 After that open a second window and you can drag and drop files too and from
 the folder. Windows users can use the free WinSCP application to copy files to
-the server.  
-
+the server.
 
 ## FAQ
 

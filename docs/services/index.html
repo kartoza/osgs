@@ -16,6 +16,9 @@
 
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/css.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -32,7 +35,9 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
+    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/js.js"></script>
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
 <link rel="search" title="Search" href="../search.html" />
@@ -134,13 +139,14 @@
       
         
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html#introduction">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#services">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
 </ul>
 
@@ -153,13 +159,14 @@
           <div id="mnav">
             
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html#introduction">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#services">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
 </ul>
 
@@ -169,31 +176,41 @@
             
   <div class="section" id="services">
 <h1>Services<a class="headerlink" href="#services" title="Permalink to this headline">¶</a></h1>
-<p>Here follows the list of services that are available in the OSGS stack.</p>
-<ul class="simple">
-<li>Items with a (PR) suffix can be considered production ready.</li>
-<li>Items with a (WIP) suffix can be considered a work in progress.</li>
-</ul>
+<p>The following services are available as components of the OSGS stack.</p>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="nginx.html">Nginx - PR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="filebrowser.html">File Browser</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hugo-watcher.html">Hugo Watcher - PR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postgres.html">Postgres and PostGIS - PR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qgis-server.html">QGIS Server - PR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="geoserver.html">GeoServer - PR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docker-osm.html">Docker OSM mirror - PR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="node-red.html">Node Red - PR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jupyter.html">Jupyter Notebook  - PR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postgrest.html">PostgREST - PR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="swagger.html">Swagger - PR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="metabase.html">Metabase - PR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="scp.html">SCP - PR</a></li>
-<li class="toctree-l1"><a class="reference internal" href="lizmap.html">Lizmap - WIP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mergin-server.html">Mergin Server - WIP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mergin-client.html">Mergin Client - WIP</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mergin-db-sync.html">Mergin-db-sync - PR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nginx.html">Nginx - PR </a></li>
+<li class="toctree-l1"><a class="reference internal" href="filebrowser.html">File Browser - PR </a></li>
+<li class="toctree-l1"><a class="reference internal" href="hugo-watcher.html">Hugo Watcher - PR  </a></li>
+<li class="toctree-l1"><a class="reference internal" href="postgres.html">Postgres and PostGIS - PR </a></li>
+<li class="toctree-l1"><a class="reference internal" href="qgis-server.html">QGIS Server - PR </a></li>
+<li class="toctree-l1"><a class="reference internal" href="geoserver.html">GeoServer - PR </a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker-osm.html">Docker OSM mirror - PR </a></li>
+<li class="toctree-l1"><a class="reference internal" href="node-red.html">Node Red - PR </a></li>
+<li class="toctree-l1"><a class="reference internal" href="jupyter.html">Jupyter Notebook - PR </a></li>
+<li class="toctree-l1"><a class="reference internal" href="postgrest.html">PostgREST - PR </a></li>
+<li class="toctree-l1"><a class="reference internal" href="swagger.html">Swagger - PR </a></li>
+<li class="toctree-l1"><a class="reference internal" href="metabase.html">Metabase - PR </a></li>
+<li class="toctree-l1"><a class="reference internal" href="scp.html">SCP - PR </a></li>
+<li class="toctree-l1"><a class="reference internal" href="lizmap.html">Lizmap - WIP </a></li>
+<li class="toctree-l1"><a class="reference internal" href="mergin-server.html">Mergin Server - WIP </a></li>
+<li class="toctree-l1"><a class="reference internal" href="mergin-client.html">Mergin Client - WIP </a></li>
+<li class="toctree-l1"><a class="reference internal" href="mergin-db-sync.html">Mergin-db-sync - PR </a></li>
+</ul>
+</div>
+<div class="admonition warning">
+The services published in OSGS are independent from the Open Source GIS Stack project
+and any issues encountered using these applications should be raised with the
+appropriate upstream project.
+</div><div class="section" id="legend">
+<h2>Legend<a class="headerlink" href="#legend" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Production ready services, indicated by the <img alt="production ready" class="img-shield" src="https://img.shields.io/badge/production%20ready-pr-green" /> badge, are known to be stable and reliable state.</li>
+<li>Work in progress, indicated by the <img alt="work in progress" class="img-shield" src="https://img.shields.io/badge/work%20in%20progress-wip-red" /> badge, have some known integration issues and can be expected to have breaking changes implemented in the near future.</li>
+<li>Deprecated, or legacy services, indicated by the <img alt="deprecated" class="img-shield" src="https://img.shields.io/badge/deprecated-dep-blue" /> badge, are at end of life (EOL) and will not be supported in future releases.</li>
+<li>Deleted or removed services, indicated by the <img alt="deleted" class="img-shield" src="https://img.shields.io/badge/deleted-del-white" /> badge, are no longer included in the stack, although references and documentation may be of use.</li>
+<li>Gotchas indicate known issues, which either have known work arounds, might require significant effort to correct, or could even be labelled “won’t fix”. They may be indicated by the <img alt="gotchas" class="img-shield" src="https://img.shields.io/badge/gotchas-eek-yellow" /> badge, with a colour intensity indicating the issue severity.</li>
 </ul>
 </div>
 </div>
@@ -208,7 +225,7 @@
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"

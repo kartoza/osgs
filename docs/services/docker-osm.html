@@ -16,6 +16,9 @@
 
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/css.css" type="text/css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
@@ -32,7 +35,9 @@
       };
       $(document).data('sizzle', {on_load: []});
     </script>
+    <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/js.js"></script>
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
 <link rel="search" title="Search" href="../search.html" />
@@ -57,7 +62,7 @@
       </div>
       <div id="hdr-centre" class="text-center stretch">
         <h3 title="Docker OSM mirror - PR">Docker OSM mirror - PR</h3>
-        <h6>Docker OSM mirror - PR</h6>
+        <h6>Docker OSM mirror - PR </h6>
       </div>
       <div id="hdr-search">
         
@@ -134,13 +139,14 @@
       
         
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html#introduction">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
 </ul>
 
@@ -153,13 +159,14 @@
           <div id="mnav">
             
   
-    <p class="caption"><span class="caption-text">Contents:</span></p>
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html#introduction">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
 </ul>
 
@@ -167,11 +174,11 @@
           </div>
           <div class="body">
             
-  <div class="tex2jax_ignore mathjax_ignore section" id="docker-osm-mirror-pr">
-<h1>Docker OSM mirror - PR<a class="headerlink" href="#docker-osm-mirror-pr" title="Permalink to this headline">¶</a></h1>
-<p>OpenStreetMap (OSM) is a digital map database of the world built through crowdsourced volunteered geographic information. The data from OSM is freely available for visualization, query, download, and modification under <a class="reference external" href="https://www.openstreetmap.org/copyright">open licenses</a>. <a class="reference external" href="#1">[1]</a> OSM can also be described as a free, editable map of the whole world <a class="reference external" href="#2">[2]</a>.</p>
-<p>The Docker OSM mirror service is a docker compose project to setup an OSM PostGIS database with automatic updates from OSM periodically. The only files you need is a PBF file, geojson (if you intend to restrict data download to a smaller extent than the one specified by the PBF) and run the docker compose project.<a class="reference external" href="#3">[3]</a></p>
-<p>The Docker OSM mirror service is composed of Docker ImpOSM3, Docker OSM Update and Docker OSM enrich. Docker ImpOSM3 takes the PBF file and imports it into the PostGIS OSM database. It will also apply any new diff file that arrives to the database. Docker OSM update runs every few minutes and regualarly fetches any new diff file for all the changes that have happened over the update interval from OpenStreetMap and applies any new features to your existing PostGIS OSM database. OSM enrich goes to the OSM API and gets the username and last change timestamp for each feature.<a class="reference external" href="#3">[3]</a></p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="docker-osm-mirror-pr-pr">
+<h1>Docker OSM mirror - PR <img alt="PR" src="https://img.shields.io/badge/pr-green?style=for-the-badge" /><a class="headerlink" href="#docker-osm-mirror-pr-pr" title="Permalink to this headline">¶</a></h1>
+<p>OpenStreetMap (OSM) is a digital map database of the world built through crowdsourced volunteered geographic information. The data from OSM is freely available for visualization, query, download, and modification under <a class="reference external" href="https://www.openstreetmap.org/copyright">open licenses</a>. <a class="reference external" href="#1"><sup>[1]</sup></a> OSM can also be described as a free, editable map of the whole world <a class="reference external" href="#2"><sup>[2]</sup></a>.</p>
+<p>The Docker OSM mirror service is a docker compose project to setup an OSM PostGIS database with automatic updates from OSM periodically. The only files you need is a PBF file, geojson (if you intend to restrict data download to a smaller extent than the one specified by the PBF) and run the docker compose project.<a class="reference external" href="#3"><sup>[3]</sup></a></p>
+<p>The Docker OSM mirror service is composed of Docker ImpOSM3, Docker OSM Update and Docker OSM enrich. Docker ImpOSM3 takes the PBF file and imports it into the PostGIS OSM database. It will also apply any new diff file that arrives to the database. Docker OSM update runs every few minutes and regularly fetches any new diff file for all the changes that have happened over the update interval from OpenStreetMap and applies any new features to your existing PostGIS OSM database. OSM enrich goes to the OSM API and gets the username and last change timestamp for each feature.<a class="reference external" href="#3"><sup>[3]</sup></a></p>
 <img align="middle" src="https://raw.githubusercontent.com/kartoza/docker-osm/develop/docs/architecture.png" alt="OSM mirror Service " width="500">
 <p><strong>Service name:</strong> osm-mirror</p>
 <p><strong>Project Website:</strong> <a class="reference external" href="https://www.openstreetmap.org/">OpenStreetMap</a></p>
@@ -199,13 +206,13 @@
 </div>
 <div class="section" id="starting">
 <h2>Starting<a class="headerlink" href="#starting" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">start</span><span class="o">-</span><span class="n">osm</span><span class="o">-</span><span class="n">mirror</span>   
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">start</span><span class="o">-</span><span class="n">osm</span><span class="o">-</span><span class="n">mirror</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="stopping">
 <h2>Stopping<a class="headerlink" href="#stopping" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">stop</span><span class="o">-</span><span class="n">osm</span><span class="o">-</span><span class="n">mirror</span>   
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">stop</span><span class="o">-</span><span class="n">osm</span><span class="o">-</span><span class="n">mirror</span>
 </pre></div>
 </div>
 </div>
@@ -271,7 +278,7 @@
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"
