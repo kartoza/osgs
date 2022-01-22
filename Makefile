@@ -26,6 +26,7 @@ compose-diagram: ## Generate a diagram of the docker-compose file
 
 backup-everything: ## Sequentially run through all backup scripts
 	@make backup-hugo
+	@make backup-mapproxy
 	-@make backup-db-qgis-styles
 	-@make backup-db-qgis-project
 	@make backup-db
@@ -207,6 +208,7 @@ endif
 	@make enable-downloads
 
 #------------------ Nginx ------------------------
+
 start-nginx: ## Start the Nginx docker container.
 	@make check-env
 	@echo
@@ -232,7 +234,6 @@ restart-nginx: ## Restart the Nginx docker container.
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
 	make nginx-logs
-
 
 nginx-shell: ## Create an shell in the Nginx docker container for debugging.
 	@make check-env
@@ -274,6 +275,19 @@ stop-hugo: ## Stop the Hugo static content management system.
 	@echo "------------------------------------------------------------------"
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill hugo-watcher
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm hugo-watcher
+
+restart-hugo:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting Hugo"
+	@echo "------------------------------------------------------------------"
+	@make stop-hugo
+	@echo "------------------------------------------------------------------"
+	@echo "Starting Hugo"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d hugo-watcher
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
+	@make hugo-logs
 
 disable-hugo: ## Disable the Hugo static content management system.
 	@cd conf/nginx_conf/locations; rm hugo.conf
@@ -325,64 +339,6 @@ get-hugo-theme:
 	@echo "------------------------------------------------------------------"
 	@export THEME=clarity; wget -O - https://github.com/gohugoio/hugoThemes | grep '<a data-skip-pjax="true" href="' | grep -o "<span title=\".*\">" | sed 's/<span title="//g' | sed 's/"><a data-skip-pjax="true" href="/ /g' | sed 's/">//g' | sed 's/\/tree\//\/archive\//g' | awk '{print  $1 , "https://github.com"$4".zip" }' > themes.txt ; egrep "${THEME}" themes.txt | awk '{print $2}' | xargs wget -O ${THEME}.zip
 
-#----------------- SCP --------------------------
-
-deploy-scp: enable-scp configure-scp start-scp ## Deploy the Secure Copy service.
-
-enable-scp: ## Enable the Secure Copy service.
-	@make check-env
-	@echo "scp" >> enabled-profiles
-
-configure-scp: ## Configure the Secure Copy service.
-	@make check-env
-	@echo "------------------------------------------------------------------"
-	@echo "Copying .ssh/authorized keys to all scp shares."
-	@echo "------------------------------------------------------------------"
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/geoserver_data
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_projects
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_fonts
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/qgis_svg
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/hugo_static
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/hugo_data
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/odm_data
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/general_data
-	@cat ~/.ssh/authorized_keys > conf/scp_conf/jupyter_data
-
-start-scp: ## Start the Secure Copy service.
-	@make check-env
-	@echo "------------------------------------------------------------------"
-	@echo "Starting SCP"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d scp	
-
-stop-scp: ## Stop the Secure Copy services.
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Stopping SCP"
-	@echo "------------------------------------------------------------------"
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill scp
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm scp
-
-disable-scp: ## Disable the Secure Copy service.
-	# Remove from enabled-profiles
-	@sed -i '/db/d' enabled-profiles
-
-scp-logs: ## Show the logs for the Secure Copy service.
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Polling SCP logs"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f scp
-
-scp-shell: ## Create a shell inside the Secure Copy container for debugging.
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Creating SCP shell"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec scp sh 
-
 #----------------- GeoServer --------------------------
 
 deploy-geoserver: enable-geoserver configure-geoserver-passwd start-geoserver ## Deploy the GeoServer service.
@@ -415,6 +371,19 @@ stop-geoserver:
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill geoserver
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm geoserver
 
+restart-geoserver:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting GeoServer"
+	@echo "------------------------------------------------------------------"
+	@make stop-geoserver
+	@echo "------------------------------------------------------------------"
+	@echo "Starting GeoServer"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d geoserver
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
+	@make geoserver-logs
+
 disable-geoserver:
 	@make check-env
 	@cd conf/nginx_conf/locations; rm geoserver.conf
@@ -437,7 +406,6 @@ geoserver-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec geoserver bash
 
-
 #----------------- QGIS Server --------------------------
 
 deploy-qgis-server: enable-qgis-server start-qgis-server
@@ -448,18 +416,6 @@ enable-qgis-server:
 	-@cd conf/nginx_conf/upstreams; ln -s qgis-server.conf.available qgis-server.conf
 	@echo "qgis-server" >> enabled-profiles
 	@touch conf/pg_conf/pg_service.conf
-
-restart-qgis-server:  ## Stop and restart the QGIS server containers
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restarting QGIS Server containers"
-	@echo "------------------------------------------------------------------"
-	# Need to flush this completely for it to work on restart
-	@touch conf/pg_conf/pg_service.conf
-	make stop-qgis-desktop
-	make start-qgis-desktop
-
 
 start-qgis-server:
 	@make check-env
@@ -479,10 +435,19 @@ stop-qgis-server:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill qgis-server
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm qgis-server
 
+restart-qgis-server:  ## Stop and restart the QGIS server containers
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting QGIS Server containers"
+	@echo "------------------------------------------------------------------"
+	# Need to flush this completely for it to work on restart
+	@touch conf/pg_conf/pg_service.conf
+	make stop-qgis-desktop
+	make start-qgis-desktop
+
 disable-qgis-server:
 	@make check-env
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill qgis-server
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm qgis-server
 	@cd conf/nginx_conf/locations; rm qgis-server.conf
 	@cd conf/nginx_conf/upstreams; rm qgis-server.conf
 	# Remove from enabled-profiles
@@ -504,15 +469,6 @@ qgis-server-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec qgis-server bash
 
-reinitialise-qgis-server:rm-qgis-server start-qgis-server
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restarting QGIS Server and Nginx"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-server 
-
 #----------------- QGIS Desktop --------------------------
 
 deploy-qgis-desktop: enable-qgis-desktop start-qgis-desktop  ## Run QGIS Desktop in your web browser
@@ -527,7 +483,7 @@ start-qgis-desktop:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Starting QGIS Server"
+	@echo "Starting QGIS Desktop"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d qgis-desktop
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
@@ -536,15 +492,23 @@ stop-qgis-desktop:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Stopping QGIS Server and Nginx"
+	@echo "Stopping QGIS Desktop"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill qgis-desktop
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm qgis-desktop
 
+restart-qgis-desktop:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting QGIS Desktop"
+	@echo "------------------------------------------------------------------"
+	@make stop-qgis-desktop
+	@make start-qgis-desktop
+	@make qgis-desktop-logs
+
 disable-qgis-desktop:
 	@make check-env
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill qgis-desktop
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm qgis-desktop
 	@cd conf/nginx_conf/locations; rm qgis-desktop.conf
 	#@cd conf/nginx_conf/upstreams; rm qgis-desktop.conf
 	# Remove from enabled-profiles
@@ -565,16 +529,6 @@ qgis-desktop-shell:
 	@echo "Creating QGIS Desktop shell"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec qgis-desktop bash
-
-reinitialise-qgis-desktop:stop-qgis-desktop start-qgis-desktop
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restarting QGIS Desktop and Nginx"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart nginx
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-desktop 
-
 
 #----------------- Mapproxy --------------------------
 
@@ -598,7 +552,7 @@ configure-mapproxy:
 	@echo "configuration files in conf/mapproxy_conf."
 	@echo "You will need to hand edit those files and then "
 	@echo "restart mapproxy for those edits to take effect."
-	@echo "see: make reinitialise-mapproxy"	
+	@echo "see: make restart-mapproxy"	
 
 start-mapproxy:
 	@make check-env
@@ -618,6 +572,18 @@ stop-mapproxy:
 	@echo "------------------------------------------------------------------"
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mapproxy
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mapproxy
+
+restart-mapproxy:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting Mapproxy and clearing its cache"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mapproxy
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mapproxy
+	@rm -rf conf/mapproxy_conf/cache_data/*
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mapproxy
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mapproxy
 
 disable-mapproxy:
 	@make check-env
@@ -641,18 +607,29 @@ mapproxy-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec mapproxy bash
 
-reinitialise-mapproxy:
+backup-mapproxy:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restarting Mapproxy and clearing its cache"
+	@echo "Backing up Mapproxy configuration files"
 	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mapproxy
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mapproxy
-	@rm -rf conf/mapproxy_conf/cache_data/*
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d mapproxy
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mapproxy
+	-@mkdir -p backups
+	@cp conf/mapproxy_conf/mapproxy.yaml backups/mapproxy.yaml
+	@cp backups/mapproxy.yaml backups/mapproxy-$$(date +%Y-%m-%d).yaml
+	@cp conf/mapproxy_conf/seed.yaml backups/seed.yaml 
+	@cp backups/seed.yaml backups/seed-$$(date +%Y-%m-%d).yaml
+	@ls -lah backups/*.yaml
 
+restore-mapproxy:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restoring Mapproxy configuration files"
+	@echo "------------------------------------------------------------------"
+	@echo "This will irrevocably delete your current mapproxy.yaml and seed.yaml Mapproxy configuration files."
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@cp backups/mapproxy.yaml conf/mapproxy_conf/mapproxy.yaml
+	@cp backups/seed.yaml conf/mapproxy_conf/seed.yaml
 
 #----------------- Postgres --------------------------
 
@@ -719,6 +696,17 @@ stop-postgres:
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill db
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm db
 
+restart-postgres:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting Postgres"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill db
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm db
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d db
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f db
+
 disable-postgres:
 	@make check-env
 	@echo "This is currently a stub"	
@@ -749,18 +737,6 @@ db-psql-shell: ## Create a psql session in the db container connected to the gis
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql gis
 
-
-reinitialise-postgres:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restarting postgres"
-	@echo "------------------------------------------------------------------"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill db
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm db
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d db
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f db
-
 backup-db-qgis-styles: ## Backup QGIS Styles in the gis database
 	@make check-env
 	@echo
@@ -787,7 +763,6 @@ restore-db-qgis-styles:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/QGISStyles.sql -d gis
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/QGISStyles.sql
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select stylename from layer_styles;" gis 
-
 
 backup-db-qgis-project:
 	@make check-env
@@ -816,7 +791,7 @@ restore-db-qgis-project:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/QGISProject.sql
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from qgis_projects;" gis 
 
-backup-db: ## Backup the gis database
+backup-db-gis: ## Backup the gis database
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -828,6 +803,18 @@ backup-db: ## Backup the gis database
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-gis-database.dmp
 	@cp backups/osgisstack-gis-database.dmp backups/osgisstack-gis-database-$$(date +%Y-%m-%d).dmp
 	@ls -lah backups/osgisstack-gis-database*
+
+restore-db-gis: ## Restore the gis database from a back up
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restoring the entire GIS postgres db from a backup"
+	@echo "------------------------------------------------------------------"
+	@echo "This will irrevocably delete any pre-existing data in your database."
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@docker cp backups/osgisstack-gis-database.dmp osgisstack_db_1:/tmp/
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "DROP DATABASE IF EXISTS gis WITH (FORCE);"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_restore -C -d postgres /tmp/osgisstack-gis-database.dmp
 
 list-database-sizes: ## Show the disk space used by each database
 	@make check-env
@@ -850,18 +837,6 @@ backup-all-databases: ## Backup all postgresql databases
 	@cp backups/osgisstack-all-databases.dmp backups/osgisstack-all-databases-$$(date +%Y-%m-%d).dmp
 	@ls -lah backups/osgisstack-all-databases*
 
-restore-db: ## Restore the gis database from a back up
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restoring the entire GIS postgres db from a backup"
-	@echo "------------------------------------------------------------------"
-	@echo "This will irrevocably delete any pre-existing data in your database."
-	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
-	@docker cp backups/osgisstack-gis-database.dmp osgisstack_db_1:/tmp/
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "DROP DATABASE IF EXISTS gis WITH (FORCE);"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_restore -C -d postgres /tmp/osgisstack-gis-database.dmp
-
 backup-mergin-base-db-schema:
 	@make check-env
 	@echo
@@ -874,7 +849,6 @@ backup-mergin-base-db-schema:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/mergin-base-schema.dmp
 	@cp backups/mergin-base-schema.dmp backups/mergin-base-schema-$$(date +%Y-%m-%d).dmp
 	@ls -lah backups/*.dmp
-
 
 #----------------- Jupyter --------------------------
 
@@ -1657,9 +1631,13 @@ configure-file-browser:
 	@echo "Setting up password and branding for file-browser"
 	@echo "------------------------------------------------------------------"
 	@sudo chown -R 1000:1000 conf/file_browser
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run file-browser config init
+	@sudo sh -c "cd /var/lib/docker/volumes/osgisstack_hugo_site/; chown -R 1000:1000 _data/; chmod -R ug+rwX _data/; cd _data; ls -lah;"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run file-browser config set --branding.name "OSGS File Browser" --branding.files "/conf/branding"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run file-browser users add admin ghjklk
+	@export PASSWD=$$(pwgen 60 1); \
+	   COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run file-browser users update admin --password $$PASSWD; \
+	   rpl FILEBROWSER_PASSWORD=admin FILEBROWSER_PASSWORD=$$PASSWD .env; \
+	   echo "FILEBROWSER_USER=admin"; \
+	   echo "FILEBROWSER_PASSWORD=$$PASSWD"
 	@make start-file-browser 
 	@make stop-nginx
 	@make start-nginx
