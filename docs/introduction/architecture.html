@@ -142,11 +142,11 @@
     <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../services/index.html">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
 </ul>
 
@@ -162,11 +162,11 @@
     <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../services/index.html">Services</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
 </ul>
 
@@ -190,28 +190,34 @@ containers together. This is all managed using Docker and Docker Compose which
 is the orchestration environment for Docker. OSGS is simply a set of Docker
 orchestration routines to bring up different services in different containers,
 make them all talk together and present them as one cohesive architecture.</p>
-<p>The Open Source GIS Stack (OSGS) is a platform based on Docker, which is a container deployment environment.
-Containers are isolated application runtimes. They typically contain a minimal version of an operating
-system, typically Linux. In that minimal version of the operating system the containers will typically
-have one single task they are responsible for doing, for example running PostGIS or running Geoserver
-and so on. Each container has a very specific task and the design intent that you do not deploy mutliple
-services in a single container. You must deploy each service in its own container then orcherstrate those
-containers together. This is all managed using Docker and Docker Compose which is the orchestration
-environmnt for Docker. OSGS is simply a set of Docker orchestration routines to bring up different
-services in different containers, make them all talk together and present them as one cohesive architecture.</p>
-<p>The other important thing that OSGS does, is it provides some scripts to do various management
-commands and tasks, for example, bringing up services or down services, copying data, making
-backups, etc. These scripts are provided using a utility called “make” which is typically used
-by programmers to compile software, but can also be used to automate tasks. There is a Makefile
-which does all the high level tasks on the orchestrated architecture that OSGS provides.</p>
+<p>The Open Source GIS Stack (OSGS) is a platform based on Docker, which is a
+container deployment environment.  Containers are isolated application
+runtimes. They typically contain a minimal version of an operating system,
+typically Linux. In that minimal version of the operating system the containers
+will typically have one single task they are responsible for doing, for example
+running PostGIS or running Geoserver and so on. Each container has a very
+specific task and the design intent that you do not deploy mutliple services in
+a single container. You must deploy each service in its own container then
+orcherstrate those containers together. This is all managed using Docker and
+Docker Compose which is the orchestration environmnt for Docker. OSGS is simply
+a set of Docker orchestration routines to bring up different services in
+different containers, make them all talk together and present them as one
+cohesive architecture.</p>
+<p>The other important thing that OSGS does, is it provides some scripts to do
+various management commands and tasks, for example, bringing up services or
+down services, copying data, making backups, etc. These scripts are provided
+using a utility called “make” which is typically used by programmers to compile
+software, but can also be used to automate tasks. There is a Makefile which
+does all the high level tasks on the orchestrated architecture that OSGS
+provides.</p>
 <div class="admonition warning">
-The services published in OSGS are independent from the Open Source GIS Stack project
-and any issues encountered using these applications should be raised with the
-appropriate upstream project.
+The services published in OSGS are independent from the Open Source GIS Stack
+project and any issues encountered using these applications should be raised
+with the appropriate upstream project.
 </div>
 <div class="section" id="architectural-overview-diagram">
 <h2>Architectural Overview Diagram<a class="headerlink" href="#architectural-overview-diagram" title="Permalink to this headline">¶</a></h2>
-<p><img alt="Architectural Overview Diagram" src="../_images/QGIS-Server-PG-Project-Design.png" /></p>
+<p><img alt="Architectural Overview Diagram" src="../_images/OSGSArchitecture.png" /></p>
 <p><strong>Note</strong>: Anybody can take open source software and package it as Docker services.
 Therefore, when you are choosing which Docker service and containers to run, you can
 go and have a look at the various ways different people have packaged up a particular
