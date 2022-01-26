@@ -17,7 +17,9 @@ Welcome to the Open Source Geospatial Stack!
    :alt: alternate text
    :align: center
 
-The Open Source GIS Stack (OSGS) is a rich, integrated, and opinionated GIS Stack with a focus on configurability and ease of use built from Open Source Components.
+The Open Source GIS Stack (OSGS) is a rich, integrated, and opinionated GIS
+Stack with a focus on configurability and ease of use built from Open Source
+Components.
 
 
 .. toctree::

@@ -1,7 +1,8 @@
 Introduction
 ==============================================
 
-The Open Source GIS Stack by `Kartoza <https://kartoza.com/en/>`_ is maintained in the `Kartoza / osgs <https://github.com/kartoza/osgs>`_ repository.
+The Open Source GIS Stack by `Kartoza <https://kartoza.com/en/>`_ is maintained
+in the `Kartoza / osgs <https://github.com/kartoza/osgs>`_ repository.
 
 What is the Open Source GIS Stack?
 ----------------------------------------------

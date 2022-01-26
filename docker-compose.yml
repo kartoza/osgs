@@ -36,6 +36,7 @@ x-node-red-image: &node-red-image nodered/node-red:latest
 x-mosquitto-image: &mosquitto-image eclipse-mosquitto:openssl
 x-file-browser-image: &file-browser-image filebrowser/filebrowser
 x-metabase-image: &metabase-image metabase/metabase:latest
+x-watchtower-image: &watchtower-image containrrr/watchtower
 
 # 
 # VOLUMES
@@ -110,6 +111,19 @@ services:
   # nginx, hugo watcher, filebrowser, postgres and others
   #
   ############################################################
+  
+  # Keep all our containers up to date
+  # see      
+  watchtower:
+    image: *watchtower-image
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 200m
+        max-file: '10'
  
   # Nginx with ssl      
   nginx:
