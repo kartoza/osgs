@@ -297,7 +297,7 @@ hugo-logs: ## Display the logs of the hugo-watcher process-
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Polling hugo logs"
+	@echo "Polling hugo logs. Press Ctrl-c to exit."
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f hugo-watcher
 
@@ -393,7 +393,7 @@ geoserver-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Polling Geoserver logs"
+	@echo "Polling Geoserver logs. Press Ctrl-c to exit."
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f geoserver
 
@@ -456,7 +456,7 @@ qgis-server-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Polling QGIS Server logs"
+	@echo "Polling QGIS Server logs. Press Ctrl-c to exit."
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-server
 
@@ -517,7 +517,7 @@ qgis-desktop-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Polling QGIS Desktop logs"
+	@echo "Polling QGIS Desktop logs. Press Ctrl-c to exit."
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-desktop
 
@@ -594,7 +594,7 @@ mapproxy-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Polling Mapproxy logs"
+	@echo "Polling Mapproxy logs. Press Ctrl-c to exit."
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mapproxy
 
@@ -623,9 +623,10 @@ restore-mapproxy:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restoring Mapproxy configuration files"
+	@echo "Restore last backup of the mapproxy configuration files from /backups/mapproxy.yaml and /backups/seed.yaml"
+	@echo "If you wist to restore an older backup of the files, first copy them to /backups/mapproxy.yaml and /backups/seed.yaml"
+	@echo "Note: Restoring will OVERWRITE your current mapproxy.yaml and seed.yaml Mapproxy configuration files."
 	@echo "------------------------------------------------------------------"
-	@echo "This will irrevocably delete your current mapproxy.yaml and seed.yaml Mapproxy configuration files."
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
 	@cp backups/mapproxy.yaml conf/mapproxy_conf/mapproxy.yaml
 	@cp backups/seed.yaml conf/mapproxy_conf/seed.yaml
@@ -716,7 +717,7 @@ db-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Polling db logs"
+	@echo "Polling db logs. Press Ctrl-c to exit."
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f db
 
@@ -753,11 +754,12 @@ restore-db-qgis-styles:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restoring QGIS styles to the gis database "
+	@echo "Restoring the last back up of QGIS styles to the gis database"
+	@echo "If you wist to restore an older backup, first copy it to /backups/qgis-styles.sql"
+	@echo "Note: Restoring will OVERWRITE your current public.layer_styles table in the gis database."
 	@echo "------------------------------------------------------------------"
-	@docker cp backups/qgis-styles.sql osgisstack_db_1:/tmp/ 
-	@echo "This will irrevocably delete the public.layer_styles table in your gis database."
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@docker cp backups/qgis-styles.sql osgisstack_db_1:/tmp/ 
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/qgis-styles.sql -d gis
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/qgis-styles.sql
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select stylename from layer_styles;" gis 
@@ -779,11 +781,12 @@ restore-db-qgis-projects:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restoring QGIS projects to the gis database"
+	@echo "Restoring the last back up of QGIS projects to the gis database"
+	@echo "If you wist to restore an older backup, first copy it to /backups/qgis-projects.sql"
+	@echo "Note: Restoring will OVERWRITE your current public.qgis_projects table in the gis database."
 	@echo "------------------------------------------------------------------"
-	@docker cp backups/qgis-projects.sql osgisstack_db_1:/tmp/ 
-	@echo "This will irrevocably delete the public.qgis_projects table in your gis database."
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@docker cp backups/qgis-projects.sql osgisstack_db_1:/tmp/ 	
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/qgis-projects.sql -d gis
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/qgis-projects.sql
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from public.qgis_projects;" gis
@@ -805,9 +808,10 @@ restore-db-gis: ## Restore the gis database from a back up
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restoring the entire GIS database"
+	@echo "Restoring the last back up the entire gis database"
+	@echo "If you wist to restore an older backup, first copy it to /backups/osgisstack-gis-database.sql"
+	@echo "Note: Restoring will OVERWRITE your current gis database."
 	@echo "------------------------------------------------------------------"
-	@echo "This will irrevocably delete any pre-existing data in your gis database."
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
 	@docker cp backups/osgisstack-gis-database.sql osgisstack_db_1:/tmp/
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/osgisstack-gis-database.sql -d gis
@@ -839,9 +843,10 @@ restore-db-mergin-base-schema:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restoring the mergin base schema to the gis database"
+	@echo "Restoring the last back up of the mergin base schema to the gis database"
+	@echo "If you wist to restore an older backup, first copy it to /backups/mergin-base-schema.sql"
+	@echo "Note: Restoring will OVERWRITE your current mergin_sync_base_do_not_touch schema in the gis database."
 	@echo "------------------------------------------------------------------"
-	@echo "This will irrevocably delete the public.qgis_projects table in your gis database."
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
 	@docker cp backups/mergin-base-schema.sql osgisstack_db_1:/tmp/mergin-base-schema.sql
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/mergin-base-schema.sql -d gis
@@ -865,9 +870,10 @@ restore-all-databases: ## Backup all postgresql databases
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restoring all postgres databases"
+	@echo "Restoring last back up of all postgres databases"
+	@echo "If you wist to restore an older backup, first copy it to /backups/osgisstack-all-databases.sql"
+	@echo "Note: Restoring will OVERWRITE all your current postgres databases."
 	@echo "------------------------------------------------------------------"
-	@echo "This will irrevocably delete any pre-existing data in your databases."
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
 	@docker cp backups/osgisstack-all-databases.sql osgisstack_db_1:/tmp/
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/osgisstack-all-databases.sql
@@ -934,7 +940,7 @@ jupyter-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Polling jupyter logs"
+	@echo "Polling jupyter logs. Press Ctrl-c to exit."
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f jupyter
 
@@ -950,10 +956,9 @@ jupyter-root-shell: ## Create a root bash shell in the jupyter container
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Creating jupyter bash shell"
+	@echo "Creating jupyter root bash shell"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u root jupyter bash
-
 
 restart-jupyter:
 	@make check-env
