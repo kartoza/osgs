@@ -317,8 +317,12 @@ backup-hugo: ## Create backups of the Hugo content folder.
 	@echo "Creating a backup of hugo"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --rm -v ${PWD}/backups:/backups nginx sh -c "tar cvfz /backups/hugo-backup.tar.gz /hugo"
+	@sudo sh -c "cd /var/lib/docker/volumes/osgisstack_hugo_site/; chown -R 1000:1000 _data/; chmod -R ug+rwX _data/; cd _data;"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec hugo-watcher bash -c "cd ..;  tar -czvf hugo-backup.tar.gz src"
+	@docker cp osgisstack_hugo-watcher_1:hugo-backup.tar.gz backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec hugo-watcher bash -c "rm ../hugo-backup.tar.gz"
 	@cp backups/hugo-backup.tar.gz backups/hugo-backup-$$(date +%Y-%m-%d).tar.gz
+	@ls -lah backups/hugo*.tar.gz
 
 restore-hugo: ## Restore the last backup of the Hugo content folder.
 	@make check-env
@@ -326,12 +330,13 @@ restore-hugo: ## Restore the last backup of the Hugo content folder.
 	@echo "------------------------------------------------------------------"
 	@echo "Restore last backup of hugo from /backups/hugo-backup.tar.gz"
 	@echo "If you wist to restore an older backup, first copy it to /backups/hugo-backup.tar.gz"
-	@echo "Note: Restoring will OVERWRITE all data currently in your hugo content dir."
+	@echo "Note: Restoring will OVERWRITE all data currently in your hugo_site directory."
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
-	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --rm -v ${PWD}/backups:/backups nginx sh -c "cd /hugo && tar xvfz /backups/hugo-backup.tar.gz --strip 1"
-
+	@docker cp backups/hugo-backup.tar.gz osgisstack_hugo-watcher_1:/
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec hugo-watcher bash -c "cd .. ; tar -zxvf hugo-backup.tar.gz"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec hugo-watcher bash -c "rm ../hugo-backup.tar.gz"
+	
 get-hugo-theme:
 	@echo
 	@echo "------------------------------------------------------------------"
