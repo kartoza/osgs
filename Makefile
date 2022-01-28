@@ -316,7 +316,7 @@ backup-hugo: ## Create backups of the Hugo content folder.
 	@echo "Creating a backup of hugo"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@sudo sh -c "cd /var/lib/docker/volumes/osgisstack_hugo_site/; chown -R 1000:1000 _data/; chmod -R ug+rwX _data/; cd _data;"
+	@sudo sh -c "cd /var/lib/docker/volumes/osgisstack_hugo_site/; chown -R 1000:1000 _data/; chmod -R ug+rwX _data/"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec hugo-watcher bash -c "cd ..;  tar -czvf hugo-backup.tar.gz src"
 	@docker cp osgisstack_hugo-watcher_1:hugo-backup.tar.gz backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec hugo-watcher bash -c "rm ../hugo-backup.tar.gz"
