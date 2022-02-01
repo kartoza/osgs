@@ -1071,7 +1071,6 @@ metabase-root-shell: ## Create a root bash shell in the metabase container
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u root metabase bash
 
-
 restart-metabase:
 	@make check-env
 	@echo
@@ -1106,7 +1105,6 @@ restore-metabase:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / metabase -c "rm -rf /home/*"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups metabase -c "cd /home && tar xvfz /backups/metabase-backup.tar.gz --strip 1"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart metabase
-
 
 #----------------- survey solutions --------------------------
 
@@ -1172,7 +1170,6 @@ surveysolutions-root-shell: ## Create a root bash shell in the surveysolutions c
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u root surveysolutions bash
 
-
 restart-surveysolutions:
 	@make check-env
 	@echo
@@ -1207,8 +1204,6 @@ restore-surveysolutions:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / surveysolutions -c "rm -rf /home/*"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups surveysolutions -c "cd /home && tar xvfz /backups/surveysolutions-backup.tar.gz --strip 1"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart surveysolutions
-
-
 
 #----------------- OSM Mirror --------------------------
 
@@ -1249,7 +1244,6 @@ get-pbf-lint: ## get the pbflint application which can be used to verify your co
 	@wget -O pbflint https://github.com/missinglink/pbflint/blob/master/build/pbflint.linux.bin?raw=true
 	@chmod +x pbflint
 
-
 start-osm-mirror:
 	@make check-env
 	@echo
@@ -1257,7 +1251,6 @@ start-osm-mirror:
 	@echo "Starting OSM Mirror"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
-
 
 osm-mirror-materialized-views:
 	@make check-env
@@ -1284,7 +1277,6 @@ add-db-osm-mirror-qgis-project:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/osm_mirror_qgis_project.sql
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from qgis_projects;" gis 
 
-
 add-db-osm-mirror-elevation:
 	@make check-env 
 	@echo "-------------------------------------------------------------------"
@@ -1298,7 +1290,6 @@ add-db-osm-mirror-elevation:
 	@docker cp conf/osm_conf/SRTM_DEM/srtm30m_dem.sql osgisstack_db_1:/tmp/
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/srtm30m_dem.sql -d gis
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/srtm30m_dem.sql 
-
 
 stop-osm-mirror:
 	@make check-env
@@ -1325,7 +1316,7 @@ disable-osm-mirror:
 	# Remove from enabled-profiles
 	@sed -i '/osm/d' enabled-profiles
 
-reinitialise-osm-mirror: stop-osm-mirror
+restart-osm-mirror: stop-osm-mirror
 	@make check-env
 	@echo-----------------------------------------------------------"
 	@echo "Deleting
@@ -1370,7 +1361,6 @@ osm-mirror-imposm-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec imposm bash 
 
-
 #----------------- Postgrest --------------------------
 
 deploy-postgrest:  enable-postgrest configure-postgrest start-postgrest
@@ -1396,7 +1386,6 @@ configure-postgrest: start-postgrest
 		rpl secret_password $$PASSWD conf/postgrest/setup.sql; \
 		echo "API Anon user password set to $$PASSWD"
 	@make restore-postgrest-sql
-
 
 start-postgrest:
 	@make check-env
