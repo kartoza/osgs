@@ -1467,8 +1467,14 @@ configure-node-red:
 	@echo "========================="
 	@make configure-timezone
 
-restart-node-red: stop-node-red start-node-red
-
+restart-node-red:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting Node-RED"
+	@echo "------------------------------------------------------------------"
+	@make stop-node-red
+	@make start-node-red 
+	 
 start-node-red:
 	@make check-env
 	@echo
