@@ -1405,6 +1405,14 @@ stop-postgrest:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill swagger
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm swagger
 
+restart-postgrest:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting PostgREST"
+	@echo "------------------------------------------------------------------"
+	@make stop-postgrest
+	@make start-postgrest
+
 disable-postgrest:
 	# Remove from enabled-profiles
 	@sed -i '/postgrest/d' enabled-profiles
