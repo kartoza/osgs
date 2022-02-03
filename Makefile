@@ -328,7 +328,7 @@ restore-hugo: ## Restore the last backup of the Hugo content folder.
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restore last backup of hugo from /backups/hugo-backup.tar.gz"
-	@echo "If you wist to restore an older backup, first copy it to /backups/hugo-backup.tar.gz"
+	@echo "If you wish to restore an older backup, first copy it to /backups/hugo-backup.tar.gz"
 	@echo "Note: Restoring will OVERWRITE all data currently in your hugo_site directory."
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
@@ -629,7 +629,7 @@ restore-mapproxy:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restore last backup of the mapproxy configuration files from /backups/mapproxy.yaml and /backups/seed.yaml"
-	@echo "If you wist to restore an older backup of the files, first copy them to /backups/mapproxy.yaml and /backups/seed.yaml"
+	@echo "If you wish to restore an older backup of the files, first copy them to /backups/mapproxy.yaml and /backups/seed.yaml"
 	@echo "Note: Restoring will OVERWRITE your current mapproxy.yaml and seed.yaml Mapproxy configuration files."
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
@@ -760,7 +760,7 @@ restore-db-qgis-styles:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restoring the last back up of QGIS styles to the gis database"
-	@echo "If you wist to restore an older backup, first copy it to /backups/qgis-styles.sql"
+	@echo "If you wish to restore an older backup, first copy it to /backups/qgis-styles.sql"
 	@echo "Note: Restoring will OVERWRITE your current public.layer_styles table in the gis database."
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
@@ -787,7 +787,7 @@ restore-db-qgis-projects:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restoring the last back up of QGIS projects to the gis database"
-	@echo "If you wist to restore an older backup, first copy it to /backups/qgis-projects.sql"
+	@echo "If you wish to restore an older backup, first copy it to /backups/qgis-projects.sql"
 	@echo "Note: Restoring will OVERWRITE your current public.qgis_projects table in the gis database."
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
@@ -814,7 +814,7 @@ restore-db-gis: ## Restore the gis database from a back up
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restoring the last back up the entire gis database"
-	@echo "If you wist to restore an older backup, first copy it to /backups/osgisstack-gis-database.sql"
+	@echo "If you wish to restore an older backup, first copy it to /backups/osgisstack-gis-database.sql"
 	@echo "Note: Restoring will OVERWRITE your current gis database."
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
@@ -849,7 +849,7 @@ restore-db-mergin-base-schema:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restoring the last back up of the mergin base schema to the gis database"
-	@echo "If you wist to restore an older backup, first copy it to /backups/mergin-base-schema.sql"
+	@echo "If you wish to restore an older backup, first copy it to /backups/mergin-base-schema.sql"
 	@echo "Note: Restoring will OVERWRITE your current mergin_sync_base_do_not_touch schema in the gis database."
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
@@ -876,7 +876,7 @@ restore-all-databases: ## Backup all postgresql databases
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restoring last back up of all postgres databases"
-	@echo "If you wist to restore an older backup, first copy it to /backups/osgisstack-all-databases.sql"
+	@echo "If you wish to restore an older backup, first copy it to /backups/osgisstack-all-databases.sql"
 	@echo "Note: Restoring will OVERWRITE all your current postgres databases."
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
@@ -1466,14 +1466,6 @@ configure-node-red:
 	@echo "Node Red configured"
 	@echo "========================="
 	@make configure-timezone
-
-restart-node-red:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Restarting Node-RED"
-	@echo "------------------------------------------------------------------"
-	@make stop-node-red
-	@make start-node-red 
 	 
 start-node-red:
 	@make check-env
@@ -1490,6 +1482,14 @@ stop-node-red:
 	@echo "------------------------------------------------------------------"
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill node-red
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm node-red
+
+restart-node-red:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting Node-RED"
+	@echo "------------------------------------------------------------------"
+	@make stop-node-red
+	@make start-node-red 
 
 disable-node-red:
 	@make check-env
@@ -1535,14 +1535,14 @@ backup-node-red:
 	-@mkdir -p backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups node-red -c "/bin/tar cvfz /backups/node-red-backup.tar.gz /data"
 	@cp backups/node-red-backup.tar.gz backups/node-red-backup-$$(date +%Y-%m-%d).tar.gz
-	@ls -lah backups/*.tar.gz
+	@ls -lah backups/node*.tar.gz
 
 restore-node-red:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restore last backup of node-red from /backups/node-red-backup.tar.gz"
-	@echo "If you wist to restore an older backup, first copy it to /backups/node-red-backup.tar.gz"
+	@echo "If you wish to restore an older backup, first copy it to /backups/node-red-backup.tar.gz"
 	@echo "Note: Restoring will OVERWRITE all data currently in your node-red content dir."
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
@@ -1561,8 +1561,6 @@ add-node-red-example-data:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/nodered_example_data.sql
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "\dn;" gis 
 
-
-
 #----------------- Mosquitto MQTT Broker --------------------------
 
 deploy-mosquitto: enable-mosquitto configure-mosquitto start-mosquitto 
@@ -1580,8 +1578,6 @@ configure-mosquitto:
 	@chmod +x conf/mosquitto/start-mosquitto.sh
 	@if [ ! -f "conf/mosquitto/mosquitto.conf" ]; then cp conf/mosquitto/mosquitto.conf.example conf/mosquitto/mosquitto.conf; fi
 
-restart-mosquitto: stop-mosquitto start-mosquitto
-
 start-mosquitto:
 	@make check-env
 	@echo
@@ -1597,6 +1593,14 @@ stop-mosquitto:
 	@echo "------------------------------------------------------------------"
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mosquitto
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mosquitto
+
+restart-mosquitto:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting Mosquitto"
+	@echo "------------------------------------------------------------------" 
+	@make stop-mosquitto 
+	@make start-mosquitto
 
 disable-mosquitto:
 	@make check-env
@@ -1635,7 +1639,7 @@ restore-mosquitto:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restore last backup of mosquitto from /backups/mosquitto-backup.tar.gz"
-	@echo "If you wist to restore an older backup, first copy it to /backups/mosquitto-backup.tar.gz"
+	@echo "If you wish to restore an older backup, first copy it to /backups/mosquitto-backup.tar.gz"
 	@echo "Note: Restoring will OVERWRITE all data currently in your mosquitto content dir."
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
@@ -1679,8 +1683,6 @@ configure-file-browser:
 	@make stop-nginx
 	@make start-nginx
 
-restart-file-browser: stop-file-browser start-file-browser
-
 start-file-browser:
 	@make check-env
 	@echo
@@ -1698,6 +1700,14 @@ stop-file-browser:
 	@echo "------------------------------------------------------------------"
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill file-browser
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm file-browser
+
+restart-file-browser:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting file browser"
+	@echo "------------------------------------------------------------------" 
+	@make stop-file-browser 
+	@make start-file-browser
 
 disable-file-browser:
 	@make check-env
@@ -1719,6 +1729,27 @@ file-browser-shell:
 	@echo "Creating file browser shell"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec file-browser sh
+
+backup-file-browser:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Backing up file browser"
+	@echo "------------------------------------------------------------------"
+	@cp conf/file_browser/database.db backups/
+	@cp backups/database.db backups/database-$$(date +%Y-%m-%d).db
+	@ls -lah backups/database*.db
+
+restore-file-browser:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restoring the last back up of file browser"
+	@echo "If you wish to restore an older backup, first copy it to /backups/database.db"
+	@echo "Note: Restoring will OVERWRITE your current conf/file_browser/database.db file."
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@cp backups/database.db conf/file_browser/database.db
 
 #----------------- Mergin Server --------------------------
 
