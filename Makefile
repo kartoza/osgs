@@ -28,14 +28,29 @@ backup-everything: ## Sequentially run through all backup scripts
 	@make backup-hugo
 	@make backup-mapproxy
 	-@make backup-db-qgis-styles
-	-@make backup-db-qgis-project
-	@make backup-db
+	-@make backup-db-qgis-projects
+	@make backup-db-gis
 	@make backup-all-databases
 	-@make backup-mergin-base-db-schema
 	@make backup-node-red
 	@make backup-mosquitto
 	@make backup-jupyter
 	@make backup-metabase
+	@make backup-file-browser
+	
+restore-everything:
+	@make restore-hugo
+	@make restore-mapproxy
+	-@make restore-db-qgis-styles
+	-@make restore-db-qgis-projects
+	@make restore-db-gis
+	@make restore-all-databases
+	-@make restore-mergin-base-db-schema
+	@make restore-node-red
+	@make restore-mosquitto
+	@make restore-jupyter
+	@make restore-metabase
+	@make restore-file-browser
 
 # We need to declare phony here since the docs dir exists
 # otherwise make tries to execute the docs file directly
@@ -68,7 +83,7 @@ ps: ## List all running docker contains
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose ps
 
 
-deploy: configure ## Deploy the initial stack including nginx, scp and hugo-watcher
+deploy: configure ## Deploy the initial stack including nginx and hugo-watcher
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Starting basic nginx site"
@@ -121,8 +136,7 @@ configure-ssl-self-signed: disable-all-services prepare-templates ## Create a se
 	@openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./certbot/certbot/conf/nginx-selfsigned.key -out ./certbot/certbot/conf/nginx-selfsigned.crt
 	@cp conf/nginx_conf/ssl/certificates.conf.selfsigned.example conf/nginx_conf/ssl/ssl.conf
 	make site-config 
-	make enable-hugo 
-	make configure-scp 
+	make enable-hugo  
 	make configure-htpasswd 
 	make deploy 
 	#@rpl "BEGIN CERTIFICATE" "BEGIN TRUSTED CERTIFICATE" ./certbot/certbot/conf/nginx-selfsigned.crt
@@ -298,7 +312,7 @@ hugo-logs: ## Display the logs of the hugo-watcher process-
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Polling hugo logs"
+	@echo "Polling hugo logs. Press Ctrl-c to exit."
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f hugo-watcher
 
@@ -317,21 +331,26 @@ backup-hugo: ## Create backups of the Hugo content folder.
 	@echo "Creating a backup of hugo"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --rm -v ${PWD}/backups:/backups nginx sh -c "tar cvfz /backups/hugo-backup.tar.gz /hugo"
+	@sudo sh -c "cd /var/lib/docker/volumes/osgisstack_hugo_site/; chown -R 1000:1000 _data/; chmod -R ug+rwX _data/"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec hugo-watcher bash -c "cd ..;  tar -czvf hugo-backup.tar.gz src"
+	@docker cp osgisstack_hugo-watcher_1:hugo-backup.tar.gz backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec hugo-watcher bash -c "rm ../hugo-backup.tar.gz"
 	@cp backups/hugo-backup.tar.gz backups/hugo-backup-$$(date +%Y-%m-%d).tar.gz
+	@ls -lah backups/hugo*.tar.gz
 
 restore-hugo: ## Restore the last backup of the Hugo content folder.
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restore last backup of hugo from /backups/hugo-backup.tar.gz"
-	@echo "If you wist to restore an older backup, first copy it to /backups/hugo-backup.tar.gz"
-	@echo "Note: Restoring will OVERWRITE all data currently in your hugo content dir."
+	@echo "If you wish to restore an older backup, first copy it to /backups/hugo-backup.tar.gz"
+	@echo "Note: Restoring will OVERWRITE all data currently in your hugo_site directory."
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
-	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --rm -v ${PWD}/backups:/backups nginx sh -c "cd /hugo && tar xvfz /backups/hugo-backup.tar.gz --strip 1"
-
+	@docker cp backups/hugo-backup.tar.gz osgisstack_hugo-watcher_1:/
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec hugo-watcher bash -c "cd .. ; tar -zxvf hugo-backup.tar.gz"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec hugo-watcher bash -c "rm ../hugo-backup.tar.gz"
+	
 get-hugo-theme:
 	@echo
 	@echo "------------------------------------------------------------------"
@@ -394,7 +413,7 @@ geoserver-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Polling Geoserver logs"
+	@echo "Polling Geoserver logs. Press Ctrl-c to exit."
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f geoserver
 
@@ -457,7 +476,7 @@ qgis-server-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Polling QGIS Server logs"
+	@echo "Polling QGIS Server logs. Press Ctrl-c to exit."
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-server
 
@@ -518,7 +537,7 @@ qgis-desktop-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Polling QGIS Desktop logs"
+	@echo "Polling QGIS Desktop logs. Press Ctrl-c to exit."
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f qgis-desktop
 
@@ -595,7 +614,7 @@ mapproxy-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Polling Mapproxy logs"
+	@echo "Polling Mapproxy logs. Press Ctrl-c to exit."
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f mapproxy
 
@@ -624,9 +643,10 @@ restore-mapproxy:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restoring Mapproxy configuration files"
+	@echo "Restore last backup of the mapproxy configuration files from /backups/mapproxy.yaml and /backups/seed.yaml"
+	@echo "If you wish to restore an older backup of the files, first copy them to /backups/mapproxy.yaml and /backups/seed.yaml"
+	@echo "Note: Restoring will OVERWRITE your current mapproxy.yaml and seed.yaml Mapproxy configuration files."
 	@echo "------------------------------------------------------------------"
-	@echo "This will irrevocably delete your current mapproxy.yaml and seed.yaml Mapproxy configuration files."
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
 	@cp backups/mapproxy.yaml conf/mapproxy_conf/mapproxy.yaml
 	@cp backups/seed.yaml conf/mapproxy_conf/seed.yaml
@@ -717,7 +737,7 @@ db-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Polling db logs"
+	@echo "Polling db logs. Press Ctrl-c to exit."
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f db
 
@@ -741,80 +761,82 @@ backup-db-qgis-styles: ## Backup QGIS Styles in the gis database
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Backing up QGIS styles stored in gis db"
+	@echo "Backing up QGIS styles stored in the gis database"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -f /tmp/QGISStyles.sql -t public.layer_styles gis
-	@docker cp osgisstack_db_1:/tmp/QGISStyles.sql backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/QGISStyles.sql
-	@cp backups/QGISStyles.sql backups/QGISStyles-$$(date +%Y-%m-%d).sql
-	@ls -lah backups/*.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump --clean -f /tmp/qgis-styles.sql -t public.layer_styles gis
+	@docker cp osgisstack_db_1:/tmp/qgis-styles.sql backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/qgis-styles.sql
+	@cp backups/qgis-styles.sql backups/qgis-styles-$$(date +%Y-%m-%d).sql
+	@ls -lah backups/qgis-styles*.sql
 
 restore-db-qgis-styles:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restoring QGIS styles to gis db"
+	@echo "Restoring the last back up of QGIS styles to the gis database"
+	@echo "If you wish to restore an older backup, first copy it to /backups/qgis-styles.sql"
+	@echo "Note: Restoring will OVERWRITE your current public.layer_styles table in the gis database."
 	@echo "------------------------------------------------------------------"
-	@docker cp backups/QGISStyles.sql osgisstack_db_1:/tmp/ 
-	@echo -n "Are you sure you want to delete the public.layer_styles table? [y/N] " && read ans && [ $${ans:-N} = y ]
-	# - at start of next line means error will be ignored (in case QGIS project table isnt already there)
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop table layer_styles;" gis 
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/QGISStyles.sql -d gis
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/QGISStyles.sql
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@docker cp backups/qgis-styles.sql osgisstack_db_1:/tmp/ 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/qgis-styles.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/qgis-styles.sql
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select stylename from layer_styles;" gis 
 
-backup-db-qgis-project:
+backup-db-qgis-projects:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Backing up QGIS project stored in db"
+	@echo "Backing up QGIS projects stored in the gis database"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -f /tmp/QGISProject.sql -t public.qgis_projects gis
-	@docker cp osgisstack_db_1:/tmp/QGISProject.sql backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/QGISProject.sql
-	@cp backups/QGISProject.sql backups/QGISProject-$$(date +%Y-%m-%d).sql
-	@ls -lah backups/*.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump --clean -f /tmp/qgis-projects.sql -t public.qgis_projects gis
+	@docker cp osgisstack_db_1:/tmp/qgis-projects.sql backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/qgis-projects.sql
+	@cp backups/qgis-projects.sql backups/qgis-projects-$$(date +%Y-%m-%d).sql
+	@ls -lah backups/qgis-projects*.sql
 
-restore-db-qgis-project:
+restore-db-qgis-projects:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restoring QGIS project to db"
+	@echo "Restoring the last back up of QGIS projects to the gis database"
+	@echo "If you wish to restore an older backup, first copy it to /backups/qgis-projects.sql"
+	@echo "Note: Restoring will OVERWRITE your current public.qgis_projects table in the gis database."
 	@echo "------------------------------------------------------------------"
-	@docker cp backups/QGISProject.sql osgisstack_db_1:/tmp/ 
-	@echo -n "Are you sure you want to delete the public.qgis_projects table? [y/N] " && read ans && [ $${ans:-N} = y ]
-	# - at start of next line means error will be ignored (in case QGIS project table isnt already there)
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop table qgis_projects;" gis 
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/QGISProject.sql -d gis
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/QGISProject.sql
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from qgis_projects;" gis 
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@docker cp backups/qgis-projects.sql osgisstack_db_1:/tmp/ 	
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/qgis-projects.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/qgis-projects.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from public.qgis_projects;" gis
 
 backup-db-gis: ## Backup the gis database
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Backing up entire GIS postgres db"
+	@echo "Backing up the entire gis database"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -Fc -f /tmp/osgisstack-gis-database.dmp gis
-	@docker cp osgisstack_db_1:/tmp/osgisstack-gis-database.dmp backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-gis-database.dmp
-	@cp backups/osgisstack-gis-database.dmp backups/osgisstack-gis-database-$$(date +%Y-%m-%d).dmp
-	@ls -lah backups/osgisstack-gis-database*
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump --clean -f /tmp/osgisstack-gis-database.sql gis
+	@docker cp osgisstack_db_1:/tmp/osgisstack-gis-database.sql backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-gis-database.sql
+	@cp backups/osgisstack-gis-database.sql backups/osgisstack-gis-database-$$(date +%Y-%m-%d).sql
+	@ls -lah backups/osgisstack-gis-database*.sql
 
 restore-db-gis: ## Restore the gis database from a back up
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restoring the entire GIS postgres db from a backup"
+	@echo "Restoring the last back up the entire gis database"
+	@echo "If you wish to restore an older backup, first copy it to /backups/osgisstack-gis-database.sql"
+	@echo "Note: Restoring will OVERWRITE your current gis database."
 	@echo "------------------------------------------------------------------"
-	@echo "This will irrevocably delete any pre-existing data in your database."
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
-	@docker cp backups/osgisstack-gis-database.dmp osgisstack_db_1:/tmp/
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "DROP DATABASE IF EXISTS gis WITH (FORCE);"
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_restore -C -d postgres /tmp/osgisstack-gis-database.dmp
+	@docker cp backups/osgisstack-gis-database.sql osgisstack_db_1:/tmp/
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/osgisstack-gis-database.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/osgisstack-gis-database.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "\dn;" gis
 
 list-database-sizes: ## Show the disk space used by each database
 	@make check-env
@@ -824,6 +846,33 @@ list-database-sizes: ## Show the disk space used by each database
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db bash -c "psql -c '\l+' > /tmp/listing.txt; cat /tmp/listing.txt | sed 's/--//g'" | sed 's/ //g' | awk 'BEGIN { FS = "|" } {print $$1 ":" $$7}' | tail -n +4 | head -n -5
 
+backup-db-mergin-base-schema:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Backing up the mergin base schema from the gis database"
+	@echo "------------------------------------------------------------------"
+	-@mkdir -p backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump --clean -f /tmp/mergin-base-schema.sql -n mergin_sync_base_do_not_touch gis
+	@docker cp osgisstack_db_1:/tmp/mergin-base-schema.sql backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/mergin-base-schema.sql
+	@cp backups/mergin-base-schema.sql backups/mergin-base-schema-$$(date +%Y-%m-%d).sql
+	@ls -lah backups/mergin-base-schema*.sql
+
+restore-db-mergin-base-schema:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restoring the last back up of the mergin base schema to the gis database"
+	@echo "If you wish to restore an older backup, first copy it to /backups/mergin-base-schema.sql"
+	@echo "Note: Restoring will OVERWRITE your current mergin_sync_base_do_not_touch schema in the gis database."
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@docker cp backups/mergin-base-schema.sql osgisstack_db_1:/tmp/mergin-base-schema.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/mergin-base-schema.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/mergin-base-schema.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "\dt mergin_sync_base_do_not_touch.;" gis
+
 backup-all-databases: ## Backup all postgresql databases
 	@make check-env
 	@echo
@@ -831,24 +880,25 @@ backup-all-databases: ## Backup all postgresql databases
 	@echo "Backing up all postgres databases"
 	@echo "------------------------------------------------------------------"
 	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dumpall -f /tmp/osgisstack-all-databases.dmp
-	@docker cp osgisstack_db_1:/tmp/osgisstack-all-databases.dmp .
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-all-databases.dmp
-	@cp backups/osgisstack-all-databases.dmp backups/osgisstack-all-databases-$$(date +%Y-%m-%d).dmp
-	@ls -lah backups/osgisstack-all-databases*
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dumpall --clean -f /tmp/osgisstack-all-databases.sql
+	@docker cp osgisstack_db_1:/tmp/osgisstack-all-databases.sql backups
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/osgisstack-all-databases.sql
+	@cp backups/osgisstack-all-databases.sql backups/osgisstack-all-databases-$$(date +%Y-%m-%d).sql
+	@ls -lah backups/osgisstack-all-databases*.sql
 
-backup-mergin-base-db-schema:
+restore-all-databases: ## Backup all postgresql databases
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Backing up mergin base schema from  postgres db"
+	@echo "Restoring last back up of all postgres databases"
+	@echo "If you wish to restore an older backup, first copy it to /backups/osgisstack-all-databases.sql"
+	@echo "Note: Restoring will OVERWRITE all your current postgres databases."
 	@echo "------------------------------------------------------------------"
-	-@mkdir -p backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db pg_dump -Fc -f /tmp/mergin-base-schema.dmp -n mergin_sync_base_do_not_touch gis
-	@docker cp osgisstack_db_1:/tmp/mergin-base-schema.dmp backups
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db rm /tmp/mergin-base-schema.dmp
-	@cp backups/mergin-base-schema.dmp backups/mergin-base-schema-$$(date +%Y-%m-%d).dmp
-	@ls -lah backups/*.dmp
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@docker cp backups/osgisstack-all-databases.sql osgisstack_db_1:/tmp/
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/osgisstack-all-databases.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/osgisstack-all-databases.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "\l+"
 
 #----------------- Jupyter --------------------------
 
@@ -910,7 +960,7 @@ jupyter-logs:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Polling jupyter logs"
+	@echo "Polling jupyter logs. Press Ctrl-c to exit."
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose logs -f jupyter
 
@@ -926,10 +976,9 @@ jupyter-root-shell: ## Create a root bash shell in the jupyter container
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Creating jupyter bash shell"
+	@echo "Creating jupyter root bash shell"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u root jupyter bash
-
 
 restart-jupyter:
 	@make check-env
@@ -1037,7 +1086,6 @@ metabase-root-shell: ## Create a root bash shell in the metabase container
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u root metabase bash
 
-
 restart-metabase:
 	@make check-env
 	@echo
@@ -1072,7 +1120,6 @@ restore-metabase:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / metabase -c "rm -rf /home/*"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups metabase -c "cd /home && tar xvfz /backups/metabase-backup.tar.gz --strip 1"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart metabase
-
 
 #----------------- survey solutions --------------------------
 
@@ -1138,7 +1185,6 @@ surveysolutions-root-shell: ## Create a root bash shell in the surveysolutions c
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u root surveysolutions bash
 
-
 restart-surveysolutions:
 	@make check-env
 	@echo
@@ -1173,8 +1219,6 @@ restore-surveysolutions:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / surveysolutions -c "rm -rf /home/*"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups surveysolutions -c "cd /home && tar xvfz /backups/surveysolutions-backup.tar.gz --strip 1"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose restart surveysolutions
-
-
 
 #----------------- OSM Mirror --------------------------
 
@@ -1215,7 +1259,6 @@ get-pbf-lint: ## get the pbflint application which can be used to verify your co
 	@wget -O pbflint https://github.com/missinglink/pbflint/blob/master/build/pbflint.linux.bin?raw=true
 	@chmod +x pbflint
 
-
 start-osm-mirror:
 	@make check-env
 	@echo
@@ -1223,7 +1266,6 @@ start-osm-mirror:
 	@echo "Starting OSM Mirror"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
-
 
 osm-mirror-materialized-views:
 	@make check-env
@@ -1250,7 +1292,6 @@ add-db-osm-mirror-qgis-project:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/osm_mirror_qgis_project.sql
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from qgis_projects;" gis 
 
-
 add-db-osm-mirror-elevation:
 	@make check-env 
 	@echo "-------------------------------------------------------------------"
@@ -1264,7 +1305,6 @@ add-db-osm-mirror-elevation:
 	@docker cp conf/osm_conf/SRTM_DEM/srtm30m_dem.sql osgisstack_db_1:/tmp/
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/srtm30m_dem.sql -d gis
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/srtm30m_dem.sql 
-
 
 stop-osm-mirror:
 	@make check-env
@@ -1291,7 +1331,7 @@ disable-osm-mirror:
 	# Remove from enabled-profiles
 	@sed -i '/osm/d' enabled-profiles
 
-reinitialise-osm-mirror: stop-osm-mirror
+restart-osm-mirror: stop-osm-mirror
 	@make check-env
 	@echo-----------------------------------------------------------"
 	@echo "Deleting
@@ -1336,7 +1376,6 @@ osm-mirror-imposm-shell:
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec imposm bash 
 
-
 #----------------- Postgrest --------------------------
 
 deploy-postgrest:  enable-postgrest configure-postgrest start-postgrest
@@ -1363,7 +1402,6 @@ configure-postgrest: start-postgrest
 		echo "API Anon user password set to $$PASSWD"
 	@make restore-postgrest-sql
 
-
 start-postgrest:
 	@make check-env
 	@echo "------------------------------------------------------------------"
@@ -1381,6 +1419,14 @@ stop-postgrest:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm postgrest
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill swagger
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm swagger
+
+restart-postgrest:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting PostgREST"
+	@echo "------------------------------------------------------------------"
+	@make stop-postgrest
+	@make start-postgrest
 
 disable-postgrest:
 	# Remove from enabled-profiles
@@ -1435,9 +1481,7 @@ configure-node-red:
 	@echo "Node Red configured"
 	@echo "========================="
 	@make configure-timezone
-
-restart-node-red: stop-node-red start-node-red
-
+	 
 start-node-red:
 	@make check-env
 	@echo
@@ -1453,6 +1497,14 @@ stop-node-red:
 	@echo "------------------------------------------------------------------"
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill node-red
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm node-red
+
+restart-node-red:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting Node-RED"
+	@echo "------------------------------------------------------------------"
+	@make stop-node-red
+	@make start-node-red 
 
 disable-node-red:
 	@make check-env
@@ -1498,14 +1550,14 @@ backup-node-red:
 	-@mkdir -p backups
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose run --entrypoint /bin/bash --rm -w / -v ${PWD}/backups:/backups node-red -c "/bin/tar cvfz /backups/node-red-backup.tar.gz /data"
 	@cp backups/node-red-backup.tar.gz backups/node-red-backup-$$(date +%Y-%m-%d).tar.gz
-	@ls -lah backups/*.tar.gz
+	@ls -lah backups/node*.tar.gz
 
 restore-node-red:
 	@make check-env
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restore last backup of node-red from /backups/node-red-backup.tar.gz"
-	@echo "If you wist to restore an older backup, first copy it to /backups/node-red-backup.tar.gz"
+	@echo "If you wish to restore an older backup, first copy it to /backups/node-red-backup.tar.gz"
 	@echo "Note: Restoring will OVERWRITE all data currently in your node-red content dir."
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
@@ -1524,8 +1576,6 @@ add-node-red-example-data:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/nodered_example_data.sql
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "\dn;" gis 
 
-
-
 #----------------- Mosquitto MQTT Broker --------------------------
 
 deploy-mosquitto: enable-mosquitto configure-mosquitto start-mosquitto 
@@ -1543,8 +1593,6 @@ configure-mosquitto:
 	@chmod +x conf/mosquitto/start-mosquitto.sh
 	@if [ ! -f "conf/mosquitto/mosquitto.conf" ]; then cp conf/mosquitto/mosquitto.conf.example conf/mosquitto/mosquitto.conf; fi
 
-restart-mosquitto: stop-mosquitto start-mosquitto
-
 start-mosquitto:
 	@make check-env
 	@echo
@@ -1560,6 +1608,14 @@ stop-mosquitto:
 	@echo "------------------------------------------------------------------"
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill mosquitto
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm mosquitto
+
+restart-mosquitto:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting Mosquitto"
+	@echo "------------------------------------------------------------------" 
+	@make stop-mosquitto 
+	@make start-mosquitto
 
 disable-mosquitto:
 	@make check-env
@@ -1598,7 +1654,7 @@ restore-mosquitto:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Restore last backup of mosquitto from /backups/mosquitto-backup.tar.gz"
-	@echo "If you wist to restore an older backup, first copy it to /backups/mosquitto-backup.tar.gz"
+	@echo "If you wish to restore an older backup, first copy it to /backups/mosquitto-backup.tar.gz"
 	@echo "Note: Restoring will OVERWRITE all data currently in your mosquitto content dir."
 	@echo "------------------------------------------------------------------"
 	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
@@ -1642,8 +1698,6 @@ configure-file-browser:
 	@make stop-nginx
 	@make start-nginx
 
-restart-file-browser: stop-file-browser start-file-browser
-
 start-file-browser:
 	@make check-env
 	@echo
@@ -1661,6 +1715,14 @@ stop-file-browser:
 	@echo "------------------------------------------------------------------"
 	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose kill file-browser
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose rm file-browser
+
+restart-file-browser:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restarting file browser"
+	@echo "------------------------------------------------------------------" 
+	@make stop-file-browser 
+	@make start-file-browser
 
 disable-file-browser:
 	@make check-env
@@ -1682,6 +1744,27 @@ file-browser-shell:
 	@echo "Creating file browser shell"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec file-browser sh
+
+backup-file-browser:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Backing up file browser"
+	@echo "------------------------------------------------------------------"
+	@cp conf/file_browser/database.db backups/
+	@cp backups/database.db backups/database-$$(date +%Y-%m-%d).db
+	@ls -lah backups/database*.db
+
+restore-file-browser:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Restoring the last back up of file browser"
+	@echo "If you wish to restore an older backup, first copy it to /backups/database.db"
+	@echo "Note: Restoring will OVERWRITE your current conf/file_browser/database.db file."
+	@echo "------------------------------------------------------------------"
+	@echo -n "Are you sure you want to continue? [y/N] " && read ans && [ $${ans:-N} = y ]
+	@cp backups/database.db conf/file_browser/database.db
 
 #----------------- Mergin Server --------------------------
 
