@@ -28,14 +28,29 @@ backup-everything: ## Sequentially run through all backup scripts
 	@make backup-hugo
 	@make backup-mapproxy
 	-@make backup-db-qgis-styles
-	-@make backup-db-qgis-project
-	@make backup-db
+	-@make backup-db-qgis-projects
+	@make backup-db-gis
 	@make backup-all-databases
 	-@make backup-mergin-base-db-schema
 	@make backup-node-red
 	@make backup-mosquitto
 	@make backup-jupyter
 	@make backup-metabase
+	@make backup-file-browser
+	
+restore-everything:
+	@make restore-hugo
+	@make restore-mapproxy
+	-@make restore-db-qgis-styles
+	-@make restore-db-qgis-projects
+	@make restore-db-gis
+	@make restore-all-databases
+	-@make restore-mergin-base-db-schema
+	@make restore-node-red
+	@make restore-mosquitto
+	@make restore-jupyter
+	@make restore-metabase
+	@make restore-file-browser
 
 # We need to declare phony here since the docs dir exists
 # otherwise make tries to execute the docs file directly
