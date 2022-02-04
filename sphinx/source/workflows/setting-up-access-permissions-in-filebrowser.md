@@ -22,7 +22,7 @@ From the File Browser home page, select Settings >> User Management >> New.
 
 ![File Browser Settings](../image/../img/file-browser-2.png)
 
-In the New User dialog, specify the username and password of the new user, the scope for the user and the language. You can also set whether the user can be able to change the password. 
+In the New User dialog, specify the username and password of the new user, the scope for the user and the language. You can also set whether the user can be able to change the password.
 
 ![File Browser New User](../image/../img/file-browser-3.png)
 
