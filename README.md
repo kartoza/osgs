@@ -33,6 +33,8 @@ The documentation site content is available as static resources in the `docs` di
 
 You can contribute to the documentation by making changes to resources located in `sphinx/source/`.
 
+To build the documentation, see the separate README in sphinx/.
+
 ## Project Roadmap
 
 The project roadmap is outlined in the documentation here: https://kartoza.github.io/osgs/roadmap.html

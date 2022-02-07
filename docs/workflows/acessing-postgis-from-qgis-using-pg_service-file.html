@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>OSGS - Accessing PostGIS from QGIS using a pg_service file - TODO</title>
+<title>OSGS - Accessing PostGIS from QGIS using a pg_service file</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous"/>
@@ -61,8 +61,8 @@
 
       </div>
       <div id="hdr-centre" class="text-center stretch">
-        <h3 title="Accessing PostGIS from QGIS using a pg_service file - TODO">Accessing PostGIS from QGIS using a pg_service file - TODO</h3>
-        <h6>Accessing PostGIS from QGIS using a pg_service file - TODO</h6>
+        <h3 title="Accessing PostGIS from QGIS using a pg_service file">Accessing PostGIS from QGIS using a pg_service file</h3>
+        <h6>Accessing PostGIS from QGIS using a pg_service file</h6>
       </div>
       <div id="hdr-search">
         
@@ -174,16 +174,106 @@
           </div>
           <div class="body">
             
-  <div class="tex2jax_ignore mathjax_ignore section" id="accessing-postgis-from-qgis-using-a-pg-service-file-todo">
-<h1>Accessing PostGIS from QGIS using a pg_service file - TODO<a class="headerlink" href="#accessing-postgis-from-qgis-using-a-pg-service-file-todo" title="Permalink to this headline">¶</a></h1>
-<p>This workflow will demonstrate the following:</p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="accessing-postgis-from-qgis-using-a-pg-service-file">
+<h1>Accessing PostGIS from QGIS using a pg_service file<a class="headerlink" href="#accessing-postgis-from-qgis-using-a-pg-service-file" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="deploy-the-initial-stack">
+<h2>Deploy the initial stack<a class="headerlink" href="#deploy-the-initial-stack" title="Permalink to this headline">¶</a></h2>
+<p>In your terminal, after <a class="reference external" href="../installation/initial_configuration.md##Project-Checkout">project checkout</a>, deploy the initial stack by running either <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> or <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code>. The initial stack consists of the Nginx, Hugo Watcher and Watchtower services.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> if you are going to use a self-signed certificate on a localhost for testing. Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code> if you are going to use a Let’s Encrypt signed certificate on a name host for production. The <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> will deploy the Nginx, Hugo Watcher and Watchtower services, but after running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code> you will need to run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-hugo</span></code> to deploy the Nginx, Hugo Watcher and Watchtower services.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">ps</span></code> to view the services running. The following services should be up:</p>
+<p><img alt="Initial Stack" src="../_images/pg-service-1.png" /></p>
+</div>
+<div class="section" id="deploy-the-postgresql-and-postgis-service">
+<h2>Deploy the PostgreSQL and PostGIS service<a class="headerlink" href="#deploy-the-postgresql-and-postgis-service" title="Permalink to this headline">¶</a></h2>
+<p>Deploy the PostgreSQL and  PostGIS service using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-postgres</span></code>. If you already have PostgreSQL installed on your local machine, ensure that you specify a different port number for the Postgis Public Port other than port 5432, the default port for PostgreSQL. For example, you can use the port number 5434.</p>
+<p><img alt="Postgis Public Port" src="../_images/pg-service-2.png" /></p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">ps</span></code> to view the services running. The following services should be up:</p>
+<p><img alt="Initial Stack" src="../_images/pg-service-3.png" /></p>
+<p>The PostgreSQL and PostGIS service has the following databases:</p>
+<p><img alt="PostgreSQL and PostGIS Service Databases" src="../_images/pg-service-4.png" /></p>
+<p>In this workflow, you will be connecting to the <code class="docutils literal notranslate"><span class="pre">gis</span></code> database.</p>
+</div>
+<div class="section" id="using-the-pg-service-file-on-the-client-side-of-the-stack-where-it-references-the-external-port">
+<h2>Using the pg_service file on the client side of the stack (where it references the external port)<a class="headerlink" href="#using-the-pg-service-file-on-the-client-side-of-the-stack-where-it-references-the-external-port" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="creating-your-local-connection-service-file">
+<h3>Creating your local connection service file<a class="headerlink" href="#creating-your-local-connection-service-file" title="Permalink to this headline">¶</a></h3>
+<p>On your local machine, the per-user connection service file can be at <code class="docutils literal notranslate"><span class="pre">~/.pg_service.conf</span></code> or the location specified by the environment variable <code class="docutils literal notranslate"><span class="pre">PGSERVICEFILE</span></code>.  Add a service to this connection service file with the following service name and connection parameters.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">osgs</span><span class="p">]</span>
+<span class="n">dbname</span><span class="o">=</span><span class="n">gis</span>
+<span class="n">user</span><span class="o">=</span><span class="n">docker</span>
+<span class="n">port</span><span class="o">=&lt;</span><span class="n">POSTGRES_PUBLIC_PORT</span><span class="o">&gt;</span>
+<span class="n">password</span><span class="o">=&lt;</span><span class="n">POSTGRES_PASSWORD</span><span class="o">&gt;</span>
+<span class="n">host</span><span class="o">=</span>
+<span class="n">sslmode</span><span class="o">=</span><span class="n">require</span>
+</pre></div>
+</div>
+<p>For the port and password connection parameters, use the <code class="docutils literal notranslate"><span class="pre">POSTGRES_PUBLIC_PORT</span></code> and  <code class="docutils literal notranslate"><span class="pre">POSTGRES_PASSWORD</span></code> specified in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file. For the host connection parameter, use the hostname of the server where you have set up OSGS.</p>
+<p>For more information on the PostgreSQL connection service file see the <a class="reference external" href="https://www.postgresql.org/docs/current/libpq-pgservice.html">PostgreSQL documentation</a>.</p>
+</div>
+<div class="section" id="setting-up-your-postgis-connection-in-qgis-locally">
+<h3>Setting up your PostGIS connection in QGIS (locally)<a class="headerlink" href="#setting-up-your-postgis-connection-in-qgis-locally" title="Permalink to this headline">¶</a></h3>
+<p>QGIS Desktop can be downloaded from <a class="reference external" href="https://qgis.org/en/site/forusers/download.html">here</a> and installed using <a class="reference external" href="https://qgis.org/en/site/forusers/alldownloads.html">these instructions</a>.</p>
+<p>On your local machine, open QGIS Desktop.  In your Browser Panel,  right click on the PostGIS option and click on “New Connection”. This will open the Create a New PostGIS Connection dialogue.</p>
+<p><img alt="New PostGIS connection" src="../_images/pg-service-5.png" /></p>
+<p>In the Connection Information section, give the connection an appropriate name. For the service and port enter the service name and port number, that you specified in the <a class="reference external" href="#creating-your-local-connection-service-file">connection service file</a>. Set the SSL mode to <code class="docutils literal notranslate"><span class="pre">require</span></code> and ensure you have enabled the <code class="docutils literal notranslate"><span class="pre">Also</span> <span class="pre">list</span> <span class="pre">tables</span> <span class="pre">with</span> <span class="pre">no</span> <span class="pre">geometry</span></code> and the <code class="docutils literal notranslate"><span class="pre">Allow</span> <span class="pre">saving/loading</span> <span class="pre">QGIS</span> <span class="pre">projects</span> <span class="pre">in</span> <span class="pre">database</span></code> options. Once all the configuration options have been set, click on “Test Connection”. Once you see the <code class="docutils literal notranslate"><span class="pre">Connection</span> <span class="pre">to</span> <span class="pre">&lt;Name&gt;</span> <span class="pre">was</span> <span class="pre">successful</span></code> message, click “OK”. You have now successfully connected to the PostgreSQL and PostGIS service <code class="docutils literal notranslate"><span class="pre">gis</span></code> database.</p>
+<p><img alt="Create a New PostGIS Connection" src="../_images/pg-service-6.png" /></p>
+</div>
+<div class="section" id="loading-data-into-the-gis-database">
+<h3>Loading data into the <code class="docutils literal notranslate"><span class="pre">gis</span></code> database<a class="headerlink" href="#loading-data-into-the-gis-database" title="Permalink to this headline">¶</a></h3>
+<p>There are multiple ways to load vector data into a PostGIS database. Some of them are:</p>
 <ul class="simple">
-<li>Setting up your Postgres connection</li>
-<li>Loading data into the Postgres database</li>
-<li>Creating the connection</li>
-<li>Creating the pg_service file</li>
-<li>Using the pg_service file on the client side of the stack (where it references the external port) and the server side (where it references the internal port)</li>
+<li>using the PgAdmin Browser</li>
+<li>using the ogr2ogr commandline utility</li>
+<li>using the shp2pgsql conversion utility</li>
+<li>using the QGIS DB Manager</li>
+<li>using the “Export to PostgreSQL” Database option from the Processing Toolbox in QGIS.</li>
+<li>using the “Export to PostgreSQL” GDAL options in QGIS</li>
 </ul>
+<p>To load raster data into a PostGIS database some of the tools you can use are the:</p>
+<ul class="simple">
+<li>the PgAdmin Browser</li>
+<li>the raster2pgsql conversion tool</li>
+</ul>
+<p>In this workflow, you will be using the “Export to PostgreSQL” Database option from the Processing Toolbox in QGIS to export a vector layer from QGIS to the <code class="docutils literal notranslate"><span class="pre">gis</span></code> database, creating a new relation.</p>
+<p>First, download the Natural Earth Land dataset from this <a class="reference external" href="https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip">link</a>. Unzip the downloaded <code class="docutils literal notranslate"><span class="pre">ne_10m_land.zip</span></code> file then drag and drop the <code class="docutils literal notranslate"><span class="pre">ne_10m_land.shp</span></code> shapefile into QGIS.</p>
+<p><img alt="Natural Earth Land" src="../_images/pg-service-7.png" /></p>
+<p>In the Processing Toolbox Panel, search for the “Export to PostgreSQL” option and double-click on the result in the Database category.</p>
+<p><img alt="Export to PostgreSQL option" src="../_images/pg-service-8.png" /></p>
+<p>In the Export to PostgreSQL dialogue specify the following parameters and click “Run”. More information on each of these parameters is provided <a class="reference external" href="https://docs.qgis.org/3.16/en/docs/user_manual/processing_algs/qgis/database.html#export-to-postgresql">here</a>.</p>
+<p><img alt="Export to PostgreSQL" src="../_images/pg-service-9.png" /></p>
+<p>Once the export is done, you should see an <code class="docutils literal notranslate"><span class="pre">Algorithm</span> <span class="pre">'Export</span> <span class="pre">to</span> <span class="pre">PostgreSQL'</span> <span class="pre">finished</span></code> message in the Log. In the Browser Panel, click on Refresh. You will see the <code class="docutils literal notranslate"><span class="pre">ne_10m_land</span></code> table in the <code class="docutils literal notranslate"><span class="pre">public</span></code> schema.</p>
+<p><img alt="Exported to Vector Layer" src="../_images/pg-service-10.png" /></p>
+</div>
+</div>
+<div class="section" id="using-the-pg-service-file-on-the-server-side-of-the-stack-where-it-references-the-internal-port">
+<h2>Using the pg_service file on the server side of the stack (where it references the internal port)<a class="headerlink" href="#using-the-pg-service-file-on-the-server-side-of-the-stack-where-it-references-the-internal-port" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="creating-the-server-side-connection-service-file">
+<h3>Creating the server-side connection service file<a class="headerlink" href="#creating-the-server-side-connection-service-file" title="Permalink to this headline">¶</a></h3>
+<p>To create the server-side connection service file, run the command <code class="docutils literal notranslate"><span class="pre">cp</span> <span class="pre">conf/pg_conf/pg_service.conf.example</span> <span class="pre">conf/pg_conf/pg_service.conf</span></code> in the terminal. In the <code class="docutils literal notranslate"><span class="pre">conf/pg_conf/pg_service.conf</span></code> file, add a service with the same name as the service you set up in the <code class="docutils literal notranslate"><span class="pre">pg_service.conf</span></code> file on your local machine. The service should have the following service name and connection parameters.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">osgs</span><span class="p">]</span>
+<span class="n">dbname</span><span class="o">=</span><span class="n">gis</span>
+<span class="n">user</span><span class="o">=</span><span class="n">docker</span>
+<span class="n">port</span><span class="o">=&lt;</span><span class="n">POSTGRES_PRIVATE_PORT</span><span class="o">&gt;</span>
+<span class="n">password</span><span class="o">=&lt;</span><span class="n">POSTGRES_PASSWORD</span><span class="o">&gt;</span>
+<span class="n">host</span><span class="o">=</span><span class="n">db</span>
+<span class="n">sslmode</span><span class="o">=</span><span class="n">require</span>
+</pre></div>
+</div>
+<p>For the port and password connection parameters, use the <code class="docutils literal notranslate"><span class="pre">POSTGRES_PRIVATE_PORT</span></code> and <code class="docutils literal notranslate"><span class="pre">POSTGRES_PASSWORD</span></code> specified in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file. For the host connection parameter specify the hostname as <code class="docutils literal notranslate"><span class="pre">db</span></code>.</p>
+</div>
+<div class="section" id="setting-up-your-postgis-connection-in-the-qgis-desktop-service">
+<h3>Setting up your PostGIS connection in the QGIS Desktop service<a class="headerlink" href="#setting-up-your-postgis-connection-in-the-qgis-desktop-service" title="Permalink to this headline">¶</a></h3>
+<p>Deploy the QGIS Desktop service using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-qgis-desktop</span></code>. Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">ps</span></code> to view the services running. The following services should be up:</p>
+<p><img alt="Initial Stack" src="../_images/pg-service-11.png" /></p>
+<p>The QGIS Desktop service is now accessible on <code class="docutils literal notranslate"><span class="pre">/qgis-desktop/</span></code> e.g. <code class="docutils literal notranslate"><span class="pre">https://localhost/qgis-desktop/</span></code>. Log in to the service using the username <code class="docutils literal notranslate"><span class="pre">&lt;NGINX_AUTH_USER&gt;</span></code> and password <code class="docutils literal notranslate"><span class="pre">&lt;NGINX_AUTH_PWD&gt;</span></code> specified in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file.</p>
+<p>In your Browser Panel,  right click on the PostGIS option and click on “New Connection”. This will open the Create a New PostGIS Connection dialogue.</p>
+<p><img alt="New PostGIS connection" src="../_images/pg-service-12.png" /></p>
+<p>In the Connection Information section, give the connection an appropriate name. For the service and port enter the service name and port number, that you specified in the <a class="reference external" href="#creating-the-server-side-connection-service-file">connection service file</a>. Set the SSL mode to <code class="docutils literal notranslate"><span class="pre">require</span></code> and ensure you have enabled the <code class="docutils literal notranslate"><span class="pre">Also</span> <span class="pre">list</span> <span class="pre">tables</span> <span class="pre">with</span> <span class="pre">no</span> <span class="pre">geometry</span></code> and the <code class="docutils literal notranslate"><span class="pre">Allow</span> <span class="pre">saving/loading</span> <span class="pre">QGIS</span> <span class="pre">projects</span> <span class="pre">in</span> <span class="pre">database</span></code> options. Once all the configuration options have been set, click on “Test Connection”. Once you see the <code class="docutils literal notranslate"><span class="pre">Connection</span> <span class="pre">to</span> <span class="pre">&lt;Name&gt;</span> <span class="pre">was</span> <span class="pre">successful</span></code> message, click “OK”. You have now successfully connected to the PostgreSQL and PostGIS service <code class="docutils literal notranslate"><span class="pre">gis</span></code> database.</p>
+<p><img alt="Create a New PostGIS Connection" src="../_images/pg-service-13.png" /></p>
+<p>In your Browser Panel click on Refresh. You will see under the PostGIS option our new PostGIS connection. In the public schema you will find the <code class="docutils literal notranslate"><span class="pre">ne_10m_land</span></code> table which we added in the previous <a class="reference external" href="#loading-data-into-the-gis-database">section</a>. Double click on the table to add it as a vector layer in QGIS.</p>
+<p><img alt="Load Vector Layer from PostGIS Connection" src="../_images/pg-service-14.png" /></p>
+</div>
+</div>
 </div>
 
 
@@ -196,7 +286,7 @@
 
     <div class="col-md-12">
         <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
-        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.2 and the
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0 and the
         <a href="https://pypi.org/project/sphinx-sizzle-theme/"
 
            title="0.0.9/821a5457 [2020-04-16T19:31:16]"
