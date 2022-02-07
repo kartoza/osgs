@@ -48,11 +48,11 @@ For more information on the PostgreSQL connection service file see the [PostgreS
 
 QGIS Desktop can be downloaded from [here](https://qgis.org/en/site/forusers/download.html) and installed using [these instructions](https://qgis.org/en/site/forusers/alldownloads.html).
 
-On your local machine, open QGIS Desktop.  In your Browser Panel,  right click on the PostGIS option and click on "New Connection". This will open the Create a New PostGIS Connection dialogue. 
+On your local machine, open QGIS Desktop.  In your Browser Panel,  right click on the PostGIS option and click on "New Connection". This will open the Create a New PostGIS Connection dialogue.
 
 ![New PostGIS connection](../img/pg-service-5.png)
 
-In the Connection Information section, give the connection an appropriate name. For the service and port enter the service name and port number, that you specified in the connection service file. Set the SSL mode to `require` and ensure you have enabled the `Also list tables with no geometry` and the `Allow saving/loading QGIS projects in database` options. Click on "Test Connection". Once you see the `Connection to <Name> was successful` message, click "OK". You have now successfully connected to the PostgreSQL and PostGIS service `gis` database. 
+In the Connection Information section, give the connection an appropriate name. For the service and port enter the service name and port number, that you specified in the [connection service file](#creating-your-local-connection-service-file). Set the SSL mode to `require` and ensure you have enabled the `Also list tables with no geometry` and the `Allow saving/loading QGIS projects in database` options. Once all the configuration options have been set, click on "Test Connection". Once you see the `Connection to <Name> was successful` message, click "OK". You have now successfully connected to the PostgreSQL and PostGIS service `gis` database. 
 
 ![Create a New PostGIS Connection](../img/pg-service-6.png)
 
@@ -63,8 +63,8 @@ There are multiple ways to load vector data into a PostGIS database. Some of the
 * using the ogr2ogr commandline utility
 * using the shp2pgsql conversion utility
 * using the QGIS DB Manager
-* using the "Export to PostgreSQL" Database option from the Processing Toolbox in QGIS. 
-* using the "Export to PostgreSQL" GDAL options in QGIS. 
+* using the "Export to PostgreSQL" Database option from the Processing Toolbox in QGIS.
+* using the "Export to PostgreSQL" GDAL options in QGIS
   
 To load raster data into a PostGIS database some of the tools you can use are the:
 * the PgAdmin Browser
@@ -72,15 +72,15 @@ To load raster data into a PostGIS database some of the tools you can use are th
 
 In this workflow, you will be using the "Export to PostgreSQL" Database option from the Processing Toolbox in QGIS to export a vector layer from QGIS to the `gis` database, creating a new relation.
 
-First, download the Natural Earth Land dataset from this [link](https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip). Unzip the downloaded `ne_10m_land.zip` file then drag and drop the `ne_10m_land.shp` shapefile into QGIS. 
+First, download the Natural Earth Land dataset from this [link](https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/physical/ne_10m_land.zip). Unzip the downloaded `ne_10m_land.zip` file then drag and drop the `ne_10m_land.shp` shapefile into QGIS.
 
-![Natural Earth Lakes](../img/pg-service-7.png)
+![Natural Earth Land](../img/pg-service-7.png)
 
 In the Processing Toolbox Panel, search for the "Export to PostgreSQL" option and double-click on the result in the Database category.
 
 ![Export to PostgreSQL option](../img/pg-service-8.png)
 
-In the Export to PostgreSQL dialogue specify the following parameters and click "Run". Each of these parameters is described in depth [here](https://docs.qgis.org/3.16/en/docs/user_manual/processing_algs/qgis/database.html#export-to-postgresql). 
+In the Export to PostgreSQL dialogue specify the following parameters and click "Run". More information on each of these parameters is provided [here](https://docs.qgis.org/3.16/en/docs/user_manual/processing_algs/qgis/database.html#export-to-postgresql).
 
 ![Export to PostgreSQL](../img/pg-service-9.png)
 
@@ -92,24 +92,21 @@ Once the export is done, you should see an `Algorithm 'Export to PostgreSQL' fin
 
 ### Creating the server-side connection service file
 
-To create the server-side connection service file, run the command `cp conf/pg_conf/pg_service.conf.example conf/pg_conf/pg_service.conf` in the terminal. In the `conf/pg_conf/pg_service.conf` file, add a service with the same name as the service you set up on your local machine. The service should have the following service name and connection parameters. 
+To create the server-side connection service file, run the command `cp conf/pg_conf/pg_service.conf.example conf/pg_conf/pg_service.conf` in the terminal. In the `conf/pg_conf/pg_service.conf` file, add a service with the same name as the service you set up in the `pg_service.conf` file on your local machine. The service should have the following service name and connection parameters. 
 ```
 [osgs]
 dbname=gis
 user=docker
-port=5432
+port=<POSTGRES_PRIVATE_PORT>
 password=<POSTGRES_PASSWORD>
 host=db
 sslmode=require
 ```
-For the port and password connection parameters, use the `POSTGRES_PRIVATE_PORT` and `POSTGRES_PASSWORD` specified in the `.env` file. For the host connection parameter use the name `db` which is the name of the Postgres service docker profile.
+For the port and password connection parameters, use the `POSTGRES_PRIVATE_PORT` and `POSTGRES_PASSWORD` specified in the `.env` file. For the host connection parameter specify the hostname as `db`.
 
-For more information on the PostgreSQL connection service file see the [PostgreSQL documentation](https://www.postgresql.org/docs/current/libpq-pgservice.html).
+### Setting up your PostGIS connection in the QGIS Desktop service
 
-
-### Setting up your PostGIS connection in the QGIS-Desktop service
-
-Deploy the QGIS Desktop service using `make deploy-qgis-dekstop`. Use `make ps` to view the services running. The following services should be up:
+Deploy the QGIS Desktop service using `make deploy-qgis-desktop`. Use `make ps` to view the services running. The following services should be up:
 
 ![Initial Stack](../img/pg-service-11.png)
 
@@ -119,7 +116,7 @@ In your Browser Panel,  right click on the PostGIS option and click on "New Conn
 
 ![New PostGIS connection](../img/pg-service-12.png)
 
-In the Connection Information section, give the connection an appropriate name. For the service and port enter the service name and port number, that you specified in the connection service file. Set the SSL mode to `require` and ensure you have enabled the `Also list tables with no geometry` and the `Allow saving/loading QGIS projects in database` options. Click on "Test Connection". Once you see the `Connection to <Name> was successful` message, click "OK". You have now successfully connected to the PostgreSQL and PostGIS service `gis` database. 
+In the Connection Information section, give the connection an appropriate name. For the service and port enter the service name and port number, that you specified in the [connection service file](#creating-the-server-side-connection-service-file). Set the SSL mode to `require` and ensure you have enabled the `Also list tables with no geometry` and the `Allow saving/loading QGIS projects in database` options. Once all the configuration options have been set, click on "Test Connection". Once you see the `Connection to <Name> was successful` message, click "OK". You have now successfully connected to the PostgreSQL and PostGIS service `gis` database. 
 
 ![Create a New PostGIS Connection](../img/pg-service-13.png)
 
