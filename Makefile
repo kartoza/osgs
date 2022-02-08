@@ -462,8 +462,8 @@ restart-qgis-server:  ## Stop and restart the QGIS server containers
 	@echo "------------------------------------------------------------------"
 	# Need to flush this completely for it to work on restart
 	@touch conf/pg_conf/pg_service.conf
-	make stop-qgis-desktop
-	make start-qgis-desktop
+	make stop-qgis-server
+	make start-qgis-server
 
 disable-qgis-server:
 	@make check-env

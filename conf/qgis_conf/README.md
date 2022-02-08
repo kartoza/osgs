@@ -1,24 +1,15 @@
-The auth pwd file contains the password to unlock the the QGIS 
-The authdb file is created in QGIS and set with a master key in 
-QGIS that is then pasted in the password file for QGIS server to 
-read at run time
+The `auth-db/qgis-auth-pwd.txt` file contains the master password to unlock the `auth-db/qgis-auth.db` file. The `qgis-auth.db` file is created in QGIS and set with a master key/password in QGIS. Paste the master password in the  `qgis-auth-pwd.txt` file   for QGIS server to read at run time.
 
-Make sure to copy over the authdb whenever you change it e.g.
+Make sure to copy over the `qgis-auth.db` file whenever you change it e.g.
+`sudo cp ~/.local/share/QGIS/QGIS3/profiles/Smallholding/qgis-auth.db conf/qgis_conf/auth-db/`
+Or more conveniently upload the `qgis-auth.db` file into the `qgis_conf/auth-db/` folder in the File Browser web file manager.
 
-sudo cp ~/.local/share/QGIS/QGIS3/profiles/Smallholding/qgis-auth.db qgis_conf/
+An example of how to do the above steps is provided in the [Authentication of Postgres using a pg_service file and a qgis-auth.db file workflow](../../sphinx/source/workflows/authentication-using-pg_service-and-qgisauthdb.md).
 
-Or more conveniently copy it into the filebrowser web file manager.
-
-These files must be writable by the nginx user in the container. See 
-below:
-
-sudo chown 33:33 qgis_conf/auth-db-password/qgis*
-sudo chown 33:33 qgis_conf/auth-db/qgis*
+These files must be writable by the nginx user in the container. See below:
+```
+sudo chown 33:33 conf/qgis_conf/auth-db/qgis*
 docker-compose exec qgis-server ls -lah /tmp
+```
 
-
-auth-db-password/qgis-auth-pwd.txt
-auth-db/qgis-auth.db
-
-
-Also make sure to restart docker containers after changing this.
+Also make sure to restart docker containers after changing this using `make restart`.

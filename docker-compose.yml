@@ -217,6 +217,8 @@ services:
      # PG Service file - take care of permissions to not expose passwords to 
      # all file browser users!
      - ./conf/pg_conf/:/files/pg_conf
+     # QGIS qgis-auth.db file and qgis-auth-pwd.txt file
+     - ./conf/qgis_conf/auth-db/:/files/qgis_conf/auth-db
     user: 1000:1000
     networks:
      - os-gis-stack
@@ -572,8 +574,8 @@ services:
      # run when container is started.
      - qgis_fonts:/usr/share/fonts
      - qgis_svg:/var/lib/qgis/.local/share/QGIS/QGIS3/profiles/default/svg
-     - ./conf/qgis_conf/qgis-auth.db:/tmp/qgis-auth.db
-     - ./conf/qgis_conf/qgis-auth-pwd.txt:/tmp/qgis-auth-pwd.txt
+     - ./conf/qgis_conf/auth-db/qgis-auth.db:/tmp/qgis-auth.db
+     - ./conf/qgis_conf/auth-db/qgis-auth-pwd.txt:/tmp/qgis-auth-pwd.txt
      # Working path for the pg_service file if using
      # openquake/qgis-server:stable
      # See https://github.com/gem/oq-qgis-server/issues/54
@@ -636,7 +638,7 @@ services:
      # Need to check this
      - qgis_svg:/var/lib/qgis/.local/share/QGIS/QGIS3/profiles/default/svg
      # and this
-     - ./conf/qgis_conf/qgis-auth.db:/tmp/qgis-auth.db
+     - ./conf/qgis_conf/auth-db/qgis-auth.db:/tmp/qgis-auth.db
      # Working path for the pg_service file
      - ./conf/pg_conf/pg_service.conf:/etc/postgresql-common/pg_service.conf:ro
      # Mount the mergin db sync data into nginx so we can access
