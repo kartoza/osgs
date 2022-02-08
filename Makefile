@@ -1222,7 +1222,7 @@ restore-surveysolutions:
 
 #----------------- OSM Mirror --------------------------
 
-deploy-osm-mirror: enable-osm-mirror configure-osm-mirror start-osm-mirror osm-mirror-materialized-views add-db-osm-mirror-qgis-project
+deploy-osm-mirror: enable-osm-mirror configure-osm-mirror start-osm-mirror sleep5m osm-mirror-materialized-views add-db-osm-mirror-qgis-project
 
 enable-osm-mirror:
 	@make check-env
@@ -1266,6 +1266,12 @@ start-osm-mirror:
 	@echo "Starting OSM Mirror"
 	@echo "------------------------------------------------------------------"
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d 
+
+sleep5m:
+	@echo "------------------------------------------------------------------"
+	@echo "Sleep for 5 minutes"
+	@echo "------------------------------------------------------------------"
+	@sleep 5m
 
 osm-mirror-materialized-views:
 	@make check-env
