@@ -2,7 +2,7 @@
 
 ## Deploy the initial stack
 
-In your terminal, after [project checkout](../installation/initial_configuration.md##Project-Checkout), deploy the initial stack by running either `make configure-ssl-self-signed` or `make configure-letsencrypt-ssl`. The initial stack consists of the Nginx, Hugo Watcher and Watchtower services.
+In your server terminal, deploy the initial stack by running either `make configure-ssl-self-signed` or `make configure-letsencrypt-ssl`. The initial stack consists of the Nginx, Hugo Watcher and Watchtower services.
 
 Use `make configure-ssl-self-signed` if you are going to use a self-signed certificate on a localhost for testing. Use `make configure-letsencrypt-ssl` if you are going to use a Let's Encrypt signed certificate on a name host for production. The `make configure-ssl-self-signed` will deploy the Nginx, Hugo Watcher and Watchtower services, but after running `make configure-letsencrypt-ssl` you will need to run `make deploy-hugo` to deploy the Nginx, Hugo Watcher and Watchtower services.
 
@@ -18,7 +18,7 @@ Deploy the PostgreSQL and  PostGIS service using `make deploy-postgres`. If you 
 
 Use `make ps` to view the services running. The following services should be up:
 
-![Initial Stack](../img/pg-service-3.png)
+![Services Up](../img/pg-service-3.png)
 
 The PostgreSQL and PostGIS service has the following databases: 
 
@@ -28,7 +28,7 @@ In this workflow, you will be connecting to the `gis` database.
 
 ## Using the pg_service file on the client side of the stack (where it references the external port)
 
-### Creating your local connection service file
+### Edit your local connection service file
 
 On your local machine, the per-user connection service file can be at `~/.pg_service.conf` or the location specified by the environment variable `PGSERVICEFILE`.  Add a service to this connection service file with the following service name and connection parameters. 
 ```
@@ -52,7 +52,7 @@ On your local machine, open QGIS Desktop.  In your Browser Panel,  right click o
 
 ![New PostGIS connection](../img/pg-service-5.png)
 
-In the Connection Information section, give the connection an appropriate name. For the service and port enter the service name and port number, that you specified in the [connection service file](#creating-your-local-connection-service-file). Set the SSL mode to `require` and ensure you have enabled the `Also list tables with no geometry` and the `Allow saving/loading QGIS projects in database` options. Once all the configuration options have been set, click on "Test Connection". Once you see the `Connection to <Name> was successful` message, click "OK". You have now successfully connected to the PostgreSQL and PostGIS service `gis` database. 
+In the Connection Information section, give the connection an appropriate name. For the service, enter the service name that you specified in the [connection service file](#creating-your-local-connection-service-file). Set the SSL mode to `require` and ensure you have enabled the `Also list tables with no geometry` and the `Allow saving/loading QGIS projects in database` options. Once all the configuration options have been set, click on "Test Connection". Once you see the `Connection to <Name> was successful` message, click "OK". You have now successfully connected to the PostgreSQL and PostGIS service `gis` database. 
 
 ![Create a New PostGIS Connection](../img/pg-service-6.png)
 
@@ -116,7 +116,7 @@ In your Browser Panel,  right click on the PostGIS option and click on "New Conn
 
 ![New PostGIS connection](../img/pg-service-12.png)
 
-In the Connection Information section, give the connection an appropriate name. For the service and port enter the service name and port number, that you specified in the [connection service file](#creating-the-server-side-connection-service-file). Set the SSL mode to `require` and ensure you have enabled the `Also list tables with no geometry` and the `Allow saving/loading QGIS projects in database` options. Once all the configuration options have been set, click on "Test Connection". Once you see the `Connection to <Name> was successful` message, click "OK". You have now successfully connected to the PostgreSQL and PostGIS service `gis` database. 
+In the Connection Information section, give the connection an appropriate name. For the service, enter the service name that you specified in the [connection service file](#creating-the-server-side-connection-service-file). Set the SSL mode to `require` and ensure you have enabled the `Also list tables with no geometry` and the `Allow saving/loading QGIS projects in database` options. Once all the configuration options have been set, click on "Test Connection". Once you see the `Connection to <Name> was successful` message, click "OK". You have now successfully connected to the PostgreSQL and PostGIS service `gis` database. 
 
 ![Create a New PostGIS Connection](../img/pg-service-13.png)
 
