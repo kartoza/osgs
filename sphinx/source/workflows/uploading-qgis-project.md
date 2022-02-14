@@ -14,11 +14,11 @@ To deploy the QGIS Server Service, run `make deploy-qgis-server`.
 
 ## Prepare the QGIS project
 
-Place the QGIS project file and its associated vector or raster data in a named directory that matches the name of the QGIS project file. In this workflow, the `SeoulOSMMirror.qgz` QGIS project file and the `SeoulOSMMirror.gpkg` GeoPackage file are in the directory `SeoulOSMMirror`.
+Place the QGIS project file and its associated vector and/or raster data in a named directory that matches the name of the QGIS project file. In this workflow, the `SeoulOSMMirror.qgz` QGIS project file and the `SeoulOSMMirror.gpkg` GeoPackage file are in the directory `SeoulOSMMirror`.
 
 ## Deploy the File Browser service and upload the QGIS project
 
-To deploy the File Browser service run `make deploy-file-browser`. The file browser service can now be accessed on `/files/` e.g. https://localhost/files. The url will direct you to the Login page. Sign in to the service using the File Browser username `admin` and password `<FILEBROWSER_PASSWORD>` specified in the `.env` file.
+To deploy the File Browser service run `make deploy-file-browser`. The file browser service can now be accessed on `/files/` e.g. https://localhost/files. The URL will direct you to the Login page. Sign in to the service using the File Browser username `admin` and password `<FILEBROWSER_PASSWORD>` specified in the `.env` file.
 
 ![Log in Page](../img/file-browser-1.png)
 
@@ -30,7 +30,7 @@ Navigate into the `qgis_projects` folder, click on the upload button and upload 
 
 ## Accessing the QGIS project on the OGC link
 
-We can now connect to the QGIS project as a WMS Service. In your QGIS Desktop Browser panel, right click on the `WMS/WMTS` option and create a new connection.
+We can now access the QGIS project on the OGC link. In your QGIS Desktop Browser panel, right click on the `WMS/WMTS` option and create a new connection.
 
 ![New WMS Connection](../img/upload-qgis-project-3.png)
 
