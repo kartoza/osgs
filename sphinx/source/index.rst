@@ -32,5 +32,6 @@ Components.
    utilities/index.rst
    workflows/index.rst
    blueprints/index.rst
+   FAQ
    roadmap
 
