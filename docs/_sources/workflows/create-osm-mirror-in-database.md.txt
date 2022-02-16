@@ -1,20 +1,12 @@
 # Creating an Open Street Map mirror into your database
 
-The OSM mirror service uses the kartoza/docker-osm tool to create an in-database
-mirror of a designated geographical area in the designated postgres
-database schema (set to: osm). The OSM mirror tool is described in the project
-README here:
-
-https://github.com/kartoza/docker-osm
-
-To deploy the osm-mirror service, you need to follow the steps descibed below.
-
+The OSM mirror service uses the kartoza/docker-osm tool to create an in-database mirror of a designated geographical area in the designated postgres database schema (set to: osm). The OSM mirror tool is described in the project README [here](https://github.com/kartoza/docker-osm):
 
 ## Preparing the Country PBF file and the clip area document
 
 The PBF files for the country or region of interest can be downloaded from [GeoFabrik](https://download.geofabrik.de/). The PBF file used in this workflow was for Kenya and the URL for the country PBF file is https://download.geofabrik.de/africa/kenya-latest.osm.pbf.
 
-The clip area constrains any data being imported into the PostGIS database to a specific geographic area. You will need to save the clip area document as `conf/osm_conf/clip.geojson`. For best performance, a simple rectangle is best, but any complext polygon can be used. The `clip.geojson` can also be the same extent of the administrative area for your country or region specified in the PBF file, or it can be a smaller extent. The CRS of the geojson should always be EPSG:4326.[[1]](#1)
+The clip area constrains any data being imported into the PostGIS database to a specific geographic area. You will need to save the clip area document as `conf/osm_conf/clip.geojson`. For best performance, a simple rectangle is best, but any complex polygon can be used. The `clip.geojson` can also be the same extent of the administrative area for your country or region specified in the PBF file, or it can be a smaller extent. The CRS of the geojson should always be `EPSG:4326`.[[1]](#1)
 
 !["OSM Clip Area"](../img/osm-mirror-workflow-1.png)
 
@@ -23,44 +15,79 @@ You can easily create such a clip document at  https://geojson.io or by using QG
 
 ## Editing the mappings.yml  file. 
 
-For advanced users, you can tweak the ``osm_conf/mapping.yml``. To customize the OSM data being imported into the PostGIS database. 
+For advanced users, you can tweak the `conf/osm_conf/mapping.yml` file to customize the OSM data being imported into the PostGIS database. 
 
-You can see how the imposm3 mapping syntax works here: 
+You can see how the imposm3 mapping syntax works [here](https://imposm.org/docs/imposm3/latest/mapping.html)
 
-https://imposm.org/docs/imposm3/latest/mapping.html
+> **Note**: Any alterations to the `conf/osm_conf/mappings.yml` file while the OSM mirror service is running will not change the current OSM data in the database. To effect these changes, you will need to clear the imported OSM data in the database (and stopping the OSM mirror service), using `make stop-osm-mirror` and deploying the OSM mirror service, using `make deploy-osm-mirror`.
 
-> **Note**: You cannot alter the ```mappings.yml``` file after the service is running without
-clearing the database (using ```make stop-osm-mirror```) and restarting the import (using ```make deploy-osm-mirror```).
+## Deploying the OSM mirror service
 
-## Deploying the OSM mirror service. 
+### Deploy the initial stack
 
-To deploy the initial stack, which includes the  Nginx and Hugo watcher services, please run either  `make configure-ssl-self-signed` or `make configure-letsencrypt-ssl`. 
+In your server terminal, deploy the initial stack by running either `make configure-ssl-self-signed` or `make configure-letsencrypt-ssl`. The initial stack consists of the Nginx, Hugo Watcher and Watchtower services.
 
-Next deploy the Postgres service using `make deploy-postgres`. If you have PostgreSQL already installed outside of the stack (on your local machine) ensure that you specify a different Postgres public port number other than the default 5432. For example, you can use the port number 5434 for the public port. 
+Use `make configure-ssl-self-signed` if you are going to use a self-signed certificate on a localhost for testing. Use `make configure-letsencrypt-ssl` if you are going to use a Let's Encrypt signed certificate on a name host for production. The `make configure-ssl-self-signed` will deploy the Nginx, Hugo Watcher and Watchtower services, but after running `make configure-letsencrypt-ssl` you will need to run `make deploy-hugo` to deploy the Nginx, Hugo Watcher and Watchtower services.
 
-After deploying the Postgres service, set up the ```.pg_service.conf``` file on your local machine using the instructions provided [here](https://www.postgresql.org/docs/9.0/libpq-pgservice.html).
-Your osgs service should look like this:
+Use `make ps` to view the services running. The following services should be up:
+
+![Initial Stack](../img/pg-service-1.png)
+
+### Deploy the PostgreSQL and PostGIS service
+
+Deploy the PostgreSQL and  PostGIS service using `make deploy-postgres`. If you already have PostgreSQL installed on your local machine, ensure that you specify a different port number for the Postgis Public Port other than port 5432, the default port for PostgreSQL. For example, you can use the port number 5434.
+
+![Postgis Public Port](../img/pg-service-2.png)
+
+Use `make ps` to view the services running. The following services should be up:
+
+![Services Up](../img/pg-service-3.png)
+
+The PostgreSQL and PostGIS service has the following databases:
+
+![PostgreSQL and PostGIS Service Databases](../img/pg-service-4.png)
+
+In this workflow, you will be connecting to the `gis` database.
+
+### Deploy the OSM mirror service
+
+Deploy the OSM mirror service using `make deploy-osm-mirror` and follow the subsequent prompts. Use `make ps` to view the services running. The following services should be up:
+
+![Services Up](../img/osm-mirror-workflow-13.png)
+
+You can view the logs for the OSM mirror service using the command `make osm-mirror-logs`.
+
+## Editing your local connection service file
+
+On your local machine (where you have QGIS Desktop installed), the per-user connection service file can be at `~/.pg_service.conf` or the location specified by the environment variable `PGSERVICEFILE`. Add a service to this connection service file with the following service name and connection parameters.
 
 ```
 [osgs]
 dbname=gis
 user=docker
-port=
-password=
+port=<POSTGRES_PUBLIC_PORT>
+password=<POSTGRES_PASSWORD>
 host=
 sslmode=require
-```
+``` 
 
-For the port and password configuration parameters, use the Postgres public port number (POSTGRES_PUBLIC_PORT) and Postgres password (POSTGRES_PASSWORD) specified in the ```.env``` file. For the host configuration parameter use the hostname of the server where you have set up OSGS. 
+For the port and password connection parameters, use the `POSTGRES_PUBLIC_PORT` and  `POSTGRES_PASSWORD` specified in the `.env` file. For the host connection parameter, use the hostname of the server where you have set up OSGS.
 
-To deploy the OSM mirror service, run the `make deploy-osm-mirror` command and follow the subsequent instructions. You can view the logs for the OSM mirror service using the command `make osm-mirror-logs`. 
+For more information on the PostgreSQL connection service file see the [PostgreSQL documentation](https://www.postgresql.org/docs/current/libpq-pgservice.html).
 
-To use the OSM mirror layers in the Postgis database in QGIS, use the service name ```osgs``` and the port number you used to set up the ```osgs``` service  in the ```.pg_service.conf``` file to create a new PostGIS connection in QGIS. Make sure to the set the SSL mode to require. 
+## Setting up your PostGIS connection in QGIS
 
-!["Add OSGS Service to QGIS"](../img/osm-mirror-workflow-2.png)
+QGIS Desktop can be downloaded from [here](https://qgis.org/en/site/forusers/download.html) and installed using [these instructions](https://qgis.org/en/site/forusers/alldownloads.html).
 
+On your local machine, open QGIS Desktop.  In your Browser Panel,  right click on the PostGIS option and click on "New Connection". This will open the Create a New PostGIS Connection dialogue.
 
-## Loading the default OSM mirror QGIS project.
+![New PostGIS connection](../img/pg-service-5.png)
+
+In the Connection Information section, give the connection an appropriate name. For the service, enter the service name that you specified in the [connection service file](#creating-your-local-connection-service-file). Set the SSL mode to `require` and ensure you have enabled the `Also list tables with no geometry` and the `Allow saving/loading QGIS projects in database` options. Once all the configuration options have been set, click on "Test Connection". Once you see the `Connection to <Name> was successful` message, click "OK". You have now successfully connected to the PostgreSQL and PostGIS service `gis` database. 
+
+![Create a New PostGIS Connection](../img/pg-service-6.png)
+
+## Loading the default OSM mirror QGIS project
 
 To load the default OSM mirror QGIS project, in the ```qgis_projects``` table, in the ```public``` schema, double click on the ```osm_mirror_qgis_project```. The project layers will load onto the QGIS **Map View**.
 
@@ -80,7 +107,7 @@ To load a layer from the `osm` schema onto the QGIS Map View, double click on th
 
 ## Saving a QGIS project into the PostGIS database
 
-In the **Menu Toolbar** click on **Project**. From the drop down menu select **Save To** **PostgreSQL**. 
+In the **Menu Toolbar** click on **Project**. From the drop down menu select **Save To** **PostgreSQL**.
 
 !["Save QGIS Project in Database"](../img/osm-mirror-workflow-5.png)
 
@@ -90,9 +117,9 @@ Save the project in the `public` schema and name the project. In this example we
 
 ## Backing up and restoring a QGIS project into the database
 
-To back up the QGIS project created in the previous section, run the command `make backup-db-qgis-project`. This backs up the `qgis_projects` table in the `public` schema as a `.sql` file named `QGISProject.sql`.
+To back up the QGIS project created in the previous section, run the command `make backup-db-qgis-project`. This backs up the `qgis_projects` table in the `public` schema as a `.sql` file named `qgis-projects.sql` in the `/backups/` folder. The `backup-db-qgis-project` target also creates a copy of the `qgis-projects.sql` file with the date the backup was made in the file name e.g. `qgis-projects-2022-02-08.sql`
 
-To restore a backed up QGIS project, name the `.sql` file `QGISProject.sql` and place the file in the `backups` folder then run the command `restore-db-qgis-project`. 
+To restore the last back up of the QGIS projects in the `qgis_projects` table, run the command `make restore-db-qgis-project`. To restore an older backup, first copy it to `/backups/qgis-projects.sql` then run the command `make restore-db-qgis-project`.
 
 ## Saving QGIS layer styles into the database
 
@@ -114,49 +141,17 @@ The saved style is added as an entry in the `layer_styles` table in the `public`
 
 ## Backing up and restoring the QGIS styles into the database
 
-To back up the QGIS styles created in the previous section, run the command `make backup-db-qgis-styles`. This backs up the `layer_styles` table in the `public` schema as a `.sql` file named `QGISStyles.sql`.  
+To back up the QGIS styles created in the previous section, run the command `make backup-db-qgis-styles`. This backs up the `layer_styles` table in the `public` schema as a `.sql` file named `qgis-styles.sql` in the `/backups/` folder. The `backup-db-qgis-styles` target also creates a copy of the `qgis-styles.sql` file with the date the backup was made in the file name e.g. `qgis-styles-2022-02-08.sql`
 
-To restore a back up of the QGIS styles, name the back up file `QGISStyles.sql` and place it in the `backups` folder then run the command `make restore-db-qgis-styles`. 
+To restore the last back up of the `layer_styles` table, run the command `make restore-db-qgis-styles`. To restore an older backup, first copy it to `/backups/qgis-styles.sql` then run the command `restore-db-qgis-styles`.
 
 ## Publishing with GeoServer
 
-You can publish the OSM mirror layers in the ```osm``` schema using GeoServer or by publishing a QGIS project that references the layers in the ```osm``` schema.
-
-The steps for publishing with GeoServer are quite simple:
-
-1. Log in to GeoServer using the 'admin' user and the password in .env.
-
-2. Create a new store of type 'Postgis' and configure it as per the screenshot below, replacing the password with the Postgres password stored in .env:
-
-   ![Store Creation in GeoServer](../img/geoserver-osm-1.png)
-
-    Also, be sure to scroll down and set SSL mode to Required:
-
-   ![SSL Mode Required](../img/geoserver-osm-5.png)
-
-
-3. Register one or more layers from that store as per the image below:
-   
-   ![Layer Creation in GeoServer](../img/geoserver-osm-2.png)
-
-4. Complete the layer details as appropriate and make sure to click the options highlighted in red in the screenshot below:
-
-   ![Adding a GeoServer WMS layer in QGIS](../img/geoserver-osm-3.png)
-
-5. Connect to the GeoServer from a client e.g. QGIS using WFS or WMS using the scheme:
-
-    	https://example.org/geoserver/SaintLucia/wfs
-
-    or
-
-        https://example.org/geoserver/SaintLucia/wms
-
-   ![Layer Details in GeoServer](../img/geoserver-osm-4.png)
-
+To publish the OSM mirror layers in the `osm` schema using GeoServer or to publish a QGIS project that references the OSM mirror layers in the `osm` schema, use the [Publishing layers using Geoserver](https://kartoza.github.io/osgs/workflows/publishing-layers-using-geoserver.html) workflow.
 
 ## Publishing with QGIS Server
 
-The workflows described in the section on working with the PostgreSQL database are basically all you need to know, so we don't repeat that here, other than to remind you that the OSM mirrored data is by default stored in a schema called ```osm```.
+To publish the OSM mirror layers in the `osm` schema using QGIS Server or to publish a QGIS project that references the OSM mirror layers in the `osm` schema, use the [Publishing a QGIS project ](https://kartoza.github.io/osgs/workflows/publishing-qgis-project.html) workflow.
 
 ## References 
 
