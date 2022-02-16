@@ -10,22 +10,22 @@ Here follows the list of example workflows that are available in the OSGS stack.
    :maxdepth: 1
    :caption: Contents:
 
-   publishing-changes-to-static-website
-   uploading-qgis-project
-   acessing-postgis-from-qgis-using-pg_service-file
-   authentication-using-pg_service-and-qgisauthdb
-   publishing-qgis-project
+   accessing-postgis-from-qgis-using-pg_service-file
+   create-osm-mirror-in-database
    publishing-layers-using-geoserver
-   connecting-to-geoserver-and-qgisserver-in-hugo
+   publishing-qgis-project
+   uploading-qgis-project   
    qgis-desktop-as-web-service-client
+   authentication-using-pg_service-and-qgisauthdb
+   publishing-changes-to-static-website
+   connecting-to-geoserver-and-qgisserver-in-hugo
    node-red-access-data-in-postgres
+   node-red-point-layer-to-worldmap
    postgrest-api
    node-red-postgrest-api
-   node-red-point-layer-to-worldmap
    set-up-pg-notify
    mergin-db-sync-client-workflow1
    mergin-db-sync-client-workflow2
-   create-osm-mirror-in-database
    osm-enrich-workflow
    postgresql-workflows
    setting-up-access-permissions-in-filebrowser
