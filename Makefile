@@ -1222,7 +1222,7 @@ restore-surveysolutions:
 
 #----------------- OSM Mirror --------------------------
 
-deploy-osm-mirror: enable-osm-mirror configure-osm-mirror start-osm-mirror sleep5m osm-mirror-materialized-views add-db-osm-mirror-qgis-project
+deploy-osm-mirror: enable-osm-mirror configure-osm-mirror start-osm-mirror sleep5m osm-mirror-materialized-views add-db-osm-mirror-elevation add-db-osm-mirror-qgis-project
 
 enable-osm-mirror:
 	@make check-env
@@ -1284,20 +1284,6 @@ osm-mirror-materialized-views:
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/materialized_views.sql
 	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select schemaname as schema_name, matviewname as view_name, matviewowner as owner, ispopulated as is_populated from pg_matviews order by schema_name, view_name;" gis 
 
-add-db-osm-mirror-qgis-project:
-	@make check-env
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Add the OSM Mirror QGIS project to db"
-	@echo "------------------------------------------------------------------"
-	@docker cp qgis_projects/osm_mirror_qgis_project/osm_mirror_qgis_project.sql osgisstack_db_1:/tmp/ 
-	@echo -n "Are you sure you want to delete the public.qgis_projects table? [y/N] " && read ans && [ $${ans:-N} = y ]
-	# - at start of next line means error will be ignored (in case the qgis_projects table isn't already there)
-	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop table qgis_projects;" gis 
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/osm_mirror_qgis_project.sql -d gis
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/osm_mirror_qgis_project.sql
-	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from qgis_projects;" gis 
-
 add-db-osm-mirror-elevation:
 	@make check-env 
 	@echo "-------------------------------------------------------------------"
@@ -1320,6 +1306,19 @@ add-db-osm-mirror-elevation:
 	# File clean up 
 	@rm -r conf/osm_conf/SRTM_DEM/
 
+add-db-osm-mirror-qgis-project:
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Add the OSM Mirror QGIS project to db"
+	@echo "------------------------------------------------------------------"
+	@docker cp qgis_projects/osm_mirror_qgis_project/osm_mirror_qgis_project.sql osgisstack_db_1:/tmp/ 
+	@echo -n "Are you sure you want to delete the public.qgis_projects table? [y/N] " && read ans && [ $${ans:-N} = y ]
+	# - at start of next line means error will be ignored (in case the qgis_projects table isn't already there)
+	-@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "drop table qgis_projects;" gis 
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -f /tmp/osm_mirror_qgis_project.sql -d gis
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec db rm /tmp/osm_mirror_qgis_project.sql
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose exec -u postgres db psql -c "select name from qgis_projects;" gis 
 
 stop-osm-mirror:
 	@make check-env
