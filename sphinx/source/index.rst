@@ -34,4 +34,5 @@ Components.
    blueprints/index.rst
    FAQ
    roadmap
+   Credits
 
