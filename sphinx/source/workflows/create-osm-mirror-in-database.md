@@ -151,7 +151,7 @@ To publish the OSM mirror layers in the `osm` schema using GeoServer or to publi
 
 ## Publishing with QGIS Server
 
-To publish the OSM mirror layers in the `osm` schema using QGIS Server or to publish a QGIS project that references the OSM mirror layers in the `osm` schema, use the [Publishing a QGIS project ](https://kartoza.github.io/osgs/workflows/publishing-qgis-project.html) workflow.
+To publish the OSM mirror layers in the `osm` schema using QGIS Server or to publish a QGIS project that references the OSM mirror layers in the `osm` schema, use the [Publishing a QGIS project using a connection service file](https://kartoza.github.io/osgs/workflows/publishing-qgis-project.html) workflow.
 
 ## References 
 
