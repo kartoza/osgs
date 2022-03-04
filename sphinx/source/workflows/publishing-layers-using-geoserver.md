@@ -1,20 +1,62 @@
 # Publishing layers using GeoServer
 
-In this workflow, you will publish the `osm_waterways_rivers` OpenStreetMap layer in the `osm` schema of the Postgres service `gis` database. 
+In this workflow, you will publish the `osm_waterways_rivers` OpenStreetMap layer in the `osm` schema of the Postgres service `gis` database.
 
-## Deploy GeoServer
+## Deploying the OSM Mirror service
 
-### Deploy the OSM Mirror service
+### Prepare the Country PBF file and the clip area document
 
-Deploy the OSM mirror service using the instructions detailed in the [Creating an Open Street Map mirror into your database workflow](https://kartoza.github.io/osgs/workflows/create-osm-mirror-in-database.html).
+The PBF files for the country or region of interest can be obtained from [GeoFabrik](https://download.geofabrik.de/). The PBF file used in this workflow was for South Korea and the URL is https://download.geofabrik.de/asia/south-korea-latest.osm.pbf.
 
-### Deploy the GeoServer service
+The clip area constrains any data being imported into the PostGIS database to a specific geographic area. You will need to save the clip area document as `conf/osm_conf/clip.geojson`. For best performance, a simple rectangle is best, but any complex polygon can be used. The CRS of the geojson should always be `EPSG:4326`.
 
-Deploy the GeoServer service using `make deploy-geoserver`. The service is now accessible on `/geoserver/` e.g. `https://localhost/geoserver/`. Use the `<GEOSERVER_ADMIN_USER>` and `<GEOSERVER_ADMIN_PASSWORD>` specified in the `.env` file to sign into GeoServer.  
+!["OSM Clip Area"](../img/osm-mirror-workflow-1.png)
 
-## Publishing with GeoServer
+You can easily create such a clip document at  https://geojson.io or by using QGIS. For this workflow the clip area document for Seoul, South Korea, was downloaded from the [southkorea/seoul-maps](https://github.com/southkorea/seoul-maps/blob/master/juso/2015/json/seoul_municipalities_geo_simple.json) repository.
 
-### Create a new workspace 
+### Deploy the initial stack
+
+In your server terminal, deploy the initial stack by running either `make configure-ssl-self-signed` or `make configure-letsencrypt-ssl`. The initial stack consists of the Nginx, Hugo Watcher and Watchtower services.
+
+Use `make configure-ssl-self-signed` if you are going to use a self-signed certificate on a localhost for testing. Use `make configure-letsencrypt-ssl` if you are going to use a Let's Encrypt signed certificate on a name host for production. The `make configure-ssl-self-signed` will deploy the Nginx, Hugo Watcher and Watchtower services, but after running `make configure-letsencrypt-ssl` you will need to run `make deploy-hugo` to deploy the Nginx, Hugo Watcher and Watchtower services.
+
+Use `make ps` to view the services running. The following services should be up:
+
+![Initial Stack](../img/pg-service-1.png)
+
+### Deploy the PostgreSQL and PostGIS service
+
+Deploy the PostgreSQL and  PostGIS service using `make deploy-postgres`. If you already have PostgreSQL installed on your local machine, ensure that you specify a different port number for the Postgis Public Port other than port 5432, the default port for PostgreSQL. For example, you can use the port number 5434.
+
+![Postgis Public Port](../img/pg-service-2.png)
+
+Use `make ps` to view the services running. The following services should be up:
+
+![Services Up](../img/pg-service-3.png)
+
+To view the PostgreSQL and PostGIS service databases, create a psql shell in the `gis` database using `make db-psql-shell` then run `\l`.
+
+![PostgreSQL and PostGIS Service Databases](../img/pg-service-4.png)
+
+### Deploy the OSM mirror service
+
+Deploy the OSM mirror service using `make deploy-osm-mirror` and follow the subsequent prompts. Use `make ps` to view the services running. The following services should be up:
+
+![Services Up](../img/osm-mirror-workflow-13.png)
+
+You can view the logs for the OSM mirror service using the command `make osm-mirror-logs`.
+
+## Deploying the GeoServer service
+
+Deploy the GeoServer service using `make deploy-geoserver`. The service is now accessible on `/geoserver/` e.g. `https://localhost/geoserver/`. Use the `<GEOSERVER_ADMIN_USER>` and `<GEOSERVER_ADMIN_PASSWORD>` specified in the `.env` file to sign into GeoServer. 
+
+Use `make ps` to view the services running. The following services should be up:
+
+![Services Up](../img/publish-using-geoserver-12.png)
+
+## Publishing Layers with GeoServer
+
+### Create a new workspace
 
 After signing in, there will be 3 options on the Welcome webpage: "Add layers", "Add stores", or "Create workspaces". Click on "Create Workspaces".
 
@@ -69,18 +111,18 @@ Complete the layer details as appropriate and make sure to click the options hig
 
 ![Adding a GeoServer WMS layer in QGIS](../img/publish-using-geoserver-8.png)
 
-## View published layer in QGIS
+## Using QGIS Desktop as a web service client for GeoServer published layers
 
-You can connect to the GeoServer from QGIS using WFS or WMS using the scheme: `https://<server>/GeoServer/<workspace>/wfs` or `https://<server>/GeoServer/<workspace>/wms` where `<server>` is the hostname of the server where OSGS is set up and `<workspace>` is the name of the workspace you created in the previous steps.
+You can connect to GeoServer from QGIS using WFS or WMS using the scheme: `https://<server>/geoserver/<workspace>/wfs` or `https://<server>/geoserver/<workspace>/wms` where `<server>` is the hostname of the server where you set up OSGS and `<workspace>` is the name of the workspace you created in the previous [section](#create-a-new-workspace).
 
 In your QGIS Desktop Browser Panel, right click on the WMS/WMTS option and click on New Connection.
 
 ![New WMS Connection](../img/publish-using-geoserver-9.png)
 
-Give the connection an appropriate and set the URL using the WMS schema as shown below. Click on "OK".
+Give the connection an appropriate name and set the URL using the WMS schema as shown below. Click on "OK".
 
-![New WMS Connection](../img/publish-using-geoserver-10.png)
+![New WMS Connection Details](../img/publish-using-geoserver-10.png)
 
-To view the layer, add the Layer to the QGIS Map View.
+You can drag and drop the layer onto the Map View, to view the layer.
 
 ![GeoServer WMS Layer](../img/publish-using-geoserver-11.png)
