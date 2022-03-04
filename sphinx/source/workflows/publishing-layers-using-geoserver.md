@@ -1,4 +1,4 @@
-# Publishing layers using GeoServer - TODO
+# Publishing layers using GeoServer
 
 In this workflow, you will publish the `osm_waterways_rivers` OpenStreetMap layer in the `osm` schema of the Postgres service `gis` database. 
 
