@@ -4,15 +4,26 @@ The File Browser service is used as the backend for managing the content that ap
 
 For blogging, we need to give users access to the `hugo_site/content` and `hugo_site/static/images` folders. This workflow describes how to do so.
 
+## Deploy the initial stack
+
+In your server terminal, deploy the initial stack by running either `make configure-ssl-self-signed` or `make configure-letsencrypt-ssl`. The initial stack consists of the Nginx, Hugo Watcher and Watchtower services.
+
+Use `make configure-ssl-self-signed` if you are going to use a self-signed certificate on a localhost for testing. Use `make configure-letsencrypt-ssl` if you are going to use a Let's Encrypt signed certificate on a name host for production. The `make configure-ssl-self-signed` will deploy the Nginx, Hugo Watcher and Watchtower services, but after running `make configure-letsencrypt-ssl` you will need to run `make deploy-hugo` to deploy the Nginx, Hugo Watcher and Watchtower services.
+
+Use `make ps` to view the services running. The following services should be up:
+
+![Initial Stack](../img/pg-service-1.png)
+
 ## Deploy the File Browser service
 
-### Deploy the Nginx and Hugo Watcher services
+To deploy the File Browser service run `make deploy-file-browser`. 
 
-To deploy the initial stack, which includes the Nginx and Hugo Watcher services, please run either make `configure-ssl-self-signed` or make `configure-letsencrypt-ssl`.
+Use `make ps` to view the services running. The following services should be up:
 
-### Deploy the File Browser service
+![Services Up](../img/file-browser-8.png)
 
-To deploy the File Browser service run `make deploy-file-browser`. The file browser service can now be accessed on `/files/` e.g. https://localhost/files. The url will direct you to the Login page. Sign in to the service using the File Browser username `admin` and password `<FILEBROWSER_PASSWORD>` specified in the `.env` file.
+
+The file browser service can now be accessed on `/files/` e.g. https://localhost/files. The url will direct you to the Login page. Sign in to the service using the File Browser username `admin` and password `<FILEBROWSER_PASSWORD>` specified in the `.env` file.
 
 ![Log in Page](../image/../img/file-browser-1.png)
 
