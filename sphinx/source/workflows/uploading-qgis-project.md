@@ -34,10 +34,10 @@ We can now access the QGIS project on the OGC link. In your QGIS Desktop Browser
 
 ![New WMS Connection](../img/upload-qgis-project-3.png)
 
-Give the new connection an appropriate name. For the URL parameter, access the published QGIS project via `/ogc/SeoulOSMMirror` i.e. `https://<server name>/ogc/<QGIS project name>/`.
+Give the new connection an appropriate name. For the URL parameter, access the published QGIS project via `/ogc/SeoulOSMMirror` i.e. `https://<server name>/ogc/<QGIS project name>/`. The `<server name>` parameter is the hostname of the server where you set up OSGS. Click "Ok".
 
 ![New WMS Connection](../img/upload-qgis-project-4.png)
 
-Click "Ok". Once the connection is successful, drag and drop the `SeoulOSMMirror` layer onto the QGIS workspace.
+Once the connection is successful, you can now load into QGIS the entire published QGIS project or individual layers as WMS layers. Drag and drop the `SeoulOSMMirror` layer onto the QGIS workspace to view the project.
 
 ![Published QGIS Project](../img/upload-qgis-project-5.png)
