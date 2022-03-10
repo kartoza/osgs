@@ -22,7 +22,6 @@ Use `make ps` to view the services running. The following services should be up:
 
 ![Services Up](../img/file-browser-8.png)
 
-
 The file browser service can now be accessed on `/files/` e.g. https://localhost/files. The url will direct you to the Login page. Sign in to the service using the File Browser username `admin` and password `<FILEBROWSER_PASSWORD>` specified in the `.env` file.
 
 ![Log in Page](../image/../img/file-browser-1.png)
