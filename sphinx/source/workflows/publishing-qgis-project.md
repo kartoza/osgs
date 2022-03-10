@@ -82,7 +82,7 @@ In your QGIS Desktop Browser panel, right click on the `WMS/WMTS` option and cre
 
 ![New WMS Connection Details](../img/upload-qgis-project-3.png)
 
-Give the new connection an appropriate name. For the URL parameter, access the published QGIS project via `/map/` i.e. `https://<server name>/map/`. Click "OK".
+Give the new connection an appropriate name. For the URL parameter, access the published QGIS project via `/map/` i.e. `https://<server name>/map/`. The `<server name>` parameter is the hostname of the server where you set up OSGS. Click "OK".
 
 ![New WMS Connection](../img/publish-using-pgservice-file-2.png)
 
