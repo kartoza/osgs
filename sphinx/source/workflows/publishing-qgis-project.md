@@ -86,6 +86,6 @@ Give the new connection an appropriate name. For the URL parameter, access the p
 
 ![New WMS Connection](../img/publish-using-pgservice-file-2.png)
 
-You can now load into QGIS the entire OSM Mirror project or individual layers as WMS layers.
+You can now load into QGIS the entire OSM Mirror QGIS project or individual layers as WMS layers. Drag and drop the `OSM Mirror` layer onto the Map View to view the project.
 
 ![View WMS Layer](../img/publish-using-pgservice-file-3.png)
