@@ -34,7 +34,7 @@ Use `make ps` to view the services running. The following services should be up:
 
 ![Services Up](../img/pg-service-3.png)
 
-To view the PostgreSQL and PostGIS service databases, create a psql shell in the `gis` database using `make db-psql-shell` then run `\l`.
+To view the PostgreSQL and PostGIS service databases, create a psql shell in the `gis` database using `make db-psql-shell` then use the meta command `\l` to list all the databases.
 
 ![PostgreSQL and PostGIS Service Databases](../img/pg-service-4.png)
 
@@ -78,7 +78,7 @@ Return to the Welcome page and click on the plus icon with "Add store" next to i
 
 ![Add store](../img/publish-using-geoserver-4.png)
 
-In the Vector Data Source category, select "PostGIS - PostGIS Database".
+In the Vector Data Sources category, select "PostGIS - PostGIS Database".
 
 ![Select Vector Data Source Category](../img/publish-using-geoserver-5.png)
 
