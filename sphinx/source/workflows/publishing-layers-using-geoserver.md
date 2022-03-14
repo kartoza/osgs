@@ -54,6 +54,8 @@ Use `make ps` to view the services running. The following services should be up:
 
 ![Services Up](../img/publish-using-geoserver-12.png)
 
+You can view the logs for the GeoServer service using `make geoserver-logs`.  
+
 ## Publishing Layers with GeoServer
 
 ### Create a new workspace
