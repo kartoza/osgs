@@ -5,7 +5,7 @@
 	# Will look in the PG database qgis_projects table for 
  	# a project called project_name
         location /ogc-pg/ {
-            rewrite ^/ogc-pg/(.*)$ /qgis-pg/qgis_mapserv.fcgi?map=postgresql%3A%2F%2F%3Fservice%3Dosgs.kartoza.com%26sslmode%3Drequire%26schema%3Dpublic%26project%3D$1;
+            rewrite ^/ogc-pg/(.*)$ /qgis-pg/qgis_mapserv.fcgi?map=postgresql%3A%2F%2F%3Fservice%3Dosgs%26sslmode%3Drequire%26schema%3Dpublic%26project%3D$1;
         }
         location /qgis-pg/ {
             internal; # Used only by the OGC rewrite
