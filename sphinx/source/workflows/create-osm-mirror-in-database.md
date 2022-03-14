@@ -147,11 +147,11 @@ To restore the last back up of the `layer_styles` table, run the command `make r
 
 ## Publishing with GeoServer
 
-To publish the OSM mirror layers in the `osm` schema using GeoServer or to publish a QGIS project that references the OSM mirror layers in the `osm` schema, use the [Publishing layers using Geoserver](https://kartoza.github.io/osgs/workflows/publishing-layers-using-geoserver.html) workflow.
+To publish the OSM mirror layers in the `osm` schema using GeoServer, use the [Publishing layers using Geoserver](https://kartoza.github.io/osgs/workflows/publishing-layers-using-geoserver.html) workflow.
 
 ## Publishing with QGIS Server
 
-To publish the OSM mirror layers in the `osm` schema using QGIS Server or to publish a QGIS project that references the OSM mirror layers in the `osm` schema, use the [Publishing a QGIS project ](https://kartoza.github.io/osgs/workflows/publishing-qgis-project.html) workflow.
+To publish the OSM mirror layers in the `osm` schema using QGIS Server or to publish a QGIS project that references the OSM mirror layers in the `osm` schema, use the [Publishing a QGIS project using a connection service file](https://kartoza.github.io/osgs/workflows/publishing-qgis-project.html) workflow.
 
 ## References 
 
