@@ -34,7 +34,7 @@ Use `make ps` to view the services running. The following services should be up:
 
 ![Services Up](../img/pg-service-3.png)
 
-To view the PostgreSQL and PostGIS service databases, create a psql shell in the `gis` database using `make db-psql-shell` then run `\l`.
+To view the PostgreSQL and PostGIS service databases, create a psql shell in the `gis` database using `make db-psql-shell` then use the meta command `\l` to list all the databases.
 
 ![PostgreSQL and PostGIS Service Databases](../img/pg-service-4.png)
 
@@ -51,6 +51,8 @@ You can view the logs for the OSM mirror service using the command `make osm-mir
 To deploy the QGIS Server service, run `make deploy-qgis-server`. Use `make ps` to view the services running. The following services should be up:
 
 ![Services Up](../img/publish-using-pgservice-file-4.png)
+
+You can view the logs for the QGIS Server service using `make qgis-server-logs`.
 
 ### Creating the server-side connection service file
 
@@ -86,6 +88,6 @@ Give the new connection an appropriate name. For the URL parameter, access the p
 
 ![New WMS Connection](../img/publish-using-pgservice-file-2.png)
 
-Once the connection is successful, you can now load into QGIS the entire OSM Mirror QGIS project or individual layers as WMS layers. Drag and drop the `OSM Mirror` layer onto the Map View to view the project.
+Once the connection is successful, you can now load into QGIS the entire OSM Mirror QGIS project or individual layers from the project as WMS layers. Drag and drop the `OSM Mirror` layer onto the Map View to view the project.
 
 ![View WMS Layer](../img/publish-using-pgservice-file-3.png)
