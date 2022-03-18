@@ -70,4 +70,4 @@ make file-browser-shell
 
 ## Accessing the running services
 
-After deploying File Browser, the service can now be accessed on /files/ e.g. https://localhost/files.
+After deploying File Browser, the service can be accessed on /files/ e.g. https://localhost/files. Sign in to the File Browser service using the  username `<FILEBROWSER_USER>` and password `<FILEBROWSER_PASSWORD>` specified in the `.env` file.
