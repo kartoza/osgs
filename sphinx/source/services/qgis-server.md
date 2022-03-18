@@ -17,7 +17,7 @@ The QGIS Server works in orchestration with many of the other containers, includ
 
 **Project Website:** [qgis.org](https://qgis.org/)
 
-**Project Source Repository:** [qgis/QGIS](hhttps://github.com/qgis/QGIS)
+**Project Source Repository:** [qgis/QGIS](https://github.com/qgis/QGIS)
 
 **Project Project Technical Documentation:** [QGIS Server Guide/Manual](https://docs.qgis.org/3.22/en/docs/server_manual/index.html#)
 
