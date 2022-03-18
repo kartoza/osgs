@@ -1,6 +1,6 @@
 # QGIS Desktop - WIP ![WIP](https://img.shields.io/badge/wip-red?style=for-the-badge)
 
-QGIS is a free, open source, cross platform community-driven geographical information system (GIS) software. The OSGS QGIS Desktop service is a remote desktop application running in a browser.
+QGIS is a free, open source, cross platform, community-driven geographical information system (GIS) software. The OSGS QGIS Desktop service is a remote desktop application running in a browser.
 
 **Service name:** qgis-desktop
 
@@ -64,4 +64,4 @@ make qgis-desktop-shell
 
 ## Accessing the running services
 
-After deploying the QGIS Desktop service, the service is accessible on /qgis-desktop/ e.g. https://localhost/qgis-desktop/. Log in to the service using the username <NGINX_AUTH_USER> and password <NGINX_AUTH_PWD> specified in the .env file.
+After deploying the QGIS Desktop service, the service is accessible on /qgis-desktop/ e.g. https://localhost/qgis-desktop/. Log in to the service using the username `<NGINX_AUTH_USER>`     and password `<NGINX_AUTH_PWD>` specified in the `.env` file.
