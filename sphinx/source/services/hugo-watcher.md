@@ -94,7 +94,7 @@ The Hugo-Watcher service is configured and deployed as part of the initial stack
 
 Use `make configure-ssl-self-signed` if you are going to use a self-signed certificate on a localhost for testing. Use `make configure-letsencrypt-ssl` if you are going to use a Let’s Encrypt signed certificate on a name host for production. Running `make configure-ssl-self-signed` will deploy the Nginx, Hugo Watcher and Watchtower services, but after running `make configure-letsencrypt-ssl` you will need to run `make deploy-hugo` to deploy the Nginx, Hugo Watcher and Watchtower services.
 
-After deploying the initial stack, the static hugo website is available on https://<server name>.com/, where the <server name> is the hostname of the server where you have set up OSGS.
+After deploying the initial stack, the static hugo website is available on `https://<server name>.com/`, where the `<server name>` is the hostname of the server where you have set up OSGS.
 
 ## Additional Notes
 
