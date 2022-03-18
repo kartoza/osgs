@@ -1,50 +1,97 @@
 # QGIS Server - PR ![PR](https://img.shields.io/badge/pr-green?style=for-the-badge)
 
-With the QGIS Server service you can publish one or more QGIS projects including: 1. Projects stored in-database in PostgreSQL 2. Projects stored in the file system
+With the QGIS Server service you can publish one or more QGIS projects including: 
 
-For the QGIS Server, we have chosen the OpenQuake build of QGIS Server because it has a few interesting characteristics. One, is that you can deploy QGIS server-side extensions easily with it and two, is that it supports things like the QGIS Authentication System. The QGIS Authentication System is an authentication database that provides more advanced security options, provides pg_service support, and provides some special features for URL rerouting so that your project paths are hidden away from the user (which is both a security and a convenience concern).
+1. Projects stored in-database in PostgreSQL 
+2. Projects stored in the file system.
 
-The OpenQuake QGIS Server is used for the QGIS Server instance. The OSGS also provides a couple of sample plugins like a demonstrater plugin and a plugin for handling atlas reports. The demonstrater plugin is a modified version of the GetFeatureInfo handler and will return some html back and in a nicely formatted table. The plugin for handling atlas reports, written by Lizmap extends the QGIS getPrint support to allow you to request a specific page from an atlas print. This is pretty handy if you, for example, click on a feature and you want to get then from an atlas report the one page for that feature in the atlas.
+For the QGIS Server, we have chosen the OpenQuake build of QGIS Server because it has a few interesting characteristics. One, is that you can deploy QGIS server-side extensions easily with it and two, it supports things like the QGIS Authentication System. The QGIS Authentication System is an authentication database that provides more advanced security options, provides pg_service support, and provides some special features for URL rerouting so that your project paths are hidden away from the user (which is both a security and a convenience concern).
+
+The OpenQuake QGIS Server is used for the QGIS Server instance. The OSGS also provides a couple of sample plugins like a demonstrater plugin and a plugin for handling atlas reports. The demonstrater plugin is a modified version of the GetFeatureInfo handler and will return some html back and in a nicely formatted table. The plugin for handling atlas reports, written by Lizmap extends the QGIS getPrint support to allow you to request a specific page from an atlas print. This is pretty handy if you, for example, click on a feature and you want to get from an atlas report the one page for that feature in the atlas.
 
 Another feature that Docker provides for applications such as QGIS Server is the ability to horizontally scale them. Our platform has some key configuration examples showing you how you can, for example, scale up the QGIS Server instance to have ten concurrently running instances. This is useful for handling increased or high load on the server. Scaling will create a round robin request handler, so that as the requests come in, it will pass each successive request over to the next running instance, and those requests will be handled by that instance, passed back and then that instance will stand by and wait for the next request to come in.
 
-The QGIS Server works in orchestration with many of the other containers, including the PostGIS container. It also works pretty well in conjunction with the SCP (secure copy) container which allows the users of the OSGS architecture to easily move data from their local machine onto the server, either manually by copying and pasting files using an application such as Onescp or using built into Linux file browsers. For example, if you are one the GNOME desktop it has built into SFTP support.
+The QGIS Server works in orchestration with many of the other containers, including the PostGIS container. It also works pretty well in conjunction with the File Browser container which allows the users of the OSGS architecture to easily move data from their local machine onto the server, via the upload feature.
 
-**Project Website:** [QGIS.org](https://qgis.org)
+**Service name:** qgis-server
 
-**Project Source Repository:** [QGIS on GitHub](https://github.com/qgis/qgis)
+**Project Website:** [qgis.org](https://qgis.org/)
 
-**Project Project Technical Documentation:** [QGIS on GitHub](https://docs.qgis.org/3.16/en/docs/server_manual/index.html)
+**Project Source Repository:** [qgis/QGIS](hhttps://github.com/qgis/QGIS)
 
-**Docker Repository:** [openquake/qgis-server:stable](https://hub.docker.com/r/openquake/qgis-server)
+**Project Project Technical Documentation:** [QGIS Server Guide/Manual](https://docs.qgis.org/3.16/en/docs/server_manual/index.html#)
 
-**Docker Source Repository:** [gem / oq-qgis-server](https://github.com/gem/oq-qgis-server)
+**Docker Repository:** [openquake/qgis-server](https://hub.docker.com/r/openquake/qgis-server)
 
-## Configuration
+**Docker Source Repository:** [gem/oq-qgis-server](https://github.com/gem/oq-qgis-server/)
 
 ## Deployment
 
+```
+make deploy-qgis-server
+```
+
 ## Enabling
+
+```
+make enable-qgis-server
+```
+
+## Starting
+
+```
+make start-qgis-server
+```
+
+## Stopping
+
+```
+make stop-qgis-server
+```
 
 ## Disabling
 
+```
+make disable-qgis-server
+```
+
+## Restarting
+
+```
+make restart-qgis-server
+```
+
+## Logs
+
+```
+make qgis-server-logs
+```
+
+## Shell
+
+```
+make qgis-server-shell
+```
+
 ## Accessing the running services
 
-Every project you publish will be available at `/ogc/project_name` which makes it very simple to discover where the projects are deployed on the server.
+QGIS projects published by uploading the project in File Browser are available at `/ogc/project_name` which makes it very simple to discover where the projects are deployed on the server.
+
+QGIS projects published through the Postgres connection service file for authentication or using the Postgres connection service file and the QGIS authentication database for authentication  are available at `/ogc-pg/project_URI`.
 
 ## Additional Notes
 
-## Further Reading
+### Further Reading
 
 You should read the [QGIS Server documentation](https://docs.qgis.org/3.16/en/docs/server_manual/getting_started.html#) on QGIS.org. It is well written and covers a lot of background explanation which is not provided here. Also you should familiarise yourself with the [Environment Variables](https://docs.qgis.org/3.16/en/docs/server_manual/config.html#environment-variables).
 
 Alesandro Passoti has made a number of great resources available for QGIS Server. See his [workshop slide deck](http://www.itopen.it/bulk/FOSS4G-IT-2020/#/presentation-title) and his [server side plugin examples](https://github.com/elpaso/qgis3-server-vagrant/tree/master/resources/web/plugins), and [more examples here](https://github.com/elpaso/qgis-helloserver).
 
-## QGIS Server Atlas Print Plugin
+### QGIS Server Atlas Print Plugin
 
 See the [project documentation](https://github.com/3liz/qgis-atlasprint/blob/master/atlasprint/README.md#api) for supported request parameters for QGIS Atlas prints.
 
-## QGIS Server Scaling
+### QGIS Server Scaling
 
 If your server has the needed resources, you can dramatically improve response times for concurrent
 QGIS server requests by scaling the QGIS server:
