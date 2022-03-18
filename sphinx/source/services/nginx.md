@@ -2,7 +2,7 @@
 
 Nginx is a lightweight web server acting as a proxy in front of QGIS Server and as a server for the static HTML content.
 
-**Service name:** Nginx
+**Service name:** nginx
 
 **Project Website:** [NGINX](https://www.nginx.com/)
 
