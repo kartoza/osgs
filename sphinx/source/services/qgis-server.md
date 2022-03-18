@@ -2,12 +2,12 @@
 
 With the QGIS Server service you can publish one or more QGIS projects including: 
 
-1. Projects stored in-database in PostgreSQL 
+1. Projects stored in a PostgreSQL database.
 2. Projects stored in the file system.
 
 For the QGIS Server, we have chosen the OpenQuake build of QGIS Server because it has a few interesting characteristics. One, is that you can deploy QGIS server-side extensions easily with it and two, it supports things like the QGIS Authentication System. The QGIS Authentication System is an authentication database that provides more advanced security options, provides pg_service support, and provides some special features for URL rerouting so that your project paths are hidden away from the user (which is both a security and a convenience concern).
 
-The OpenQuake QGIS Server is used for the QGIS Server instance. The OSGS also provides a couple of sample plugins like a demonstrater plugin and a plugin for handling atlas reports. The demonstrater plugin is a modified version of the GetFeatureInfo handler and will return some html back and in a nicely formatted table. The plugin for handling atlas reports, written by Lizmap extends the QGIS getPrint support to allow you to request a specific page from an atlas print. This is pretty handy if you, for example, click on a feature and you want to get from an atlas report the one page for that feature in the atlas.
+OSGS also provides a couple of sample plugins like a demonstrater plugin and a plugin for handling atlas reports. The demonstrater plugin is a modified version of the GetFeatureInfo handler and will return some HTML back and in a nicely formatted table. The plugin for handling atlas reports, written by Lizmap extends the QGIS getPrint support to allow you to request a specific page from an atlas print. This is pretty handy if you, for example, click on a feature and you want to get from an atlas report the one page for that feature in the atlas.
 
 Another feature that Docker provides for applications such as QGIS Server is the ability to horizontally scale them. Our platform has some key configuration examples showing you how you can, for example, scale up the QGIS Server instance to have ten concurrently running instances. This is useful for handling increased or high load on the server. Scaling will create a round robin request handler, so that as the requests come in, it will pass each successive request over to the next running instance, and those requests will be handled by that instance, passed back and then that instance will stand by and wait for the next request to come in.
 
@@ -83,7 +83,7 @@ QGIS projects published through the Postgres connection service file for authent
 
 ### Further Reading
 
-You should read the [QGIS Server documentation](https://docs.qgis.org/3.16/en/docs/server_manual/getting_started.html#) on QGIS.org. It is well written and covers a lot of background explanation which is not provided here. Also you should familiarise yourself with the [Environment Variables](https://docs.qgis.org/3.16/en/docs/server_manual/config.html#environment-variables).
+You should read the [QGIS Server documentation](https://docs.qgis.org/3.16/en/docs/server_manual/getting_started.html#) on qgis.org. It is well written and covers a lot of background explanation which is not provided here. You should also familiarise yourself with the [Environment Variables](https://docs.qgis.org/3.16/en/docs/server_manual/config.html#environment-variables).
 
 Alesandro Passoti has made a number of great resources available for QGIS Server. See his [workshop slide deck](http://www.itopen.it/bulk/FOSS4G-IT-2020/#/presentation-title) and his [server side plugin examples](https://github.com/elpaso/qgis3-server-vagrant/tree/master/resources/web/plugins), and [more examples here](https://github.com/elpaso/qgis-helloserver).
 
@@ -123,20 +123,19 @@ server reference per instance e.g.
 ```
 
 <div class="admonition note">
-Scaling to 10 instances is the default if you launch the QGIS server instance via the Make command.
+Scaling to 10 instances is the default if you launch the QGIS server instance via the Make command `make deploy-qgis-server`.
 </div>
 
 Then restart Nginx too:
 
 ```
-docker-compose --profile=production restart nginx
-
+make restart-nginx
 ```
 
-Note that if you do an Nginx up it may bring down your scaled QGIS containers so take care.
+Note that if you do an `docker-compose nginx up` it may bring down your scaled QGIS containers, so take care.
 
 Finally check the logs of Nginx to make sure things are running right:
 
 ```
-docker-compose --profile=production logs nginx
+make nginx-logs
 ```
