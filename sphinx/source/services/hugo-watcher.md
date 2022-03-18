@@ -8,13 +8,13 @@ The Hugo Watcher service watches for changes in the static content source files 
 
 **Project Website:** [HUGO](https://gohugo.io/)
 
-**Project Source Repository:** [gohugoio / hugo](https://github.com/gohugoio/hugo)
+**Project Source Repository:** [gohugoio/hugo](https://github.com/gohugoio/hugo)
 
 **Project Project Technical Documentation:** [Hugo Documentation](https://gohugo.io/documentation/)
 
 **Docker Repository:** [kartoza/hugo-watcher](https://hub.docker.com/r/kartoza/hugo-watcher)
 
-**Docker Source Repository:** [kartoza / hugo-watcher](https://github.com/kartoza/hugo-watcher)
+**Docker Source Repository:** [kartoza/hugo-watcher](https://github.com/kartoza/hugo-watcher)
 
 ## Deployment
 
@@ -26,6 +26,12 @@ make deploy-hugo
 
 ```
 make enable-hugo
+```
+
+## Configuration 
+
+```
+make site-config
 ```
 
 ## Starting
@@ -44,6 +50,12 @@ make stop-hugo
 
 ```
 make disable-hugo
+```
+
+## Restarting
+
+```
+make restart-hugo
 ```
 
 ## Logs
@@ -70,7 +82,19 @@ make backup-hugo
 make restore-hugo
 ```
 
+## Get the Hugo theme
+
+```
+make get-hugo-theme
+```
+
 ## Accessing the running services
+
+The Hugo-Watcher service is configured and deployed as part of the initial stack. The initial stack consists of the Nginx, Hugo Watcher and Watchtower services. To deploy the initial stack, run `make configure-ssl-self-signed` or `make configure-letsencrypt-ssl`.
+
+Use `make configure-ssl-self-signed` if you are going to use a self-signed certificate on a localhost for testing. Use `make configure-letsencrypt-ssl` if you are going to use a Let’s Encrypt signed certificate on a name host for production. Running `make configure-ssl-self-signed` will deploy the Nginx, Hugo Watcher and Watchtower services, but after running `make configure-letsencrypt-ssl` you will need to run `make deploy-hugo` to deploy the Nginx, Hugo Watcher and Watchtower services.
+
+After deploying the initial stack, the static hugo website is available on https://<server name>.com/, where the <server name> is the hostname of the server where you have set up OSGS.
 
 ## Additional Notes
 
