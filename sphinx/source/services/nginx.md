@@ -22,23 +22,33 @@ Use `make configure-ssl-self-signed` if you are going to use a self-signed certi
 
 ## Starting
 
-`make start-nginx`
+```
+make start-nginx
+```
 
 ## Stopping
 
-`make stop-nginx`
+```
+make stop-nginx
+```
 
 ## Restarting
 
-`make restart-nginx`
+```
+make restart-nginx
+```
 
 ## Logs
 
-`make nginx-logs`
+```
+make nginx-logs
+```
 
 ## Shell
 
-`make nginx-shell`
+```
+make nginx-shell
+```
 
 ## Accessing the running services
 
