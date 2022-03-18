@@ -16,39 +16,57 @@ File Browser is a web-based file browser/file manager. File Browser is used as t
 
 ## Deployment
 
-`make deploy-file-browser`
+```
+make deploy-file-browser
+```
 
 ## Enabling
 
-`make enable-file-browser`
+```
+make enable-file-browser
+```
 
 ## Configuration
 
-`make configure-file-browser`
+```
+make configure-file-browser
+```
 
 ## Starting
 
-`make start-file-browser`
+```
+make start-file-browser
+```
 
 ## Stopping
 
-`make stop-file-browser`
+```
+make stop-file-browser
+```
 
 ## Disabling
 
-`make disable-file-browser`
+```
+make disable-file-browser
+```
 
 ## Restarting
 
-`make restart-file-browser`
+```
+make restart-file-browser
+```
 
 ## Logs
 
-`make file-browser-logs`
+```
+make file-browser-logs
+```
 
 ## Shell
 
-`make file-browser-shell`
+```
+make file-browser-shell
+```
 
 ## Accessing the running services
 
