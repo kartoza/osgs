@@ -132,7 +132,7 @@ Then restart Nginx too:
 make restart-nginx
 ```
 
-Note that if you do an `docker-compose nginx up` it may bring down your scaled QGIS containers, so take care.
+Note that if you do `docker-compose nginx up` it may bring down your scaled QGIS containers, so take care.
 
 Finally check the logs of Nginx to make sure things are running right:
 
