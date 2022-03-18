@@ -1,4 +1,4 @@
-# MapProxy - WIP ![Work in Progress](https://img.shields.io/badge/work%20in%20progress-wip-red)
+# MapProxy - WIP ![WIP](https://img.shields.io/badge/wip-red?style=for-the-badge)
 
 MapProxy is a python open source proxy server for geospatial images. It caches, accelerates and transforms data from existing map services and serves any desktop or web GIS client [<sup>[1]</sup>](#1).
 
