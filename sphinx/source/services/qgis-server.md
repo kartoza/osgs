@@ -19,7 +19,7 @@ The QGIS Server works in orchestration with many of the other containers, includ
 
 **Project Source Repository:** [qgis/QGIS](hhttps://github.com/qgis/QGIS)
 
-**Project Project Technical Documentation:** [QGIS Server Guide/Manual](https://docs.qgis.org/3.16/en/docs/server_manual/index.html#)
+**Project Project Technical Documentation:** [QGIS Server Guide/Manual](https://docs.qgis.org/3.22/en/docs/server_manual/index.html#)
 
 **Docker Repository:** [openquake/qgis-server](https://hub.docker.com/r/openquake/qgis-server)
 
@@ -83,7 +83,7 @@ QGIS projects published through the Postgres connection service file for authent
 
 ### Further Reading
 
-You should read the [QGIS Server documentation](https://docs.qgis.org/3.16/en/docs/server_manual/getting_started.html#) on qgis.org. It is well written and covers a lot of background explanation which is not provided here. You should also familiarise yourself with the [Environment Variables](https://docs.qgis.org/3.16/en/docs/server_manual/config.html#environment-variables).
+You should read the [QGIS Server documentation](https://docs.qgis.org/3.22/en/docs/server_manual/getting_started.html#) on qgis.org. It is well written and covers a lot of background explanation which is not provided here. You should also familiarise yourself with the [Environment Variables](https://docs.qgis.org/3.22/en/docs/server_manual/config.html#environment-variables).
 
 Alesandro Passoti has made a number of great resources available for QGIS Server. See his [workshop slide deck](http://www.itopen.it/bulk/FOSS4G-IT-2020/#/presentation-title) and his [server side plugin examples](https://github.com/elpaso/qgis3-server-vagrant/tree/master/resources/web/plugins), and [more examples here](https://github.com/elpaso/qgis-helloserver).
 
