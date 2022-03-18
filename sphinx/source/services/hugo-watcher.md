@@ -6,7 +6,7 @@ The Hugo Watcher service watches for changes in the static content source files 
 
 **Service name:** hugo-watcher
 
-**Project Website:** [HUGO](https://gohugo.io/)
+**Project Website:** [gohugo.io](https://gohugo.io/)
 
 **Project Source Repository:** [gohugoio/hugo](https://github.com/gohugoio/hugo)
 
