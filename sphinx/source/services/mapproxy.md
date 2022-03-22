@@ -68,13 +68,13 @@ make mapproxy-logs
 make mapproxy-shell
 ```
 
-## Back up
+## Back up MapProxy Configuraton Files
 
 ```
 make backup-mapproxy
 ```
 
-## Restore
+## Restore backed up MapProxy Configuraton Files
 
 ```
 make restore-mapproxy
