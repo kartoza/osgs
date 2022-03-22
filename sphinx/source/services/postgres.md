@@ -121,7 +121,7 @@ restore-db-qgis-styles
 To restore the last back up of QGIS projects to the `gis` database run:
 
 ```
-restore-db-qgis-projects:
+restore-db-qgis-projects
 ```
 
 To restore the last back up of the `gis` database, run:
