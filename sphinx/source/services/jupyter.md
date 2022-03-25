@@ -19,6 +19,7 @@ The OSGS Jupyter Notebook service contains a Python & Jupyter environment with g
 ```
 make deploy-jupyter
 ```
+
 ## Build 
 
 Since the service does not user a published docker repository, you need to ensure a build happens before running the service. 
@@ -49,6 +50,23 @@ make start-jupyter
 
 ```
 make jupyter-token
+```
+## Stop
+
+```
+make stop-jupyter
+```
+
+## Disable 
+
+```
+make disable-jupyter
+```
+
+## Restart 
+
+```
+make restart-jupyter
 ```
 
 ## Logs
