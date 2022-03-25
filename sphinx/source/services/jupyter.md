@@ -51,19 +51,19 @@ make start-jupyter
 ```
 make jupyter-token
 ```
-## Stop
+## Stopping
 
 ```
 make stop-jupyter
 ```
 
-## Disable 
+## Disabling
 
 ```
 make disable-jupyter
 ```
 
-## Restart 
+## Restarting
 
 ```
 make restart-jupyter
