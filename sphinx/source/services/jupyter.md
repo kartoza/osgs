@@ -1,25 +1,30 @@
 # Jupyter Notebook - PR ![PR](https://img.shields.io/badge/pr-green?style=for-the-badge)
 
-<div class="admonition warning">
-Note - this service does not support multi-user collaboration yet. In the future we will add Jupyter Hub to support this.
-</div>
+> **Note**: This service does not support multi-user collaboration yet. In the future we will add Jupyter Hub to support this.
 
-**Service name:** 
+The Jupyter Notebook is an open-source web application that allows data scientists to create and share documents that integrate live code, equations, computational output, visualizations, and other multimedia resources, along with explanatory text in a single document [<sup>[1]</sup>](#1).
 
-**Project Website:** 
+The OSGS Jupyter Notebook service contains a Python & Jupyter environment with geopandas and moving pandas rolled in. Thanks to Anita Graser for the instructions and code to build a docker container with a Python & Jupyter environment: https://github.com/anitagraser/EDA-protocol-movement-data/blob/main/docker/Dockerfile and https://github.com/anitagraser/EDA-protocol-movement-data/tree/main/docker#docker-instructions.
 
-**Project Source Repository:** 
+**Service name:** jupyter
 
-**Project Technical Documentation:** 
+**Project Website:** [jupyter.org](https://jupyter.org/)
 
-**Docker Repository:** 
+**Project Source Repository:** [jupyter/notebook](https://github.com/jupyter/notebook)
 
-**Docker Source Repository:** 
+**Project Technical Documentation:** [The Jupyter Notebook](https://jupyter-notebook.readthedocs.io/en/latest/)
 
 ## Deployment 
 
 ```
 make deploy-jupyter
+```
+## Build 
+
+Since the service does not user a published docker repository, you need to ensure a build happens before running the service. 
+
+```
+make build-jupyter
 ```
 
 ## Enabling
@@ -72,4 +77,8 @@ make restore-jupyter
 
 ## Accessing the running service
 
-After deploying the service, the jupyter service is accessible on `jupyter/lab?` e.g. https://localhost/jupyter/lab?. To log in, use the token displayed when you run `make jupyter-token`.
+After deploying the service, the jupyter service is accessible on `/jupyter/lab?` e.g. https://localhostjupyter/lab?. To log in, use the token displayed when you run `make jupyter-token`.
+
+## References
+
+<a id="1">[1]</a> Science, O. D. S. C.- O. D. (2020, July 15). Why you should be using Jupyter Notebooks. Medium. Retrieved March 25, 2022, from https://odsc.medium.com/why-you-should-be-using-jupyter-notebooks-ea2e568c59f2 
