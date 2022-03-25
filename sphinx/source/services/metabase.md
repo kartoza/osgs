@@ -95,7 +95,6 @@ make backup-metabase
 make restore-metabase
 ```
 
-
 ## Accessing the running service
 
 After deploying the service, the metabase service is now accessible on `/metabase/` e.g. https://localhost/metabase/.
