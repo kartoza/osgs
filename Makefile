@@ -2176,7 +2176,7 @@ get-fonts: ## Download a whole bunch of free fonts so you can use them in your c
 	@echo "Getting Google apache license and gnu free fonts"
 	@echo "and placing them into the qgis_fonts volume" 
 	@echo "Please ensure you have deployed the file-browser service"
-	@echo "using `make deploy-file-browser` before using `make get-fonts`."
+	@echo "using make deploy-file-browser before using make get-fonts."
 	@echo "------------------------------------------------------------------"
 	-@mkdir fonts
 	@cd fonts;wget  https://github.com/google/fonts/archive/refs/heads/main.zip
@@ -2194,7 +2194,7 @@ get-here-icons: ## Download a whole bunch of map icons from here maps
 	@echo "Getting Google apache license and gnu free fonts"
 	@echo "and placing them into the qgis_fonts volume" 
 	@echo "Please ensure you have deployed the file-browser service"
-	@echo "using `make deploy-file-browser` before using `make get-here-icons`."
+	@echo "using make deploy-file-browser before using make get-here-icons."
 	@echo "------------------------------------------------------------------"
 	-@rm -rf icons
 	-@mkdir icons
