@@ -2175,6 +2175,8 @@ get-fonts: ## Download a whole bunch of free fonts so you can use them in your c
 	@echo "------------------------------------------------------------------"
 	@echo "Getting Google apache license and gnu free fonts"
 	@echo "and placing them into the qgis_fonts volume" 
+	@echo "Please ensure you have deployed the file-browser service"
+	@echo "using `make deploy-file-browser` before using `make get-fonts`."
 	@echo "------------------------------------------------------------------"
 	-@mkdir fonts
 	@cd fonts;wget  https://github.com/google/fonts/archive/refs/heads/main.zip
@@ -2191,12 +2193,14 @@ get-here-icons: ## Download a whole bunch of map icons from here maps
 	@echo "------------------------------------------------------------------"
 	@echo "Getting Google apache license and gnu free fonts"
 	@echo "and placing them into the qgis_fonts volume" 
+	@echo "Please ensure you have deployed the file-browser service"
+	@echo "using `make deploy-file-browser` before using `make get-here-icons`."
 	@echo "------------------------------------------------------------------"
 	-@rm -rf icons
 	-@mkdir icons
 	@cd icons;wget https://github.com/heremaps/here-icons/archive/refs/heads/master.zip
 	@cd icons;unzip master.zip
-	-@cd icons;for FILE in here-icons-master/icons/*; do mkdir `basename $$FILE`; cp $$FILE/SVG/*.svg `basename $$FILE`;  done
+	-@cd icons;for FILE in here-icons-master/icons/*; do mkdir `basename $FILE`; cp $$FILE/SVG/*.svg `basename $$FILE`;  done
 	-@cd icons;for FILE in here-icons-master/icons/guidance-icons/*; do mkdir guidance-icons/`basename $$FILE`; cp $$FILE/SVG/*.svg guidance-icons/`basename $$FILE`;  done
 	-@cd icons;for FILE in here-icons-master/icons/guidance-icons/lane-assistance/*; do mkdir guidance-icons/lane-assistance/`basename $$FILE`; cp $$FILE/*.svg guidance-icons/lane-assistance/`basename $$FILE`;  done
 	-@cd icons;for FILE in here-icons-master/icons/guidance-icons/lane-assistance/directions/*; do mkdir guidance-icons/lane-assistance/directions/`basename $$FILE`; cp $$FILE/*.svg guidance-icons/lane-assistance/directions/`basename $$FILE`;  done
