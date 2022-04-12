@@ -25,6 +25,7 @@ The following services are available as components of the OSGS stack.
    mergin-server
    mergin-client
    mergin-db-sync
+   mosquitto
 
 
 .. raw:: html
