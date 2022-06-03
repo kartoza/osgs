@@ -67,3 +67,7 @@ If you are going to use a letsencrypt signed certificate on a name host (for pro
 ```
 make configure-letsencrypt-ssl
 ```
+
+
+>**Note**: To manually refresh the letsencrypt SSL certificate, run 
+`make refresh-letsencrypt`.

@@ -221,6 +221,17 @@ else
 endif
 	@make enable-downloads
 
+
+refresh-letsencrypt: ## Manually refresh the letsencrypt certbot SSL certificate.
+	@make check-env
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Refreshing letsencrypt certbot SSL certificate"
+	@echo "------------------------------------------------------------------"
+	@COMPOSE_PROFILES=$(shell paste -sd, enabled-profiles) docker-compose up -d certbot
+	@make restart
+
+
 #------------------ Nginx ------------------------
 
 start-nginx: ## Start the Nginx docker container.
