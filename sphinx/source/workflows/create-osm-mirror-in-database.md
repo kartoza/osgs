@@ -6,7 +6,7 @@ The OSM mirror service uses the kartoza/docker-osm tool to create an in-database
 
 The PBF files for the country or region of interest can be downloaded from [GeoFabrik](https://download.geofabrik.de/). The PBF file used in this workflow was for Kenya and the URL for the country PBF file is https://download.geofabrik.de/africa/kenya-latest.osm.pbf.
 
-The clip area constrains any data being imported into the PostGIS database to a specific geographic area. You will need to save the clip area document as `conf/osm_conf/clip.geojson`. For best performance, a simple rectangle is best, but any complex polygon can be used. The `clip.geojson` can also be the same extent of the administrative area for your country or region specified in the PBF file, or it can be a smaller extent. The CRS of the geojson should always be `EPSG:4326`.[[1]](#1)
+The clip area constrains any data being imported into the PostGIS database to a specific geographic area. You will need to save the clip area document as `conf/osm_conf/clip.geojson`. For best performance, a simple rectangle is best, but any complex polygon can be used. The `clip.geojson` can also be the same extent of the administrative area for your country or region specified in the PBF file, or it can be a smaller extent. The CRS of the geojson should always be `EPSG:4326`. [<sup>1</sup>][1]
 
 !["OSM Clip Area"](../img/osm-mirror-workflow-1.png)
 
@@ -83,7 +83,7 @@ On your local machine, open QGIS Desktop.  In your Browser Panel,  right click o
 
 ![New PostGIS connection](../img/pg-service-5.png)
 
-In the Connection Information section, give the connection an appropriate name. For the service, enter the service name that you specified in the [connection service file](#creating-your-local-connection-service-file). Set the SSL mode to `require` and ensure you have enabled the `Also list tables with no geometry` and the `Allow saving/loading QGIS projects in database` options. Once all the configuration options have been set, click on "Test Connection". Once you see the `Connection to <Name> was successful` message, click "OK". You have now successfully connected to the PostgreSQL and PostGIS service `gis` database. 
+In the Connection Information section, give the connection an appropriate name. For the service, enter the service name that you specified in the [connection service file](#editing-your-local-connection-service-file). Set the SSL mode to `require` and ensure you have enabled the `Also list tables with no geometry` and the `Allow saving/loading QGIS projects in database` options. Once all the configuration options have been set, click on "Test Connection". Once you see the `Connection to <Name> was successful` message, click "OK". You have now successfully connected to the PostgreSQL and PostGIS service `gis` database. 
 
 ![Create a New PostGIS Connection](../img/pg-service-6.png)
 
@@ -153,6 +153,5 @@ To publish the OSM mirror layers in the `osm` schema using GeoServer, use the [P
 
 To publish the OSM mirror layers in the `osm` schema using QGIS Server or to publish a QGIS project that references the OSM mirror layers in the `osm` schema, use the [Publishing a QGIS project using a connection service file](https://kartoza.github.io/osgs/workflows/publishing-qgis-project.html) workflow.
 
-## References 
 
-<a id="1">[1]</a> Kartoza. (n.d.). GitHub - kartoza/docker-osm: A docker compose project to setup an OSM PostGIS database with automatic updates from OSM periodically. GitHub. Retrieved August 30, 2021, from https://github.com/kartoza/docker-osm#readme
+[1]: https://github.com/kartoza/docker-osm#readme "Kartoza. (n.d.). GitHub - kartoza/docker-osm: A docker compose project to setup an OSM PostGIS database with automatic updates from OSM periodically. GitHub. Retrieved August 30, 2021, from https://github.com/kartoza/docker-osm#readme"
