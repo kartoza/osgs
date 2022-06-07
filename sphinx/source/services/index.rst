@@ -13,6 +13,7 @@ The following services are available as components of the OSGS stack.
    hugo-watcher
    postgres
    qgis-server
+   qgis-desktop
    geoserver
    docker-osm
    node-red
@@ -25,6 +26,8 @@ The following services are available as components of the OSGS stack.
    mergin-server
    mergin-client
    mergin-db-sync
+   mapproxy
+   mosquitto
 
 
 .. raw:: html

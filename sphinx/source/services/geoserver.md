@@ -4,15 +4,15 @@ GeoServer is a Java-based server, built on [GeoTools](https://geotools.org/), th
 
 **Service name:** geoserver
 
-**Project Website:** [GeoServer](http://geoserver.org/)
+**Project Website:** [geoserver.org](http://geoserver.org/)
 
-**Project Source Repository:** [geoserver / geoserver](https://github.com/geoserver/geoserver)
+**Project Source Repository:** [geoserver/geoserver](https://github.com/geoserver/geoserver)
 
-**Project Technical Documentation:** [GeoServer Documentation](https://docs.geoserver.org/)
+**Project Technical Documentation:** [GeoServer documentation](https://docs.geoserver.org/)
 
 **Docker Repository:** [kartoza/geoserver](https://hub.docker.com/r/kartoza/geoserver)
 
-**Docker Source Repository:** [kartoza / docker-geoserver](https://github.com/kartoza/docker-geoserver)
+**Docker Source Repository:** [kartoza/docker-geoserver](https://github.com/kartoza/docker-geoserver)
 
 ## Deployment
 
@@ -66,7 +66,7 @@ make geoserver-shell
 
 The services can be accessed on /geoserver/ e.g. https://localhost/geoserver.
 
-Look in the .env file for the administrator password.
+Look in the `.env` file for the administrator password.
 
 ## Additional Notes
 
