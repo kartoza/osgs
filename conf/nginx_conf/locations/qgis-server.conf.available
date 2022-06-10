@@ -1,3 +1,23 @@
+        # Normal ogc service mapping for postgres based projects
+        # Data dir structure
+	# Use when you want to pass the project URI in yourself 
+	# e.g. https://localhost/ogc-pg/project-name
+	# Will look in the PG database qgis_projects table for 
+ 	# a project called project_name
+        location /ogc-pg/ {
+            rewrite ^/ogc-pg/(.*)$ /qgis-pg/qgis_mapserv.fcgi?map=postgresql%3A%2F%2F%3Fservice%3Dosgs%26sslmode%3Drequire%26schema%3Dpublic%26project%3D$1;
+        }
+        location /qgis-pg/ {
+            internal; # Used only by the OGC rewrite
+            root /var/www/data;
+            fastcgi_pass  qgis-fcgi;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_param QUERY_STRING    $query_string;
+            fastcgi_param  HTTPS $qgis_ssl;
+            fastcgi_param  SERVER_NAME $qgis_host;
+            fastcgi_param  SERVER_PORT $qgis_port;
+            include fastcgi_params;
+        }
         # Normal ogc service mapping for file based projects
         # Data dir structure
         # $(pwd)/data must have the following structure:
@@ -5,6 +25,8 @@
         # |
         #   |-- <project_name>
         #      |-- <project_name>.qgs
+	# Use when you want to pass the project URI in yourself 
+	# e.g. https://localhost/ogc/project-name
         location /ogc/ {
             rewrite ^/ogc/(.*)$ /qgis/qgis_mapserv.fcgi?map=/io/data/$1/$1.qgz;
         }
@@ -23,48 +45,5 @@
             fastcgi_param  SERVER_NAME $qgis_host;
             fastcgi_param  SERVER_PORT $qgis_port;
 
-            include fastcgi_params;
-        }
-
-
-
-        # For PG projects as we want all requests to come via 
-        # the /map call which will then append the pg project connection details
-        location /map/ {
-            # A little rewrite in the style of https://github.com/qgis/QGIS/issues/31192
-            rewrite ^/map/$ /qgis-pg/qgis_mapserv.fcgi;
-        }
-        # I couldnt get nginx to share the common fastcgi params
-        # between qgis and qgis-pg so I shamelessly copied these
-        # This section is only used when redirecting from /map postgis 
-        # project requests
-        location /qgis-pg/ {
-            internal; # Used only by the OGC rewrite
-            root /var/www/data;
-            fastcgi_pass  qgis-fcgi;
-
-            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-            fastcgi_param QUERY_STRING    $query_string;
-            # build links in GetCapabilities based on
-            # the hostname exposed by the reverse proxy
-            fastcgi_param  HTTPS $qgis_ssl;
-            fastcgi_param  SERVER_NAME $qgis_host;
-            fastcgi_param  SERVER_PORT $qgis_port;
-            # We redirect to a database connection with shamelessly hardcoded 
-            # credentials which should never be seen on the url
-            # For pg project path syntax, see https://docs.qgis.org/3.16/en/docs/server_manual/config.html#environment-variables
-            # We use a different service definition to the one used by the QGIS project
-            # because the rest of the authentication is managed by QGIS authdb
-            fastcgi_param  QGIS_PROJECT_FILE postgresql://?service=nginx&sslmode=disable&schema=public&project=smallholding;
-            # For QGIS expressions that obtain image paths we do logic like this:
-            # -- Search order for project base:
-            # -- If running in QGIS Server context, set PROJECT_PATH env var
-            # -- If running in PostGIS manually set the project_home project in QGIS Project Properties, first tab, input field after the project file option
-            # -- If this project is saved as a file on disk, use a search path relative to the project_folder by not manually setting it
-            # coalesce( env( 'PROJECT_PATH'), @project_home, @project_folder) 
-            # + '/photos/' + "summer_image"
-            # So for the first case we set PROJECT_PATH to the /mergin-data/ folder which is mounted 
-            # from Mergin-db-sync into QGIS Server container. See also docker-compose which handles this
-            fastcgi_param  PROJECT_PATH /mergin-data;
             include fastcgi_params;
         }
