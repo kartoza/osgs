@@ -39,6 +39,10 @@ extensions = [
     'myst_parser'
 ]
 
+# Automatically generate label “slugs” for header anchors so that you can reference them from markdown links.
+# The following configuration tells the 'myst_parser' to generate labels for heading anchors for h1, h2, and h3 level headings 
+myst_heading_anchors = 3
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
