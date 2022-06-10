@@ -1,6 +1,6 @@
 # Mosquitto - PR ![PR](https://img.shields.io/badge/pr-green?style=for-the-badge)
 
-Eclipse Mosquitto is an open source (EPL/EDL licensed) message broker that implements the MQTT protocol versions 5.0, 3.1.1 and 3.1. [<sup>[1]</sup>](#1).
+Eclipse Mosquitto is an open source (EPL/EDL licensed) message broker that implements the MQTT protocol versions 5.0, 3.1.1 and 3.1. [<sup>1</sup>][1]
 
 **Service name:** mosquitto
 
@@ -80,6 +80,5 @@ make backup-mosquitto
 make restore-mosquitto
 ```
 
-## References
 
-<a id="1">[1]</a> Eclipse Mosquitto. (2022). Retrieved 25 March 2022, from https://mosquitto.org/
+[1]: https://mosquitto.org/ "Eclipse Mosquitto. (2022). Retrieved 25 March 2022, from https://mosquitto.org/"
