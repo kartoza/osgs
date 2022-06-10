@@ -76,7 +76,7 @@ On your local machine, open QGIS Desktop.  In your Browser Panel,  right click o
 
 ![New PostGIS connection](../img/pg-service-5.png)
 
-In the Connection Information section, give the connection an appropriate name. For the service, enter the service name that you specified in the [connection service file](#creating-your-local-connection-service-file). Set the SSL mode to `require` and ensure you have enabled the `Also list tables with no geometry` and the `Allow saving/loading QGIS projects in database` options.
+In the Connection Information section, give the connection an appropriate name. For the service, enter the service name that you specified in the [connection service file](#editing-your-local-connection-service-file). Set the SSL mode to `require` and ensure you have enabled the `Also list tables with no geometry` and the `Allow saving/loading QGIS projects in database` options.
 
 In the Configurations tab of Authentication section, click on the "plus" icon to create a new authentication configuration.
 

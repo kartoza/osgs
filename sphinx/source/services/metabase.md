@@ -1,6 +1,6 @@
 # Metabase - PR ![PR](https://img.shields.io/badge/pr-green?style=for-the-badge)
 
-Metabase is an open source business intelligence tool. You can connect your databases to Metabase and it will let you ask questions about your data, and display answers in formats that make sense, on dashboards [<sup>[1]</sup>](#1).
+Metabase is an open source business intelligence tool. You can connect your databases to Metabase and it will let you ask questions about your data, and display answers in formats that make sense, on dashboards. [<sup>1</sup>][1]
 
 **Service name:** metabase
 
@@ -99,6 +99,5 @@ make restore-metabase
 
 After deploying the service, the metabase service is now accessible on `/metabase/` e.g. https://localhost/metabase/.
 
-## References
 
-<a id="1">[1]</a> “01 What Is Metabase.” Metabase | Business Intelligence, Dashboards, and Data Visualization, https://www.metabase.com/docs/latest/users-guide/01-what-is-metabase.html. Accessed 25 Mar. 2022.
+[1]: https://www.metabase.com/docs/latest/users-guide/01-what-is-metabase.html " “01 What Is Metabase.” Metabase | Business Intelligence, Dashboards, and Data Visualization, https://www.metabase.com/docs/latest/users-guide/01-what-is-metabase.html. Accessed 25 Mar. 2022."
