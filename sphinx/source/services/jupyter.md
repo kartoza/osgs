@@ -2,7 +2,7 @@
 
 > **Note**: This service does not support multi-user collaboration yet. In the future we will add Jupyter Hub to support this.
 
-The Jupyter Notebook is an open-source web application that allows data scientists to create and share documents that integrate live code, equations, computational output, visualizations, and other multimedia resources, along with explanatory text in a single document [<sup>[1]</sup>](#1).
+The Jupyter Notebook is an open-source web application that allows data scientists to create and share documents that integrate live code, equations, computational output, visualizations, and other multimedia resources, along with explanatory text in a single document [<sup>1</sup>][1].
 
 The OSGS Jupyter Notebook service contains a Python & Jupyter environment with geopandas and moving pandas rolled in.
 
@@ -101,6 +101,5 @@ After deploying the service, the jupyter service is accessible on `/jupyter/lab?
 
 Thanks to Anita Graser for the instructions and code to build a docker container with a Python & Jupyter environment: https://github.com/anitagraser/EDA-protocol-movement-data/blob/main/docker/Dockerfile and https://github.com/anitagraser/EDA-protocol-movement-data/tree/main/docker#docker-instructions.
 
-## References
 
-<a id="1">[1]</a> Science, O. D. S. C.- O. D. (2020, July 15). Why you should be using Jupyter Notebooks. Medium. Retrieved March 25, 2022, from https://odsc.medium.com/why-you-should-be-using-jupyter-notebooks-ea2e568c59f2 
+[1]: https://odsc.medium.com/why-you-should-be-using-jupyter-notebooks-ea2e568c59f2 "Science, O. D. S. C.- O. D. (2020, July 15). Why you should be using Jupyter Notebooks. Medium. Retrieved March 25, 2022, from https://odsc.medium.com/why-you-should-be-using-jupyter-notebooks-ea2e568c59f2" 
