@@ -1,8 +1,6 @@
 # Mergin Server - WIP ![WIP](https://img.shields.io/badge/wip-red?style=for-the-badge)
 
-<div class="admonition warning">
-Note - this service is under development and not production ready yet.
-</div>
+>**Note**: This service is under development and not production ready yet.
 
 Mergin is a web platform for storage and synchronisation of geospatial projects across multiple users and devices (desktop and mobile).The platform is especially useful when you need:
 
@@ -16,8 +14,7 @@ Mergin is a web platform for storage and synchronisation of geospatial projects 
 
 - **Audit changes**. Knowing who has changed what and when in a database is often important - Mergin keeps track of the history and allows to go back if needed.
 
-- **No coding required**. Everything can be set up with no knowledge of programming.
-  [<sup>[1]</sup>](#1)
+- **No coding required**. Everything can be set up with no knowledge of programming. [<sup>1</sup>][1]
 
 **Project Website:** [Mergin](https://public.cloudmergin.com/)
 
@@ -87,6 +84,5 @@ make restore-mergin-server-sql
 
 ## Additional Notes
 
-## References
 
-<a id="1">[1]</a> Lutra Consulting. (n.d.). GitHub - lutraconsulting/mergin: Store and track changes to your geo-data. GitHub. Retrieved August 26, 2021, from https://github.com/lutraconsulting/mergin
+[1]: https://github.com/lutraconsulting/mergin "Lutra Consulting. (n.d.). GitHub - lutraconsulting/mergin: Store and track changes to your geo-data. GitHub. Retrieved August 26, 2021, from https://github.com/lutraconsulting/mergin"
