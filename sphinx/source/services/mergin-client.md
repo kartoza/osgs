@@ -1,8 +1,6 @@
 # Mergin Client - WIP ![WIP](https://img.shields.io/badge/wip-red?style=for-the-badge)
 
-<div class="admonition warning">
-Note - this service is under development and not production ready yet.
-</div>
+>**Note**: This service is under development and not production ready yet.
 
 This tool will synchronise a Mergin cloud project into a PostgreSQL project.
 

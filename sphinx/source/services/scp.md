@@ -1,8 +1,6 @@
 # SCP - PR ![PR](https://img.shields.io/badge/pr-green?style=for-the-badge)
 
-<div class="admonition warning">
-Note - with the provision of the filebrowser service, we will probably deprecate this service.
-</div>
+>**Note**: With the provision of the filebrowser service, we will probably deprecate this service.
 
 The SCP (secure copy) containers have been arranged so that there are some
 standard containers out of the box. Each container has its data stored in its
