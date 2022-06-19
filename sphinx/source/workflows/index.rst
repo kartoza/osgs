@@ -28,5 +28,6 @@ Here follows the list of example workflows that are available in the OSGS stack.
    mergin-db-sync-client-workflow2
    osm-enrich-workflow
    postgresql-workflows
+   create_database_roles_and_their_permissions
    setting-up-access-permissions-in-filebrowser
 

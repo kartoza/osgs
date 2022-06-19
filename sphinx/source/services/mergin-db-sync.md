@@ -1,8 +1,6 @@
 # Mergin-db-sync - PR ![PR](https://img.shields.io/badge/pr-green?style=for-the-badge)
 
-<div class="admonition warning">
-Note - this service only supports one synchronised Mergin project.
-</div>
+>**Note**: This service only supports one synchronised Mergin project.
 
 There are two modalities in which you can work with Mergin projects:
 
