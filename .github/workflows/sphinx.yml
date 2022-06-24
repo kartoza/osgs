@@ -107,7 +107,7 @@ jobs:
           # _gh-pages/branch-* paths, and not including
           # _gh-pages itself.
           find _gh-pages/ -mindepth 1 ! -path '_gh-pages/branch*' -delete
-          rsync -a build/html/ _gh-pages/
+          rsync -a sphinx/build/html/ _gh-pages/
       # If a push and not on default branch, then copy the build to
       # _gh-pages/branch/$brname (transforming '/' into '--')
       - name: Copy new build (branch)
@@ -121,7 +121,7 @@ jobs:
           brname="${brname##refs/heads/}"
           brdir=${brname//\//--}   # replace '/' with '--'
           rm -rf   _gh-pages/branch/${brdir}
-          rsync -a build/html/ _gh-pages/branch/${brdir}
+          rsync -a sphinx/build/html/ _gh-pages/branch/${brdir}
       # Go through each branch in _gh-pages/branch/, if it's not a
       # ref, then delete it.
       - name: Delete old feature branches
