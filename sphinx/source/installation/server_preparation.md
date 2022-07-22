@@ -32,7 +32,7 @@ https://crowdsec.net/
 
 
 ```
-wget -qO - https://s3-eu-west-1.amazonaws.com/crowdsec.debian.pragmatic/crowdsec.asc |sudo apt-key add - && echo "deb https://s3-eu-west-1.amazonaws.com/crowdsec.debian.pragmatic/$(lsb_release -cs) $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/crowdsec.list > /dev/null;
+curl -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
 sudo apt-get update
 sudo apt-get install crowdsec
 ```
@@ -76,7 +76,7 @@ Ubuntu:
 ```
 sudo apt-get install golang
 cd 
-go get github.com/cjbassi/gotop
+go install github.com/cjbassi/gotop@latest
 chmod +x go/bin/gotop
 sudo cp go/bin/gotop /usr/local/bin/
 ```
