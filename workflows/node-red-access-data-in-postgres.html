@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>OSGS - Node-red workflow that accesses data in Postgres</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.css" integrity="sha256-xOpS+e/dER8z72w+qryCieOGysQI8cELAVt3MHG0phY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tooltipster@4.2.7/dist/css/tooltipster.bundle.min.css" integrity="sha256-Qc4lCfqZWYaHF5hgEOFrYzSIX9Rrxk0NPHRac+08QeQ=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tooltipster@4.2.7/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css" integrity="sha256-Wa1I4jhSXeWd3N6RhfPlkqr1WlT+zS3Vh2YGCg0129E=" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Code+Pro|Source+Sans+Pro|Source+Serif+Pro|Roboto|Roboto+Mono" rel="stylesheet">
+<link href="https://fonts.red-dove.com/iosevka-ss09-regular/webfont.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/css.css" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/tooltipster@4.2.7/dist/js/tooltipster.bundle.min.js" integrity="sha256-NOU7KrY2aTI4PxDegqYUIknk9qfxVCS0E4JfE9aMwaA=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+      $(document).data('sizzle', {on_load: []});
+    </script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/js.js"></script>
+      <script src="../../app-data.js"></script>
+<link rel="index" title="Index" href="../genindex.html" />
+<link rel="search" title="Search" href="../search.html" />
+<link rel="next" title="Node-red point layer to world map" href="node-red-point-layer-to-worldmap.html" />
+<link rel="prev" title="Connecting to Geoserver and QGIS Server in Hugo - TODO" href="connecting-to-geoserver-and-qgisserver-in-hugo.html" />
+
+</head>
+<body class="full-height test">
+<noscript>
+  <div>
+    <div id="noscript-message">JavaScript is not enabled. It is needed for this website to work.</div>
+  </div>
+</noscript>
+<div id="whole-page" class="container-fluid content full-height">
+  <div id="header-row" class="row">
+    <div id="header-container" class="col-md-12">
+      <div id="hdr-left">
+        <i class="fa fa-bars menu-toggle"></i>
+        
+<a href="../index.html" class="text-logo">OSGS 1.0 documentation</a>
+
+      </div>
+      <div id="hdr-centre" class="text-center stretch">
+        <h3 title="Node-red workflow that accesses data in Postgres">Node-red workflow that accesses data in Postgres</h3>
+        <h6>Node-red workflow that accesses data in Postgres</h6>
+      </div>
+      <div id="hdr-search">
+        
+<div class="input-group" title="Enter something to search for and then either press Enter or click the magnifying glass">
+  <input type="text" class="form-control search-query" placeholder="Search docs ...">
+  <div class="input-group-addon">
+    <i class="fa fa-search"></i>
+  </div>
+</div>
+      </div>
+
+      <div id="hdr-source">
+        <a href="../_sources/workflows/node-red-access-data-in-postgres.md.txt" class="btn btn-default" title="See the source for this page"><i class="fa fa-code"></i></a>
+      </div>
+
+      <div id="hdr-right">
+        
+  
+  <div class="prev-next">
+    
+      <div class="pull-left">
+        <a class="btn btn-default prev" href="connecting-to-geoserver-and-qgisserver-in-hugo.html" title="Previous chapter (Connecting to Geoserver and QGIS Server in Hugo - TODO)"><i class="fa fa-chevron-left mr-1em" aria-hidden="true"></i><span class="btn-text">Connecting to Geoserver and QGIS Server in Hugo - TODO</span></a>
+      </div>
+    
+      <div class="pull-right">
+        <a class="btn btn-default next" href="node-red-point-layer-to-worldmap.html" title="Next chapter (Node-red point layer to world map)"><span class="btn-text">Node-red point layer to world map</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  
+      </div>
+      <div id="alt-hdr-right">
+
+        <a href="connecting-to-geoserver-and-qgisserver-in-hugo.html"><i class="fa fa-chevron-left mr-8"></i></a>
+
+
+        <a href="../index.html"><i class="fa fa-home mr-8"></i></a>
+
+
+        <a href="../search.html"><i class="fa fa-search mr-8"></i></a>
+
+
+
+        <a href="node-red-point-layer-to-worldmap.html"><i class="fa fa-chevron-right"></i></a>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="content-row" class="row">
+    <div id="page-content" class="col-md-12 flex-col">
+      <div id="content-container">
+        <div id="nav">
+          
+  <div class="navsidebar">
+    <div id="sidebar-search">
+      
+<div class="input-group" title="Enter something to search for and then either press Enter or click the magnifying glass">
+  <input type="text" class="form-control search-query" placeholder="Search docs ...">
+  <div class="input-group-addon">
+    <i class="fa fa-search"></i>
+  </div>
+</div>
+    </div>
+      <div class="sidebar-block">
+        <div class="sidebar-tocheading">
+          <div class="pull-left">
+            <h2>Table Of Contents</h2>
+          </div>
+          <div class="pull-right" title="Hide this sidebar (hover at left edge to bring it back)"><i class="fa fa-chevron-left hidetoc"></i></div>
+        </div>
+        <div class="sidebar-toc">
+      
+        <div style="clear: both"></div>
+      
+        
+  
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../services/index.html#services">Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#utilities">Utilities</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html#troubleshooting-faq">Troubleshooting FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Credits.html#credits">Credits</a></li>
+</ul>
+
+  
+        </div>
+      </div>
+  </div>
+        </div>
+        <div id="content" tabindex="0" class="stretch">
+          <div id="mnav">
+            
+  
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../services/index.html#services">Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#utilities">Utilities</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html#troubleshooting-faq">Troubleshooting FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Credits.html#credits">Credits</a></li>
+</ul>
+
+  
+          </div>
+          <div class="body">
+            
+  <div class="section" id="node-red-workflow-that-accesses-data-in-postgres">
+<h1>Node-red workflow that accesses data in Postgres<a class="headerlink" href="#node-red-workflow-that-accesses-data-in-postgres" title="Permalink to this heading">¶</a></h1>
+<div class="section" id="deploy-the-node-red-service">
+<h2>Deploy the Node-red service<a class="headerlink" href="#deploy-the-node-red-service" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="deploy-the-nginx-and-hugo-watcher-services">
+<h3>Deploy the Nginx and Hugo Watcher services<a class="headerlink" href="#deploy-the-nginx-and-hugo-watcher-services" title="Permalink to this heading">¶</a></h3>
+<p>To deploy the initial stack, which includes the  Nginx and Hugo Watcher services, please run either  <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> or <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code>.</p>
+</div>
+<div class="section" id="deploy-the-postgres-and-postgis-service">
+<h3>Deploy the Postgres and PostGIS service<a class="headerlink" href="#deploy-the-postgres-and-postgis-service" title="Permalink to this heading">¶</a></h3>
+<p>Next, deploy the Postgres and PostGIS service using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-postgres</span></code>. If you already have PostgreSQL already installed outside of the stack on your local machine, ensure that you specify a different Postgis Public Port number other than the default port, 5432. For example, you can use the port 5434.</p>
+</div>
+<div class="section" id="import-the-node-red-example-data-into-the-gis-database">
+<h3>Import the Node-RED example data into the gis database<a class="headerlink" href="#import-the-node-red-example-data-into-the-gis-database" title="Permalink to this heading">¶</a></h3>
+<p>In this workflow we will be creating a flow that connects to a table in Postgres, selects all the rows in the table and puts them into a table in a dashboard in Node-RED.</p>
+<p>The data we will be using in this workflow is day time temperature forecast data for Nairobi, Kenya from <a class="reference external" href="https://openweathermap.org/">OpenWeatherMap</a>. To import the example data into the gis database, run the following command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">add-node-red-example-data</span></code>. To verify that the data has been imported, create a psql shell using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">db-psql-shell</span></code> and run <code class="docutils literal notranslate"><span class="pre">\dn;</span></code> in the psql shell. The <code class="docutils literal notranslate"><span class="pre">gis</span></code> database should now contain the <code class="docutils literal notranslate"><span class="pre">weather-data-schema</span></code> and the <code class="docutils literal notranslate"><span class="pre">world_air_quality_schema</span></code> schemas as seen below:</p>
+<p><img alt="Node-RED Example Data Schemas" src="../_images/node-red-postgres-table-1.png" /></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">weather_data_schema</span></code> should contain the following tables:</p>
+<p><img alt="Node-RED Example Data Weather Tables" src="../_images/node-red-postgres-table-2.png" /></p>
+</div>
+<div class="section" id="id1">
+<h3>Deploy the Node-RED Service<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+<p>Deploy the Node-RED service using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-node-red</span></code>. To add the <code class="docutils literal notranslate"><span class="pre">node-red-contrib-postgres-multi</span></code> package to Node-RED, run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-node-red-patch</span></code> then restart the service using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">restart-node-red</span></code>.</p>
+</div>
+<div class="section" id="accessing-the-node-red-service">
+<h3>Accessing the Node-RED Service<a class="headerlink" href="#accessing-the-node-red-service" title="Permalink to this heading">¶</a></h3>
+<p>The Node-RED service can now be accessed on <code class="docutils literal notranslate"><span class="pre">/node-red/</span></code> e.g.  https://localhost/node-red. Use the <strong>NGINX_AUTH_USER</strong> and <strong>NGINX_AUTH_PWD</strong> specified in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file to sign in into the Node-RED editor.</p>
+</div>
+</div>
+<div class="section" id="create-the-flow">
+<h2>Create the Flow<a class="headerlink" href="#create-the-flow" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="install-the-non-default-nodes">
+<h3>Install the non-default nodes<a class="headerlink" href="#install-the-non-default-nodes" title="Permalink to this heading">¶</a></h3>
+<p>To get started, we will first install the table node, which is not available by default in Node-RED. In the Header section of the Node-RED Editor, click on the main menu (the hamburger icon) and select the <code class="docutils literal notranslate"><span class="pre">Manage</span> <span class="pre">Palette</span></code> option.</p>
+<p><img alt="Manage Palette" src="../_images/node-red-postgres-table-3.png" /></p>
+<p>Under the Palette tab of the User Settings dialog click on the Install tab. Search for the <code class="docutils literal notranslate"><span class="pre">node-red-node-ui-table</span></code> module using the search bar and install it by clicking the install button. Install the <code class="docutils literal notranslate"><span class="pre">node-red-dashboard</span></code> module in the same way. Once the modules have been installed, close the User Settings.</p>
+<p><img alt="Install Table Module" src="../_images/node-red-postgres-table-4.png" /></p>
+<p><img alt="Install Dashboard Module" src="../_images/node-red-worldmap-3.png" /></p>
+</div>
+<div class="section" id="add-nodes-to-the-workspace">
+<h3>Add nodes to the workspace<a class="headerlink" href="#add-nodes-to-the-workspace" title="Permalink to this heading">¶</a></h3>
+<p>From the palette on the left of the workspace of the Node-RED Editor, drag and drop onto the workspace an inject node (from the common category), a function node (function category), a postgres node(storage category), a table node (dashboard category) and a debug node (common category).</p>
+<p><img alt="Add Nodes" src="../_images/node-red-postgres-table-5.png" /></p>
+</div>
+<div class="section" id="connect-to-the-gis-database">
+<h3>Connect to the gis database<a class="headerlink" href="#connect-to-the-gis-database" title="Permalink to this heading">¶</a></h3>
+<p>To configure the postgres node to connect to a database, double click on the node which will open the Edit dialog. Click on the pencil icon next to the Server Properties input box and specify the following properties:</p>
+<table class="colwidths-auto">
+<thead valign="bottom">
+<tr class="row-odd"><th class="text-center head"><strong>Property</strong></th>
+<th class="text-center head"><strong>Input</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td class="text-center">Host</td>
+<td class="text-center">db</td>
+</tr>
+<tr class="row-odd"><td class="text-center">Port</td>
+<td class="text-center">5432</td>
+</tr>
+<tr class="row-even"><td class="text-center">Database</td>
+<td class="text-center">gis</td>
+</tr>
+<tr class="row-odd"><td class="text-center">Username</td>
+<td class="text-center">docker</td>
+</tr>
+<tr class="row-even"><td class="text-center">Password</td>
+<td class="text-center">&lt;POSTGRES_PASSWORD&gt;</td>
+</tr>
+</tbody>
+</table>
+<p>Use the POSTGRES_PASSWORD specified in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file. Please ensure you have enabled SSL by checking  <input type="checkbox" checked> Use SSL. Once your done with the configuration click on Add. In the Name input box specify the name of the node as <code class="docutils literal notranslate"><span class="pre">db</span></code>, check the <input type="checkbox" checked> Receive query output? box, then click on Done.</p>
+<p><img alt="Configure the Postgres Node" src="../_images/node-red-postgres-table-6.png" /></p>
+<p><img alt="Configure the Postgres Node" src="../_images/node-red-postgres-table-7.png" /></p>
+</div>
+<div class="section" id="query-the-database">
+<h3>Query the database<a class="headerlink" href="#query-the-database" title="Permalink to this heading">¶</a></h3>
+<p>To query the database we have connected to above, we will need to assemble the query as an array of objects on msg.payload using the function node. We will select all data in the <code class="docutils literal notranslate"><span class="pre">nairobi_7d_temp_forecast</span></code> table of the <code class="docutils literal notranslate"><span class="pre">weather_data_schema</span></code> schema using the <a class="reference external" href="https://www.postgresql.org/docs/current/sql-select.html">SELECT</a> statement: <code class="docutils literal notranslate"><span class="pre">SELECT</span> <span class="pre">*</span> <span class="pre">FROM</span> <span class="pre">weather_data_schema.nairobi_7d_temp_forecast;</span></code>. Double click on the function node to open the Edit dialog. Configure the function node as shown in the image below then click on Done.</p>
+<p><img alt="Configure the Function Node" src="../_images/node-red-postgres-table-8.png" /></p>
+</div>
+<div class="section" id="display-the-query-results">
+<h3>Display the query results<a class="headerlink" href="#display-the-query-results" title="Permalink to this heading">¶</a></h3>
+<p>We will display the results of the query using the table node. Double click on the table node and accept the default configuration for the table node. For the Group properties:</p>
+<ul>
+<li><p class="first">Add a new dashboard tab called <code class="docutils literal notranslate"><span class="pre">Temperature</span></code>:</p>
+<p><img alt="New Dashboard Tab " src="../_images/node-red-postgres-table-10.png" /></p>
+</li>
+<li><p class="first">Name the group that the dashboard table will be assigned to:</p>
+</li>
+</ul>
+<p>  <img alt="New Dashboard Group " src="../_images/node-red-postgres-table-11.png" /></p>
+<p>For the table columns add 9 columns using the add button <img alt="Add Columns" src="../_images/node-red-postgres-table-12.png" />. Specify the Property and Title properties of the 9 columns as follows but leave the align, width and format properties with their defaults:</p>
+<table class="colwidths-auto">
+<thead valign="bottom">
+<tr class="row-odd"><th class="text-center head"><strong>Column</strong></th>
+<th class="text-center head"><strong>Property</strong></th>
+<th class="text-center head"><strong>Title</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td class="text-center">1</td>
+<td class="text-center">observation_date</td>
+<td class="text-center">Observation Date</td>
+</tr>
+<tr class="row-odd"><td class="text-center">2</td>
+<td class="text-center">day_0</td>
+<td class="text-center">Today’s temperature</td>
+</tr>
+<tr class="row-even"><td class="text-center">3</td>
+<td class="text-center">day_1</td>
+<td class="text-center">Day 1</td>
+</tr>
+<tr class="row-odd"><td class="text-center">4</td>
+<td class="text-center">day_2</td>
+<td class="text-center">Day 2</td>
+</tr>
+<tr class="row-even"><td class="text-center">5</td>
+<td class="text-center">day_3</td>
+<td class="text-center">Day 3</td>
+</tr>
+<tr class="row-odd"><td class="text-center">6</td>
+<td class="text-center">day_4</td>
+<td class="text-center">Day 4</td>
+</tr>
+<tr class="row-even"><td class="text-center">7</td>
+<td class="text-center">day_5</td>
+<td class="text-center">Day 5</td>
+</tr>
+<tr class="row-odd"><td class="text-center">8</td>
+<td class="text-center">day_6</td>
+<td class="text-center">Day 6</td>
+</tr>
+<tr class="row-even"><td class="text-center">9</td>
+<td class="text-center">day_7</td>
+<td class="text-center">Day 7</td>
+</tr>
+</tbody>
+</table>
+<p>Click on Done once finished.</p>
+<p><img alt="Column Properties" src="../_images/node-red-postgres-table-13.png" /></p>
+<p>Connect the nodes in the flow as follows, click on Deploy then click on the inject node to manually trigger the flow:</p>
+<p><img alt="Connect the Nodes" src="../_images/node-red-postgres-table-14.png" /></p>
+<p>The Node-RED dashboard display can now be accessed on <code class="docutils literal notranslate"><span class="pre">/ui/</span></code> e.g.  https://localhost/ui.</p>
+<p><img alt="Temperature Dashboard" src="../_images/node-red-postgres-table-15.png" /></p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="footer-row" class="row">
+
+    <div class="col-md-12">
+        <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2 and the
+        <a href="https://pypi.org/project/sphinx-sizzle-theme/"
+
+           title="0.0.9/821a5457 [2020-04-16T19:31:16]"
+
+        >Sizzle</a> theme.</span>
+    </div>
+
+  </div>
+</div>
+
+<div id="tooltips" class="hidden">
+</div>
+
+<script>
+$(document).ready(function() {
+  'use strict';
+  var $search = $('.search-query');
+
+  var $nav = $('#nav');
+
+  //$('#whole-page').removeClass('hidden');
+  var nav_width = $nav.width();
+
+
+  var search_url = '../search.html';
+
+  function perform_search(e) {
+    var $elem;
+
+    if (e.type === 'keypress') {
+      $elem = $(e.target);
+    }
+    else if (e.type === 'click') {
+      $elem = $(e.target).parents('.input-group').find('input');
+    }
+    var q = $elem.val().trim();
+
+    if (q) {
+      var url = search_url + '?q=' + q + '&check_keywords=yes&area=default';
+
+      location.href = url;
+    }
+  }
+
+
+
+  $search.on('keypress', function(e) {
+    if (e.which == 13) {
+      perform_search(e);
+    }
+  });
+  $search.parents('.input-group').find('.input-group-addon').on('click', perform_search);
+  $(document).on('click', '.summary .fa-caret-right', function(e) {
+    var $elem = $(e.target).parents('li');
+    var $next = $elem.next();
+    $elem.addClass('hidden');
+    $next.removeClass('hidden');
+  });
+  $(document).on('click', '.detail .fa-caret-down', function(e) {
+    var $elem = $(e.target).parents('li');
+    var $prev = $elem.prev();
+    $elem.addClass('hidden');
+    $prev.removeClass('hidden');
+  });
+
+  $('#content').on('click', function() {
+    $('#mnav').hide();
+  });
+
+  var counter = 0;
+  var timer = null;
+
+  function show_nav() {
+    $('#content').off('mousemove', track_mouse);
+    if (timer !== null) {
+      clearTimeout(timer);
+      timer = null;
+    }
+    $nav.show();
+  }
+
+  function track_mouse(e) {
+    var x = e.clientX;
+
+    if (x < 15) {
+      ++counter;
+      if (timer === null) {
+        timer = setTimeout(show_nav, 2000);
+      }
+    }
+    else {
+      counter = 0;
+    }
+    if (counter >= 20) {
+      show_nav();
+    }
+  };
+
+  function hide_nav() {
+    $nav.hide();
+    counter = 0;
+    $('#content').on('mousemove', track_mouse);
+  }
+
+  $('.hidetoc').on('click', hide_nav);
+
+  $(document).on('keyup', function(e) {
+    if (e.ctrlKey) {
+      if (e.which == 37) {      // Ctrl+left arrow
+        hide_nav();
+      }
+      else if (e.which == 39) { // Ctrl+right arrow
+        show_nav();
+      }
+    }
+  });
+
+  $('.menu-toggle').on('click', function(e) {
+    $('#mnav').toggle();
+  });
+
+  function scroll_nav(frag) {
+    var sel = '#nav ' + (frag ? 'a[href="' + frag + '"]' : '.toctree-l1 a.current');
+
+    var $link = $(sel);
+
+    if ($link.length > 0) {
+      $link[0].scrollIntoView({block: 'center'});
+    }
+  }
+
+  // If the navigator is long, then the item we clicked on to get here might
+  // not be in view. Try to scroll it into the view - a slight delay is needed
+  // to get it to sync properly with other stuff going on (as the page has just
+  // loaded). Hence the setTimeout with a timeout of 0.
+
+  function do_scroll() {
+    scroll_nav(window.location.hash);
+  }
+
+  setTimeout(do_scroll, 0);
+
+  function adjust_size() {
+    // we need to set the height explicitly so that scrolling regions in the
+    // content area work properly.
+    var h = $('#page-content').height();
+
+    $('#nav, #content').height(h);
+    if ($('#nav').is(':visible')) {
+      $('#mnav').hide();
+    }
+  }
+
+  adjust_size();
+
+  $(window).on('resize', adjust_size);
+
+  function focus_content() {
+    $('#content').focus();  // so that keyboard can be used to scroll, etc.
+  }
+
+  setTimeout(focus_content, 150);
+
+  var sizzle = $(document).data('sizzle');
+
+  function make_tooltip(id, h, b) {
+    var $e = $('<div>').attr('id', id);
+    var $b = $('<div>').addClass('tc-body').html(b);
+
+    if (h) {
+      var $h = $('<div>').addClass('tc-heading').html(h);
+      $e.append($h);
+    }
+    $e.append($b);
+    return $e;
+  }
+
+  var default_tt_options = {
+    theme: ['tooltipster-light', 'tooltipster-light-customized'],
+    interactive: true,
+    maxWidth: 600,
+    contentCloning: true
+  };
+
+  function activate_tooltips() {
+    var $tt = $('.tt');
+
+    //console.log('tt links:', $tt.length);
+    $tt.tooltipster(default_tt_options);
+  }
+
+
+
+  function add_glossary_tooltips() {
+    var links = $('a');  // can qualify with .reference.internal
+    var glinks = {};
+    var pat = /(.*)\.html#(term-.*)$/;
+    var found = false;  // links in this document
+
+    $.each(links, function(i, link) {
+        var $link = $(link);
+        var href = $link.attr('href');
+        var m = href.match(pat);
+
+        if (m) {
+          var s = m[1].replace(/^(\.\.\/)+/, '');
+
+          if (s === sizzle.app_data.glossary.document) {
+            var k = m[2];
+
+            if (k in glinks) {
+              glinks[k].push($link);
+            }
+            else {
+              glinks[k] = [$link];
+            }
+            found = true;
+          }
+        }
+    });
+    if (found) {
+      var $t = $('#tooltips');
+      var data = sizzle.app_data.glossary.terms;
+
+      $.each(glinks, function(k, v) {
+        var d = data[k];
+
+        if (d) {  // as a sanity check
+          var s = 'tc-'+ k;
+          var $e = make_tooltip(s, d.term, d.defn);
+          $t.append($e);
+
+          $.each(v, function(i, link) {
+            link.addClass('tt').attr('data-tooltip-content', '#' + s);
+          });
+        }
+      });
+    }
+  }
+
+  if (sizzle.app_data && sizzle.app_data.glossary &&
+      sizzle.app_data.glossary.document) {
+    add_glossary_tooltips();
+  }
+
+
+
+
+  function add_custom_tooltips() {
+    var info_tips = sizzle.app_data.custom_data['info-tips'] || {};
+
+    if ($.isEmptyObject(info_tips)) {
+      return;
+    }
+
+    var tt_options = $.extend({contentAsHTML: true}, default_tt_options);
+
+    $('.tc-info').each(function() {
+      var $elem = $(this).prev();
+      var classes = $elem.attr('class');
+      var m = /\btci-([\S]+)/.exec(classes);
+
+      if (m !== null) {
+        var key = m[1];
+
+        if (key in info_tips) {
+          var v = info_tips[key];
+          var tt = $elem.tooltipster(tt_options).tooltipster('content', v);
+        }
+      }
+    });
+  }
+
+  add_custom_tooltips();
+
+  setTimeout(activate_tooltips, 1000);
+
+
+  // Clipboard copy for code blocks with captions
+
+  $('.code-block-caption').each(function() {
+    var $cap = $(this);
+    var $btn = $('<span class="clip-copy"><span class="copied hidden">Copied!</span><i class="fa fa-clipboard" title="Copy contents"></i></span>');
+    var $code = $cap.parent().find('.highlight');
+
+    $cap.append($btn);
+    $btn.find('.fa-clipboard').data('clip-text', $code.text());
+  });
+
+  var clipboard = new ClipboardJS('.code-block-caption .fa-clipboard', {
+    'text': function(trigger) {
+      return $(trigger).data('clip-text');
+    }
+  });
+
+  clipboard.on('success', function(e) {
+    var $copied = $(e.trigger).prev();
+
+    $copied.removeClass('hidden');
+
+    setTimeout(function() {$copied.addClass('hidden'); }, 1000);
+  });
+
+  if (sizzle.on_load) {
+    sizzle.on_load.forEach(function(f) {
+      f();
+    });
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>OSGS - Creating an Open Street Map mirror into your database</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.css" integrity="sha256-xOpS+e/dER8z72w+qryCieOGysQI8cELAVt3MHG0phY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tooltipster@4.2.7/dist/css/tooltipster.bundle.min.css" integrity="sha256-Qc4lCfqZWYaHF5hgEOFrYzSIX9Rrxk0NPHRac+08QeQ=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tooltipster@4.2.7/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css" integrity="sha256-Wa1I4jhSXeWd3N6RhfPlkqr1WlT+zS3Vh2YGCg0129E=" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Code+Pro|Source+Sans+Pro|Source+Serif+Pro|Roboto|Roboto+Mono" rel="stylesheet">
+<link href="https://fonts.red-dove.com/iosevka-ss09-regular/webfont.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/css.css" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/tooltipster@4.2.7/dist/js/tooltipster.bundle.min.js" integrity="sha256-NOU7KrY2aTI4PxDegqYUIknk9qfxVCS0E4JfE9aMwaA=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+      $(document).data('sizzle', {on_load: []});
+    </script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/js.js"></script>
+      <script src="../../app-data.js"></script>
+<link rel="index" title="Index" href="../genindex.html" />
+<link rel="search" title="Search" href="../search.html" />
+<link rel="next" title="Publishing layers using GeoServer" href="publishing-layers-using-geoserver.html" />
+<link rel="prev" title="Accessing PostGIS from QGIS using a pg_service file" href="accessing-postgis-from-qgis-using-pg_service-file.html" />
+
+</head>
+<body class="full-height test">
+<noscript>
+  <div>
+    <div id="noscript-message">JavaScript is not enabled. It is needed for this website to work.</div>
+  </div>
+</noscript>
+<div id="whole-page" class="container-fluid content full-height">
+  <div id="header-row" class="row">
+    <div id="header-container" class="col-md-12">
+      <div id="hdr-left">
+        <i class="fa fa-bars menu-toggle"></i>
+        
+<a href="../index.html" class="text-logo">OSGS 1.0 documentation</a>
+
+      </div>
+      <div id="hdr-centre" class="text-center stretch">
+        <h3 title="Creating an Open Street Map mirror into your database">Creating an Open Street Map mirror into your database</h3>
+        <h6>Creating an Open Street Map mirror into your database</h6>
+      </div>
+      <div id="hdr-search">
+        
+<div class="input-group" title="Enter something to search for and then either press Enter or click the magnifying glass">
+  <input type="text" class="form-control search-query" placeholder="Search docs ...">
+  <div class="input-group-addon">
+    <i class="fa fa-search"></i>
+  </div>
+</div>
+      </div>
+
+      <div id="hdr-source">
+        <a href="../_sources/workflows/create-osm-mirror-in-database.md.txt" class="btn btn-default" title="See the source for this page"><i class="fa fa-code"></i></a>
+      </div>
+
+      <div id="hdr-right">
+        
+  
+  <div class="prev-next">
+    
+      <div class="pull-left">
+        <a class="btn btn-default prev" href="accessing-postgis-from-qgis-using-pg_service-file.html" title="Previous chapter (Accessing PostGIS from QGIS using a pg_service file)"><i class="fa fa-chevron-left mr-1em" aria-hidden="true"></i><span class="btn-text">Accessing PostGIS from QGIS using a pg_service file</span></a>
+      </div>
+    
+      <div class="pull-right">
+        <a class="btn btn-default next" href="publishing-layers-using-geoserver.html" title="Next chapter (Publishing layers using GeoServer)"><span class="btn-text">Publishing layers using GeoServer</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  
+      </div>
+      <div id="alt-hdr-right">
+
+        <a href="accessing-postgis-from-qgis-using-pg_service-file.html"><i class="fa fa-chevron-left mr-8"></i></a>
+
+
+        <a href="../index.html"><i class="fa fa-home mr-8"></i></a>
+
+
+        <a href="../search.html"><i class="fa fa-search mr-8"></i></a>
+
+
+
+        <a href="publishing-layers-using-geoserver.html"><i class="fa fa-chevron-right"></i></a>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="content-row" class="row">
+    <div id="page-content" class="col-md-12 flex-col">
+      <div id="content-container">
+        <div id="nav">
+          
+  <div class="navsidebar">
+    <div id="sidebar-search">
+      
+<div class="input-group" title="Enter something to search for and then either press Enter or click the magnifying glass">
+  <input type="text" class="form-control search-query" placeholder="Search docs ...">
+  <div class="input-group-addon">
+    <i class="fa fa-search"></i>
+  </div>
+</div>
+    </div>
+      <div class="sidebar-block">
+        <div class="sidebar-tocheading">
+          <div class="pull-left">
+            <h2>Table Of Contents</h2>
+          </div>
+          <div class="pull-right" title="Hide this sidebar (hover at left edge to bring it back)"><i class="fa fa-chevron-left hidetoc"></i></div>
+        </div>
+        <div class="sidebar-toc">
+      
+        <div style="clear: both"></div>
+      
+        
+  
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../services/index.html#services">Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#utilities">Utilities</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html#troubleshooting-faq">Troubleshooting FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Credits.html#credits">Credits</a></li>
+</ul>
+
+  
+        </div>
+      </div>
+  </div>
+        </div>
+        <div id="content" tabindex="0" class="stretch">
+          <div id="mnav">
+            
+  
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html#introduction">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../services/index.html#services">Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#utilities">Utilities</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html#troubleshooting-faq">Troubleshooting FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Credits.html#credits">Credits</a></li>
+</ul>
+
+  
+          </div>
+          <div class="body">
+            
+  <div class="section" id="creating-an-open-street-map-mirror-into-your-database">
+<h1>Creating an Open Street Map mirror into your database<a class="headerlink" href="#creating-an-open-street-map-mirror-into-your-database" title="Permalink to this heading">¶</a></h1>
+<p>The OSM mirror service uses the kartoza/docker-osm tool to create an in-database mirror of a designated geographical area in the designated postgres database schema (set to: osm). The OSM mirror tool is described in the project README <a class="reference external" href="https://github.com/kartoza/docker-osm">here</a>:</p>
+<div class="section" id="preparing-the-country-pbf-file-and-the-clip-area-document">
+<h2>Preparing the Country PBF file and the clip area document<a class="headerlink" href="#preparing-the-country-pbf-file-and-the-clip-area-document" title="Permalink to this heading">¶</a></h2>
+<p>The PBF files for the country or region of interest can be downloaded from <a class="reference external" href="https://download.geofabrik.de/">GeoFabrik</a>. The PBF file used in this workflow was for Kenya and the URL for the country PBF file is https://download.geofabrik.de/africa/kenya-latest.osm.pbf.</p>
+<p>The clip area constrains any data being imported into the PostGIS database to a specific geographic area. You will need to save the clip area document as <code class="docutils literal notranslate"><span class="pre">conf/osm_conf/clip.geojson</span></code>. For best performance, a simple rectangle is best, but any complex polygon can be used. The <code class="docutils literal notranslate"><span class="pre">clip.geojson</span></code> can also be the same extent of the administrative area for your country or region specified in the PBF file, or it can be a smaller extent. The CRS of the geojson should always be <code class="docutils literal notranslate"><span class="pre">EPSG:4326</span></code>. <a class="reference external" href="https://github.com/kartoza/docker-osm#readme"><sup>1</sup></a></p>
+<p><img alt="&quot;OSM Clip Area&quot;" src="../_images/osm-mirror-workflow-1.png" /></p>
+<p>You can easily create such a clip document at  https://geojson.io or by using QGIS. For this workflow the clip area document for the country Kenya, was obtained using QGIS. The Kenya country boundary data was obtained from the <a class="reference external" href="https://data.humdata.org/dataset/ken-administrative-boundaries">Kenya- Subnational Administrative Boundaries data</a>.</p>
+</div>
+<div class="section" id="editing-the-mappings-yml-file">
+<h2>Editing the mappings.yml  file.<a class="headerlink" href="#editing-the-mappings-yml-file" title="Permalink to this heading">¶</a></h2>
+<p>For advanced users, you can tweak the <code class="docutils literal notranslate"><span class="pre">conf/osm_conf/mapping.yml</span></code> file to customize the OSM data being imported into the PostGIS database.</p>
+<p>You can see how the imposm3 mapping syntax works <a class="reference external" href="https://imposm.org/docs/imposm3/latest/mapping.html">here</a></p>
+<blockquote>
+<div><strong>Note</strong>: Any alterations to the <code class="docutils literal notranslate"><span class="pre">conf/osm_conf/mappings.yml</span></code> file while the OSM mirror service is running will not change the current OSM data in the database. To effect these changes, you will need to clear the imported OSM data in the database (and stopping the OSM mirror service), using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">stop-osm-mirror</span></code> and deploying the OSM mirror service, using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-osm-mirror</span></code>.</div></blockquote>
+</div>
+<div class="section" id="deploying-the-osm-mirror-service">
+<h2>Deploying the OSM mirror service<a class="headerlink" href="#deploying-the-osm-mirror-service" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="deploy-the-initial-stack">
+<h3>Deploy the initial stack<a class="headerlink" href="#deploy-the-initial-stack" title="Permalink to this heading">¶</a></h3>
+<p>In your server terminal, deploy the initial stack by running either <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> or <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code>. The initial stack consists of the Nginx, Hugo Watcher and Watchtower services.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> if you are going to use a self-signed certificate on a localhost for testing. Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code> if you are going to use a Let’s Encrypt signed certificate on a name host for production. The <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> will deploy the Nginx, Hugo Watcher and Watchtower services, but after running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code> you will need to run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-hugo</span></code> to deploy the Nginx, Hugo Watcher and Watchtower services.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">ps</span></code> to view the services running. The following services should be up:</p>
+<p><img alt="Initial Stack" src="../_images/pg-service-1.png" /></p>
+</div>
+<div class="section" id="deploy-the-postgresql-and-postgis-service">
+<h3>Deploy the PostgreSQL and PostGIS service<a class="headerlink" href="#deploy-the-postgresql-and-postgis-service" title="Permalink to this heading">¶</a></h3>
+<p>Deploy the PostgreSQL and  PostGIS service using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-postgres</span></code>. If you already have PostgreSQL installed on your local machine, ensure that you specify a different port number for the Postgis Public Port other than port 5432, the default port for PostgreSQL. For example, you can use the port number 5434.</p>
+<p><img alt="Postgis Public Port" src="../_images/pg-service-2.png" /></p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">ps</span></code> to view the services running. The following services should be up:</p>
+<p><img alt="Services Up" src="../_images/pg-service-3.png" /></p>
+<p>The PostgreSQL and PostGIS service has the following databases:</p>
+<p><img alt="PostgreSQL and PostGIS Service Databases" src="../_images/pg-service-4.png" /></p>
+<p>In this workflow, you will be connecting to the <code class="docutils literal notranslate"><span class="pre">gis</span></code> database.</p>
+</div>
+<div class="section" id="deploy-the-osm-mirror-service">
+<h3>Deploy the OSM mirror service<a class="headerlink" href="#deploy-the-osm-mirror-service" title="Permalink to this heading">¶</a></h3>
+<p>Deploy the OSM mirror service using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-osm-mirror</span></code> and follow the subsequent prompts. Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">ps</span></code> to view the services running. The following services should be up:</p>
+<p><img alt="Services Up" src="../_images/osm-mirror-workflow-13.png" /></p>
+<p>You can view the logs for the OSM mirror service using the command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">osm-mirror-logs</span></code>.</p>
+</div>
+</div>
+<div class="section" id="editing-your-local-connection-service-file">
+<h2>Editing your local connection service file<a class="headerlink" href="#editing-your-local-connection-service-file" title="Permalink to this heading">¶</a></h2>
+<p>On your local machine (where you have QGIS Desktop installed), the per-user connection service file can be at <code class="docutils literal notranslate"><span class="pre">~/.pg_service.conf</span></code> or the location specified by the environment variable <code class="docutils literal notranslate"><span class="pre">PGSERVICEFILE</span></code>. Add a service to this connection service file with the following service name and connection parameters.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">osgs</span><span class="p">]</span>
+<span class="n">dbname</span><span class="o">=</span><span class="n">gis</span>
+<span class="n">user</span><span class="o">=</span><span class="n">docker</span>
+<span class="n">port</span><span class="o">=&lt;</span><span class="n">POSTGRES_PUBLIC_PORT</span><span class="o">&gt;</span>
+<span class="n">password</span><span class="o">=&lt;</span><span class="n">POSTGRES_PASSWORD</span><span class="o">&gt;</span>
+<span class="n">host</span><span class="o">=</span>
+<span class="n">sslmode</span><span class="o">=</span><span class="n">require</span>
+</pre></div>
+</div>
+<p>For the port and password connection parameters, use the <code class="docutils literal notranslate"><span class="pre">POSTGRES_PUBLIC_PORT</span></code> and  <code class="docutils literal notranslate"><span class="pre">POSTGRES_PASSWORD</span></code> specified in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file. For the host connection parameter, use the hostname of the server where you have set up OSGS.</p>
+<p>For more information on the PostgreSQL connection service file see the <a class="reference external" href="https://www.postgresql.org/docs/current/libpq-pgservice.html">PostgreSQL documentation</a>.</p>
+</div>
+<div class="section" id="setting-up-your-postgis-connection-in-qgis">
+<h2>Setting up your PostGIS connection in QGIS<a class="headerlink" href="#setting-up-your-postgis-connection-in-qgis" title="Permalink to this heading">¶</a></h2>
+<p>QGIS Desktop can be downloaded from <a class="reference external" href="https://qgis.org/en/site/forusers/download.html">here</a> and installed using <a class="reference external" href="https://qgis.org/en/site/forusers/alldownloads.html">these instructions</a>.</p>
+<p>On your local machine, open QGIS Desktop.  In your Browser Panel,  right click on the PostGIS option and click on “New Connection”. This will open the Create a New PostGIS Connection dialogue.</p>
+<p><img alt="New PostGIS connection" src="../_images/pg-service-5.png" /></p>
+<p>In the Connection Information section, give the connection an appropriate name. For the service, enter the service name that you specified in the <a class="reference internal" href="#editing-your-local-connection-service-file"><span class="std std-doc">connection service file</span></a>. Set the SSL mode to <code class="docutils literal notranslate"><span class="pre">require</span></code> and ensure you have enabled the <code class="docutils literal notranslate"><span class="pre">Also</span> <span class="pre">list</span> <span class="pre">tables</span> <span class="pre">with</span> <span class="pre">no</span> <span class="pre">geometry</span></code> and the <code class="docutils literal notranslate"><span class="pre">Allow</span> <span class="pre">saving/loading</span> <span class="pre">QGIS</span> <span class="pre">projects</span> <span class="pre">in</span> <span class="pre">database</span></code> options. Once all the configuration options have been set, click on “Test Connection”. Once you see the <code class="docutils literal notranslate"><span class="pre">Connection</span> <span class="pre">to</span> <span class="pre">&lt;Name&gt;</span> <span class="pre">was</span> <span class="pre">successful</span></code> message, click “OK”. You have now successfully connected to the PostgreSQL and PostGIS service <code class="docutils literal notranslate"><span class="pre">gis</span></code> database.</p>
+<p><img alt="Create a New PostGIS Connection" src="../_images/pg-service-6.png" /></p>
+</div>
+<div class="section" id="loading-the-default-osm-mirror-qgis-project">
+<h2>Loading the default OSM mirror QGIS project<a class="headerlink" href="#loading-the-default-osm-mirror-qgis-project" title="Permalink to this heading">¶</a></h2>
+<p>To load the default OSM mirror QGIS project, in the <code class="docutils literal notranslate"><span class="pre">qgis_projects</span></code> table, in the <code class="docutils literal notranslate"><span class="pre">public</span></code> schema, double click on the <code class="docutils literal notranslate"><span class="pre">osm_mirror_qgis_project</span></code>. The project layers will load onto the QGIS <strong>Map View</strong>.</p>
+<p><img alt="&quot;Load the Default QGIS Project&quot;" src="../_images/osm-mirror-workflow-11.png" /></p>
+<p><img alt="&quot;View the Default QGIS Project&quot;" src="../_images/osm-mirror-workflow-12.png" /></p>
+</div>
+<div class="section" id="loading-the-osm-mirror-layers-into-qgis">
+<h2>Loading the OSM Mirror Layers into QGIS<a class="headerlink" href="#loading-the-osm-mirror-layers-into-qgis" title="Permalink to this heading">¶</a></h2>
+<p>The imported Open Street Map layers for the clip area specified are present in the <code class="docutils literal notranslate"><span class="pre">osm</span></code> schema of the database.</p>
+<p><img alt="&quot;OSM Mirror Layers&quot;" src="../_images/osm-mirror-workflow-3.png" /></p>
+<p>To load a layer from the <code class="docutils literal notranslate"><span class="pre">osm</span></code> schema onto the QGIS Map View, double click on the table or drag and drop the table onto the Map View.</p>
+<p><img alt="&quot;Load a OSM Mirror Layer&quot;" src="../_images/osm-mirror-workflow-4.png" /></p>
+</div>
+<div class="section" id="saving-a-qgis-project-into-the-postgis-database">
+<h2>Saving a QGIS project into the PostGIS database<a class="headerlink" href="#saving-a-qgis-project-into-the-postgis-database" title="Permalink to this heading">¶</a></h2>
+<p>In the <strong>Menu Toolbar</strong> click on <strong>Project</strong>. From the drop down menu select <strong>Save To</strong> <strong>PostgreSQL</strong>.</p>
+<p><img alt="&quot;Save QGIS Project in Database&quot;" src="../_images/osm-mirror-workflow-5.png" /></p>
+<p>Save the project in the <code class="docutils literal notranslate"><span class="pre">public</span></code> schema and name the project. In this example we have named the project <code class="docutils literal notranslate"><span class="pre">qgis_projects</span></code>.</p>
+<p><img alt="&quot;Save QGIS Project in Database&quot;" src="../_images/osm-mirror-workflow-6.png" /></p>
+</div>
+<div class="section" id="backing-up-and-restoring-a-qgis-project-into-the-database">
+<h2>Backing up and restoring a QGIS project into the database<a class="headerlink" href="#backing-up-and-restoring-a-qgis-project-into-the-database" title="Permalink to this heading">¶</a></h2>
+<p>To back up the QGIS project created in the previous section, run the command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">backup-db-qgis-project</span></code>. This backs up the <code class="docutils literal notranslate"><span class="pre">qgis_projects</span></code> table in the <code class="docutils literal notranslate"><span class="pre">public</span></code> schema as a <code class="docutils literal notranslate"><span class="pre">.sql</span></code> file named <code class="docutils literal notranslate"><span class="pre">qgis-projects.sql</span></code> in the <code class="docutils literal notranslate"><span class="pre">/backups/</span></code> folder. The <code class="docutils literal notranslate"><span class="pre">backup-db-qgis-project</span></code> target also creates a copy of the <code class="docutils literal notranslate"><span class="pre">qgis-projects.sql</span></code> file with the date the backup was made in the file name e.g. <code class="docutils literal notranslate"><span class="pre">qgis-projects-2022-02-08.sql</span></code></p>
+<p>To restore the last back up of the QGIS projects in the <code class="docutils literal notranslate"><span class="pre">qgis_projects</span></code> table, run the command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">restore-db-qgis-project</span></code>. To restore an older backup, first copy it to <code class="docutils literal notranslate"><span class="pre">/backups/qgis-projects.sql</span></code> then run the command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">restore-db-qgis-project</span></code>.</p>
+</div>
+<div class="section" id="saving-qgis-layer-styles-into-the-database">
+<h2>Saving QGIS layer styles into the database<a class="headerlink" href="#saving-qgis-layer-styles-into-the-database" title="Permalink to this heading">¶</a></h2>
+<p>To save the style of a layer into the database, right click on the layer in the <strong>Layers Panel</strong> and select <strong>Properties</strong>.</p>
+<p><img alt="&quot;Save Default Layer Style to Database&quot;" src="../_images/osm-mirror-workflow-7.png" /></p>
+<p>In the Symbology section of the Layer Properties, click on <strong>Style</strong> &gt; <strong>Save style</strong>.</p>
+<p><img alt="&quot;Save Default Layer Style to Database&quot;" src="../_images/osm-mirror-workflow-8.png" /></p>
+<p>In the Save Layer Style dialogue select <strong>In Database (postgres)</strong> and name the style file. You can add an optional description of the style and also set the style to be the default style for the layer.</p>
+<p><img alt="&quot;Save Default Layer Style to Database&quot;" src="../_images/osm-mirror-workflow-9.png" /></p>
+<p>The saved style is added as an entry in the <code class="docutils literal notranslate"><span class="pre">layer_styles</span></code> table in the <code class="docutils literal notranslate"><span class="pre">public</span></code> schema of the PostGIS OSM database.</p>
+<p><img alt="&quot;Default Layer Styles in Database&quot;" src="../_images/osm-mirror-workflow-10.png" /></p>
+</div>
+<div class="section" id="backing-up-and-restoring-the-qgis-styles-into-the-database">
+<h2>Backing up and restoring the QGIS styles into the database<a class="headerlink" href="#backing-up-and-restoring-the-qgis-styles-into-the-database" title="Permalink to this heading">¶</a></h2>
+<p>To back up the QGIS styles created in the previous section, run the command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">backup-db-qgis-styles</span></code>. This backs up the <code class="docutils literal notranslate"><span class="pre">layer_styles</span></code> table in the <code class="docutils literal notranslate"><span class="pre">public</span></code> schema as a <code class="docutils literal notranslate"><span class="pre">.sql</span></code> file named <code class="docutils literal notranslate"><span class="pre">qgis-styles.sql</span></code> in the <code class="docutils literal notranslate"><span class="pre">/backups/</span></code> folder. The <code class="docutils literal notranslate"><span class="pre">backup-db-qgis-styles</span></code> target also creates a copy of the <code class="docutils literal notranslate"><span class="pre">qgis-styles.sql</span></code> file with the date the backup was made in the file name e.g. <code class="docutils literal notranslate"><span class="pre">qgis-styles-2022-02-08.sql</span></code></p>
+<p>To restore the last back up of the <code class="docutils literal notranslate"><span class="pre">layer_styles</span></code> table, run the command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">restore-db-qgis-styles</span></code>. To restore an older backup, first copy it to <code class="docutils literal notranslate"><span class="pre">/backups/qgis-styles.sql</span></code> then run the command <code class="docutils literal notranslate"><span class="pre">restore-db-qgis-styles</span></code>.</p>
+</div>
+<div class="section" id="publishing-with-geoserver">
+<h2>Publishing with GeoServer<a class="headerlink" href="#publishing-with-geoserver" title="Permalink to this heading">¶</a></h2>
+<p>To publish the OSM mirror layers in the <code class="docutils literal notranslate"><span class="pre">osm</span></code> schema using GeoServer, use the <a class="reference external" href="https://kartoza.github.io/osgs/workflows/publishing-layers-using-geoserver.html">Publishing layers using Geoserver</a> workflow.</p>
+</div>
+<div class="section" id="publishing-with-qgis-server">
+<h2>Publishing with QGIS Server<a class="headerlink" href="#publishing-with-qgis-server" title="Permalink to this heading">¶</a></h2>
+<p>To publish the OSM mirror layers in the <code class="docutils literal notranslate"><span class="pre">osm</span></code> schema using QGIS Server or to publish a QGIS project that references the OSM mirror layers in the <code class="docutils literal notranslate"><span class="pre">osm</span></code> schema, use the <a class="reference external" href="https://kartoza.github.io/osgs/workflows/publishing-qgis-project.html">Publishing a QGIS project using a connection service file</a> workflow.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="footer-row" class="row">
+
+    <div class="col-md-12">
+        <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2 and the
+        <a href="https://pypi.org/project/sphinx-sizzle-theme/"
+
+           title="0.0.9/821a5457 [2020-04-16T19:31:16]"
+
+        >Sizzle</a> theme.</span>
+    </div>
+
+  </div>
+</div>
+
+<div id="tooltips" class="hidden">
+</div>
+
+<script>
+$(document).ready(function() {
+  'use strict';
+  var $search = $('.search-query');
+
+  var $nav = $('#nav');
+
+  //$('#whole-page').removeClass('hidden');
+  var nav_width = $nav.width();
+
+
+  var search_url = '../search.html';
+
+  function perform_search(e) {
+    var $elem;
+
+    if (e.type === 'keypress') {
+      $elem = $(e.target);
+    }
+    else if (e.type === 'click') {
+      $elem = $(e.target).parents('.input-group').find('input');
+    }
+    var q = $elem.val().trim();
+
+    if (q) {
+      var url = search_url + '?q=' + q + '&check_keywords=yes&area=default';
+
+      location.href = url;
+    }
+  }
+
+
+
+  $search.on('keypress', function(e) {
+    if (e.which == 13) {
+      perform_search(e);
+    }
+  });
+  $search.parents('.input-group').find('.input-group-addon').on('click', perform_search);
+  $(document).on('click', '.summary .fa-caret-right', function(e) {
+    var $elem = $(e.target).parents('li');
+    var $next = $elem.next();
+    $elem.addClass('hidden');
+    $next.removeClass('hidden');
+  });
+  $(document).on('click', '.detail .fa-caret-down', function(e) {
+    var $elem = $(e.target).parents('li');
+    var $prev = $elem.prev();
+    $elem.addClass('hidden');
+    $prev.removeClass('hidden');
+  });
+
+  $('#content').on('click', function() {
+    $('#mnav').hide();
+  });
+
+  var counter = 0;
+  var timer = null;
+
+  function show_nav() {
+    $('#content').off('mousemove', track_mouse);
+    if (timer !== null) {
+      clearTimeout(timer);
+      timer = null;
+    }
+    $nav.show();
+  }
+
+  function track_mouse(e) {
+    var x = e.clientX;
+
+    if (x < 15) {
+      ++counter;
+      if (timer === null) {
+        timer = setTimeout(show_nav, 2000);
+      }
+    }
+    else {
+      counter = 0;
+    }
+    if (counter >= 20) {
+      show_nav();
+    }
+  };
+
+  function hide_nav() {
+    $nav.hide();
+    counter = 0;
+    $('#content').on('mousemove', track_mouse);
+  }
+
+  $('.hidetoc').on('click', hide_nav);
+
+  $(document).on('keyup', function(e) {
+    if (e.ctrlKey) {
+      if (e.which == 37) {      // Ctrl+left arrow
+        hide_nav();
+      }
+      else if (e.which == 39) { // Ctrl+right arrow
+        show_nav();
+      }
+    }
+  });
+
+  $('.menu-toggle').on('click', function(e) {
+    $('#mnav').toggle();
+  });
+
+  function scroll_nav(frag) {
+    var sel = '#nav ' + (frag ? 'a[href="' + frag + '"]' : '.toctree-l1 a.current');
+
+    var $link = $(sel);
+
+    if ($link.length > 0) {
+      $link[0].scrollIntoView({block: 'center'});
+    }
+  }
+
+  // If the navigator is long, then the item we clicked on to get here might
+  // not be in view. Try to scroll it into the view - a slight delay is needed
+  // to get it to sync properly with other stuff going on (as the page has just
+  // loaded). Hence the setTimeout with a timeout of 0.
+
+  function do_scroll() {
+    scroll_nav(window.location.hash);
+  }
+
+  setTimeout(do_scroll, 0);
+
+  function adjust_size() {
+    // we need to set the height explicitly so that scrolling regions in the
+    // content area work properly.
+    var h = $('#page-content').height();
+
+    $('#nav, #content').height(h);
+    if ($('#nav').is(':visible')) {
+      $('#mnav').hide();
+    }
+  }
+
+  adjust_size();
+
+  $(window).on('resize', adjust_size);
+
+  function focus_content() {
+    $('#content').focus();  // so that keyboard can be used to scroll, etc.
+  }
+
+  setTimeout(focus_content, 150);
+
+  var sizzle = $(document).data('sizzle');
+
+  function make_tooltip(id, h, b) {
+    var $e = $('<div>').attr('id', id);
+    var $b = $('<div>').addClass('tc-body').html(b);
+
+    if (h) {
+      var $h = $('<div>').addClass('tc-heading').html(h);
+      $e.append($h);
+    }
+    $e.append($b);
+    return $e;
+  }
+
+  var default_tt_options = {
+    theme: ['tooltipster-light', 'tooltipster-light-customized'],
+    interactive: true,
+    maxWidth: 600,
+    contentCloning: true
+  };
+
+  function activate_tooltips() {
+    var $tt = $('.tt');
+
+    //console.log('tt links:', $tt.length);
+    $tt.tooltipster(default_tt_options);
+  }
+
+
+
+  function add_glossary_tooltips() {
+    var links = $('a');  // can qualify with .reference.internal
+    var glinks = {};
+    var pat = /(.*)\.html#(term-.*)$/;
+    var found = false;  // links in this document
+
+    $.each(links, function(i, link) {
+        var $link = $(link);
+        var href = $link.attr('href');
+        var m = href.match(pat);
+
+        if (m) {
+          var s = m[1].replace(/^(\.\.\/)+/, '');
+
+          if (s === sizzle.app_data.glossary.document) {
+            var k = m[2];
+
+            if (k in glinks) {
+              glinks[k].push($link);
+            }
+            else {
+              glinks[k] = [$link];
+            }
+            found = true;
+          }
+        }
+    });
+    if (found) {
+      var $t = $('#tooltips');
+      var data = sizzle.app_data.glossary.terms;
+
+      $.each(glinks, function(k, v) {
+        var d = data[k];
+
+        if (d) {  // as a sanity check
+          var s = 'tc-'+ k;
+          var $e = make_tooltip(s, d.term, d.defn);
+          $t.append($e);
+
+          $.each(v, function(i, link) {
+            link.addClass('tt').attr('data-tooltip-content', '#' + s);
+          });
+        }
+      });
+    }
+  }
+
+  if (sizzle.app_data && sizzle.app_data.glossary &&
+      sizzle.app_data.glossary.document) {
+    add_glossary_tooltips();
+  }
+
+
+
+
+  function add_custom_tooltips() {
+    var info_tips = sizzle.app_data.custom_data['info-tips'] || {};
+
+    if ($.isEmptyObject(info_tips)) {
+      return;
+    }
+
+    var tt_options = $.extend({contentAsHTML: true}, default_tt_options);
+
+    $('.tc-info').each(function() {
+      var $elem = $(this).prev();
+      var classes = $elem.attr('class');
+      var m = /\btci-([\S]+)/.exec(classes);
+
+      if (m !== null) {
+        var key = m[1];
+
+        if (key in info_tips) {
+          var v = info_tips[key];
+          var tt = $elem.tooltipster(tt_options).tooltipster('content', v);
+        }
+      }
+    });
+  }
+
+  add_custom_tooltips();
+
+  setTimeout(activate_tooltips, 1000);
+
+
+  // Clipboard copy for code blocks with captions
+
+  $('.code-block-caption').each(function() {
+    var $cap = $(this);
+    var $btn = $('<span class="clip-copy"><span class="copied hidden">Copied!</span><i class="fa fa-clipboard" title="Copy contents"></i></span>');
+    var $code = $cap.parent().find('.highlight');
+
+    $cap.append($btn);
+    $btn.find('.fa-clipboard').data('clip-text', $code.text());
+  });
+
+  var clipboard = new ClipboardJS('.code-block-caption .fa-clipboard', {
+    'text': function(trigger) {
+      return $(trigger).data('clip-text');
+    }
+  });
+
+  clipboard.on('success', function(e) {
+    var $copied = $(e.trigger).prev();
+
+    $copied.removeClass('hidden');
+
+    setTimeout(function() {$copied.addClass('hidden'); }, 1000);
+  });
+
+  if (sizzle.on_load) {
+    sizzle.on_load.forEach(function(f) {
+      f();
+    });
+  }
+});
+</script>
+</body>
+</html>

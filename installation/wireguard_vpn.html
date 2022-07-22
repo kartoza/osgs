@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>OSGS - Wireguard VPN</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.css" integrity="sha256-xOpS+e/dER8z72w+qryCieOGysQI8cELAVt3MHG0phY=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tooltipster@4.2.7/dist/css/tooltipster.bundle.min.css" integrity="sha256-Qc4lCfqZWYaHF5hgEOFrYzSIX9Rrxk0NPHRac+08QeQ=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tooltipster@4.2.7/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-light.min.css" integrity="sha256-Wa1I4jhSXeWd3N6RhfPlkqr1WlT+zS3Vh2YGCg0129E=" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Code+Pro|Source+Sans+Pro|Source+Serif+Pro|Roboto|Roboto+Mono" rel="stylesheet">
+<link href="https://fonts.red-dove.com/iosevka-ss09-regular/webfont.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/sizzle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/css.css" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" integrity="sha256-G7A4JrJjJlFqP0yamznwPjAApIKPkadeHfyIwiaa9e0=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/tooltipster@4.2.7/dist/js/tooltipster.bundle.min.js" integrity="sha256-NOU7KrY2aTI4PxDegqYUIknk9qfxVCS0E4JfE9aMwaA=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  false,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+      $(document).data('sizzle', {on_load: []});
+    </script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/js.js"></script>
+      <script src="../../app-data.js"></script>
+<link rel="index" title="Index" href="../genindex.html" />
+<link rel="search" title="Search" href="../search.html" />
+<link rel="next" title="Initial Configuration" href="initial_configuration.html" />
+<link rel="prev" title="Preparing the server" href="server_preparation.html" />
+
+</head>
+<body class="full-height test">
+<noscript>
+  <div>
+    <div id="noscript-message">JavaScript is not enabled. It is needed for this website to work.</div>
+  </div>
+</noscript>
+<div id="whole-page" class="container-fluid content full-height">
+  <div id="header-row" class="row">
+    <div id="header-container" class="col-md-12">
+      <div id="hdr-left">
+        <i class="fa fa-bars menu-toggle"></i>
+        
+<a href="../index.html" class="text-logo">OSGS 1.0 documentation</a>
+
+      </div>
+      <div id="hdr-centre" class="text-center stretch">
+        <h3 title="Wireguard VPN">Wireguard VPN</h3>
+        <h6>Wireguard VPN</h6>
+      </div>
+      <div id="hdr-search">
+        
+<div class="input-group" title="Enter something to search for and then either press Enter or click the magnifying glass">
+  <input type="text" class="form-control search-query" placeholder="Search docs ...">
+  <div class="input-group-addon">
+    <i class="fa fa-search"></i>
+  </div>
+</div>
+      </div>
+
+      <div id="hdr-source">
+        <a href="../_sources/installation/wireguard_vpn.md.txt" class="btn btn-default" title="See the source for this page"><i class="fa fa-code"></i></a>
+      </div>
+
+      <div id="hdr-right">
+        
+  
+  <div class="prev-next">
+    
+      <div class="pull-left">
+        <a class="btn btn-default prev" href="server_preparation.html" title="Previous chapter (Preparing the server)"><i class="fa fa-chevron-left mr-1em" aria-hidden="true"></i><span class="btn-text">Preparing the server</span></a>
+      </div>
+    
+      <div class="pull-right">
+        <a class="btn btn-default next" href="initial_configuration.html" title="Next chapter (Initial Configuration)"><span class="btn-text">Initial Configuration</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  
+      </div>
+      <div id="alt-hdr-right">
+
+        <a href="server_preparation.html"><i class="fa fa-chevron-left mr-8"></i></a>
+
+
+        <a href="../index.html"><i class="fa fa-home mr-8"></i></a>
+
+
+        <a href="../search.html"><i class="fa fa-search mr-8"></i></a>
+
+
+
+        <a href="initial_configuration.html"><i class="fa fa-chevron-right"></i></a>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="content-row" class="row">
+    <div id="page-content" class="col-md-12 flex-col">
+      <div id="content-container">
+        <div id="nav">
+          
+  <div class="navsidebar">
+    <div id="sidebar-search">
+      
+<div class="input-group" title="Enter something to search for and then either press Enter or click the magnifying glass">
+  <input type="text" class="form-control search-query" placeholder="Search docs ...">
+  <div class="input-group-addon">
+    <i class="fa fa-search"></i>
+  </div>
+</div>
+    </div>
+      <div class="sidebar-block">
+        <div class="sidebar-tocheading">
+          <div class="pull-left">
+            <h2>Table Of Contents</h2>
+          </div>
+          <div class="pull-right" title="Hide this sidebar (hover at left edge to bring it back)"><i class="fa fa-chevron-left hidetoc"></i></div>
+        </div>
+        <div class="sidebar-toc">
+      
+        <div style="clear: both"></div>
+      
+        
+  
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../services/index.html">Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html#troubleshooting-faq">Troubleshooting FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Credits.html#credits">Credits</a></li>
+</ul>
+
+  
+        </div>
+      </div>
+  </div>
+        </div>
+        <div id="content" tabindex="0" class="stretch">
+          <div id="mnav">
+            
+  
+    <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../services/index.html">Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflows/index.html">Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html#troubleshooting-faq">Troubleshooting FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Credits.html#credits">Credits</a></li>
+</ul>
+
+  
+          </div>
+          <div class="body">
+            
+  <div class="section" id="wireguard-vpn">
+<h1>Wireguard VPN<a class="headerlink" href="#wireguard-vpn" title="Permalink to this heading">¶</a></h1>
+<p>You can further enhance the security of communications between clients and the OSGS
+server by configuring a Wireguard VPN. The goal here will be to tunnel
+all non-web based requests to the server through the VPN. This can include
+Postgres and Mosquitto connections, and others if they are published on a port. You can
+also move the actual management over SSH of the OSGS server itself into the VPN
+so that the only public facing ports of the server are https and the vpn service.</p>
+<p>In this document we describe a scenario where the OSGS server is also a VPN server,
+but there are other potential scenarios such as using a second server and the VPN server
+and the OSGS as a VPN client.</p>
+<div class="section" id="setting-up-the-vpn-server">
+<h2>Setting up the VPN Server<a class="headerlink" href="#setting-up-the-vpn-server" title="Permalink to this heading">¶</a></h2>
+<p><strong>Note:</strong> There is NO public facing ssh port open on this host, you can only access ssh via the VPN. So for management when the VPN is down or you don’t have your client set up yet, use your hosting provider’s virtual console.</p>
+<p><strong>Note 2:</strong> Use these instructions at your own risk. Misconfiguring your server could
+lock you out of it permanently, so proceed with caution!</p>
+<p><strong>Note 3:</strong> We assume you have already carried out the <a class="reference internal" href="server_preparation.html"><span class="doc std std-doc">server_preparation</span></a> steps before following this guide.</p>
+<div class="section" id="log-in-to-your-server">
+<h3>Log in to your server<a class="headerlink" href="#log-in-to-your-server" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ssh</span> <span class="n">yourhost</span>
+</pre></div>
+</div>
+<p>or use the hosting provider’s console to log in if you do not already have SSH access.</p>
+<p><strong>Note:</strong> When logging in take note that the keyboard layout in the console is US if you are using hetzner for your provider, so if you have a different layout e.g. Portuguese you need to type as if you are on a US keyboard.</p>
+</div>
+<div class="section" id="initial-install">
+<h3>Initial Install<a class="headerlink" href="#initial-install" title="Permalink to this heading">¶</a></h3>
+<p>Assuming an ubuntu based server here…</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">su</span> <span class="o">-</span>
+<span class="n">apt</span> <span class="n">update</span>
+<span class="n">apt</span> <span class="n">upgrade</span>
+<span class="n">apt</span> <span class="n">install</span> <span class="n">wireguard</span>
+<span class="n">cd</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">wireguard</span><span class="o">/</span>
+<span class="n">umask</span> <span class="mi">077</span><span class="p">;</span> <span class="n">wg</span> <span class="n">genkey</span> <span class="o">|</span> <span class="n">tee</span> <span class="n">privatekey</span> <span class="o">|</span> <span class="n">wg</span> <span class="n">pubkey</span> <span class="o">&gt;</span> <span class="n">publickey</span>
+<span class="n">ls</span> <span class="o">-</span><span class="n">l</span> <span class="n">privatekey</span> <span class="n">publickey</span>
+</pre></div>
+</div>
+<p>Should show:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">rw</span><span class="o">-------</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">45</span> <span class="n">Oct</span> <span class="mi">31</span> <span class="mi">23</span><span class="p">:</span><span class="mi">33</span> <span class="n">privatekey</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-------</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">45</span> <span class="n">Oct</span> <span class="mi">31</span> <span class="mi">23</span><span class="p">:</span><span class="mi">33</span> <span class="n">publickey</span>
+</pre></div>
+</div>
+<p>Make a note of the private key and public key:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cat</span> <span class="n">privatekey</span>
+<span class="n">cat</span> <span class="n">publickey</span>
+</pre></div>
+</div>
+<p>Now configure the conf file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vim</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">wireguard</span><span class="o">/</span><span class="n">wg</span><span class="o">-</span><span class="n">osgs</span><span class="o">.</span><span class="n">conf</span>
+</pre></div>
+</div>
+<p><strong>Note:</strong> You can run multiple Wireguard VPN clients and servers on the same
+host so we include osgs in the conf file name to make it clear what this VPN is
+to be used for.</p>
+<p>Add this content:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+<span class="c1">## Set Up WireGuard VPN on Ubuntu By Editing/Creating wg0.conf File ##</span>
+<span class="p">[</span><span class="n">Interface</span><span class="p">]</span>
+<span class="c1">## My VPN server private IP address ##</span>
+<span class="n">Address</span> <span class="o">=</span> <span class="mf">192.168.7.1</span><span class="o">/</span><span class="mi">24</span>
+ 
+<span class="c1">## My VPN server port ##</span>
+<span class="n">ListenPort</span> <span class="o">=</span> <span class="mi">41194</span>
+ 
+<span class="c1">## VPN server&#39;s private key i.e. /etc/wireguard/privatekey ##</span>
+<span class="n">PrivateKey</span> <span class="o">=</span> <span class="n">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+
+<span class="c1"># Also enable NAT routing of all traffic through the VPN</span>
+<span class="c1"># This is needed for VPN clients to be able to conenct to each other&#39;s services and ports</span>
+<span class="n">PostUp</span> <span class="o">=</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">A</span> <span class="n">FORWARD</span> <span class="o">-</span><span class="n">i</span> <span class="n">wg0</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span><span class="p">;</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">t</span> <span class="n">nat</span> <span class="o">-</span><span class="n">A</span> <span class="n">POSTROUTING</span> <span class="o">-</span><span class="n">o</span> <span class="n">eth0</span> <span class="o">-</span><span class="n">j</span> <span class="n">MASQUERADE</span>
+<span class="n">PostDown</span> <span class="o">=</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">D</span> <span class="n">FORWARD</span> <span class="o">-</span><span class="n">i</span> <span class="n">wg0</span> <span class="o">-</span><span class="n">j</span> <span class="n">ACCEPT</span><span class="p">;</span> <span class="n">iptables</span> <span class="o">-</span><span class="n">t</span> <span class="n">nat</span> <span class="o">-</span><span class="n">D</span> <span class="n">POSTROUTING</span> <span class="o">-</span><span class="n">o</span> <span class="n">eth0</span> <span class="o">-</span><span class="n">j</span> <span class="n">MASQUERADE</span>
+
+<span class="c1">##</span>
+<span class="c1">## All osgs peers (clients) should be added here</span>
+<span class="c1">## </span>
+
+<span class="p">[</span><span class="n">Peer</span><span class="p">]</span>
+<span class="c1">## Client VPN public key ##</span>
+<span class="n">PublicKey</span> <span class="o">=</span> <span class="n">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+ 
+<span class="c1">## client VPN IP address (note  the /32 subnet) ##</span>
+<span class="n">AllowedIPs</span> <span class="o">=</span> <span class="mf">192.168.7.2</span><span class="o">/</span><span class="mi">32</span>
+
+</pre></div>
+</div>
+</div>
+<div class="section" id="server-networking-and-firewall-configuration">
+<h3>Server Networking and Firewall Configuration<a class="headerlink" href="#server-networking-and-firewall-configuration" title="Permalink to this heading">¶</a></h3>
+<p><strong>Note:</strong> Only do this for cases when you want to support peer to peer access in the VPN. In
+normal circumstances it is better to have an architecture where peers can talk to the server
+only and not to each other.</p>
+<p>This section copied from https://linuxize.com/post/how-to-set-up-wireguard-vpn-on-ubuntu-20-04/#server-networking-and-firewall-configuration</p>
+<p>IP forwarding must be enabled for NAT to work. Open the /etc/sysctl.conf file and add or uncomment the following line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">vim</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">sysctl</span><span class="o">.</span><span class="n">conf</span>
+</pre></div>
+</div>
+<p>Add this line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">ipv4</span><span class="o">.</span><span class="n">ip_forward</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Save the file and apply the change:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">sysctl</span> <span class="o">-</span><span class="n">p</span>
+</pre></div>
+</div>
+<p>Should show:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">ipv4</span><span class="o">.</span><span class="n">ip_forward</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="firewall-config">
+<h3>Firewall config<a class="headerlink" href="#firewall-config" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="mi">41194</span><span class="o">/</span><span class="n">udp</span>
+<span class="n">ufw</span> <span class="n">status</span>
+</pre></div>
+</div>
+<p>Should show:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Status</span><span class="p">:</span> <span class="n">inactive</span>
+</pre></div>
+</div>
+<p>Allow ssh connections originating from within the VPN</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">22</span> <span class="n">proto</span> <span class="n">tcp</span>
+</pre></div>
+</div>
+<p>For the same for each port that you want to be accessible only via the VPN e.g.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">5432</span> <span class="n">proto</span> <span class="n">tcp</span>
+<span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">8883</span> <span class="n">proto</span> <span class="n">tcp</span>
+</pre></div>
+</div>
+<p>Would allow Postgres connections (5432) and Mosquitto (8883) over the VPN only.</p>
+<p>On my test system the set of final UFW rules looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">root</span><span class="nd">@osgs</span><span class="p">:</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">wireguard</span><span class="c1"># ufw status numbered</span>
+<span class="n">Status</span><span class="p">:</span> <span class="n">active</span>
+
+     <span class="n">To</span>                         <span class="n">Action</span>      <span class="n">From</span>
+     <span class="o">--</span>                         <span class="o">------</span>      <span class="o">----</span>
+<span class="p">[</span> <span class="mi">1</span><span class="p">]</span> <span class="mi">80</span>                         <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="n">Anywhere</span>                  
+<span class="p">[</span> <span class="mi">2</span><span class="p">]</span> <span class="mi">443</span>                        <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="n">Anywhere</span>                  
+<span class="p">[</span> <span class="mi">3</span><span class="p">]</span> <span class="mi">41194</span><span class="o">/</span><span class="n">udp</span>                  <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="n">Anywhere</span>                  
+<span class="p">[</span> <span class="mi">4</span><span class="p">]</span> <span class="mi">22</span><span class="o">/</span><span class="n">tcp</span>                     <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span>            
+<span class="p">[</span> <span class="mi">5</span><span class="p">]</span> <span class="mi">5432</span><span class="o">/</span><span class="n">tcp</span>                   <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span>            
+<span class="p">[</span> <span class="mi">6</span><span class="p">]</span> <span class="mi">8883</span><span class="o">/</span><span class="n">tcp</span>                   <span class="n">ALLOW</span> <span class="n">IN</span>    <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span> 
+</pre></div>
+</div>
+<p>i.e. only web and vpn traffic are publicly accessible and other services and ports need to
+be accessed from within the VPN.</p>
+</div>
+<div class="section" id="enable-wireguard-service-in-systemd">
+<h3>Enable wireguard service in systemd<a class="headerlink" href="#enable-wireguard-service-in-systemd" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">systemctl</span> <span class="n">enable</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+<span class="n">systemctl</span> <span class="n">start</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+<span class="n">systemctl</span> <span class="n">status</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+</pre></div>
+</div>
+<p>A convenient way to do status checks is with the wg command. It will show all connected hosts.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wg</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="allow-incoming-ssh-only-from-the-vpn">
+<h2>Allow incoming SSH only from the VPN<a class="headerlink" href="#allow-incoming-ssh-only-from-the-vpn" title="Permalink to this heading">¶</a></h2>
+<p>First make sure ssh is running and configured to run on system start:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">systemctl</span> <span class="n">enable</span> <span class="n">ssh</span>
+<span class="n">systemctl</span> <span class="n">start</span> <span class="n">ssh</span>
+<span class="n">systemctl</span> <span class="n">status</span> <span class="n">ssh</span>
+</pre></div>
+</div>
+<p>As indicated above, do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">allow</span> <span class="kn">from</span> <span class="mf">192.168.6.0</span><span class="o">/</span><span class="mi">24</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">port</span> <span class="mi">22</span> <span class="n">proto</span> <span class="n">tcp</span>
+</pre></div>
+</div>
+<p>Also update your sshd to listen only on the wg interface</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Changed by Tim to listen on wireguard interface only</span>
+<span class="c1"># Change XXX to your IP</span>
+<span class="n">ListenAddress</span> <span class="mf">192.168.7</span><span class="o">.</span><span class="n">XXX</span>
+<span class="c1"># Disabled by Tim</span>
+<span class="n">PermitRootLogin</span> <span class="n">no</span>
+<span class="n">PasswordAuthentication</span> <span class="n">no</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="connecting-with-your-client">
+<h2>Connecting with your client<a class="headerlink" href="#connecting-with-your-client" title="Permalink to this heading">¶</a></h2>
+<p>For each client you need to create public/private keys on the client and a [peer] entry on the server, then restart client and server wireguard instances.</p>
+<div class="section" id="install-ubuntu">
+<h3>Install Ubuntu<a class="headerlink" href="#install-ubuntu" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">install</span> <span class="n">wireguard</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">openresolv</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">resolvconf</span>
+</pre></div>
+</div>
+<p>or (for fedora):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dnf</span> <span class="n">install</span> <span class="n">wireguard</span> <span class="n">wireguard</span><span class="o">-</span><span class="n">tools</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configure-client-keys">
+<h3>Configure client keys<a class="headerlink" href="#configure-client-keys" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">wireguard</span><span class="o">/</span>
+<span class="n">umask</span> <span class="mi">077</span><span class="p">;</span> <span class="n">wg</span> <span class="n">genkey</span> <span class="o">|</span> <span class="n">tee</span> <span class="n">privatekey</span> <span class="o">|</span> <span class="n">wg</span> <span class="n">pubkey</span> <span class="o">&gt;</span> <span class="n">publickey</span>
+<span class="n">ls</span> <span class="o">-</span><span class="n">l</span> <span class="n">privatekey</span> <span class="n">publickey</span>
+<span class="n">cat</span> <span class="n">publickey</span>
+<span class="n">cat</span> <span class="n">privatekey</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-client-to-the-server">
+<h3>Add client to the server<a class="headerlink" href="#add-client-to-the-server" title="Permalink to this heading">¶</a></h3>
+<p>Log in to the server:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ssh</span> <span class="n">vpn</span>
+<span class="n">sudo</span> <span class="n">vim</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">wireguard</span><span class="o">/</span><span class="n">wg</span><span class="o">-</span><span class="n">osgs</span><span class="o">.</span><span class="n">conf</span>
+</pre></div>
+</div>
+<p><strong>Note:</strong> Steps below already partly done for the first host if you have
+followed the server setup notes above. You need to repeat this process
+for each host that needs to connect to the server via VPN.</p>
+<p>Now add a new peer, using your public key from your client machine.
+Make sure to allocate a unique IP for it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Peer</span><span class="p">]</span>
+<span class="c1">## Desktop/client VPN public key ##</span>
+<span class="n">PublicKey</span> <span class="o">=</span> <span class="n">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span>
+
+<span class="c1">## client VPN IP address (note  the /32 subnet) ##</span>
+<span class="n">AllowedIPs</span> <span class="o">=</span> <span class="mf">192.168.7.2</span><span class="o">/</span><span class="mi">32</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="configure-on-the-client">
+<h2>Configure on the client<a class="headerlink" href="#configure-on-the-client" title="Permalink to this heading">¶</a></h2>
+<p>sudo vim /etc/wireguard/wg-osgs.conf</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Interface</span><span class="p">]</span>
+<span class="c1">## This Desktop/client&#39;s private key ##</span>
+<span class="n">PrivateKey</span> <span class="o">=</span> <span class="n">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span><span class="o">=</span>
+
+<span class="c1">## Client ip address ##</span>
+
+<span class="c1"># Replace .2 with your allocated ip address!</span>
+<span class="n">Address</span> <span class="o">=</span> <span class="mf">192.168.7.2</span><span class="o">/</span><span class="mi">24</span>
+
+
+<span class="p">[</span><span class="n">Peer</span><span class="p">]</span>
+<span class="c1">## Server public key ##</span>
+<span class="n">PublicKey</span> <span class="o">=</span> <span class="n">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+
+<span class="c1">## set ACL ##</span>
+<span class="n">AllowedIPs</span> <span class="o">=</span> <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span>
+
+<span class="c1">## Server&#39;s public IPv4/IPv6 address and port ##</span>
+<span class="n">Endpoint</span> <span class="o">=</span> <span class="n">XX</span><span class="o">.</span><span class="n">YY</span><span class="o">.</span><span class="n">ZZ</span><span class="o">.</span><span class="n">AA</span><span class="p">:</span><span class="mi">41194</span>
+
+<span class="c1">##  Key connection alive ##</span>
+<span class="n">PersistentKeepalive</span> <span class="o">=</span> <span class="mi">15</span>
+</pre></div>
+</div>
+<div class="section" id="enable-and-start-wireguard">
+<h3>Enable and start wireguard<a class="headerlink" href="#enable-and-start-wireguard" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">enable</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+<span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">start</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+<span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">status</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+</pre></div>
+</div>
+<p>To bring it down again in the future you can do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span> <span class="n">down</span> <span class="n">wg</span><span class="o">-</span><span class="n">osgs</span>
+</pre></div>
+</div>
+<p>Or to restart:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">restart</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+</pre></div>
+</div>
+<p>And to check status:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">wg</span>
+</pre></div>
+</div>
+<p>Which should show something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">interface</span><span class="p">:</span> <span class="n">wg</span><span class="o">-</span><span class="n">osgs</span>
+  <span class="n">public</span> <span class="n">key</span><span class="p">:</span> <span class="n">Kimironw1r21</span><span class="o">/</span><span class="n">RH3jbd97HTwtXjlUJFJAOXmBKuB</span><span class="o">+</span><span class="n">hg</span><span class="o">=</span>
+  <span class="n">private</span> <span class="n">key</span><span class="p">:</span> <span class="p">(</span><span class="n">hidden</span><span class="p">)</span>
+  <span class="n">listening</span> <span class="n">port</span><span class="p">:</span> <span class="mi">58616</span>
+
+<span class="n">peer</span><span class="p">:</span> <span class="n">IdLyVLa0htZ82EKYWM9sXjB5ST15O3U5yYbNW</span><span class="o">+</span><span class="mi">3</span><span class="n">XOQY</span><span class="o">=</span>
+  <span class="n">endpoint</span><span class="p">:</span> <span class="n">XX</span><span class="o">.</span><span class="n">YY</span><span class="o">.</span><span class="n">ZZ</span><span class="o">.</span><span class="n">AA</span><span class="p">:</span><span class="mi">41194</span>
+  <span class="n">allowed</span> <span class="n">ips</span><span class="p">:</span> <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span>
+  <span class="n">transfer</span><span class="p">:</span> <span class="mi">0</span> <span class="n">B</span> <span class="n">received</span><span class="p">,</span> <span class="mi">296</span> <span class="n">B</span> <span class="n">sent</span>
+  <span class="n">persistent</span> <span class="n">keepalive</span><span class="p">:</span> <span class="n">every</span> <span class="mi">15</span> <span class="n">seconds</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="further-configuration-notes">
+<h2>Further configuration notes<a class="headerlink" href="#further-configuration-notes" title="Permalink to this heading">¶</a></h2>
+<p><strong>Note:</strong> Only once you have verified that you can connect with a client.</p>
+<div class="section" id="stopping-wireguard">
+<h3>Stopping Wireguard<a class="headerlink" href="#stopping-wireguard" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">systemctl</span> <span class="n">stop</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configure-ssh">
+<h3>Configure ssh<a class="headerlink" href="#configure-ssh" title="Permalink to this heading">¶</a></h3>
+<p>For additional security you can set the SSH listenaddress to your
+VPN network so that it will not even respond to conneciton
+attempts from the wider internet.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vim</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ssh</span><span class="o">/</span><span class="n">sshd_config</span>
+</pre></div>
+</div>
+<p>Changed these (add them to the end of the file):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Changed by Tim to listen on wireguard interface only</span>
+<span class="n">ListenAddress</span> <span class="mf">192.168.7.1</span>
+<span class="c1"># Disabled by Tim (should already be done in server_preparation step)</span>
+<span class="n">PermitRootLogin</span> <span class="n">no</span>
+<span class="n">PasswordAuthentication</span> <span class="n">no</span>
+</pre></div>
+</div>
+<p>Again, check carefully at the end of the file, some providers add a <code class="docutils literal notranslate"><span class="pre">PasswordAuthentication</span> <span class="pre">yes</span></code> to the bottom of the file which you want to override.</p>
+</div>
+<div class="section" id="enable-the-vpn">
+<h3>Enable the VPN<a class="headerlink" href="#enable-the-vpn" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">systemctl</span> <span class="n">enable</span> <span class="n">wg</span><span class="o">-</span><span class="n">quick</span><span class="nd">@wg</span><span class="o">-</span><span class="n">osgs</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="enable-the-firewall">
+<h3>Enable the firewall<a class="headerlink" href="#enable-the-firewall" title="Permalink to this heading">¶</a></h3>
+<p>Now enable the firewall (you probably want to be logged in at the service provider’s virtual console here as your WAN connection will be dropped until you access via VPN).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ufw</span> <span class="n">enable</span>
+<span class="n">ufw</span> <span class="n">status</span>
+<span class="n">systemctl</span> <span class="n">restart</span> <span class="n">sshd</span>
+</pre></div>
+</div>
+<p>Should show:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Status</span><span class="p">:</span> <span class="n">active</span>
+
+<span class="n">To</span>                         <span class="n">Action</span>      <span class="n">From</span>
+<span class="o">--</span>                         <span class="o">------</span>      <span class="o">----</span>
+<span class="mi">41194</span><span class="o">/</span><span class="n">udp</span>                  <span class="n">ALLOW</span>       <span class="n">Anywhere</span>                  
+<span class="mi">22</span><span class="o">/</span><span class="n">tcp</span>                     <span class="n">ALLOW</span>       <span class="mf">192.168.7.0</span><span class="o">/</span><span class="mi">24</span>            
+<span class="mi">41194</span><span class="o">/</span><span class="n">udp</span> <span class="p">(</span><span class="n">v6</span><span class="p">)</span>             <span class="n">ALLOW</span>       <span class="n">Anywhere</span> <span class="p">(</span><span class="n">v6</span><span class="p">)</span>             
+</pre></div>
+</div>
+<p>Now go to https://github.com/kartoza/kartoza/wiki/WireGuard-Client-Configuration for client configs….</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="footer-row" class="row">
+
+    <div class="col-md-12">
+        <span></span><span class="pull-right">&copy; Copyright 2021, Tim Sutton.
+        Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2 and the
+        <a href="https://pypi.org/project/sphinx-sizzle-theme/"
+
+           title="0.0.9/821a5457 [2020-04-16T19:31:16]"
+
+        >Sizzle</a> theme.</span>
+    </div>
+
+  </div>
+</div>
+
+<div id="tooltips" class="hidden">
+</div>
+
+<script>
+$(document).ready(function() {
+  'use strict';
+  var $search = $('.search-query');
+
+  var $nav = $('#nav');
+
+  //$('#whole-page').removeClass('hidden');
+  var nav_width = $nav.width();
+
+
+  var search_url = '../search.html';
+
+  function perform_search(e) {
+    var $elem;
+
+    if (e.type === 'keypress') {
+      $elem = $(e.target);
+    }
+    else if (e.type === 'click') {
+      $elem = $(e.target).parents('.input-group').find('input');
+    }
+    var q = $elem.val().trim();
+
+    if (q) {
+      var url = search_url + '?q=' + q + '&check_keywords=yes&area=default';
+
+      location.href = url;
+    }
+  }
+
+
+
+  $search.on('keypress', function(e) {
+    if (e.which == 13) {
+      perform_search(e);
+    }
+  });
+  $search.parents('.input-group').find('.input-group-addon').on('click', perform_search);
+  $(document).on('click', '.summary .fa-caret-right', function(e) {
+    var $elem = $(e.target).parents('li');
+    var $next = $elem.next();
+    $elem.addClass('hidden');
+    $next.removeClass('hidden');
+  });
+  $(document).on('click', '.detail .fa-caret-down', function(e) {
+    var $elem = $(e.target).parents('li');
+    var $prev = $elem.prev();
+    $elem.addClass('hidden');
+    $prev.removeClass('hidden');
+  });
+
+  $('#content').on('click', function() {
+    $('#mnav').hide();
+  });
+
+  var counter = 0;
+  var timer = null;
+
+  function show_nav() {
+    $('#content').off('mousemove', track_mouse);
+    if (timer !== null) {
+      clearTimeout(timer);
+      timer = null;
+    }
+    $nav.show();
+  }
+
+  function track_mouse(e) {
+    var x = e.clientX;
+
+    if (x < 15) {
+      ++counter;
+      if (timer === null) {
+        timer = setTimeout(show_nav, 2000);
+      }
+    }
+    else {
+      counter = 0;
+    }
+    if (counter >= 20) {
+      show_nav();
+    }
+  };
+
+  function hide_nav() {
+    $nav.hide();
+    counter = 0;
+    $('#content').on('mousemove', track_mouse);
+  }
+
+  $('.hidetoc').on('click', hide_nav);
+
+  $(document).on('keyup', function(e) {
+    if (e.ctrlKey) {
+      if (e.which == 37) {      // Ctrl+left arrow
+        hide_nav();
+      }
+      else if (e.which == 39) { // Ctrl+right arrow
+        show_nav();
+      }
+    }
+  });
+
+  $('.menu-toggle').on('click', function(e) {
+    $('#mnav').toggle();
+  });
+
+  function scroll_nav(frag) {
+    var sel = '#nav ' + (frag ? 'a[href="' + frag + '"]' : '.toctree-l1 a.current');
+
+    var $link = $(sel);
+
+    if ($link.length > 0) {
+      $link[0].scrollIntoView({block: 'center'});
+    }
+  }
+
+  // If the navigator is long, then the item we clicked on to get here might
+  // not be in view. Try to scroll it into the view - a slight delay is needed
+  // to get it to sync properly with other stuff going on (as the page has just
+  // loaded). Hence the setTimeout with a timeout of 0.
+
+  function do_scroll() {
+    scroll_nav(window.location.hash);
+  }
+
+  setTimeout(do_scroll, 0);
+
+  function adjust_size() {
+    // we need to set the height explicitly so that scrolling regions in the
+    // content area work properly.
+    var h = $('#page-content').height();
+
+    $('#nav, #content').height(h);
+    if ($('#nav').is(':visible')) {
+      $('#mnav').hide();
+    }
+  }
+
+  adjust_size();
+
+  $(window).on('resize', adjust_size);
+
+  function focus_content() {
+    $('#content').focus();  // so that keyboard can be used to scroll, etc.
+  }
+
+  setTimeout(focus_content, 150);
+
+  var sizzle = $(document).data('sizzle');
+
+  function make_tooltip(id, h, b) {
+    var $e = $('<div>').attr('id', id);
+    var $b = $('<div>').addClass('tc-body').html(b);
+
+    if (h) {
+      var $h = $('<div>').addClass('tc-heading').html(h);
+      $e.append($h);
+    }
+    $e.append($b);
+    return $e;
+  }
+
+  var default_tt_options = {
+    theme: ['tooltipster-light', 'tooltipster-light-customized'],
+    interactive: true,
+    maxWidth: 600,
+    contentCloning: true
+  };
+
+  function activate_tooltips() {
+    var $tt = $('.tt');
+
+    //console.log('tt links:', $tt.length);
+    $tt.tooltipster(default_tt_options);
+  }
+
+
+
+  function add_glossary_tooltips() {
+    var links = $('a');  // can qualify with .reference.internal
+    var glinks = {};
+    var pat = /(.*)\.html#(term-.*)$/;
+    var found = false;  // links in this document
+
+    $.each(links, function(i, link) {
+        var $link = $(link);
+        var href = $link.attr('href');
+        var m = href.match(pat);
+
+        if (m) {
+          var s = m[1].replace(/^(\.\.\/)+/, '');
+
+          if (s === sizzle.app_data.glossary.document) {
+            var k = m[2];
+
+            if (k in glinks) {
+              glinks[k].push($link);
+            }
+            else {
+              glinks[k] = [$link];
+            }
+            found = true;
+          }
+        }
+    });
+    if (found) {
+      var $t = $('#tooltips');
+      var data = sizzle.app_data.glossary.terms;
+
+      $.each(glinks, function(k, v) {
+        var d = data[k];
+
+        if (d) {  // as a sanity check
+          var s = 'tc-'+ k;
+          var $e = make_tooltip(s, d.term, d.defn);
+          $t.append($e);
+
+          $.each(v, function(i, link) {
+            link.addClass('tt').attr('data-tooltip-content', '#' + s);
+          });
+        }
+      });
+    }
+  }
+
+  if (sizzle.app_data && sizzle.app_data.glossary &&
+      sizzle.app_data.glossary.document) {
+    add_glossary_tooltips();
+  }
+
+
+
+
+  function add_custom_tooltips() {
+    var info_tips = sizzle.app_data.custom_data['info-tips'] || {};
+
+    if ($.isEmptyObject(info_tips)) {
+      return;
+    }
+
+    var tt_options = $.extend({contentAsHTML: true}, default_tt_options);
+
+    $('.tc-info').each(function() {
+      var $elem = $(this).prev();
+      var classes = $elem.attr('class');
+      var m = /\btci-([\S]+)/.exec(classes);
+
+      if (m !== null) {
+        var key = m[1];
+
+        if (key in info_tips) {
+          var v = info_tips[key];
+          var tt = $elem.tooltipster(tt_options).tooltipster('content', v);
+        }
+      }
+    });
+  }
+
+  add_custom_tooltips();
+
+  setTimeout(activate_tooltips, 1000);
+
+
+  // Clipboard copy for code blocks with captions
+
+  $('.code-block-caption').each(function() {
+    var $cap = $(this);
+    var $btn = $('<span class="clip-copy"><span class="copied hidden">Copied!</span><i class="fa fa-clipboard" title="Copy contents"></i></span>');
+    var $code = $cap.parent().find('.highlight');
+
+    $cap.append($btn);
+    $btn.find('.fa-clipboard').data('clip-text', $code.text());
+  });
+
+  var clipboard = new ClipboardJS('.code-block-caption .fa-clipboard', {
+    'text': function(trigger) {
+      return $(trigger).data('clip-text');
+    }
+  });
+
+  clipboard.on('success', function(e) {
+    var $copied = $(e.trigger).prev();
+
+    $copied.removeClass('hidden');
+
+    setTimeout(function() {$copied.addClass('hidden'); }, 1000);
+  });
+
+  if (sizzle.on_load) {
+    sizzle.on_load.forEach(function(f) {
+      f();
+    });
+  }
+});
+</script>
+</body>
+</html>

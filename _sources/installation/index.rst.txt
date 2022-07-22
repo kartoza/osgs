@@ -1,0 +1,14 @@
+Installation
+==============================================
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Contents:
+
+   server_preparation
+   wireguard_vpn
+   initial_configuration
+   fonts
+   production_stack
+   instructions_for_windows_users
+   
