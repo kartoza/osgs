@@ -149,6 +149,7 @@
 <li class="toctree-l1"><a class="reference internal" href="blueprints/index.html">Blueprints</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#troubleshooting-faq">Troubleshooting FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Credits.html#credits">Credits</a></li>
 </ul>
 
   
@@ -170,6 +171,7 @@
 <li class="toctree-l1"><a class="reference internal" href="blueprints/index.html">Blueprints</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#troubleshooting-faq">Troubleshooting FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Credits.html#credits">Credits</a></li>
 </ul>
 
   
@@ -179,14 +181,14 @@
   <div class="tex2jax_ignore mathjax_ignore section" id="troubleshooting-faq">
 <h1>Troubleshooting FAQ<a class="headerlink" href="#troubleshooting-faq" title="Permalink to this headline">¶</a></h1>
 <p>The following sections provide answers to frequently asked questions about problems that you might encounter as you use the OSGS platform.</p>
-<details><summary>
-<strong>How do I fix the 403 Forbidden Error when uploading folders to the qgis_projects folder in File Browser?</strong>
-</summary><br/>
-To fix this error, run the following command in the terminal of the server where you have set up OSGS.
+<div class="section" id="how-do-i-fix-the-403-forbidden-error-when-uploading-folders-to-the-qgis-projects-folder-in-file-browser">
+<h2>How do I fix the 403 Forbidden Error when uploading folders to the qgis_projects folder in File Browser?<a class="headerlink" href="#how-do-i-fix-the-403-forbidden-error-when-uploading-folders-to-the-qgis-projects-folder-in-file-browser" title="Permalink to this headline">¶</a></h2>
+<p>To fix this error, run the following command in the terminal of the server where you have set up OSGS.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">sh</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;cd /var/lib/docker/volumes/osgisstack_qgis_projects/; chown -R 1000:1000 _data; chmod o-w -R *; chmod ug+rw -R *;&quot;</span>
 </pre></div>
 </div>
-</details></div>
+</div>
+</div>
 
 
           </div>

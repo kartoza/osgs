@@ -141,13 +141,15 @@
   
     <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html#introduction">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../services/index.html#services">Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#utilities">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../services/index.html">Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Workflows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html">Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html#troubleshooting-faq">Troubleshooting FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Credits.html#credits">Credits</a></li>
 </ul>
 
   
@@ -161,13 +163,15 @@
   
     <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html#introduction">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation/index.html#installation">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../services/index.html#services">Services</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html#utilities">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../services/index.html">Services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utilities/index.html">Utilities</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html#osgs">Workflows</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html#blueprints">Blueprints</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../roadmap.html#osgs-roadmap">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html">Blueprints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html#troubleshooting-faq">Troubleshooting FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Credits.html#credits">Credits</a></li>
 </ul>
 
   
@@ -178,17 +182,20 @@
 <h1>Setting up access permissions for users in File Browser<a class="headerlink" href="#setting-up-access-permissions-for-users-in-file-browser" title="Permalink to this headline">¶</a></h1>
 <p>The File Browser service is used as the backend for managing the content that appear on the OSGS static website. In some cases, you may want to have additional users that can write articles, upload maps etc. Thankfully, File Browser includes a granular permissions system, so you can give particular users access only to specific folders. The best explanation comes from this <a class="reference external" href="https://github.com/filebrowser/filebrowser/issues/1034#issuecomment-667742701">issue thread</a>.</p>
 <p>For blogging, we need to give users access to the <code class="docutils literal notranslate"><span class="pre">hugo_site/content</span></code> and <code class="docutils literal notranslate"><span class="pre">hugo_site/static/images</span></code> folders. This workflow describes how to do so.</p>
+<div class="section" id="deploy-the-initial-stack">
+<h2>Deploy the initial stack<a class="headerlink" href="#deploy-the-initial-stack" title="Permalink to this headline">¶</a></h2>
+<p>In your server terminal, deploy the initial stack by running either <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> or <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code>. The initial stack consists of the Nginx, Hugo Watcher and Watchtower services.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> if you are going to use a self-signed certificate on a localhost for testing. Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code> if you are going to use a Let’s Encrypt signed certificate on a name host for production. The <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> will deploy the Nginx, Hugo Watcher and Watchtower services, but after running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code> you will need to run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-hugo</span></code> to deploy the Nginx, Hugo Watcher and Watchtower services.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">ps</span></code> to view the services running. The following services should be up:</p>
+<p><img alt="Initial Stack" src="../_images/pg-service-1.png" /></p>
+</div>
 <div class="section" id="deploy-the-file-browser-service">
 <h2>Deploy the File Browser service<a class="headerlink" href="#deploy-the-file-browser-service" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="deploy-the-nginx-and-hugo-watcher-services">
-<h3>Deploy the Nginx and Hugo Watcher services<a class="headerlink" href="#deploy-the-nginx-and-hugo-watcher-services" title="Permalink to this headline">¶</a></h3>
-<p>To deploy the initial stack, which includes the Nginx and Hugo Watcher services, please run either make <code class="docutils literal notranslate"><span class="pre">configure-ssl-self-signed</span></code> or make <code class="docutils literal notranslate"><span class="pre">configure-letsencrypt-ssl</span></code>.</p>
-</div>
-<div class="section" id="id1">
-<h3>Deploy the File Browser service<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<p>To deploy the File Browser service run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-file-browser</span></code>. The file browser service can now be accessed on <code class="docutils literal notranslate"><span class="pre">/files/</span></code> e.g. https://localhost/files. The url will direct you to the Login page. Sign in to the service using the File Browser username <code class="docutils literal notranslate"><span class="pre">admin</span></code> and password <code class="docutils literal notranslate"><span class="pre">&lt;FILEBROWSER_PASSWORD&gt;</span></code> specified in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file.</p>
+<p>To deploy the File Browser service run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-file-browser</span></code>.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">ps</span></code> to view the services running. The following services should be up:</p>
+<p><img alt="Services Up" src="../_images/file-browser-8.png" /></p>
+<p>The file browser service can now be accessed on <code class="docutils literal notranslate"><span class="pre">/files/</span></code> e.g. https://localhost/files. The url will direct you to the Login page. Sign in to the service using the File Browser username <code class="docutils literal notranslate"><span class="pre">admin</span></code> and password <code class="docutils literal notranslate"><span class="pre">&lt;FILEBROWSER_PASSWORD&gt;</span></code> specified in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file.</p>
 <p><img alt="Log in Page" src="../_images/file-browser-1.png" /></p>
-</div>
 </div>
 <div class="section" id="adding-a-user-and-setting-up-access-permissions">
 <h2>Adding a user and setting up access permissions<a class="headerlink" href="#adding-a-user-and-setting-up-access-permissions" title="Permalink to this headline">¶</a></h2>

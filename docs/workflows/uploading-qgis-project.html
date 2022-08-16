@@ -41,8 +41,8 @@
       <script src="../../app-data.js"></script>
 <link rel="index" title="Index" href="../genindex.html" />
 <link rel="search" title="Search" href="../search.html" />
-<link rel="next" title="QGIS Desktop as a Web Services Client - TODO" href="qgis-desktop-as-web-service-client.html" />
-<link rel="prev" title="Publishing a QGIS project - TODO" href="publishing-qgis-project.html" />
+<link rel="next" title="QGIS Desktop as a Web Services Client" href="qgis-desktop-as-web-service-client.html" />
+<link rel="prev" title="Publishing a QGIS project using a connection service file" href="publishing-qgis-project.html" />
 
 </head>
 <body class="full-height test">
@@ -84,11 +84,11 @@
   <div class="prev-next">
     
       <div class="pull-left">
-        <a class="btn btn-default prev" href="publishing-qgis-project.html" title="Previous chapter (Publishing a QGIS project - TODO)"><i class="fa fa-chevron-left mr-1em" aria-hidden="true"></i><span class="btn-text">Publishing a QGIS project - TODO</span></a>
+        <a class="btn btn-default prev" href="publishing-qgis-project.html" title="Previous chapter (Publishing a QGIS project using a connection service file)"><i class="fa fa-chevron-left mr-1em" aria-hidden="true"></i><span class="btn-text">Publishing a QGIS project using a connection service file</span></a>
       </div>
     
       <div class="pull-right">
-        <a class="btn btn-default next" href="qgis-desktop-as-web-service-client.html" title="Next chapter (QGIS Desktop as a Web Services Client - TODO)"><span class="btn-text">QGIS Desktop as a Web Services Client - TODO</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
+        <a class="btn btn-default next" href="qgis-desktop-as-web-service-client.html" title="Next chapter (QGIS Desktop as a Web Services Client)"><span class="btn-text">QGIS Desktop as a Web Services Client</span>&nbsp;<i class="fa fa-chevron-right ml-1em" aria-hidden="true"></i></a>
       </div>
     </div>
   
@@ -149,6 +149,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html#troubleshooting-faq">Troubleshooting FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Credits.html#credits">Credits</a></li>
 </ul>
 
   
@@ -170,6 +171,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../blueprints/index.html">Blueprints</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQ.html#troubleshooting-faq">Troubleshooting FAQ</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html">OSGS Roadmap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Credits.html#credits">Credits</a></li>
 </ul>
 
   
@@ -179,12 +181,13 @@
   <div class="tex2jax_ignore mathjax_ignore section" id="uploading-a-qgis-project">
 <h1>Uploading a QGIS project<a class="headerlink" href="#uploading-a-qgis-project" title="Permalink to this headline">¶</a></h1>
 <p>This workflow demonstrates how to publish a QGIS project in a folder/directory.</p>
-<p>The GeoPackage  and QGIS project used in this workflow are located in the <code class="docutils literal notranslate"><span class="pre">qgis_projects/SeoulOSMMirror/</span></code> folder. The vector data used in this workflow was acquired from OpenStreetMap using the <a class="reference external" href="https://kartoza.github.io/osgs/workflows/create-osm-mirror-in-database.html">Docker OSM mirror service</a>. The layers were then exported from the Postgres service <code class="docutils literal notranslate"><span class="pre">gis</span></code> database into a GeoPackage using the ogr2ogr tool. The <code class="docutils literal notranslate"><span class="pre">clip.geojson</span></code> file used to get the OpenStreetMap data for Seoul, South Korea, was obtained from <a class="reference external" href="https://github.com/southkorea/seoul-maps/blob/master/juso/2015/json/seoul_municipalities_geo_simple.json">southkorea/seoul-maps</a>.</p>
-<div class="section" id="deploy-the-initial-stack-and-qgis-server">
-<h2>Deploy the initial stack and QGIS Server<a class="headerlink" href="#deploy-the-initial-stack-and-qgis-server" title="Permalink to this headline">¶</a></h2>
+<p>The vector data used in this workflow was acquired from OpenStreetMap using the <a class="reference external" href="https://kartoza.github.io/osgs/services/docker-osm.html">Docker OSM mirror service</a> using the <a class="reference external" href="https://kartoza.github.io/osgs/workflows/create-osm-mirror-in-database.html">Creating an Open Street Map mirror into your database</a> workflow. The layers were then exported from the Postgres service <code class="docutils literal notranslate"><span class="pre">gis</span></code> database into a GeoPackage using the ogr2ogr tool. The <code class="docutils literal notranslate"><span class="pre">clip.geojson</span></code> file used to get the OpenStreetMap data for Seoul, South Korea, was obtained from the<a class="reference external" href="https://github.com/southkorea/seoul-maps/blob/master/juso/2015/json/seoul_municipalities_geo_simple.json">southkorea/seoul-maps</a> repository.</p>
+<div class="section" id="deploy-the-initial-stack-and-the-qgis-server-service">
+<h2>Deploy the initial stack and the QGIS Server service<a class="headerlink" href="#deploy-the-initial-stack-and-the-qgis-server-service" title="Permalink to this headline">¶</a></h2>
 <p>In your server terminal, deploy the initial stack by running either <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> or <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code>. The initial stack consists of the Nginx, Hugo Watcher and Watchtower services.</p>
 <p>Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> if you are going to use a self-signed certificate on a localhost for testing. Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code> if you are going to use a Let’s Encrypt signed certificate on a name host for production. The <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-ssl-self-signed</span></code> will deploy the Nginx, Hugo Watcher and Watchtower services, but after running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">configure-letsencrypt-ssl</span></code> you will need to run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-hugo</span></code> to deploy the Nginx, Hugo Watcher and Watchtower services.</p>
-<p>To deploy the QGIS Server Service, run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-qgis-server</span></code>.</p>
+<p>To deploy the QGIS Server Service, run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-qgis-server</span></code>. Use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">ps</span></code> to see the services running. The following services should be up:</p>
+<p><img alt="Running Services" src="../_images/upload-qgis-project-6.png" /></p>
 </div>
 <div class="section" id="prepare-the-qgis-project">
 <h2>Prepare the QGIS project<a class="headerlink" href="#prepare-the-qgis-project" title="Permalink to this headline">¶</a></h2>
@@ -192,19 +195,22 @@
 </div>
 <div class="section" id="deploy-the-file-browser-service-and-upload-the-qgis-project">
 <h2>Deploy the File Browser service and upload the QGIS project<a class="headerlink" href="#deploy-the-file-browser-service-and-upload-the-qgis-project" title="Permalink to this headline">¶</a></h2>
-<p>To deploy the File Browser service run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-file-browser</span></code>. The file browser service can now be accessed on <code class="docutils literal notranslate"><span class="pre">/files/</span></code> e.g. https://localhost/files. The URL will direct you to the Login page. Sign in to the service using the File Browser username <code class="docutils literal notranslate"><span class="pre">admin</span></code> and password <code class="docutils literal notranslate"><span class="pre">&lt;FILEBROWSER_PASSWORD&gt;</span></code> specified in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file.</p>
+<p>To deploy the File Browser service run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">deploy-file-browser</span></code>. The following services should be up:</p>
+<p><img alt="Running Services" src="../_images/upload-qgis-project-7.png" /></p>
+<p>The file browser service can now be accessed on <code class="docutils literal notranslate"><span class="pre">/files/</span></code> e.g. https://localhost/files. The URL will direct you to the Login page. Sign in to the service using the File Browser username <code class="docutils literal notranslate"><span class="pre">admin</span></code> and password <code class="docutils literal notranslate"><span class="pre">&lt;FILEBROWSER_PASSWORD&gt;</span></code> specified in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file.</p>
 <p><img alt="Log in Page" src="../_images/file-browser-1.png" /></p>
 <p>Navigate into the <code class="docutils literal notranslate"><span class="pre">qgis_projects</span></code> folder, click on the upload button and upload the directory/folder containing the QGIS project file to be published.</p>
 <p><img alt="Upload QGIS Project" src="../_images/upload-qgis-project-1.png" /></p>
 <p><img alt="Upload QGIS Project" src="../_images/upload-qgis-project-2.png" /></p>
+<p>Restart the QGIS Server service using <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">restart-qgis-server</span></code>.</p>
 </div>
-<div class="section" id="accessing-the-qgis-project-on-the-ogc-link">
-<h2>Accessing the QGIS project on the OGC link<a class="headerlink" href="#accessing-the-qgis-project-on-the-ogc-link" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="using-qgis-desktop-as-a-web-service-client-for-qgis-server-published-layers">
+<h2>Using QGIS Desktop as a web service client for QGIS Server published layers<a class="headerlink" href="#using-qgis-desktop-as-a-web-service-client-for-qgis-server-published-layers" title="Permalink to this headline">¶</a></h2>
 <p>We can now access the QGIS project on the OGC link. In your QGIS Desktop Browser panel, right click on the <code class="docutils literal notranslate"><span class="pre">WMS/WMTS</span></code> option and create a new connection.</p>
 <p><img alt="New WMS Connection" src="../_images/upload-qgis-project-3.png" /></p>
-<p>Give the new connection an appropriate name. For the URL parameter, access the published QGIS project via <code class="docutils literal notranslate"><span class="pre">/ogc/SeoulOSMMirror</span></code> i.e. <code class="docutils literal notranslate"><span class="pre">https://&lt;server</span> <span class="pre">name&gt;/ogc/&lt;QGIS</span> <span class="pre">project</span> <span class="pre">name&gt;/</span></code>.</p>
-<p><img alt="New WMS Connection" src="../_images/upload-qgis-project-4.png" /></p>
-<p>Click “Ok”. Once the connection is successful, drag and drop the <code class="docutils literal notranslate"><span class="pre">SeoulOSMMirror</span></code> layer onto the QGIS workspace.</p>
+<p>Give the new connection an appropriate name. For the URL parameter, access the published QGIS project via <code class="docutils literal notranslate"><span class="pre">/ogc/SeoulOSMMirror</span></code> i.e. <code class="docutils literal notranslate"><span class="pre">https://&lt;server</span> <span class="pre">name&gt;/ogc/&lt;QGIS</span> <span class="pre">project</span> <span class="pre">name&gt;/</span></code>. The <code class="docutils literal notranslate"><span class="pre">&lt;server</span> <span class="pre">name&gt;</span></code> parameter is the hostname of the server where you set up OSGS. Click “Ok”.</p>
+<p><img alt="New WMS Connection Details" src="../_images/upload-qgis-project-4.png" /></p>
+<p>Once the connection is successful, you can now load into QGIS the entire published QGIS project or individual layers as WMS layers. Drag and drop the <code class="docutils literal notranslate"><span class="pre">SeoulOSMMirror</span></code> layer onto the QGIS workspace to view the project.</p>
 <p><img alt="Published QGIS Project" src="../_images/upload-qgis-project-5.png" /></p>
 </div>
 </div>
