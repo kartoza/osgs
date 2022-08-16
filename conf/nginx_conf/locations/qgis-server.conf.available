@@ -1,11 +1,17 @@
         # Normal ogc service mapping for postgres based projects
         # Data dir structure
+	#
+	# Experimental:
+	#
 	# Use when you want to pass the project URI in yourself 
 	# e.g. https://localhost/ogc-pg/project-name
 	# Will look in the PG database qgis_projects table for 
  	# a project called project_name
+
         location /ogc-pg/ {
-            rewrite ^/ogc-pg/(.*)$ /qgis-pg/qgis_mapserv.fcgi?map=postgresql%3A%2F%2F%3Fservice%3Dosgs%26sslmode%3Drequire%26schema%3Dpublic%26project%3D$1;
+            #rewrite ^/ogc-pg/(.*)$ /qgis-pg/qgis_mapserv.fcgi?map=postgresql%3A%2F%2F%3Fservice%3Dosgs.kartoza.com%26sslmode%3Drequire%26schema%3Dpublic%26project%3D$1;
+            #rewrite ^/ogc-pg/(.*)$ /qgis-pg/qgis_mapserv.fcgi?map=postgresql%3A%2F%2F%3Fservice%3Dosgs%26sslmode%3Drequire%26schema%3Dpublic%26project%3D$1;
+            #rewrite ^/ogc-pg/(.*)$ /qgis-pg/qgis_mapserv.fcgi?map=postgresql:?service=osgs.kartoza.com&sslmode=require&schema=public&project=$1;
         }
         location /qgis-pg/ {
             internal; # Used only by the OGC rewrite
@@ -18,6 +24,28 @@
             fastcgi_param  SERVER_PORT $qgis_port;
             include fastcgi_params;
         }
+	# This is a for testing loading QGIS projects from in PG
+	# This url will get you a map back
+	# https://osgs.kartoza.com/cats/portugal-admin?&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&BBOX=-9.549811999999999301,37.12477929896130746,-6.231167524621334053,42.15637199999999751&CRS=CRS:84&WIDTH=501&HEIGHT=759&LAYERS=osm_admin&STYLES=&FORMAT=image/png&DPI=106&MAP_RESOLUTION=106&FORMAT_OPTIONS=dpi:106&TRANSPARENT=TRUE
+        location /cats/ {
+            root /var/www/data;
+            fastcgi_pass  qgis-fcgi;
+
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_param QUERY_STRING    $query_string;
+            # build links in GetCapabilities based on
+            # the hostname exposed by the reverse proxy
+            fastcgi_param  HTTPS $qgis_ssl;
+            fastcgi_param  SERVER_NAME $qgis_host;
+            fastcgi_param  SERVER_PORT $qgis_port;
+            fastcgi_param  QGIS_PROJECT_FILE postgresql:?service=osgs.kartoza.com&sslmode=require&schema=public&project=portugal-admin;
+            include fastcgi_params;
+        }
+
+	#
+	# End of experimental stuff
+	#
+
         # Normal ogc service mapping for file based projects
         # Data dir structure
         # $(pwd)/data must have the following structure:
