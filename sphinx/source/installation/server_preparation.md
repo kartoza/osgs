@@ -146,6 +146,21 @@ sudo ufw allow 80
 sudo ufw allow 443
 ```
 
+Should show something like this:
+
+```
+Status: active
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW       Anywhere                  
+80                         ALLOW       Anywhere                  
+443                        ALLOW       Anywhere                  
+22/tcp (v6)                ALLOW       Anywhere (v6)             
+80 (v6)                    ALLOW       Anywhere (v6)             
+443 (v6)                   ALLOW       Anywhere (v6)    
+```
+
 ### Move on to OSGS Installation
 
 Ok we are ready to install OSGS! Go ahead to the [initial configuration page](initial_configuration.md) now.
