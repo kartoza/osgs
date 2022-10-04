@@ -77,8 +77,8 @@ Ubuntu:
 
 ```
 sudo apt-get install golang
-cd 
-go install github.com/cjbassi/gotop@latest
+cd ~
+go install github.com/xxxserxxx/gotop/v4/cmd/gotop@latest
 chmod +x go/bin/gotop
 sudo cp go/bin/gotop /usr/local/bin/
 ```
@@ -87,14 +87,14 @@ Fedora:
 
 ```
 sudo dnf install golang
-cd 
-go get github.com/cjbassi/gotop
+cd ~
+go install github.com/xxxserxxx/gotop/v4/cmd/gotop@latest
 chmod +x go/bin/gotop
 sudo cp go/bin/gotop /usr/local/bin/
 ```
 
 
-Now just type gotop whenever you want to see your terminal system monitor.
+Now just type `gotop` in your terminal whenever you want to see your terminal system monitor.
 
 
 
