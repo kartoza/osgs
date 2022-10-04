@@ -119,7 +119,10 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 ```
 
-If you don’t want to preface the `docker` command with `sudo`, create a Unix group called `docker` and add users to it using the instructions [here](https://docs.docker.com/engine/install/linux-postinstall/).
+<div class="admonition warning">
+Note for the unprivileged user throughout here, we use the user name ‘timlinux’
+in various examples - you should substitute this with your own user.
+</div> 
 
 
 ### Git, rpl, pwgen, Make and openssl
