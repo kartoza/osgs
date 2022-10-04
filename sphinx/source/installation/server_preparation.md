@@ -32,9 +32,11 @@ https://crowdsec.net/
 
 
 ```
+
 curl -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
 sudo apt-get update
 sudo apt-get install crowdsec
+sudo apt-get install crowdsec-firewall-bouncer-iptables
 ```
 
 ### Fail2ban
