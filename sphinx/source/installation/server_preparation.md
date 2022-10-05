@@ -124,22 +124,21 @@ Note for the unprivileged user throughout here, we use the user name ‘timlinux
 in various examples - you should substitute this with your own user.
 </div> 
 
-
-### Git, rpl, pwgen, Make and openssl
+### Git, rpl, pwgen, Make, pip and openssl
 
 Needed for checking out our docker project and running the various make
 commands we provide.
 
 ```
-sudo apt install git make rpl pwgen openssl apache2-utils
+sudo apt install git make rpl pwgen openssl apache2-utils python3-pip
 ```
 
 or fedora:
 ```
-sudo dnf install openssl rpl git pwgen
+sudo dnf install openssl rpl git pwgen python3-pip
 ```
 
-## Firewall
+### Firewall
 
 If you are using ufw, open port 80 and 443 as minimum. After the initial setup, you
 can again close port 80.
