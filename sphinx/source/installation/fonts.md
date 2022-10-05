@@ -13,6 +13,11 @@ make get-fonts
 
 That will fetch all of these fonts for you. If you also fetch these fonts on your local machine and place them in your ``~/.fonts`` folder then you can use them in your local QGIS projects, know they will also be available to QGIS server if you publish that project as a web map.
 
+```
+mkdir -p ~/.fonts
+cp -a fonts/. ~/.fonts
+```
+
 **Note:** This and other makefile targets assume that you have not changed the ``COMPOSE_PROJECT_NAME=osgisstack`` environment variable in .env.
 
 **Note:** The above make command fetches a rather large download!
