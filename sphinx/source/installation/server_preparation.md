@@ -32,9 +32,11 @@ https://crowdsec.net/
 
 
 ```
+
 curl -s https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh | sudo bash
 sudo apt-get update
 sudo apt-get install crowdsec
+sudo apt-get install crowdsec-firewall-bouncer-iptables
 ```
 
 ### Fail2ban
@@ -75,8 +77,8 @@ Ubuntu:
 
 ```
 sudo apt-get install golang
-cd 
-go install github.com/cjbassi/gotop@latest
+cd ~
+go install github.com/xxxserxxx/gotop/v4/cmd/gotop@latest
 chmod +x go/bin/gotop
 sudo cp go/bin/gotop /usr/local/bin/
 ```
@@ -85,14 +87,14 @@ Fedora:
 
 ```
 sudo dnf install golang
-cd 
-go get github.com/cjbassi/gotop
+cd ~
+go install github.com/xxxserxxx/gotop/v4/cmd/gotop@latest
 chmod +x go/bin/gotop
 sudo cp go/bin/gotop /usr/local/bin/
 ```
 
 
-Now just type gotop whenever you want to see your terminal system monitor.
+Now just type `gotop` in your terminal whenever you want to see your terminal system monitor.
 
 
 
@@ -101,33 +103,42 @@ Now just type gotop whenever you want to see your terminal system monitor.
 ### Docker
 
 ```
-sudo apt install docker.io
-sudo apt-get -y install python3-pip
-sudo pip3 install docker-compose
+# Uninstall old versions of docker.
+sudo apt-get remove docker docker-engine docker.io containerd runc
+# Update the apt package index and install packages to allow apt to use a repository over HTTPS.
+sudo apt-get update
+sudo apt-get install ca-certificates curl gnupg lsb-release
+# Add Docker’s official GPG key.
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+# Set up the repository.
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# Update the apt package index, and install the latest version of Docker Engine, containerd, and Docker Compose.
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
 ```
 
 <div class="admonition warning">
-At this time we do not use the snapd installation of docker. Note that if you do,
-you will need to install osgs in your home directory. See snapd docker notes 
-for details.
-</div>
+Note for the unprivileged user throughout here, we use the user name ‘timlinux’
+in various examples - you should substitute this with your own user.
+</div> 
 
-
-### Git, rpl, pwgen, Make and openssl
+### Git, rpl, pwgen, Make, pip and openssl
 
 Needed for checking out our docker project and running the various make
 commands we provide.
 
 ```
-sudo apt install git make rpl pwgen openssl apache2-utils
+sudo apt install git make rpl pwgen openssl apache2-utils python3-pip
 ```
 
 or fedora:
 ```
-sudo dnf install openssl rpl git pwgen
+sudo dnf install openssl rpl git pwgen python3-pip
 ```
 
-## Firewall
+### Firewall
 
 If you are using ufw, open port 80 and 443 as minimum. After the initial setup, you
 can again close port 80.
@@ -135,6 +146,21 @@ can again close port 80.
 ```
 sudo ufw allow 80
 sudo ufw allow 443
+```
+
+Should show something like this:
+
+```
+Status: active
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW       Anywhere                  
+80                         ALLOW       Anywhere                  
+443                        ALLOW       Anywhere                  
+22/tcp (v6)                ALLOW       Anywhere (v6)             
+80 (v6)                    ALLOW       Anywhere (v6)             
+443 (v6)                   ALLOW       Anywhere (v6)    
 ```
 
 ### Move on to OSGS Installation

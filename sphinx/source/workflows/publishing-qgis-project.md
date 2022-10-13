@@ -46,14 +46,6 @@ Deploy the OSM mirror service using `make deploy-osm-mirror` and follow the subs
 
 You can view the logs for the OSM mirror service using the command `make osm-mirror-logs`.
 
-## Deploying QGIS Server
-
-To deploy the QGIS Server service, run `make deploy-qgis-server`. Use `make ps` to view the services running. The following services should be up:
-
-![Services Up](../img/publish-using-pgservice-file-4.png)
-
-You can view the logs for the QGIS Server service using `make qgis-server-logs`.
-
 ### Creating the server-side connection service file
 
 To create the server-side connection service file, run the command `cp conf/pg_conf/pg_service.conf.example conf/pg_conf/pg_service.conf` in the terminal. In the `conf/pg_conf/pg_service.conf` file, add a service with the following service name and connection parameters.
@@ -70,13 +62,13 @@ sslmode=require
 
 For the port and password connection parameters, use the `POSTGRES_PRIVATE_PORT` and `POSTGRES_PASSWORD` specified in the `.env` file. For the host connection parameter specify the hostname as `db`.
 
-## Editing the `qgis-server.conf` file
+## Deploying QGIS Server
 
-Edit the `conf/nginx_conf/locations/qgis-server.conf` file by replacing the default PostgreSQL connection string `postgresql://?service=nginx&sslmode=disable&schema=public&project=smallholding` in the `location /qgis-pg/` section of the file with the PostgreSQL connection string `postgresql:?service=osgs&sslmode=require&dbname=&schema=public&project=osm_mirror_qgis_project` and save the changes.
+To deploy the QGIS Server service, run `make deploy-qgis-server`. Use `make ps` to view the services running. The following services should be up:
 
-![Edit the qgis-server.conf file](../img/publish-using-pgservice-file-1.png)
+![Services Up](../img/publish-using-pgservice-file-4.png)
 
-Restart the QGIS Server service using `make restart-qgis-server`.
+You can view the logs for the QGIS Server service using `make qgis-server-logs`.
 
 ## Using QGIS Desktop as a web service client for QGIS Server published layers
 
@@ -84,9 +76,9 @@ In your QGIS Desktop Browser panel, right click on the `WMS/WMTS` option and cre
 
 ![New WMS Connection Details](../img/upload-qgis-project-3.png)
 
-Give the new connection an appropriate name. For the URL parameter, access the published QGIS project via `/map/` i.e. `https://<server name>/map/`. The `<server name>` parameter is the hostname of the server where you set up OSGS. Click "OK".
+Give the new connection an appropriate name. For the URL parameter, access the published QGIS project via `/ogc-pg/` i.e. `https://<server name>/ogc-pg/<QGIS project name>`. The `<server name>` parameter is the hostname of the server where you set up OSGS. The `<QGIS project name>` parameter is the name of the QGIS project you would like to publish. The project should be located in the `public` schema of the `gis` database. Click "OK".
 
-![New WMS Connection](../img/publish-using-pgservice-file-2.png)
+![New WMS Connection](../img/publish-using-pgservice-file-5.png)
 
 Once the connection is successful, you can now load into QGIS the entire OSM Mirror QGIS project or individual layers from the project as WMS layers. Drag and drop the `OSM Mirror` layer onto the Map View to view the project.
 

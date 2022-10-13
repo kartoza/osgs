@@ -44,14 +44,24 @@ for details.
 
 ## Configuration
 
-If you are going to use a self-signed certificate on a localhost (for testing):
+### On a local host
+
+If you are going to use a self-signed certificate on a localhost (for testing) use:
 
 
 ```
 make configure-ssl-self-signed
 ```
 
-If you are going to use a letsencrypt signed certificate on a name host (for production):
+>**Note**: Make sure to set the `Domain name` and `Owner Url` to `localhost` when prompted. 
+![image](https://user-images.githubusercontent.com/39700992/194015271-38a88908-7ed3-4965-ac7a-7d27a6150b94.png)
+![image](https://user-images.githubusercontent.com/39700992/194015587-b1daacc2-556f-4849-a683-5a3f4d81ec5d.png)
+
+The static website will be available on https://localhost/.
+
+### On a name host
+
+If you are going to use a letsencrypt signed certificate on a name host (for production) use:
 
 
 ```
