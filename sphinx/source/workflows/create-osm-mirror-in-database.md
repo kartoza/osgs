@@ -1,16 +1,20 @@
 # Creating an Open Street Map mirror into your database
 
-The OSM mirror service uses the kartoza/docker-osm tool to create an in-database mirror of a designated geographical area in the designated postgres database schema (set to: osm). The OSM mirror tool is described in the project README [here](https://github.com/kartoza/docker-osm):
+The OSM mirror service uses the [`kartoza/docker-osm`](https://hub.docker.com/r/kartoza/docker-osm) tool to create an in-database mirror of a designated geographical area in the designated postgres database schema (set to: `osm`). The OSM mirror tool is described in the project's [README](https://github.com/kartoza/docker-osm#docker-osm).
 
 ## Preparing the Country PBF file and the clip area document
 
-The PBF files for the country or region of interest can be downloaded from [GeoFabrik](https://download.geofabrik.de/). The PBF file used in this workflow was for Kenya and the URL for the country PBF file is https://download.geofabrik.de/africa/kenya-latest.osm.pbf.
+The PBF files for the country or region of interest can be downloaded from [GeoFabrik](https://download.geofabrik.de/). The PBF file used in this workflow was for Kenya and the URL for the country PBF file is https://download.geofabrik.de/africa/kenya-latest.osm.pbf .
 
 The clip area constrains any data being imported into the PostGIS database to a specific geographic area. You will need to save the clip area document as `conf/osm_conf/clip.geojson`. For best performance, a simple rectangle is best, but any complex polygon can be used. The `clip.geojson` can also be the same extent of the administrative area for your country or region specified in the PBF file, or it can be a smaller extent. The CRS of the geojson should always be `EPSG:4326`. [<sup>1</sup>][1]
 
 !["OSM Clip Area"](../img/osm-mirror-workflow-1.png)
 
-You can easily create such a clip document at  https://geojson.io or by using QGIS. For this workflow the clip area document for the country Kenya, was obtained using QGIS. The Kenya country boundary data was obtained from the [Kenya- Subnational Administrative Boundaries data](https://data.humdata.org/dataset/ken-administrative-boundaries).
+You can easily create such a clip document at  https://geojson.io or by using QGIS. For this workflow the clip area document for the country Kenya, was obtained from [geoBoundaries](https://www.geoboundaries.org/). You can run the command below to download the GeoJSON file.
+
+```
+wget -c https://raw.githubusercontent.com/wmgeolab/geoBoundaries/53f52861aa6b55d2b1a8541c7597fa66bde84129/releaseData/gbOpen/KEN/ADM0/geoBoundaries-KEN-ADM0.geojson -O conf/osm_conf/clip.geojson
+```
 
 
 ## Editing the mappings.yml  file. 
@@ -19,7 +23,7 @@ For advanced users, you can tweak the `conf/osm_conf/mapping.yml` file to custom
 
 You can see how the imposm3 mapping syntax works [here](https://imposm.org/docs/imposm3/latest/mapping.html)
 
-> **Note**: Any alterations to the `conf/osm_conf/mappings.yml` file while the OSM mirror service is running will not change the current OSM data in the database. To effect these changes, you will need to clear the imported OSM data in the database (and stopping the OSM mirror service), using `make stop-osm-mirror` and deploying the OSM mirror service, using `make deploy-osm-mirror`.
+> **Note**: Any alterations to the `conf/osm_conf/mappings.yml` file while the OSM mirror service is running will not change the current OSM data in the database. To effect these changes, you will need to clear the imported OSM data in the database and stop the OSM mirror service, using `make stop-osm-mirror` then deploy the OSM mirror service, using `make deploy-osm-mirror`.
 
 ## Deploying the OSM mirror service
 
@@ -67,7 +71,7 @@ dbname=gis
 user=docker
 port=<POSTGRES_PUBLIC_PORT>
 password=<POSTGRES_PASSWORD>
-host=
+host=localhost
 sslmode=require
 ``` 
 
